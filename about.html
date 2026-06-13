@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Empire Way | TK Empire</title>
+<meta name="description" content="Self governance. Decentralization. Legacy. This is the philosophy behind TK Empire."/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --purple:#7C3AED;--purple-light:#A78BFA;--gold:#F59E0B;--gold-light:#FCD34D;
+  --dark:#06060f;--dark2:#0d0d1f;--dark3:#12122a;--dark4:#1a1a3a;
+  --text:#e2e2f0;--muted:#6B7280;--green:#00e5a0;--red:#ff4b6e;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--dark);color:var(--text);font-family:'Inter','SF Pro Display',system-ui,sans-serif;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--dark);}
+::-webkit-scrollbar-thumb{background:var(--purple);border-radius:2px;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(6,6,15,0.95);backdrop-filter:blur(16px);border-bottom:1px solid #1a1a3a;padding:0 6%;display:flex;align-items:center;height:66px;gap:16px;}
+.nav-logo{display:flex;align-items:center;gap:10px;}
+.nav-logo img{width:40px;height:40px;border-radius:9px;object-fit:cover;border:1px solid #7c3aed55;box-shadow:0 0 14px #7c3aed33;}
+.nav-brand-name{font-size:14px;font-weight:800;letter-spacing:0.07em;color:#fff;}
+.nav-brand-tag{font-size:8px;color:var(--purple-light);letter-spacing:0.18em;margin-top:2px;}
+.nav-links{margin-left:auto;display:flex;gap:6px;align-items:center;}
+.nav-links a{font-size:12px;color:var(--muted);padding:6px 12px;border-radius:6px;transition:color 0.2s,background 0.2s;}
+.nav-links a:hover{color:var(--text);background:#1a1a3a;}
+.nav-active{color:var(--text)!important;background:#1a1a3a!important;}
+.nav-cta{background:linear-gradient(135deg,var(--purple),#4f46e5)!important;color:#fff!important;font-weight:600!important;}
+
+/* HERO MANIFESTO */
+.manifesto-hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 6% 80px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 0%,#7c3aed12 0%,transparent 65%);pointer-events:none;}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(#1a1a3a 1px,transparent 1px),linear-gradient(90deg,#1a1a3a 1px,transparent 1px);background-size:60px 60px;opacity:0.1;pointer-events:none;}
+.manifesto-logo{width:140px;height:140px;border-radius:20px;object-fit:cover;border:2px solid #7c3aed44;box-shadow:0 0 60px #7c3aed22,0 0 120px #7c3aed0a;margin-bottom:32px;animation:float 5s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+.manifesto-label{font-size:10px;color:var(--purple-light);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:18px;font-weight:600;}
+.manifesto-hero h1{font-size:clamp(42px,6.5vw,84px);font-weight:800;line-height:1.0;letter-spacing:-0.04em;margin-bottom:24px;}
+.manifesto-hero h1 .gold{background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.manifesto-hero h1 .purple{background:linear-gradient(135deg,var(--purple),var(--purple-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.manifesto-opener{font-size:clamp(16px,2vw,21px);color:var(--muted);max-width:680px;line-height:1.8;margin:0 auto 48px;}
+.manifesto-opener strong{color:var(--text);}
+.scroll-hint{font-size:11px;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:8px;animation:bob 2s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(6px);}}
+.scroll-arrow{font-size:18px;color:var(--purple-light);}
+
+/* DIVIDER */
+.divider{display:flex;align-items:center;gap:20px;padding:0 6%;max-width:1100px;margin:0 auto;}
+.divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,#2a2a4a,transparent);}
+.divider-symbol{font-size:20px;color:var(--purple-light);opacity:0.5;}
+
+/* PILLAR SECTIONS */
+.pillar-section{padding:100px 6%;max-width:1100px;margin:0 auto;}
+.pillar-section.alt{background:var(--dark2);max-width:100%;padding:100px 6%;}
+.pillar-section.alt .pillar-inner{max-width:1100px;margin:0 auto;}
+.pillar-num{font-size:11px;color:var(--purple-light);letter-spacing:0.22em;text-transform:uppercase;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.pillar-num::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,#2a2a4a,transparent);}
+.pillar-title{font-size:clamp(32px,4.5vw,56px);font-weight:800;line-height:1.05;letter-spacing:-0.03em;margin-bottom:24px;}
+.pillar-body{font-size:clamp(15px,1.6vw,18px);color:var(--muted);line-height:1.9;max-width:720px;}
+.pillar-body strong{color:var(--text);}
+.pillar-body p{margin-bottom:20px;}
+.pillar-body p:last-child{margin-bottom:0;}
+
+/* PULL QUOTE */
+.pull-quote{margin:48px 0;padding:32px 40px;border-left:3px solid var(--gold);background:linear-gradient(90deg,#1a1000,transparent);}
+.pull-quote-text{font-size:clamp(18px,2.5vw,26px);font-weight:700;color:#fff;line-height:1.4;font-style:italic;margin-bottom:8px;}
+.pull-quote-attr{font-size:12px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;}
+
+/* PRINCIPLES GRID */
+.principles{padding:80px 6%;background:var(--dark2);border-top:1px solid #1a1a3a;border-bottom:1px solid #1a1a3a;}
+.principles-inner{max-width:1100px;margin:0 auto;}
+.principles-header{text-align:center;margin-bottom:52px;}
+.principles-label{font-size:10px;color:var(--purple-light);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:12px;font-weight:600;}
+.principles-title{font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-0.02em;}
+.principles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#1a1a3a;border:1px solid #1a1a3a;border-radius:14px;overflow:hidden;}
+.principle{background:var(--dark2);padding:32px 28px;}
+.principle-num{font-size:42px;font-weight:800;color:#1e1e3a;letter-spacing:-0.04em;margin-bottom:14px;line-height:1;}
+.principle-title{font-size:16px;font-weight:700;margin-bottom:10px;color:var(--text);}
+.principle-desc{font-size:13px;color:var(--muted);line-height:1.7;}
+
+/* DECENTRALIZATION VISUAL */
+.decentral-visual{display:flex;align-items:center;justify-content:center;gap:0;margin:52px 0;flex-wrap:wrap;}
+.decentral-node{background:var(--dark3);border:1px solid #2a2a4a;border-radius:10px;padding:16px 20px;text-align:center;min-width:120px;}
+.decentral-node.center{background:#150a2a;border-color:var(--purple);box-shadow:0 0 30px #7c3aed22;}
+.decentral-node-icon{font-size:24px;margin-bottom:6px;}
+.decentral-node-label{font-size:11px;font-weight:600;color:var(--text);}
+.decentral-node-sub{font-size:9px;color:var(--muted);margin-top:2px;}
+.decentral-line{width:40px;height:1px;background:linear-gradient(90deg,#2a2a4a,var(--purple),#2a2a4a);}
+.decentral-line.v{width:1px;height:30px;background:linear-gradient(180deg,#2a2a4a,var(--purple),#2a2a4a);}
+
+/* LEGACY SECTION */
+.legacy-section{padding:100px 6%;position:relative;overflow:hidden;}
+.legacy-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,#7c3aed08 0%,transparent 70%);pointer-events:none;}
+.legacy-inner{max-width:900px;margin:0 auto;text-align:center;position:relative;}
+.legacy-chinese{font-size:clamp(60px,10vw,120px);color:var(--gold);opacity:0.08;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);letter-spacing:0.2em;pointer-events:none;white-space:nowrap;}
+.legacy-label{font-size:10px;color:var(--purple-light);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:20px;font-weight:600;}
+.legacy-title{font-size:clamp(32px,5vw,64px);font-weight:800;line-height:1.05;letter-spacing:-0.03em;margin-bottom:28px;}
+.legacy-body{font-size:clamp(15px,1.7vw,18px);color:var(--muted);line-height:1.9;margin-bottom:48px;}
+.legacy-body strong{color:var(--text);}
+
+/* PILLARS LIST */
+.pillars-list{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:52px 0;}
+.pillar-item{background:var(--dark2);border:1px solid #1a1a3a;border-radius:10px;padding:18px 14px;text-align:center;transition:border-color 0.2s,transform 0.2s;}
+.pillar-item:hover{border-color:var(--gold);transform:translateY(-3px);}
+.pillar-item-name{font-size:14px;font-weight:800;color:var(--gold);margin-bottom:4px;}
+.pillar-item-role{font-size:9px;color:var(--purple-light);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;}
+.pillar-item-desc{font-size:11px;color:var(--muted);line-height:1.5;}
+
+/* MANIFESTO CLOSE */
+.manifesto-close{padding:100px 6%;background:linear-gradient(135deg,#0d0820,#06060f,#001a0a);border-top:1px solid #1a2a1a;text-align:center;}
+.manifesto-close-inner{max-width:800px;margin:0 auto;}
+.close-title{font-size:clamp(28px,4vw,52px);font-weight:800;line-height:1.1;margin-bottom:24px;}
+.close-body{font-size:clamp(15px,1.6vw,18px);color:var(--muted);line-height:1.9;margin-bottom:44px;}
+.close-body strong{color:var(--text);}
+.btn-primary{background:linear-gradient(135deg,var(--purple),#4f46e5);color:#fff;padding:18px 44px;border-radius:10px;font-size:16px;font-weight:700;letter-spacing:0.03em;border:none;cursor:pointer;box-shadow:0 4px 28px #7c3aed44;transition:transform 0.2s,box-shadow 0.2s;display:inline-block;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 36px #7c3aed66;}
+.close-note{font-size:12px;color:var(--muted);margin-top:16px;}
+
+/* FOOTER */
+footer{background:#040408;border-top:1px solid #0f0f1a;padding:32px 6%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.footer-logo{display:flex;align-items:center;gap:8px;}
+.footer-logo img{width:28px;height:28px;border-radius:6px;object-fit:cover;}
+.footer-name{font-size:12px;font-weight:800;color:#fff;}
+.footer-right{font-size:10px;color:var(--muted);text-align:right;line-height:1.6;}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(6px);z-index:2000;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--dark2);border:1px solid #2a2a5a;border-radius:20px;padding:44px;max-width:460px;width:100%;text-align:center;position:relative;}
+.modal-close{position:absolute;top:14px;right:18px;background:transparent;border:none;color:var(--muted);font-size:24px;cursor:pointer;}
+.modal-logo{width:70px;height:70px;border-radius:12px;object-fit:cover;margin:0 auto 16px;}
+.modal h3{font-size:22px;font-weight:800;margin-bottom:8px;}
+.modal p{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.6;}
+.modal input{width:100%;background:#0a0a18;border:1px solid #2a2a4a;border-radius:8px;padding:13px 16px;color:var(--text);font-size:14px;margin-bottom:10px;outline:none;transition:border-color 0.2s;}
+.modal input:focus{border-color:var(--purple);}
+.modal-note{font-size:11px;color:var(--muted);margin-top:14px;line-height:1.6;}
+
+@media(max-width:900px){
+  .principles-grid{grid-template-columns:1fr 1fr;}
+  .pillars-list{grid-template-columns:1fr 1fr;}
+  .decentral-visual{gap:8px;}
+  .decentral-line{display:none;}
+  nav .nav-links a:not(.nav-cta){display:none;}
+  footer{flex-direction:column;text-align:center;}
+  .footer-right{text-align:center;}
+}
+@media(max-width:600px){
+  .principles-grid{grid-template-columns:1fr;}
+  .pillars-list{grid-template-columns:1fr;}
+  .pull-quote{padding:20px 24px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <img src="https://i.imgur.com/Kf99eJt.jpeg" alt="TK Empire"/>
+    <div>
+      <div class="nav-brand-name">TK EMPIRE</div>
+      <div class="nav-brand-tag">BUILT FOR LEGACY</div>
+    </div>
+  </a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="results.html">Results</a>
+    <a href="community.html">Community</a>
+    <a href="about.html" class="nav-active">About</a>
+    <a href="recovery.html">Recovery</a>
+    <a href="/index.html#pricing" class="nav-cta">Join Imperians</a>
+  </div>
+</nav>
+
+<!-- MANIFESTO HERO -->
+<section class="manifesto-hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <img src="https://i.imgur.com/Kf99eJt.jpeg" alt="TK Empire" class="manifesto-logo"/>
+  <div class="manifesto-label">The Empire Way — A Manifesto</div>
+  <h1>Own Your<br/><span class="gold">Capital.</span><br/>Own Your<br/><span class="purple">Future.</span></h1>
+  <p class="manifesto-opener">
+    This is not a company about page. It is a declaration.<br/>
+    <strong>TK Empire exists because the old financial system was never built for people like us.</strong><br/>
+    We did not wait for permission to build. We built anyway.
+  </p>
+  <div class="scroll-hint">
+    <span style="font-size:10px;letter-spacing:0.14em;">READ THE MANIFESTO</span>
+    <span class="scroll-arrow">↓</span>
+  </div>
+</section>
+
+<!-- PILLAR 1: SELF GOVERNANCE -->
+<section class="pillar-section">
+  <div class="pillar-num">01 — Self Governance</div>
+  <h2 class="pillar-title">Nobody is coming<br/>to save your finances.</h2>
+  <div class="pillar-body">
+    <p>The bank was not designed to make you wealthy. It was designed to hold your money, lend it to others at a profit, and charge you fees for the privilege. The financial advisor works on commission. The employer sets your ceiling. The system was built by those who benefit from your dependence on it.</p>
+    <p>Self governance is the foundation of TK Empire. <strong>Every decision about capital — where it goes, how it grows, how it is protected — belongs to you.</strong> Not a manager. Not an institution. Not a government. You.</p>
+    <p>This does not mean trading recklessly or ignoring risk. It means understanding the tools available to you, building the skills to use them, and taking full ownership of the outcome. The grid bot runs because we chose to build it. The signals fire because we chose to analyze the market ourselves. The empire exists because we refused to outsource our financial future to someone whose interests are not aligned with ours.</p>
+  </div>
+  <div class="pull-quote">
+    <div class="pull-quote-text">"You don't need anyone's permission to build wealth. You need knowledge, discipline, and the willingness to own your decisions completely."</div>
+    <div class="pull-quote-attr">— The Empire Way</div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div><div class="divider-symbol">⚡</div><div class="divider-line"></div></div>
+
+<!-- PILLAR 2: DECENTRALIZATION -->
+<section class="pillar-section alt">
+  <div class="pillar-inner">
+    <div class="pillar-num">02 — Decentralization</div>
+    <h2 class="pillar-title">Money that cannot<br/>be taken from you.</h2>
+    <div class="pillar-body">
+      <p>We trade cryptocurrency not only because of what it returns — but because of what it represents. A financial system with no central point of failure. Currency that cannot be inflated away overnight by a committee decision. Assets that move at the speed of the internet, not the speed of a wire transfer.</p>
+      <p><strong>Decentralization is not a trend. It is a structural shift in how value moves through the world.</strong> The institutions that have controlled money for centuries are being disintermediated one blockchain transaction at a time. TK Empire operates in this space because we believe in being on the right side of that shift.</p>
+      <p>The grid bot runs on a decentralized philosophy — no emotional decisions, no single point of human error, no dependency on any one person being awake and watching. The signals come from technical analysis that any trader can verify independently. The community is capped at 100 because decentralization of power within the group matters too. No single voice dominates. Everyone has access to the same information.</p>
+    </div>
+
+    <div class="decentral-visual">
+      <div class="decentral-node"><div class="decentral-node-icon">🏦</div><div class="decentral-node-label">Old System</div><div class="decentral-node-sub">Central control</div></div>
+      <div class="decentral-line"></div>
+      <div class="decentral-node center"><div class="decentral-node-icon">⚡</div><div class="decentral-node-label">TK Empire</div><div class="decentral-node-sub">Self sovereign</div></div>
+      <div class="decentral-line"></div>
+      <div class="decentral-node"><div class="decentral-node-icon">🔗</div><div class="decentral-node-label">Blockchain</div><div class="decentral-node-sub">Trustless rails</div></div>
+      <div class="decentral-line"></div>
+      <div class="decentral-node"><div class="decentral-node-icon">👑</div><div class="decentral-node-label">Imperians</div><div class="decentral-node-sub">Sovereign traders</div></div>
+    </div>
+
+    <div class="pillar-body">
+      <p>Every Imperian who joins this community takes one more step away from financial dependence and one step closer to sovereignty. That is the real product TK Empire sells. Not just signals. <strong>Not just returns. A new way of relating to money entirely.</strong></p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div><div class="divider-symbol">👑</div><div class="divider-line"></div></div>
+
+<!-- PILLAR 3: FUTURE BUILDING -->
+<section class="pillar-section">
+  <div class="pillar-num">03 — Future Building</div>
+  <h2 class="pillar-title">The trade you make today<br/>is the legacy you leave tomorrow.</h2>
+  <div class="pillar-body">
+    <p>Most people trade for this month's rent. TK Empire trades for the next generation. There is a fundamental difference in how you make decisions when your time horizon extends beyond the next candle — or even the next year.</p>
+    <p><strong>The Five Pillars structure behind TK Empire is not a business model. It is an inheritance architecture.</strong> Five divisions. Five disciplines. Each one being built, documented, and prepared for handoff to the generation that comes after. Real estate. Finance. Media. Technology. Wellness. Five pillars because a real empire does not stand on one thing.</p>
+    <p>Empire Signals operates under the Innovation and Trading pillar — Eden. Every subscriber who joins is not just buying signals. They are participating in a live demonstration of what it looks like to build systematically. To document results honestly. To let the machine run while the humans rest. To compound small edges over time into something significant.</p>
+  </div>
+  <div class="pull-quote" style="border-color:var(--purple);background:linear-gradient(90deg,#150a2a,transparent);">
+    <div class="pull-quote-text">"The best time to start building was ten years ago. The second best time is today — with a system that doesn't sleep."</div>
+    <div class="pull-quote-attr">— The Empire Way</div>
+  </div>
+  <div class="pillar-body">
+    <p>The grid bot runs at 3am. The signals fire before the market opens. The community discusses strategy while most people are watching television. <strong>Future building is not a weekend project. It is a daily operating mode.</strong> TK Empire is built for people who have already made that shift.</p>
+  </div>
+</section>
+
+<!-- PRINCIPLES -->
+<section class="principles">
+  <div class="principles-inner">
+    <div class="principles-header">
+      <div class="principles-label">How We Operate</div>
+      <h2 class="principles-title">The Empire Operating Principles</h2>
+    </div>
+    <div class="principles-grid">
+      <div class="principle">
+        <div class="principle-num">01</div>
+        <div class="principle-title">Radical Transparency</div>
+        <div class="principle-desc">Every signal is logged. Every result is published. Every loss is shown alongside every win. We do not hide performance behind cherry-picked screenshots. The full record is always available.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-num">02</div>
+        <div class="principle-title">Systems Over Impulse</div>
+        <div class="principle-desc">The grid bot does not revenge trade. The signal framework does not panic sell. Every decision inside TK Empire runs through a systematic framework that removes emotional variables from the equation.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-num">03</div>
+        <div class="principle-title">Sovereignty First</div>
+        <div class="principle-desc">We do not tell Imperians what to do with their capital. We show them what we do with ours and why. The final decision always belongs to the individual trader. Always.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-num">04</div>
+        <div class="principle-title">Quality Over Scale</div>
+        <div class="principle-desc">100 Imperians maximum. Not because we cannot handle more — because signal quality degrades with overcrowding and community quality degrades with anonymity. The cap is permanent.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-num">05</div>
+        <div class="principle-title">Compound Everything</div>
+        <div class="principle-desc">Returns compound. Knowledge compounds. Relationships compound. The grid bot is a physical manifestation of this principle — small edges, repeated thousands of times, building into something significant.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-num">06</div>
+        <div class="principle-title">Never Give Up</div>
+        <div class="principle-desc">永不放棄. Every serious trader has a chapter they don't talk about. A loss that almost ended it. What defines the empire builder is not that they never fell — it is that they always had a system to get back up.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEGACY -->
+<section class="legacy-section">
+  <div class="legacy-bg"></div>
+  <div class="legacy-inner">
+    <div class="legacy-chinese">永不放棄</div>
+    <div class="legacy-label">The Five Pillars</div>
+    <h2 class="legacy-title">An empire built<br/>for those who come after.</h2>
+    <p class="legacy-body">
+      Behind every trade, every signal, every grid cycle — there are five reasons this empire exists.<br/>
+      <strong>Five pillars. Five disciplines. Five futures being built simultaneously.</strong>
+    </p>
+
+    <div class="pillars-list">
+      <div class="pillar-item">
+        <div class="pillar-item-name">Emerald</div>
+        <div class="pillar-item-role">Creativity · Real Estate</div>
+        <div class="pillar-item-desc">Physical assets that appreciate. The foundation that holds value when markets cycle.</div>
+      </div>
+      <div class="pillar-item">
+        <div class="pillar-item-name">Eve</div>
+        <div class="pillar-item-role">Strategy · Finance</div>
+        <div class="pillar-item-desc">Capital allocation. Investment intelligence. The brain that decides where every dollar works hardest.</div>
+      </div>
+      <div class="pillar-item">
+        <div class="pillar-item-name">Excellence</div>
+        <div class="pillar-item-role">Strength · Media</div>
+        <div class="pillar-item-desc">The voice of the empire. Content, community, and the reach that brings the message to the world.</div>
+      </div>
+      <div class="pillar-item">
+        <div class="pillar-item-name">Eden</div>
+        <div class="pillar-item-role">Innovation · Trading</div>
+        <div class="pillar-item-desc">Empire Signals. The grid bot. The technology stack. The engine that generates trading income 24/7.</div>
+      </div>
+      <div class="pillar-item">
+        <div class="pillar-item-name">Ebony</div>
+        <div class="pillar-item-role">Wellness · Lifestyle</div>
+        <div class="pillar-item-desc">The human foundation. A healthy, focused family runs a better empire. This pillar sustains all the others.</div>
+      </div>
+    </div>
+
+    <p class="legacy-body" style="margin-top:24px;">
+      They will not start from zero. They will not figure this out alone.<br/>
+      <strong>They will inherit a running empire with documented systems, proven results, and a community of sovereign traders who helped build it.</strong><br/><br/>
+      That is what TK Empire is building toward. One trade at a time.
+    </p>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="manifesto-close">
+  <div class="manifesto-close-inner">
+    <div class="manifesto-label">Join the Movement</div>
+    <h2 class="close-title">You found this page<br/>for a reason.</h2>
+    <p class="close-body">
+      Most people will read this and go back to their day. They will think about it later and never act.<br/><br/>
+      <strong>Imperians are different.</strong> They recognize the shift that is happening in how wealth is built and stored. They understand that waiting for the perfect moment is the same as never starting. They have decided — sometimes after a painful loss, sometimes after years of watching from the sidelines — that the time is now.<br/><br/>
+      If that is you, the door is open. For now.
+    </p>
+    <a href="#" class="btn-primary" onclick="openModal();return false;">Join the Imperians — $297/mo</a>
+    <p class="close-note">First 3 signals free. 100 member cap. Cancel anytime.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">
+    <img src="https://i.imgur.com/Kf99eJt.jpeg" alt="TK Empire"/>
+    <div class="footer-name">TK EMPIRE</div>
+  </div>
+  <div class="footer-right">
+    © 2026 TK Empire · signals@tkempire.io · tkempire.io<br/>
+    Trading involves substantial risk. Empire Signals are for educational purposes only.
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <img src="https://i.imgur.com/Kf99eJt.jpeg" alt="TK Empire" class="modal-logo"/>
+    <h3>Join the Imperians</h3>
+    <p>Enter your details and we'll send your first 3 free signals to your Telegram. No payment required to start.</p>
+    <input type="text" placeholder="Your Name"/>
+    <input type="email" placeholder="Email Address"/>
+    <input type="text" placeholder="Telegram Username (@yourname)"/>
+    <a href="https://t.me/tkempirebot" target="_blank" class="btn-primary" style="width:100%;display:block;text-align:center;margin-top:4px;">
+      Get My 3 Free Signals →
+    </a>
+    <p class="modal-note">You'll receive an invite to the private Imperians channel within 24 hours. $297/month after trial. Cancel anytime.</p>
+  </div>
+</div>
+
+<script>
+const modal = document.getElementById('modal');
+function openModal(){modal.classList.add('open');}
+function closeModal(){modal.classList.remove('open');}
+modal.addEventListener('click',e=>{if(e.target===modal)closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+</script>
+</body>
+</html>
