@@ -1,0 +1,54 @@
+{
+  "name": "TK Empire",
+  "short_name": "TK Empire",
+  "description": "Premium crypto trading signals. Grid bot automation. Built for legacy.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#06060f",
+  "theme_color": "#7C3AED",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://i.imgur.com/Kf99eJt.jpeg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://i.imgur.com/Kf99eJt.jpeg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Live Signals",
+      "url": "/results.html",
+      "description": "View live trading signals"
+    },
+    {
+      "name": "Community",
+      "url": "/community.html",
+      "description": "Imperians community"
+    },
+    {
+      "name": "Recovery Protocol",
+      "url": "/recovery.html",
+      "description": "Never Give Up Protocol"
+    },
+    {
+      "name": "Join Imperians",
+      "url": "/join.html",
+      "description": "Join TK Empire"
+    }
+  ],
+  "categories": ["finance", "business"],
+  "screenshots": [
+    {
+      "src": "https://i.imgur.com/Kf99eJt.jpeg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
