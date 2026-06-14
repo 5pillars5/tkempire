@@ -20,7 +20,7 @@ a{text-decoration:none;color:inherit;}
 ::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-track{background:var(--dark);}
 ::-webkit-scrollbar-thumb{background:var(--purple);border-radius:2px;}
-
+ 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(6,6,15,0.95);backdrop-filter:blur(16px);border-bottom:1px solid #1a1a3a;padding:0 6%;display:flex;align-items:center;height:66px;gap:16px;}
 .nav-logo{display:flex;align-items:center;gap:10px;}
@@ -32,7 +32,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(6,6,15,0.95
 .nav-links a:hover{color:var(--text);background:#1a1a3a;}
 .nav-active{color:var(--text)!important;background:#1a1a3a!important;}
 .nav-cta{background:linear-gradient(135deg,var(--purple),#4f46e5)!important;color:#fff!important;font-weight:600!important;}
-
+ 
 /* HERO */
 .hero{padding:110px 6% 50px;text-align:center;position:relative;overflow:hidden;}
 .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,#7c3aed12 0%,transparent 60%);pointer-events:none;}
@@ -44,7 +44,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(6,6,15,0.95
 .hero-price{font-size:48px;font-weight:800;color:#fff;letter-spacing:-0.03em;margin:16px 0 6px;}
 .hero-price sub{font-size:18px;color:var(--muted);font-weight:400;}
 .hero-note{font-size:12px;color:var(--muted);}
-
+ 
 /* MARKET TICKER */
 .market-bar{background:#080814;border-top:1px solid #1a1a3a;border-bottom:1px solid #1a1a3a;padding:0;}
 .market-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:0;}
@@ -63,7 +63,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(6,6,15,0.95
 .coin-req-label{font-size:9px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:3px;}
 .coin-req-amount{font-size:15px;font-weight:700;color:var(--text);}
 .coin-req-usd{font-size:10px;color:var(--muted);}
-
+ 
 /* CHARTS */
 .charts-section{max-width:1100px;margin:0 auto;padding:40px 6%;}
 .charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
@@ -78,12 +78,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(6,6,15,0.95
 .tf-btn.active{background:#1a1a3a;color:var(--text);}
 .chart-wrap{height:180px;padding:8px;}
 canvas{width:100%!important;height:100%!important;}
-
+ 
 /* PAYMENT SECTION */
 .payment-section{max-width:1100px;margin:0 auto;padding:0 6% 40px;}
 .payment-title{font-size:11px;color:var(--purple-light);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:20px;font-weight:600;text-align:center;}
 .payment-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
-
+ 
 .pay-card{background:var(--dark2);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform 0.2s;}
 .pay-card:hover{transform:translateY(-2px);}
 .pay-card.eth{border:2px solid #627EEA33;}
@@ -93,25 +93,25 @@ canvas{width:100%!important;height:100%!important;}
 .pay-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
 .pay-card.eth::before{background:linear-gradient(90deg,var(--eth),transparent);}
 .pay-card.btc::before{background:linear-gradient(90deg,var(--btc),transparent);}
-
+ 
 .pay-header{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
 .pay-coin-circle{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;flex-shrink:0;}
 .eth-circle{background:#627EEA22;color:var(--eth);}
 .btc-circle{background:#F7931A22;color:var(--btc);}
 .pay-coin-title{font-size:17px;font-weight:800;}
 .pay-coin-sub{font-size:10px;color:var(--muted);margin-top:1px;}
-
+ 
 /* AMOUNT BOX */
 .amount-box{background:var(--dark3);border:1px solid #1e1e3a;border-radius:8px;padding:12px 14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;}
 .amount-label{font-size:9px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
 .amount-val{font-size:16px;font-weight:800;}
 .amount-usd{font-size:11px;font-weight:700;}
-
+ 
 /* QR */
 .qr-wrap{display:flex;flex-direction:column;align-items:center;margin:14px 0;}
 .qr-box{width:150px;height:150px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;padding:8px;margin-bottom:8px;}
 .qr-label{font-size:9px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;}
-
+ 
 /* ADDRESS */
 .addr-box{background:var(--dark3);border:1px solid #1e1e3a;border-radius:8px;padding:10px 12px;margin-bottom:12px;}
 .addr-label{font-size:9px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;}
@@ -121,13 +121,13 @@ canvas{width:100%!important;height:100%!important;}
 .copy-btc{background:#F7931A22;color:var(--btc);border:1px solid #F7931A44;}
 .copy-btn:hover{opacity:0.8;}
 .copied{background:#003a2a!important;color:var(--green)!important;border-color:var(--green)!important;}
-
+ 
 /* USDC SOON */
 .usdc-card{background:var(--dark2);border:2px dashed #2a2a4a;border-radius:14px;padding:24px;text-align:center;opacity:0.55;}
 .usdc-icon{font-size:32px;margin-bottom:8px;}
 .usdc-title{font-size:14px;font-weight:700;color:var(--muted);margin-bottom:4px;}
 .usdc-sub{font-size:11px;color:var(--muted);}
-
+ 
 /* STEPS */
 .steps-section{max-width:700px;margin:0 auto;padding:0 6% 40px;}
 .steps-title{font-size:11px;color:var(--purple-light);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:18px;font-weight:600;text-align:center;}
@@ -136,7 +136,7 @@ canvas{width:100%!important;height:100%!important;}
 .step h4{font-size:12px;font-weight:700;margin-bottom:3px;}
 .step p{font-size:11px;color:var(--muted);line-height:1.6;}
 .step a{color:var(--purple-light);}
-
+ 
 /* CONFIRM */
 .confirm-section{max-width:560px;margin:0 auto;padding:0 6% 40px;}
 .confirm-box{background:linear-gradient(135deg,#150a2a,#0d0d1f);border:1px solid #2a1a4a;border-radius:14px;padding:26px;text-align:center;}
@@ -145,17 +145,17 @@ canvas{width:100%!important;height:100%!important;}
 .confirm-desc{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:18px;}
 .tg-btn{background:#2a9fd6;color:#fff;padding:12px 28px;border-radius:9px;font-size:13px;font-weight:700;display:inline-block;transition:opacity 0.2s;}
 .tg-btn:hover{opacity:0.85;}
-
+ 
 /* DISCLAIMER */
 .disclaimer{max-width:700px;margin:0 auto;padding:0 6% 50px;font-size:11px;color:var(--muted);text-align:center;line-height:1.7;}
-
+ 
 /* FOOTER */
 footer{background:#040408;border-top:1px solid #0f0f1a;padding:28px 6%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
 .footer-logo{display:flex;align-items:center;gap:8px;}
 .footer-logo img{width:26px;height:26px;border-radius:6px;object-fit:cover;}
 .footer-name{font-size:12px;font-weight:800;color:#fff;}
 .footer-right{font-size:10px;color:var(--muted);}
-
+ 
 @media(max-width:700px){
   .payment-grid,.charts-grid,.market-inner{grid-template-columns:1fr;}
   .market-coin{border-right:none;border-bottom:1px solid #1a1a3a;}
@@ -169,7 +169,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:28px 6%;display:f
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
-
+ 
 <nav>
   <a href="/" class="nav-logo">
     <img src="https://i.imgur.com/Kf99eJt.jpeg" alt="TK Empire"/>
@@ -187,7 +187,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:28px 6%;display:f
     <a href="join.html" class="nav-active">Join</a>
   </div>
 </nav>
-
+ 
 <!-- HERO -->
 <div class="hero">
   <div class="hero-bg"></div>
@@ -197,7 +197,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:28px 6%;display:f
   <div class="hero-price">$297<sub>/month</sub></div>
   <p class="hero-note">Pay with crypto · No KYC · No banks · Pure sovereignty · First 3 signals free</p>
 </div>
-
+ 
 <!-- LIVE MARKET BAR -->
 <div class="market-bar">
   <div class="market-inner">
@@ -229,7 +229,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:28px 6%;display:f
     </div>
   </div>
 </div>
-
+ 
 <!-- LIVE CHARTS -->
 <div class="charts-section">
   <div style="text-align:center;margin-bottom:20px;">
@@ -278,12 +278,12 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:28px 6%;display:f
     </div>
   </div>
 </div>
-
+ 
 <!-- PAYMENT OPTIONS -->
 <div class="payment-section">
   <div class="payment-title">Choose Your Payment Method</div>
   <div class="payment-grid">
-
+ 
     <!-- ETH -->
     <div class="pay-card eth">
       <div class="pay-header">
@@ -316,7 +316,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:28px 6%;display:f
         📋 Copy ETH Address
       </button>
     </div>
-
+ 
     <!-- BTC -->
     <div class="pay-card btc">
       <div class="pay-header">
@@ -349,9 +349,9 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:28px 6%;display:f
         📋 Copy BTC Address
       </button>
     </div>
-
+ 
   </div>
-
+ 
   <!-- USDC SOON -->
   <div class="usdc-card">
     <div class="usdc-icon">💵</div>
@@ -359,7 +359,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:28px 6%;display:f
     <div class="usdc-sub">USDC on Base and Ethereum coming shortly.</div>
   </div>
 </div>
-
+ 
 <!-- STEPS -->
 <div class="steps-section">
   <div class="steps-title">How to Join — 3 Steps</div>
@@ -376,7 +376,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:28px 6%;display:f
     <div><h4>Get added to the Imperians channel</h4><p>Once your payment is verified you'll receive an invite to the private TK Empire Imperians Telegram channel within 1 hour. Your first 3 signals are already waiting.</p></div>
   </div>
 </div>
-
+ 
 <!-- CONFIRM -->
 <div class="confirm-section">
   <div class="confirm-box">
@@ -386,12 +386,12 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:28px 6%;display:f
     <a href="https://t.me/tkempirebot" target="_blank" class="tg-btn">Message @tkempirebot →</a>
   </div>
 </div>
-
+ 
 <!-- DISCLAIMER -->
 <div class="disclaimer">
   All payments are made directly to TK Empire wallet addresses on-chain. Crypto transactions are irreversible — always verify the wallet address before sending. Send $297 USD equivalent at current market rate. Empire Signals are for educational purposes only and do not constitute financial advice.
 </div>
-
+ 
 <footer>
   <div class="footer-logo">
     <img src="https://i.imgur.com/Kf99eJt.jpeg" alt="TK Empire"/>
@@ -399,12 +399,12 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:28px 6%;display:f
   </div>
   <div class="footer-right">© 2026 TK Empire · signals@tkempire.io · Built for Legacy ⚡</div>
 </footer>
-
+ 
 <script>
 // ── WALLET ADDRESSES ──
 const ETH_ADDR = '0x080F411f327eA1FAce5fAdC7A79806104932f77B';
 const BTC_ADDR = 'bc1q5zjhmr2ucpurvck5rurf3yyhgekfjmkj77esg7';
-
+ 
 // ── GENERATE QR CODES ──
 window.addEventListener('load', () => {
   new QRCode(document.getElementById('qrETH'), {
@@ -421,7 +421,7 @@ window.addEventListener('load', () => {
   buildCharts();
   setInterval(fetchPrices, 30000); // refresh every 30s
 });
-
+ 
 // ── LIVE PRICES ──
 async function fetchPrices() {
   try {
@@ -433,25 +433,25 @@ async function fetchPrices() {
     const bc = d.bitcoin.usd_24h_change;
     const ethAmt = (297/ep).toFixed(5);
     const btcAmt = (297/bp).toFixed(6);
-
+ 
     // Market bar
     document.getElementById('ethPrice').textContent = '$'+ep.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
     document.getElementById('btcPrice').textContent = '$'+bp.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
     document.getElementById('ethRequired').textContent = ethAmt+' ETH';
     document.getElementById('btcRequired').textContent = btcAmt+' BTC';
-
+ 
     const ec_el = document.getElementById('ethChange');
     ec_el.textContent = (ec>=0?'+':'')+ec.toFixed(2)+'%';
     ec_el.className = 'coin-change '+(ec>=0?'change-up':'change-down');
-
+ 
     const bc_el = document.getElementById('btcChange');
     bc_el.textContent = (bc>=0?'+':'')+bc.toFixed(2)+'%';
     bc_el.className = 'coin-change '+(bc>=0?'change-up':'change-down');
-
+ 
     // Payment cards
     document.getElementById('ethSendAmt').textContent = ethAmt+' ETH';
     document.getElementById('btcSendAmt').textContent = btcAmt+' BTC';
-
+ 
     // Chart prices
     document.getElementById('ethChartPrice').textContent = '$'+ep.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
     document.getElementById('btcChartPrice').textContent = '$'+bp.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -460,7 +460,7 @@ async function fetchPrices() {
     document.getElementById('btcSendAmt').textContent = '~0.0028 BTC';
   }
 }
-
+ 
 // ── CHARTS ──
 let ethChart, btcChart;
 const chartDefaults = {
@@ -476,7 +476,7 @@ const chartDefaults = {
   },
   elements:{ point:{radius:0}, line:{tension:0.3} }
 };
-
+ 
 function generatePriceData(base, hours, volatility){
   const pts = hours * 4; // 15min candles
   const labels = [];
@@ -491,7 +491,7 @@ function generatePriceData(base, hours, volatility){
   }
   return {labels, data};
 }
-
+ 
 async function fetchChartData(coin, hours){
   try {
     const days = hours <= 24 ? 1 : Math.ceil(hours/24);
@@ -508,7 +508,7 @@ async function fetchChartData(coin, hours){
     return null;
   }
 }
-
+ 
 function makeChart(canvasId, data, color){
   const ctx = document.getElementById(canvasId).getContext('2d');
   const grad = ctx.createLinearGradient(0,0,0,180);
@@ -529,45 +529,45 @@ function makeChart(canvasId, data, color){
     options: chartDefaults
   });
 }
-
+ 
 async function buildCharts(){
   // Try live data first, fallback to simulated
   const ethData = await fetchChartData('ethereum', 1) ||
     generatePriceData(2400, 1, 0.002);
   const btcData = await fetchChartData('bitcoin', 1) ||
     generatePriceData(104000, 1, 0.002);
-
+ 
   ethChart = makeChart('ethChart', ethData, '#627EEA');
   btcChart = makeChart('btcChart', btcData, '#F7931A');
 }
-
+ 
 async function setTF(coin, hours){
   // Update active button
   const card = coin==='ETH'?document.getElementById('ethChart'):document.getElementById('btcChart');
   card.closest('.chart-card').querySelectorAll('.tf-btn').forEach(b=>b.classList.remove('active'));
   event.target.classList.add('active');
-
+ 
   const h = parseInt(hours);
   const isEth = coin==='ETH';
   const cgId = isEth?'ethereum':'bitcoin';
   const base = isEth?2400:104000;
   const vol = isEth?0.002:0.0015;
-
+ 
   const data = await fetchChartData(cgId, h) || generatePriceData(base, h, vol);
   const chart = isEth?ethChart:btcChart;
   const color = isEth?'#627EEA':'#F7931A';
-
+ 
   const ctx = chart.ctx;
   const grad = ctx.createLinearGradient(0,0,0,180);
   grad.addColorStop(0, color+'33');
   grad.addColorStop(1, color+'00');
-
+ 
   chart.data.labels = data.labels;
   chart.data.datasets[0].data = data.data;
   chart.data.datasets[0].backgroundColor = grad;
   chart.update();
 }
-
+ 
 // ── COPY ADDRESS ──
 function copyAddr(addr, btnId, originalText){
   navigator.clipboard.writeText(addr).then(()=>{
@@ -596,3 +596,4 @@ function copyAddr(addr, btnId, originalText){
 <script src="empire.js"></script>
 </body>
 </html>
+ 
