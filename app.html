@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<title>TK Empire App</title>
+<meta name="description" content="TK Empire — Premium crypto signals, grid bot, and Imperians community."/>
+<meta name="theme-color" content="#7C3AED"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="TK Empire"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="apple-touch-icon" href="https://i.imgur.com/Kf99eJt.jpeg"/>
+<link rel="stylesheet" href="empire.css"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --purple:#7C3AED;--purple-light:#A78BFA;--gold:#F59E0B;
+  --dark:#06060f;--dark2:#0d0d1f;--dark3:#12122a;
+  --text:#e2e2f0;--muted:#6B7280;--green:#00e5a0;--red:#ff4b6e;
+  --safe-top: env(safe-area-inset-top);
+  --safe-bottom: env(safe-area-inset-bottom);
+}
+html,body{height:100%;overflow:hidden;background:var(--dark);}
+body{display:flex;flex-direction:column;font-family:'Inter',system-ui,sans-serif;color:var(--text);}
+
+/* STATUS BAR */
+.status-bar{height:calc(44px + var(--safe-top));background:#0a0a18;display:flex;align-items:flex-end;justify-content:center;padding-bottom:10px;flex-shrink:0;border-bottom:1px solid #1a1a3a;}
+.status-logo{display:flex;align-items:center;gap:8px;}
+.status-logo img{width:26px;height:26px;border-radius:6px;object-fit:cover;border:1px solid #7c3aed44;}
+.status-name{font-size:13px;font-weight:800;color:#fff;letter-spacing:0.06em;}
+.status-live{display:flex;align-items:center;gap:4px;margin-left:auto;margin-right:16px;}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 1.2s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.2;}}
+.live-txt{font-size:9px;color:var(--green);font-weight:600;letter-spacing:0.1em;}
+
+/* MAIN CONTENT */
+.app-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+
+/* HERO STRIP */
+.hero-strip{background:linear-gradient(135deg,#150a2a,#0d0d1f);padding:20px 16px;text-align:center;border-bottom:1px solid #1a1a3a;}
+.hero-strip img{width:72px;height:72px;border-radius:14px;object-fit:cover;border:2px solid #7c3aed44;box-shadow:0 0 30px #7c3aed22;margin-bottom:10px;animation:float 5s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+.hero-strip h1{font-size:22px;font-weight:800;letter-spacing:-0.02em;margin-bottom:4px;}
+.hero-strip h1 span{background:linear-gradient(135deg,var(--gold),#fcd34d);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-strip p{font-size:12px;color:var(--muted);}
+
+/* STATS ROW */
+.stats-strip{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid #1a1a3a;}
+.stat-cell{padding:12px 8px;text-align:center;border-right:1px solid #1a1a3a;}
+.stat-cell:last-child{border-right:none;}
+.stat-val{font-size:18px;font-weight:800;letter-spacing:-0.02em;}
+.stat-lbl{font-size:8px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-top:2px;}
+
+/* INSTALL BANNER */
+.install-banner{background:linear-gradient(135deg,#150a2a,#1a1040);border-bottom:1px solid #2a1a4a;padding:12px 16px;display:flex;align-items:center;gap:10px;}
+.install-icon{font-size:22px;}
+.install-text{flex:1;}
+.install-title{font-size:12px;font-weight:700;margin-bottom:2px;}
+.install-sub{font-size:10px;color:var(--muted);}
+.install-btn{background:linear-gradient(135deg,var(--purple),#4f46e5);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;}
+.install-close{color:var(--muted);font-size:18px;background:none;border:none;cursor:pointer;padding:4px;}
+
+/* SIGNAL FEED */
+.section{padding:16px;}
+.section-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.section-title{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;}
+.section-link{font-size:10px;color:var(--purple-light);}
+.signal-card{background:var(--dark2);border:1px solid #1a1a3a;border-radius:10px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.sig-badge{padding:3px 8px;border-radius:4px;font-size:9px;font-weight:700;letter-spacing:0.08em;}
+.buy{background:#003a2a;color:var(--green);}
+.sell{background:#3a0015;color:var(--red);}
+.sig-info{flex:1;}
+.sig-pair{font-size:13px;font-weight:700;}
+.sig-reason{font-size:10px;color:var(--muted);margin-top:2px;}
+.sig-result{text-align:right;}
+.sig-pnl{font-size:13px;font-weight:700;}
+.sig-time{font-size:9px;color:var(--muted);margin-top:2px;}
+
+/* BOT STATUS */
+.bot-card{background:var(--dark2);border:1px solid #1a1a3a;border-radius:12px;padding:16px;margin-bottom:8px;}
+.bot-card-hdr{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.bot-status-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:blink 1.2s infinite;}
+.bot-pair{font-size:13px;font-weight:700;}
+.bot-meta{font-size:10px;color:var(--muted);}
+.bot-pnl{margin-left:auto;font-size:16px;font-weight:800;color:var(--green);}
+.bot-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.bot-stat{background:var(--dark3);border-radius:7px;padding:8px;text-align:center;}
+.bot-stat-val{font-size:14px;font-weight:700;color:var(--text);}
+.bot-stat-lbl{font-size:8px;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;margin-top:2px;}
+
+/* QUICK ACTIONS */
+.quick-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:8px;}
+.quick-btn{background:var(--dark2);border:1px solid #1a1a3a;border-radius:12px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;transition:border-color 0.2s;text-decoration:none;color:var(--text);}
+.quick-btn:hover{border-color:var(--purple);}
+.quick-icon{font-size:28px;}
+.quick-label{font-size:12px;font-weight:600;text-align:center;}
+.quick-sub{font-size:9px;color:var(--muted);text-align:center;}
+
+/* NOTIFICATION CARD */
+.notif-card{background:linear-gradient(135deg,#0a1a22,#071218);border:1px solid #2a9fd644;border-radius:12px;padding:16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;}
+.notif-icon{font-size:28px;}
+.notif-text h4{font-size:12px;font-weight:700;margin-bottom:3px;}
+.notif-text p{font-size:10px;color:var(--muted);line-height:1.5;}
+.notif-btn{background:var(--purple);color:#fff;border:none;border-radius:7px;padding:8px 12px;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap;}
+
+/* BOTTOM NAV */
+.bottom-nav{background:#0a0a18;border-top:1px solid #1a1a3a;display:flex;padding-bottom:var(--safe-bottom);flex-shrink:0;}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:10px 4px;cursor:pointer;text-decoration:none;color:var(--muted);transition:color 0.2s;-webkit-tap-highlight-color:transparent;}
+.nav-item.active{color:var(--purple-light);}
+.nav-item:hover{color:var(--text);}
+.nav-icon{font-size:20px;margin-bottom:3px;}
+.nav-label{font-size:8px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600;}
+</style>
+</head>
+<body>
+
+<!-- STATUS BAR -->
+<div class="status-bar">
+  <div class="status-logo" style="margin-left:16px;">
+    <img src="https://i.imgur.com/Kf99eJt.jpeg" alt="TK Empire"/>
+    <div class="status-name">TK EMPIRE</div>
+  </div>
+  <div class="status-live">
+    <div class="live-dot"></div>
+    <div class="live-txt">LIVE</div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="app-content">
+
+  <!-- INSTALL BANNER -->
+  <div class="install-banner" id="installBanner" style="display:none;">
+    <div class="install-icon">📲</div>
+    <div class="install-text">
+      <div class="install-title">Install TK Empire App</div>
+      <div class="install-sub">Add to home screen for the full app experience</div>
+    </div>
+    <button class="install-btn" id="installBtn">Install</button>
+    <button class="install-close" onclick="document.getElementById('installBanner').style.display='none'">×</button>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero-strip">
+    <img src="https://i.imgur.com/Kf99eJt.jpeg" alt="TK Empire"/>
+    <h1>TK <span>Empire</span></h1>
+    <p>Premium signals · Grid bot · Built for Legacy</p>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-strip">
+    <div class="stat-cell"><div class="stat-val" style="color:var(--gold)">73%</div><div class="stat-lbl">Win Rate</div></div>
+    <div class="stat-cell"><div class="stat-val" style="color:var(--green)">+$4.8K</div><div class="stat-lbl">Total P&L</div></div>
+    <div class="stat-cell"><div class="stat-val" style="color:var(--purple-light)">64</div><div class="stat-lbl">Signals</div></div>
+    <div class="stat-cell"><div class="stat-val" style="color:var(--text)">100</div><div class="stat-lbl">Max Members</div></div>
+  </div>
+
+  <!-- SIGNALS -->
+  <div class="section">
+    <div class="section-hdr">
+      <div class="section-title">⚡ Latest Signals</div>
+      <a href="results.html" class="section-link">View all →</a>
+    </div>
+    <div class="signal-card">
+      <span class="sig-badge buy">BUY</span>
+      <div class="sig-info"><div class="sig-pair">BTC/USDC</div><div class="sig-reason">Volume spike + weekly breakout</div></div>
+      <div class="sig-result"><div class="sig-pnl" style="color:var(--gold)">OPEN ⚡</div><div class="sig-time">6:14 AM</div></div>
+    </div>
+    <div class="signal-card">
+      <span class="sig-badge buy">BUY</span>
+      <div class="sig-info"><div class="sig-pair">ETH/USDC</div><div class="sig-reason">EMA9 × EMA21 + RSI 31</div></div>
+      <div class="sig-result"><div class="sig-pnl" style="color:var(--green)">+6.72%</div><div class="sig-time">Yesterday</div></div>
+    </div>
+    <div class="signal-card">
+      <span class="sig-badge sell">SELL</span>
+      <div class="sig-info"><div class="sig-pair">XRP/USDC</div><div class="sig-reason">RSI > 72 + resistance rejection</div></div>
+      <div class="sig-result"><div class="sig-pnl" style="color:var(--green)">+4.35%</div><div class="sig-time">Jun 12</div></div>
+    </div>
+  </div>
+
+  <!-- BOT STATUS -->
+  <div class="section" style="padding-top:0;">
+    <div class="section-hdr">
+      <div class="section-title">🤖 Grid Bot Status</div>
+      <span style="font-size:9px;color:var(--green);">● RUNNING</span>
+    </div>
+    <div class="bot-card">
+      <div class="bot-card-hdr">
+        <div class="bot-status-dot"></div>
+        <div><div class="bot-pair">ETH/USDC Trailing Grid</div><div class="bot-meta">7x · 12 levels · 5% range</div></div>
+        <div class="bot-pnl">+$847</div>
+      </div>
+      <div class="bot-grid">
+        <div class="bot-stat"><div class="bot-stat-val">1,247</div><div class="bot-stat-lbl">Cycles</div></div>
+        <div class="bot-stat"><div class="bot-stat-val">89</div><div class="bot-stat-lbl">Shifts</div></div>
+        <div class="bot-stat"><div class="bot-stat-val">14d</div><div class="bot-stat-lbl">Running</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK ACTIONS -->
+  <div class="section" style="padding-top:0;">
+    <div class="section-hdr"><div class="section-title">Quick Actions</div></div>
+    <div class="quick-grid">
+      <a href="results.html" class="quick-btn">
+        <div class="quick-icon">📊</div>
+        <div class="quick-label">Signal Results</div>
+        <div class="quick-sub">Full performance log</div>
+      </a>
+      <a href="community.html" class="quick-btn">
+        <div class="quick-icon">👑</div>
+        <div class="quick-label">Imperians Chat</div>
+        <div class="quick-sub">Community & strategy</div>
+      </a>
+      <a href="recovery.html" class="quick-btn">
+        <div class="quick-icon">🔄</div>
+        <div class="quick-label">Recovery Protocol</div>
+        <div class="quick-sub">Never Give Up</div>
+      </a>
+      <a href="join.html" class="quick-btn" style="border-color:#7c3aed44;background:linear-gradient(135deg,#150a2a,#0d0d1f);">
+        <div class="quick-icon">⚡</div>
+        <div class="quick-label">Join Imperians</div>
+        <div class="quick-sub">$297/month · 100 max</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- NOTIFICATIONS CTA -->
+  <div class="section" style="padding-top:0;padding-bottom:24px;">
+    <div class="notif-card">
+      <div class="notif-icon">🔔</div>
+      <div class="notif-text">
+        <h4>Enable Signal Alerts</h4>
+        <p>Get push notifications the moment a signal fires. Never miss an entry again.</p>
+      </div>
+      <button class="notif-btn" onclick="requestNotifications()">Enable</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <a href="app.html" class="nav-item active">
+    <div class="nav-icon">🏠</div>
+    <div class="nav-label">Home</div>
+  </a>
+  <a href="results.html" class="nav-item">
+    <div class="nav-icon">⚡</div>
+    <div class="nav-label">Signals</div>
+  </a>
+  <a href="community.html" class="nav-item">
+    <div class="nav-icon">👑</div>
+    <div class="nav-label">Community</div>
+  </a>
+  <a href="recovery.html" class="nav-item">
+    <div class="nav-icon">🔄</div>
+    <div class="nav-label">Recovery</div>
+  </a>
+  <a href="join.html" class="nav-item">
+    <div class="nav-icon">💎</div>
+    <div class="nav-label">Join</div>
+  </a>
+</div>
+
+<script>
+// Register service worker
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('/sw.js').then(reg => {
+    console.log('SW registered');
+  }).catch(err => console.log('SW error:', err));
+}
+
+// PWA install prompt
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('installBanner').style.display = 'flex';
+});
+
+document.getElementById('installBtn').addEventListener('click', async () => {
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    const result = await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    document.getElementById('installBanner').style.display = 'none';
+  }
+});
+
+// Hide install banner if already installed
+window.addEventListener('appinstalled', () => {
+  document.getElementById('installBanner').style.display = 'none';
+});
+
+// Request push notifications
+function requestNotifications(){
+  if('Notification' in window){
+    Notification.requestPermission().then(permission => {
+      if(permission === 'granted'){
+        new Notification('⚡ TK Empire Alerts Enabled', {
+          body: 'You will now receive signal alerts instantly.',
+          icon: 'https://i.imgur.com/Kf99eJt.jpeg'
+        });
+        document.querySelector('.notif-card').innerHTML = `
+          <div class="notif-icon">✅</div>
+          <div class="notif-text">
+            <h4>Alerts Enabled</h4>
+            <p>You will receive push notifications when signals fire.</p>
+          </div>
+        `;
+      }
+    });
+  }
+}
+</script>
+<script src="empire.js"></script>
+</body>
+</html>
