@@ -4,7 +4,12 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>TK Empire | Empire Signals — Premium Crypto Trading</title>
-<meta name="description" content="Premium crypto trading signals. 73% documented win rate. Limited to 100 Imperians. Grid bot automation. Join the empire."/>
+<meta name="theme-color" content="#7C3AED"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="TK Empire"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="apple-touch-icon" href="https://i.imgur.com/Kf99eJt.jpeg"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{
@@ -523,6 +528,11 @@ function openModal(){modal.classList.add('open');}
 function closeModal(){modal.classList.remove('open');}
 modal.addEventListener('click',e=>{if(e.target===modal)closeModal();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+// Register service worker for PWA
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('/sw.js');
+}
 
 // Smooth scroll for nav links
 function scrollTo(id){
