@@ -1,12 +1,13 @@
 {
-    "updated_at": "2026-06-15 07:14:01",
+    "updated_at": "2026-06-15 07:15:03",
     "stats": {
         "wins": 0,
         "losses": 0,
         "total_pnl": 0.0
     },
     "active_trades": [
-        "XRP"
+        "XRP",
+        "ETH"
     ],
     "config": {
         "pairs": [
