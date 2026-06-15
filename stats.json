@@ -1,0 +1,19 @@
+{
+    "updated_at": "2026-06-15 03:38:36",
+    "stats": {
+        "wins": 0,
+        "losses": 0,
+        "total_pnl": 0.0
+    },
+    "active_trades": [],
+    "config": {
+        "pairs": [
+            "ETH",
+            "BTC",
+            "SOL",
+            "XRP"
+        ],
+        "target_pct": 5.0,
+        "stop_pct": 2.0
+    }
+}
