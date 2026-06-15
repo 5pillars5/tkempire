@@ -1,11 +1,13 @@
 {
-    "updated_at": "2026-06-15 21:44:28",
+    "updated_at": "2026-06-15 21:45:30",
     "stats": {
         "wins": 0,
         "losses": 4,
         "total_pnl": -8.0
     },
-    "active_trades": [],
+    "active_trades": [
+        "SOL"
+    ],
     "config": {
         "pairs": [
             "ETH",
