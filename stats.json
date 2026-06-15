@@ -1,9 +1,9 @@
 {
-    "updated_at": "2026-06-15 15:46:23",
+    "updated_at": "2026-06-15 15:47:09",
     "stats": {
         "wins": 0,
-        "losses": 3,
-        "total_pnl": -6.0
+        "losses": 4,
+        "total_pnl": -8.0
     },
     "active_trades": [
         "BTC"
