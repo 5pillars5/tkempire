@@ -1,9 +1,9 @@
 {
-    "updated_at": "2026-06-15 11:20:21",
+    "updated_at": "2026-06-15 11:20:35",
     "stats": {
         "wins": 0,
-        "losses": 1,
-        "total_pnl": -2.0
+        "losses": 2,
+        "total_pnl": -4.0
     },
     "active_trades": [
         "ETH",
