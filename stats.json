@@ -1,12 +1,11 @@
 {
-    "updated_at": "2026-06-15 11:24:31",
+    "updated_at": "2026-06-15 11:25:29",
     "stats": {
         "wins": 0,
         "losses": 3,
         "total_pnl": -6.0
     },
     "active_trades": [
-        "ETH",
         "BTC"
     ],
     "config": {
