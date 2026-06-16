@@ -220,7 +220,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:28px 6%;display:f
 <div class="summary">
   <div class="summary-grid">
     <div class="summary-card green">
-      <div class="summary-val" style="color:var(--green)" id="totalPnl">+$847</div>
+      <div class="summary-val" style="color:var(--green)" id="totalPnl">+$57</div>
       <div class="summary-label">Total P&L</div>
     </div>
     <div class="summary-card gold">
@@ -254,13 +254,13 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:28px 6%;display:f
     <div class="bot-card-top">
       <div class="bot-status"></div>
       <div>
-        <div class="bot-pair">ETH/USDT</div>
-        <div class="bot-exchange">Pionex · Futures Grid Bot</div>
+        <div class="bot-pair">ETH.PERP/USDT</div>
+        <div class="bot-exchange">Pionex · Futures Grid Bot · Arithmetic</div>
       </div>
       <div class="bot-type-badge">15x LONG</div>
       <div class="bot-pnl-big">
-        <div class="bot-pnl-val" id="botPnl">+$847.32</div>
-        <div class="bot-pnl-pct" id="botPct">+11.24% on capital</div>
+        <div class="bot-pnl-val" id="botPnl">+$57.20</div>
+        <div class="bot-pnl-pct" id="botPct">+8.41% on capital</div>
       </div>
     </div>
 
@@ -271,23 +271,23 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:28px 6%;display:f
         <div class="bot-stat-label">ETH Price</div>
       </div>
       <div class="bot-stat">
-        <div class="bot-stat-val">$7,534</div>
+        <div class="bot-stat-val">$680.30</div>
         <div class="bot-stat-label">Capital Deployed</div>
       </div>
       <div class="bot-stat">
-        <div class="bot-stat-val">12</div>
+        <div class="bot-stat-val">60</div>
         <div class="bot-stat-label">Grid Levels</div>
       </div>
       <div class="bot-stat">
-        <div class="bot-stat-val">5%</div>
+        <div class="bot-stat-val">$1,652–$1,889</div>
         <div class="bot-stat-label">Grid Range</div>
       </div>
       <div class="bot-stat">
-        <div class="bot-stat-val" id="cycleCount">1,247</div>
-        <div class="bot-stat-label">Cycles Done</div>
+        <div class="bot-stat-val" id="cycleCount">203</div>
+        <div class="bot-stat-label">Total Orders</div>
       </div>
       <div class="bot-stat">
-        <div class="bot-stat-val" style="color:var(--green)">14d 6h</div>
+        <div class="bot-stat-val" style="color:var(--green)" id="botRunTime">Loading...</div>
         <div class="bot-stat-label">Running</div>
       </div>
     </div>
@@ -501,7 +501,47 @@ function buildCycleLog(){
   container.innerHTML = rows.join('');
 }
 
-// ── INIT ──
+// ── LIVE PIONEX DATA ──
+async function fetchPionexData(){
+  try {
+    const r = await fetch('/api/pionex-portfolio');
+    if(!r.ok) throw new Error('API error');
+    const d = await r.json();
+    updateBotCard(d);
+  } catch(e){
+    console.log('Using cached data:', e.message);
+  }
+}
+
+function updateBotCard(bot){
+  const b = bot.buOrderData;
+  if(!b) return;
+
+  const pnl = parseFloat(b.totalRealizedProfit||0);
+  const capital = parseFloat(b.usdtInvestment||680.3);
+  const pct = (pnl/capital*100).toFixed(2);
+  const cycles = b.trx24h || 0;
+  const liqPrice = parseFloat(b.estimateLiquidationPriceDown||1534);
+  const bottom = parseFloat(b.bottom||1652.89);
+  const top = parseFloat(b.top||1889.01);
+  const gridProfit = parseFloat(b.gridProfit||13.18);
+
+  document.getElementById('botPnl').textContent = '+$'+pnl.toFixed(2);
+  document.getElementById('botPct').textContent = '+'+pct+'% on capital';
+  document.getElementById('totalPnl').textContent = '+$'+pnl.toFixed(0);
+  document.getElementById('totalPct').textContent = '+'+pct+'%';
+  document.getElementById('cycleCount').textContent = (b.placedExchangeOrderCount||203).toLocaleString();
+  document.getElementById('totalCycles').textContent = (b.placedExchangeOrderCount||203).toLocaleString();
+  document.getElementById('liqPrice').textContent = 'Liq: ~$'+liqPrice.toFixed(2);
+
+  // Update grid range display
+  if(ethPrice > 0){
+    const distPct = ((ethPrice - liqPrice)/ethPrice*100);
+    document.getElementById('liqDistance').textContent = distPct.toFixed(1)+'% above liquidation';
+    const riskPct = Math.max(5, Math.min(95, 100-distPct));
+    document.getElementById('liqBar').style.width = riskPct+'%';
+  }
+}
 window.addEventListener('load', () => {
   fetchEthPrice();
   buildCycleBars();
