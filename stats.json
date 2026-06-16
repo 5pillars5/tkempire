@@ -1,12 +1,13 @@
 {
-    "updated_at": "2026-06-16 13:44:43",
+    "updated_at": "2026-06-16 13:48:02",
     "stats": {
         "wins": 0,
         "losses": 4,
         "total_pnl": -8.0
     },
     "active_trades": [
-        "SOL"
+        "SOL",
+        "XRP"
     ],
     "config": {
         "pairs": [
