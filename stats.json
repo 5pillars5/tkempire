@@ -1,23 +1,19 @@
 {
-    "updated_at": "2026-06-16 23:50:47",
-    "stats": {
-        "wins": 1,
-        "losses": 4,
-        "total_pnl": -3.0
-    },
-    "active_trades": [
-        "XRP",
-        "ETH",
-        "BTC"
+  "updated_at": "2026-06-16 23:52 UTC",
+  "stats": {
+    "wins": 0,
+    "losses": 0,
+    "total_pnl": 0.0
+  },
+  "active_trades": [],
+  "config": {
+    "pairs": [
+      "ETH",
+      "BTC",
+      "SOL",
+      "XRP"
     ],
-    "config": {
-        "pairs": [
-            "ETH",
-            "BTC",
-            "SOL",
-            "XRP"
-        ],
-        "target_pct": 5.0,
-        "stop_pct": 2.0
-    }
+    "target_pct": 4.0,
+    "stop_pct": 2.0
+  }
 }
