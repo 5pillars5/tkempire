@@ -402,29 +402,10 @@ async function fetchEthPrice(){
     cel.style.color = change>=0?'var(--green)':'var(--red)';
     document.getElementById('currentPrice').textContent = '$'+ethPrice.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
 
-    // Update liquidation distance
-    const liqPrice = 1428;
-    const distPct = ((ethPrice - liqPrice) / ethPrice * 100).toFixed(1);
-    document.getElementById('liqDistance').textContent = `${distPct}% above liquidation`;
-    const riskPct = Math.max(0, Math.min(100, 100 - distPct));
-    document.getElementById('liqBar').style.width = riskPct+'%';
+    // Liq distance updated by fetchPionexLive
 
-    // Update grid levels
+    // Update grid levels with live price
     buildGridLevels(ethPrice);
-
-    // Simulate cycle count incrementing
-    const base = 1247;
-    const extra = Math.floor((Date.now() - new Date('2026-06-01').getTime()) / (1000*60*30));
-    document.getElementById('cycleCount').textContent = (base+extra).toLocaleString();
-    document.getElementById('totalCycles').textContent = (base+extra).toLocaleString();
-
-    // Simulate P&L growing with cycles
-    const pnl = 847.32 + (extra * 0.68);
-    const pct = (pnl / 7534 * 100).toFixed(2);
-    document.getElementById('botPnl').textContent = '+$'+pnl.toFixed(2);
-    document.getElementById('botPct').textContent = '+'+pct+'% on capital';
-    document.getElementById('totalPnl').textContent = '+$'+pnl.toFixed(0);
-    document.getElementById('totalPct').textContent = '+'+pct+'%';
 
   } catch(e){
     document.getElementById('ethLivePrice').textContent = 'Loading...';
