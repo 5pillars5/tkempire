@@ -220,7 +220,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:28px 6%;display:f
 <div class="summary">
   <div class="summary-grid">
     <div class="summary-card green">
-      <div class="summary-val" style="color:var(--green)" id="totalPnl">+$57</div>
+      <div class="summary-val" style="color:var(--green)" id="totalPnl">+$3</div>
       <div class="summary-label">Total P&L</div>
     </div>
     <div class="summary-card gold">
@@ -259,7 +259,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:28px 6%;display:f
       </div>
       <div class="bot-type-badge">15x LONG</div>
       <div class="bot-pnl-big">
-        <div class="bot-pnl-val" id="botPnl">+$57.20</div>
+        <div class="bot-pnl-val" id="botPnl">+$2.91</div>
         <div class="bot-pnl-pct" id="botPct">+8.41% on capital</div>
       </div>
     </div>
@@ -271,7 +271,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:28px 6%;display:f
         <div class="bot-stat-label">ETH Price</div>
       </div>
       <div class="bot-stat">
-        <div class="bot-stat-val">$680.30</div>
+        <div class="bot-stat-val">$402.15</div>
         <div class="bot-stat-label">Capital Deployed</div>
       </div>
       <div class="bot-stat">
@@ -283,7 +283,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:28px 6%;display:f
         <div class="bot-stat-label">Grid Range</div>
       </div>
       <div class="bot-stat">
-        <div class="bot-stat-val" id="cycleCount">203</div>
+        <div class="bot-stat-val" id="cycleCount">71</div>
         <div class="bot-stat-label">Total Orders</div>
       </div>
       <div class="bot-stat">
@@ -432,11 +432,36 @@ async function fetchEthPrice(){
 }
 
 // ── GRID LEVELS ──
-function buildGridLevels(price){
+function buildGridLevels(price, bottom=1652.89, top=1889.01){
   const container = document.getElementById('gridLevels');
-  const range = 0.05; // 5% range
-  const levels = 7;
-  const step = (price * range) / levels;
+  const step = (top - bottom) / 7;
+  const html = [];
+
+  for(let i=3;i>0;i--){
+    const p = price + (step * i);
+    const w = 40 + (i*10);
+    html.push(`<div class="grid-level gl-sell">
+      <span class="gl-price">$${p.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</span>
+      <div class="gl-bar" style="width:${w}%"></div>
+      <span class="gl-tag">SELL</span>
+    </div>`);
+  }
+  html.push(`<div class="grid-level gl-current">
+    <span class="gl-price" style="color:var(--purple-light)">$${price.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</span>
+    <div class="gl-bar"></div>
+    <span class="gl-tag" style="color:var(--purple-light)">NOW ⚡</span>
+  </div>`);
+  for(let i=1;i<=3;i++){
+    const p = price - (step * i);
+    const w = 40 + (i*10);
+    html.push(`<div class="grid-level gl-buy">
+      <span class="gl-price">$${p.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</span>
+      <div class="gl-bar" style="width:${w}%"></div>
+      <span class="gl-tag">BUY</span>
+    </div>`);
+  }
+  container.innerHTML = html.join('');
+}
   const html = [];
 
   for(let i=3;i>0;i--){
@@ -501,13 +526,44 @@ function buildCycleLog(){
   container.innerHTML = rows.join('');
 }
 
-// ── LIVE PIONEX DATA ──
-async function fetchPionexData(){
+// ── LIVE PIONEX DATA FROM GITHUB ──
+const DATA_URL = 'https://raw.githubusercontent.com/5pillars5/tkempire/main/data/portfolio.json';
+
+async function fetchPionexLive(){
   try {
-    const r = await fetch('/api/pionex-portfolio');
-    if(!r.ok) throw new Error('API error');
-    const d = await r.json();
-    updateBotCard(d);
+    const r = await fetch(DATA_URL + '?t=' + Date.now()); // cache bust
+    const b = await r.json();
+
+    // P&L
+    const gridProfit = parseFloat(b.gridProfit||0);
+    const capital = parseFloat(b.capital||402.15);
+    const pct = (gridProfit/capital*100).toFixed(2);
+
+    document.getElementById('botPnl').textContent = '+$'+gridProfit.toFixed(2);
+    document.getElementById('botPct').textContent = '+'+pct+'% on capital';
+    document.getElementById('totalPnl').textContent = '+$'+gridProfit.toFixed(0);
+    document.getElementById('totalPct').textContent = '+'+pct+'%';
+
+    // Cycles
+    const cycles = b.cycles || 71;
+    document.getElementById('cycleCount').textContent = cycles.toLocaleString();
+    document.getElementById('totalCycles').textContent = cycles.toLocaleString();
+
+    // Running time
+    const elapsed = Date.now() - b.createTime;
+    const days = Math.floor(elapsed/86400000);
+    const hours = Math.floor((elapsed%86400000)/3600000);
+    document.getElementById('botRunTime').textContent = days+'d '+hours+'h';
+
+    // Liq price
+    const liq = parseFloat(b.liqPrice||1534.3);
+    document.getElementById('liqPrice').textContent = 'Liq: ~$'+liq.toFixed(2);
+
+    // Grid range
+    buildGridLevels(ethPrice, parseFloat(b.bottom||1652.89), parseFloat(b.top||1889.01));
+
+    // Last updated
+    console.log('Portfolio data updated:', b.updated);
   } catch(e){
     console.log('Using cached data:', e.message);
   }
@@ -518,7 +574,7 @@ function updateBotCard(bot){
   if(!b) return;
 
   const pnl = parseFloat(b.totalRealizedProfit||0);
-  const capital = parseFloat(b.usdtInvestment||680.3);
+  const capital = parseFloat(b.usdtInvestment||402.15);
   const pct = (pnl/capital*100).toFixed(2);
   const cycles = b.trx24h || 0;
   const liqPrice = parseFloat(b.estimateLiquidationPriceDown||1534);
@@ -544,9 +600,11 @@ function updateBotCard(bot){
 }
 window.addEventListener('load', () => {
   fetchEthPrice();
+  fetchPionexLive();
   buildCycleBars();
   buildCycleLog();
   setInterval(fetchEthPrice, 30000);
+  setInterval(fetchPionexLive, 30000);
   setInterval(buildCycleLog, 60000);
 });
 </script>
