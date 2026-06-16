@@ -1,12 +1,11 @@
 {
-    "updated_at": "2026-06-16 21:45:44",
+    "updated_at": "2026-06-16 21:46:21",
     "stats": {
         "wins": 1,
         "losses": 4,
         "total_pnl": -3.0
     },
     "active_trades": [
-        "SOL",
         "XRP",
         "ETH",
         "BTC"
