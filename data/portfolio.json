@@ -1,0 +1,21 @@
+{
+  "updated": "2026-06-16 05:08 UTC",
+  "timestamp": 1781586525104,
+  "pair": "ETH/USDT",
+  "exchange": "Pionex",
+  "type": "Futures Grid",
+  "leverage": "15",
+  "status": "running",
+  "capital": 402.15,
+  "gridProfit": 13.36591938,
+  "totalProfit": 55.69248987552011,
+  "cycles": 206,
+  "cycles24h": 72,
+  "gridLevels": 60,
+  "bottom": 1652.89,
+  "top": 1889.01,
+  "liqPrice": 1534.2403655536418,
+  "createTime": 1781527293583,
+  "position": 1.76,
+  "marginBalance": 731.4959625150599
+}
