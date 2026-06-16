@@ -1,9 +1,9 @@
 {
-    "updated_at": "2026-06-16 21:45:20",
+    "updated_at": "2026-06-16 21:45:44",
     "stats": {
-        "wins": 0,
+        "wins": 1,
         "losses": 4,
-        "total_pnl": -8.0
+        "total_pnl": -3.0
     },
     "active_trades": [
         "SOL",
