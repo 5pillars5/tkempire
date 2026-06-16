@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/portfolio",
+      "destination": "http://143.244.155.109:5000/api/portfolio"
+    },
+    {
+      "source": "/api/health",
+      "destination": "http://143.244.155.109:5000/health"
+    }
+  ]
+}
