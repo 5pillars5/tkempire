@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781672684,
+    "date": "Jun 17",
+    "time": "05:04",
+    "mode": "\u26a1 SCALP",
+    "action": "SELL",
+    "coin": "DOGE",
+    "pair": "DOGE/USDC",
+    "entry": 0.087528,
+    "target": 0.0858,
+    "stop": 0.0884,
+    "rsi": null,
+    "reason": "Bull Power \u00b7 Bearish momentum confirmed",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781672073,
     "date": "Jun 17",
     "time": "04:54",
