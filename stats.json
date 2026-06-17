@@ -1,10 +1,10 @@
 {
-  "updated_at": "2026-06-17 07:10 UTC",
+  "updated_at": "2026-06-17 07:11 UTC",
   "stats": {
     "wins": 0,
-    "losses": 0,
-    "total_pnl": 0.0,
+    "losses": 1,
+    "total_pnl": -2.0,
     "signals": 6,
-    "win_rate": 0
+    "win_rate": 0.0
   }
 }
