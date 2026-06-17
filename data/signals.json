@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781681966,
+    "date": "Jun 17",
+    "time": "07:39",
+    "mode": "\u26a1 SCALP",
+    "action": "SELL",
+    "coin": "LINK",
+    "pair": "LINK/USDC",
+    "entry": 8.31375,
+    "target": 8.1475,
+    "stop": 8.3969,
+    "rsi": null,
+    "reason": "Bear Power \u00b7 Bearish momentum confirmed",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781677325,
     "date": "Jun 17",
     "time": "06:22",
