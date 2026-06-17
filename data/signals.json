@@ -84,10 +84,11 @@
     "stop": 3.6575,
     "rsi": null,
     "reason": "Overbought (above -20) Williams Percentage Range (14) \u00b7 Bearish momentum confirmed",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 3.67475,
+    "pnl": -2.0,
+    "result": "loss",
+    "holdMins": 137
   },
   {
     "id": 1781671949,
