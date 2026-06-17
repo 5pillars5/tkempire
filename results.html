@@ -213,40 +213,13 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:32px 6%;display:f
 <div class="bot-section">
   <div class="bot-header">
     <div class="bot-title">⚡ Grid Bot Performance</div>
-    <div style="font-size:11px;color:var(--muted)">Running 24/7 · Auto-compounding</div>
+    <div style="font-size:11px;color:var(--muted)" id="botUpdated">Loading live data...</div>
   </div>
-  <div class="bot-grid">
-    <div class="bot-card eth">
-      <div class="bot-pair">ETH/USDT Trailing Grid</div>
-      <div class="bot-meta">7x leverage · 12 levels · 5% range · Running 14 days</div>
-      <div class="bot-pnl">+$847.32</div>
-      <div class="bot-pct">+11.24% on deployed capital</div>
-      <div class="bot-stats-row">
-        <div class="bot-stat"><div class="bot-stat-num">1,247</div><div class="bot-stat-lbl">Grid Cycles</div></div>
-        <div class="bot-stat"><div class="bot-stat-num">89</div><div class="bot-stat-lbl">Shifts</div></div>
-        <div class="bot-stat"><div class="bot-stat-num">$0.68</div><div class="bot-stat-lbl">Avg/Cycle</div></div>
-      </div>
-    </div>
-    <div class="bot-card btc">
-      <div class="bot-pair">BTC/USDT Trailing Grid</div>
-      <div class="bot-meta">5x leverage · 10 levels · 4% range · Running 8 days</div>
-      <div class="bot-pnl">+$612.18</div>
-      <div class="bot-pct">+8.16% on deployed capital</div>
-      <div class="bot-stats-row">
-        <div class="bot-stat"><div class="bot-stat-num">743</div><div class="bot-stat-lbl">Grid Cycles</div></div>
-        <div class="bot-stat"><div class="bot-stat-num">34</div><div class="bot-stat-lbl">Shifts</div></div>
-        <div class="bot-stat"><div class="bot-stat-num">$0.82</div><div class="bot-stat-lbl">Avg/Cycle</div></div>
-      </div>
-    </div>
-    <div class="bot-card sol">
-      <div class="bot-pair">SOL/USDT Static Grid</div>
-      <div class="bot-meta">3x leverage · 15 levels · 6% range · Running 21 days</div>
-      <div class="bot-pnl">+$394.55</div>
-      <div class="bot-pct">+5.26% on deployed capital</div>
-      <div class="bot-stats-row">
-        <div class="bot-stat"><div class="bot-stat-num">2,108</div><div class="bot-stat-lbl">Grid Cycles</div></div>
-        <div class="bot-stat"><div class="bot-stat-num">0</div><div class="bot-stat-lbl">Shifts</div></div>
-        <div class="bot-stat"><div class="bot-stat-num">$0.19</div><div class="bot-stat-lbl">Avg/Cycle</div></div>
+  <div class="bot-grid" id="botGrid">
+    <div class="bot-card eth" style="grid-column:span 3;display:flex;align-items:center;justify-content:center;padding:40px;">
+      <div style="text-align:center;color:var(--muted)">
+        <div style="font-size:24px;margin-bottom:8px;">🤖</div>
+        <div style="font-size:13px;">Loading live bot data...</div>
       </div>
     </div>
   </div>
@@ -375,10 +348,51 @@ months.forEach(m=>{
   chart.appendChild(col);
 });
 
+// ── LIVE GRID BOT DATA FROM GITHUB ──
+const PORTFOLIO_URL = 'https://raw.githubusercontent.com/5pillars5/tkempire/main/data/portfolio.json';
+
+async function loadBotData(){
+  try {
+    const r = await fetch(PORTFOLIO_URL + '?t=' + Date.now());
+    const b = await r.json();
+
+    const gridProfit = parseFloat(b.gridProfit || 0);
+    const capital    = parseFloat(b.capital || 402.15);
+    const pct        = (gridProfit / capital * 100).toFixed(2);
+    const cycles     = b.cycles || 0;
+    const avgCycle   = cycles > 0 ? (gridProfit / cycles).toFixed(3) : '0.000';
+    const elapsed    = Date.now() - (b.createTime || Date.now());
+    const days       = Math.floor(elapsed / 86400000);
+    const hours      = Math.floor((elapsed % 86400000) / 3600000);
+    const pnlColor   = gridProfit >= 0 ? 'var(--green)' : 'var(--red)';
+
+    document.getElementById('botUpdated').textContent = `Updated: ${b.updated || '—'} · Auto-refreshes every 30 min`;
+    document.getElementById('botGrid').innerHTML = `
+      <div class="bot-card eth" style="grid-column:span 3;">
+        <div class="bot-pair">${b.pair || 'ETH/USDT'} · ${b.type || 'Futures Grid'}</div>
+        <div class="bot-meta">${b.leverage || 15}x leverage · ${b.gridLevels || 60} levels · Range: $${b.bottom?.toLocaleString() || '—'} – $${b.top?.toLocaleString() || '—'} · Running ${days}d ${hours}h</div>
+        <div class="bot-pnl" style="color:${pnlColor}">${gridProfit >= 0 ? '+' : ''}$${gridProfit.toFixed(2)}</div>
+        <div class="bot-pct" style="color:${pnlColor}">${gridProfit >= 0 ? '+' : ''}${pct}% on deployed capital</div>
+        <div class="bot-stats-row">
+          <div class="bot-stat"><div class="bot-stat-num">${cycles.toLocaleString()}</div><div class="bot-stat-lbl">Total Orders</div></div>
+          <div class="bot-stat"><div class="bot-stat-num">$${capital.toLocaleString()}</div><div class="bot-stat-lbl">Capital</div></div>
+          <div class="bot-stat"><div class="bot-stat-num">$${avgCycle}</div><div class="bot-stat-lbl">Avg/Cycle</div></div>
+          <div class="bot-stat"><div class="bot-stat-num" style="color:var(--red)">$${b.liqPrice?.toFixed(0) || '—'}</div><div class="bot-stat-lbl">Liq Price</div></div>
+        </div>
+      </div>
+    `;
+  } catch(e){
+    console.log('Bot data error:', e.message);
+    document.getElementById('botUpdated').textContent = 'Data unavailable';
+  }
+}
+
 // Load live signals from GitHub on page load
 window.addEventListener('load', () => {
   loadSignals();
-  setInterval(loadSignals, 60000); // refresh every minute
+  loadBotData();
+  setInterval(loadSignals, 60000);
+  setInterval(loadBotData, 30000);
 });
 </script>
 <script src="empire.js"></script>
