@@ -1,5 +1,27 @@
 // ── TK EMPIRE GLOBAL EFFECTS ──
-// Gold flakes + electricity on every page
+// Gold flakes + electricity + smooth scroll on every page
+
+// ── SMOOTH SCROLL ──
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', function(e){
+      const id = this.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if(el){
+        e.preventDefault();
+        el.scrollIntoView({behavior:'smooth', block:'start'});
+      }
+    });
+  });
+
+  // Handle hash on load (e.g. index.html#performance)
+  if(window.location.hash){
+    setTimeout(() => {
+      const el = document.getElementById(window.location.hash.slice(1));
+      if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+    }, 200);
+  }
+});
 
 (function(){
   const canvas = document.createElement('canvas');
