@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781687228,
+    "date": "Jun 17",
+    "time": "09:07",
+    "mode": "\ud83d\udcc8 SWING",
+    "action": "SELL",
+    "coin": "OP",
+    "pair": "OP/USDC",
+    "entry": 0.10763,
+    "target": 0.1033,
+    "stop": 0.1098,
+    "rsi": null,
+    "reason": "Doji \u00b7 Bearish momentum confirmed",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781686616,
     "date": "Jun 17",
     "time": "08:56",
