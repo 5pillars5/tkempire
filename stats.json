@@ -2,9 +2,9 @@
   "updated_at": "2026-06-17 11:05 UTC",
   "stats": {
     "wins": 2,
-    "losses": 5,
-    "total_pnl": -3.736988957222164,
+    "losses": 6,
+    "total_pnl": -4.736988957222164,
     "signals": 12,
-    "win_rate": 28.6
+    "win_rate": 25.0
   }
 }
