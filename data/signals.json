@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781673296,
+    "date": "Jun 17",
+    "time": "05:14",
+    "mode": "\ud83d\udcc8 SWING",
+    "action": "SELL",
+    "coin": "ATOM",
+    "pair": "ATOM/USDC",
+    "entry": 1.9979,
+    "target": 1.918,
+    "stop": 2.0379,
+    "rsi": null,
+    "reason": "Overbought Stochastic RSI Fast (3, 3, 14, 14) above 80 \u00b7 Bearish momentum confirmed",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781672684,
     "date": "Jun 17",
     "time": "05:04",
