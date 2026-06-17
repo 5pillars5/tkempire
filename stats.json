@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-06-17 01:59 UTC",
+  "updated_at": "2026-06-17 02:01 UTC",
   "stats": {
     "wins": 0,
     "losses": 0,
     "total_pnl": 0.0,
-    "signals": 2,
+    "signals": 3,
     "win_rate": 0,
-    "total_signals": 2
+    "total_signals": 3
   },
   "pairs": [
     "BTC",
