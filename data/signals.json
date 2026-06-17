@@ -1,5 +1,24 @@
 [
   {
+    "id": 1781668836,
+    "date": "Jun 17",
+    "time": "04:00",
+    "mode": "\u26a1 SCALP",
+    "action": "SELL",
+    "coin": "INJ",
+    "pair": "INJ/USDC",
+    "entry": 5.6087,
+    "target": 5.4965,
+    "stop": 5.6648,
+    "rsi": 56.5,
+    "trend": "neutral",
+    "reason": "EMA9 \u00d7 EMA21 DN \u00b7 RSI 56.5 \u00b7 NEUTRAL trend \u00b7 Vol OK",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781665219,
     "date": "Jun 17",
     "time": "03:00",
