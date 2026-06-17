@@ -140,10 +140,11 @@
     "stop": 0.0884,
     "rsi": null,
     "reason": "Bull Power \u00b7 Bearish momentum confirmed",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.086009,
+    "pnl": 1.74,
+    "result": "win",
+    "holdMins": 240
   },
   {
     "id": 1781672073,
