@@ -1,5 +1,24 @@
 [
   {
+    "id": 1781661107,
+    "date": "Jun 17",
+    "time": "01:51",
+    "mode": "\ud83d\udcc8 SWING",
+    "action": "BUY",
+    "coin": "DOT",
+    "pair": "DOT/USDC",
+    "entry": 1.0278,
+    "target": 1.0689,
+    "stop": 1.0072,
+    "rsi": 47.4,
+    "trend": "bull",
+    "reason": "EMA9 \u00d7 EMA21 UP \u00b7 RSI 47.4 \u00b7 BULL trend \u00b7 Vol OK",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781661104,
     "date": "Jun 17",
     "time": "01:51",
