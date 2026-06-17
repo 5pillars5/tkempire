@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781684530,
+    "date": "Jun 17",
+    "time": "08:22",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "ARB",
+    "pair": "ARB/USDC",
+    "entry": 0.08713,
+    "target": 0.0889,
+    "stop": 0.0863,
+    "rsi": null,
+    "reason": "Bull Power \u00b7 Bullish momentum confirmed",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781681966,
     "date": "Jun 17",
     "time": "07:39",
