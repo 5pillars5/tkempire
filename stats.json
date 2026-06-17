@@ -1,33 +1,10 @@
 {
-  "updated_at": "2026-06-17 04:14 UTC",
+  "updated_at": "2026-06-17 04:15 UTC",
   "stats": {
     "wins": 0,
     "losses": 0,
     "total_pnl": 0.0,
-    "signals": 5,
-    "win_rate": 0,
-    "total_signals": 5
-  },
-  "pairs": [
-    "BTC",
-    "ETH",
-    "SOL",
-    "XRP",
-    "BNB",
-    "DOGE",
-    "ADA",
-    "AVAX",
-    "LINK",
-    "DOT",
-    "MATIC",
-    "UNI",
-    "ATOM",
-    "LTC",
-    "BCH",
-    "APT",
-    "ARB",
-    "OP",
-    "INJ",
-    "SUI"
-  ]
+    "signals": 1,
+    "win_rate": 0
+  }
 }
