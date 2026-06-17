@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781675127,
+    "date": "Jun 17",
+    "time": "05:45",
+    "mode": "\ud83d\udcc8 SWING",
+    "action": "BUY",
+    "coin": "APT",
+    "pair": "APT/USDC",
+    "entry": 0.6727,
+    "target": 0.6996,
+    "stop": 0.6592,
+    "rsi": null,
+    "reason": "Oversold (below -80) Williams Percentage Range (14) \u00b7 Bullish momentum confirmed",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781673296,
     "date": "Jun 17",
     "time": "05:14",
