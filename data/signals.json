@@ -48,10 +48,11 @@
     "stop": 0.6592,
     "rsi": null,
     "reason": "Oversold (below -80) Williams Percentage Range (14) \u00b7 Bullish momentum confirmed",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.6588,
+    "pnl": -2.0,
+    "result": "loss",
+    "holdMins": 155
   },
   {
     "id": 1781673296,
