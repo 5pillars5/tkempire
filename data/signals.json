@@ -1,5 +1,24 @@
 [
   {
+    "id": 1781661659,
+    "date": "Jun 17",
+    "time": "02:00",
+    "mode": "\ud83d\udcc8 SWING",
+    "action": "BUY",
+    "coin": "ARB",
+    "pair": "ARB/USDC",
+    "entry": 0.08854,
+    "target": 0.0921,
+    "stop": 0.0868,
+    "rsi": 57.5,
+    "trend": "bull",
+    "reason": "EMA9 \u00d7 EMA21 UP \u00b7 RSI 57.5 \u00b7 BULL trend \u00b7 Vol OK",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781661481,
     "date": "Jun 17",
     "time": "01:58",
