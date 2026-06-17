@@ -66,10 +66,11 @@
     "stop": 0.1678,
     "rsi": null,
     "reason": "Bull Power \u00b7 Bullish momentum confirmed",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.16772,
+    "pnl": -1.0,
+    "result": "loss",
+    "holdMins": 128
   },
   {
     "id": 1781684530,
