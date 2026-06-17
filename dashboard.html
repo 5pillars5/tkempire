@@ -161,15 +161,17 @@ body.private-mode .view-private{display:block;}
 <body>
 
 <!-- LOCK SCREEN -->
-<div class="lock-screen" id="lockScreen">
-  <div class="lock-box">
-    <img src="https://i.imgur.com/Kf99eJt.jpeg" alt="TK Empire"/>
-    <h3>Private Dashboard</h3>
-    <p>Enter your access code to view full Empire Command Center</p>
-    <input type="password" class="lock-input" id="pinInput" placeholder="••••••" maxlength="6"
-      onkeydown="if(event.key==='Enter')checkPin()"/>
-    <button class="lock-submit" onclick="checkPin()">⚡ Access Empire</button>
-    <div class="lock-error" id="lockError">Incorrect code. Try again.</div>
+<div id="lockScreen" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(6,6,15,0.98);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#0d0d1f;border:1px solid #2a2a5a;border-radius:16px;padding:40px;width:300px;text-align:center;">
+    <img src="https://i.imgur.com/Kf99eJt.jpeg" style="width:60px;height:60px;border-radius:12px;object-fit:cover;margin:0 auto 16px;display:block;"/>
+    <h3 style="font-size:18px;font-weight:800;margin-bottom:6px;">Private Dashboard</h3>
+    <p style="font-size:12px;color:#6B7280;margin-bottom:20px;">Enter your PIN to access</p>
+    <input type="password" id="pinInput" placeholder="Enter PIN" maxlength="6"
+      style="width:100%;background:#12122a;border:1px solid #2a2a4a;border-radius:8px;padding:11px 14px;color:#e2e2f0;font-size:18px;outline:none;text-align:center;letter-spacing:0.3em;margin-bottom:12px;display:block;"/>
+    <button id="pinBtn" style="width:100%;padding:12px;border-radius:8px;border:none;background:linear-gradient(135deg,#7C3AED,#4f46e5);color:#fff;font-size:14px;font-weight:700;cursor:pointer;">
+      ⚡ Access Empire
+    </button>
+    <div id="lockError" style="font-size:11px;color:#ff4b6e;margin-top:10px;display:none;">Wrong PIN. Try again.</div>
   </div>
 </div>
 
@@ -444,11 +446,11 @@ let equityChartObj = null;
 let ethChartObj = null;
 let ethMiniChartObj = null;
 
-// ── LOCK / PIN ──
+// ── PIN SYSTEM ──
 function checkPin(){
   const val = document.getElementById('pinInput').value;
   if(val === PIN){
-    document.getElementById('lockScreen').classList.remove('show');
+    document.getElementById('lockScreen').style.display = 'none';
     document.body.classList.add('private-mode');
     document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
     document.querySelectorAll('.nav-tab')[1].classList.add('active');
@@ -456,7 +458,7 @@ function checkPin(){
   } else {
     document.getElementById('lockError').style.display = 'block';
     document.getElementById('pinInput').value = '';
-    setTimeout(()=>document.getElementById('lockError').style.display='none', 2000);
+    setTimeout(()=>{ document.getElementById('lockError').style.display='none'; }, 2000);
   }
 }
 
@@ -467,13 +469,21 @@ function setView(view, btn){
   if(view === 'private'){
     if(!document.body.classList.contains('private-mode')){
       const ls = document.getElementById('lockScreen');
-      ls.classList.add('show');
-      setTimeout(()=>document.getElementById('pinInput').focus(), 100);
+      ls.style.display = 'flex';
+      setTimeout(()=>{ document.getElementById('pinInput').focus(); }, 100);
     }
   } else {
     document.body.classList.remove('private-mode');
   }
 }
+
+// Wire up PIN button and Enter key after DOM loads
+document.addEventListener('DOMContentLoaded', function(){
+  document.getElementById('pinBtn').addEventListener('click', checkPin);
+  document.getElementById('pinInput').addEventListener('keydown', function(e){
+    if(e.key === 'Enter') checkPin();
+  });
+});
 
 // ── FETCH PORTFOLIO ──
 async function fetchPortfolio(){
