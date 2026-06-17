@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781677325,
+    "date": "Jun 17",
+    "time": "06:22",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "BCH",
+    "pair": "BCH/USDC",
+    "entry": 214.845,
+    "target": 219.1419,
+    "stop": 212.6966,
+    "rsi": null,
+    "reason": "Bull Power \u00b7 Bullish momentum confirmed",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781675127,
     "date": "Jun 17",
     "time": "05:45",
