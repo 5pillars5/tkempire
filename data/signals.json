@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781686616,
+    "date": "Jun 17",
+    "time": "08:56",
+    "mode": "\ud83d\udcc8 SWING",
+    "action": "SELL",
+    "coin": "XRP",
+    "pair": "XRP/USDC",
+    "entry": 1.19705,
+    "target": 1.1492,
+    "stop": 1.221,
+    "rsi": null,
+    "reason": "Overbought (above -20) Williams Percentage Range (14) \u00b7 Bearish momentum confirmed",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781686614,
     "date": "Jun 17",
     "time": "08:56",
