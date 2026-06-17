@@ -383,7 +383,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:28px 6%;display:f
     <div class="confirm-icon">✈️</div>
     <div class="confirm-title">After You Send Payment</div>
     <div class="confirm-desc">Message @tkempirebot on Telegram with your TX hash. We verify on-chain and add you to the Imperians channel within 1 hour. Available 24/7.</div>
-    <a href="https://t.me/tkempirebot" target="_blank" class="tg-btn">Message @tkempirebot →</a>
+    <a href="https://t.me/tkempirebot" target="_blank" class="tg-btn" onclick="notifyPayment()">Message @tkempirebot →</a>
   </div>
 </div>
 
@@ -568,7 +568,30 @@ async function setTF(coin, hours){
   chart.update();
 }
 
-// ── COPY ADDRESS ──
+// ── PAYMENT NOTIFICATION ──
+function notifyPayment(){
+  try {
+    const ethAmt = document.getElementById('ethSendAmt')?.textContent || '—';
+    const btcAmt = document.getElementById('btcSendAmt')?.textContent || '—';
+    const ethPrice = document.getElementById('ethPrice')?.textContent || '—';
+    const msg = encodeURIComponent(
+      `🚨 PAYMENT ALERT — TK EMPIRE\n\n` +
+      `👤 Someone tapped "Message @tkempirebot"\n` +
+      `💰 They are sending $297 in ETH or BTC\n\n` +
+      `📊 Live rates at tap:\n` +
+      `ETH: ${ethPrice} → ${ethAmt}\n` +
+      `BTC: ${btcAmt}\n\n` +
+      `⏳ Verify TX hash when they message you\n` +
+      `👑 TK Empire — Built for Legacy`
+    );
+    fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage?chat_id=${TG_CHAT_ID}&text=${msg}`)
+      .catch(()=>{});
+  } catch(e){}
+}
+
+// ── TG CONFIG (alerts to you) ──
+const TG_BOT_TOKEN = '8817000928:AAFxQ7ZkkfctNTiNupTwUUejg78jJEx-zQQ';
+const TG_CHAT_ID   = '-1003933688384';
 function copyAddr(addr, btnId, originalText){
   navigator.clipboard.writeText(addr).then(()=>{
     const btn = document.getElementById(btnId);
