@@ -103,10 +103,11 @@
     "stop": 8.3969,
     "rsi": null,
     "reason": "Bear Power \u00b7 Bearish momentum confirmed",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 8.1417,
+    "pnl": 2.0,
+    "result": "win",
+    "holdMins": 203
   },
   {
     "id": 1781677325,
