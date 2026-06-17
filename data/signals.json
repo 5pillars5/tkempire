@@ -1,5 +1,24 @@
 [
   {
+    "id": 1781665219,
+    "date": "Jun 17",
+    "time": "03:00",
+    "mode": "\ud83d\udcc8 SWING",
+    "action": "BUY",
+    "coin": "APT",
+    "pair": "APT/USDC",
+    "entry": 0.6853,
+    "target": 0.7127,
+    "stop": 0.6716,
+    "rsi": 51.4,
+    "trend": "neutral",
+    "reason": "EMA9 \u00d7 EMA21 UP \u00b7 RSI 51.4 \u00b7 NEUTRAL trend \u00b7 Vol OK",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781661659,
     "date": "Jun 17",
     "time": "02:00",
