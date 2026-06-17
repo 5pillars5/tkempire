@@ -4,6 +4,8 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 <title>TK Empire App</title>
+<link rel="icon" type="image/jpeg" href="https://i.imgur.com/Kf99eJt.jpeg"/>
+<link rel="shortcut icon" href="https://i.imgur.com/Kf99eJt.jpeg"/>
 <meta name="description" content="TK Empire — Premium crypto signals, grid bot, and Imperians community."/>
 <meta name="theme-color" content="#7C3AED"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -224,6 +226,14 @@ body{display:flex;flex-direction:column;font-family:'Inter',system-ui,sans-serif
         <div class="quick-sub">$297/month · 100 max</div>
       </a>
     </div>
+    <!-- Permanent install button -->
+    <div class="quick-btn" id="permInstallBtn" onclick="installApp()" style="width:100%;flex-direction:row;justify-content:center;gap:12px;border-color:#7c3aed44;background:linear-gradient(135deg,#0d0820,#0d0d1f);display:none;">
+      <div class="quick-icon">📲</div>
+      <div>
+        <div class="quick-label">Install TK Empire App</div>
+        <div class="quick-sub">Add to your home screen</div>
+      </div>
+    </div>
   </div>
 
   <!-- NOTIFICATIONS CTA -->
@@ -278,16 +288,24 @@ window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   deferredPrompt = e;
   document.getElementById('installBanner').style.display = 'flex';
+  document.getElementById('permInstallBtn').style.display = 'flex';
 });
 
-document.getElementById('installBtn').addEventListener('click', async () => {
+function installApp(){
   if(deferredPrompt){
     deferredPrompt.prompt();
-    const result = await deferredPrompt.userChoice;
-    deferredPrompt = null;
-    document.getElementById('installBanner').style.display = 'none';
+    deferredPrompt.userChoice.then(() => {
+      deferredPrompt = null;
+      document.getElementById('installBanner').style.display = 'none';
+      document.getElementById('permInstallBtn').style.display = 'none';
+    });
+  } else {
+    // Fallback instructions
+    alert('To install:\n\nAndroid: Tap ⋮ menu → Add to Home Screen\n\niPhone: Tap Share → Add to Home Screen');
   }
-});
+}
+
+document.getElementById('installBtn').addEventListener('click', installApp);
 
 // Hide install banner if already installed
 window.addEventListener('appinstalled', () => {
