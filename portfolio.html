@@ -4,6 +4,8 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Portfolio | TK Empire</title>
+<link rel="icon" type="image/jpeg" href="https://i.imgur.com/Kf99eJt.jpeg"/>
+<link rel="shortcut icon" href="https://i.imgur.com/Kf99eJt.jpeg"/>
 <meta name="description" content="TK Empire live grid bot portfolio. Real bots. Real results. Full transparency."/>
 <link rel="stylesheet" href="empire.css"/>
 <style>
@@ -406,9 +408,10 @@ async function fetchEthPrice(){
 
     // Update grid levels with live price
     buildGridLevels(ethPrice);
-
+    return ethPrice;
   } catch(e){
     document.getElementById('ethLivePrice').textContent = 'Loading...';
+    return 0;
   }
 }
 
@@ -580,8 +583,9 @@ function updateBotCard(bot){
   }
 }
 window.addEventListener('load', () => {
-  fetchEthPrice();
-  fetchPionexLive();
+  fetchEthPrice().then(() => {
+    fetchPionexLive();
+  });
   buildCycleBars();
   buildCycleLog();
   setInterval(fetchEthPrice, 30000);
