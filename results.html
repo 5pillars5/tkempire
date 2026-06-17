@@ -147,7 +147,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:32px 6%;display:f
     <a href="results.html" class="nav-active">Results</a>
     <a href="community.html">Community</a>
     <a href="recovery.html">Recovery</a>
-    <a href="/index.html#pricing" class="nav-cta">Join Imperians</a>
+    <a href="join.html" class="nav-cta">Join Imperians</a>
   </div>
 </nav>
 
@@ -161,12 +161,12 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:32px 6%;display:f
 
 <!-- STATS ROW -->
 <div class="stats-row">
-  <div class="stat-card"><div class="stat-card-num" style="color:var(--gold)">73%</div><div class="stat-card-label">Win Rate</div></div>
-  <div class="stat-card"><div class="stat-card-num" style="color:var(--green)">47</div><div class="stat-card-label">Total Wins</div></div>
-  <div class="stat-card"><div class="stat-card-num" style="color:var(--red)">17</div><div class="stat-card-label">Total Losses</div></div>
-  <div class="stat-card"><div class="stat-card-num" style="color:var(--text)">64</div><div class="stat-card-label">Total Signals</div></div>
-  <div class="stat-card"><div class="stat-card-num" style="color:var(--green)">+$4,847</div><div class="stat-card-label">Total P&L</div></div>
-  <div class="stat-card"><div class="stat-card-num" style="color:var(--purple-light)">3</div><div class="stat-card-label">Open Now</div></div>
+  <div class="stat-card"><div class="stat-card-num" id="statWR" style="color:var(--gold)">—</div><div class="stat-card-label">Win Rate</div></div>
+  <div class="stat-card"><div class="stat-card-num" id="statWins" style="color:var(--green)">—</div><div class="stat-card-label">Total Wins</div></div>
+  <div class="stat-card"><div class="stat-card-num" id="statLoss" style="color:var(--red)">—</div><div class="stat-card-label">Total Losses</div></div>
+  <div class="stat-card"><div class="stat-card-num" id="statTotal" style="color:var(--text)">—</div><div class="stat-card-label">Total Signals</div></div>
+  <div class="stat-card"><div class="stat-card-num" id="statPnl" style="color:var(--green)">—</div><div class="stat-card-label">Total P&L</div></div>
+  <div class="stat-card"><div class="stat-card-num" id="statOpen" style="color:var(--purple-light)">—</div><div class="stat-card-label">Open Now</div></div>
 </div>
 
 <!-- MONTHLY BAR CHART -->
@@ -268,28 +268,41 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:32px 6%;display:f
 </footer>
 
 <script>
-const SIGNALS = [
-  {date:'Jun 13',action:'BUY', pair:'BTC/USDT', reason:'Volume spike + breakout above weekly resistance',    entry:103200,  exit:null,     pnl:null,    pct:null,    result:'open'},
-  {date:'Jun 13',action:'BUY', pair:'ETH/USDT', reason:'EMA 9 × EMA 21 + RSI 31 oversold bounce',          entry:2341.20, exit:null,     pnl:null,    pct:null,    result:'open'},
-  {date:'Jun 13',action:'BUY', pair:'SOL/USDT', reason:'Hidden bullish divergence + accumulation pattern',   entry:147.80,  exit:null,     pnl:null,    pct:null,    result:'open'},
-  {date:'Jun 12',action:'SELL',pair:'XRP/USDT', reason:'RSI > 72 + bearish rejection at major resistance',  entry:2.18,    exit:2.09,     pnl:+144.0,  pct:+4.35,   result:'win'},
-  {date:'Jun 12',action:'BUY', pair:'BNB/USDT', reason:'Bounce off 4H support + volume confirmation',       entry:618.40,  exit:642.20,   pnl:+238.0,  pct:+3.85,   result:'win'},
-  {date:'Jun 11',action:'BUY', pair:'ETH/USDT', reason:'Double bottom pattern on 4H + RSI divergence',      entry:2280.00, exit:2397.50,  pnl:+587.5,  pct:+5.15,   result:'win'},
-  {date:'Jun 11',action:'SELL',pair:'BTC/USDT', reason:'Lower high formation + MACD bearish cross',         entry:105400,  exit:103200,   pnl:-220.0,  pct:-2.09,   result:'loss'},
-  {date:'Jun 10',action:'BUY', pair:'SOL/USDT', reason:'EMA cross + key support hold at $142',              entry:142.20,  exit:151.80,   pnl:+192.0,  pct:+6.75,   result:'win'},
-  {date:'Jun 10',action:'BUY', pair:'DOGE/USDT',reason:'Momentum play + social volume spike',               entry:0.182,   exit:0.174,    pnl:-80.0,   pct:-4.40,   result:'loss'},
-  {date:'Jun 09',action:'BUY', pair:'ETH/USDT', reason:'Oversold bounce off weekly support zone',           entry:2190.00, exit:2341.20,  pnl:+755.0,  pct:+6.90,   result:'win'},
-  {date:'Jun 09',action:'BUY', pair:'XRP/USDT', reason:'Breakout retest + volume confirmation',             entry:2.08,    exit:2.24,     pnl:+160.0,  pct:+7.69,   result:'win'},
-  {date:'Jun 08',action:'SELL',pair:'SOL/USDT', reason:'Upper range rejection + overbought RSI',            entry:158.40,  exit:151.20,   pnl:+144.0,  pct:+4.54,   result:'win'},
-  {date:'Jun 08',action:'BUY', pair:'BTC/USDT', reason:'Bull flag breakout on 1H timeframe',                entry:101800,  exit:98400,    pnl:-340.0,  pct:-3.34,   result:'loss'},
-  {date:'Jun 07',action:'BUY', pair:'ETH/USDT', reason:'MACD golden cross + RSI recovery from 28',         entry:2140.00, exit:2280.00,  pnl:+700.0,  pct:+6.54,   result:'win'},
-  {date:'Jun 07',action:'BUY', pair:'BNB/USDT', reason:'Accumulation zone + decreasing sell volume',        entry:598.20,  exit:618.40,   pnl:+202.0,  pct:+3.38,   result:'win'},
-  {date:'Jun 06',action:'SELL',pair:'XRP/USDT', reason:'Double top at $2.28 resistance + volume drop',      entry:2.26,    exit:2.14,     pnl:+120.0,  pct:+5.31,   result:'win'},
-  {date:'Jun 06',action:'BUY', pair:'DOGE/USDT',reason:'Whale wallet accumulation signal',                  entry:0.168,   exit:0.162,    pnl:-60.0,   pct:-3.57,   result:'loss'},
-  {date:'Jun 05',action:'BUY', pair:'ETH/USDT', reason:'Strong bounce at $2,100 weekly support',            entry:2102.00, exit:2240.00,  pnl:+690.0,  pct:+6.57,   result:'win'},
-  {date:'Jun 05',action:'BUY', pair:'SOL/USDT', reason:'RSI 26 — deeply oversold + support confluence',     entry:138.40,  exit:147.80,   pnl:+188.0,  pct:+6.79,   result:'win'},
-  {date:'Jun 04',action:'BUY', pair:'BTC/USDT', reason:'Institutional buy zone + funding rate negative',    entry:98200,   exit:103200,   pnl:+500.0,  pct:+5.09,   result:'win'},
-];
+// ── LIVE SIGNALS FROM GITHUB ──
+const SIGNALS_URL = 'https://raw.githubusercontent.com/5pillars5/tkempire/main/data/signals.json';
+let SIGNALS = [];
+
+async function loadSignals(){
+  try {
+    const r = await fetch(SIGNALS_URL + '?t=' + Date.now());
+    SIGNALS = await r.json();
+    applyFilters();
+    updateStats();
+    console.log(`Loaded ${SIGNALS.length} signals from GitHub`);
+  } catch(e){
+    console.log('Using cached signals:', e.message);
+    // Fallback to empty
+    SIGNALS = [];
+    applyFilters();
+  }
+}
+
+function updateStats(){
+  const wins   = SIGNALS.filter(s => s.result === 'win').length;
+  const losses = SIGNALS.filter(s => s.result === 'loss').length;
+  const open   = SIGNALS.filter(s => s.result === 'open').length;
+  const total  = wins + losses;
+  const wr     = total > 0 ? Math.round(wins/total*100) : 0;
+  const pnl    = SIGNALS.filter(s => s.pnl !== null).reduce((a,s) => a + (s.pnl||0), 0);
+
+  document.getElementById('statWR').textContent    = wr + '%';
+  document.getElementById('statWins').textContent  = wins;
+  document.getElementById('statLoss').textContent  = losses;
+  document.getElementById('statTotal').textContent = total + open;
+  document.getElementById('statPnl').textContent   = (pnl >= 0 ? '+$' : '-$') + Math.abs(pnl * 10).toFixed(0);
+  document.getElementById('statOpen').textContent  = open;
+}
+
 
 let currentFilter = 'all';
 let currentSearch = '';
@@ -297,18 +310,26 @@ let currentSearch = '';
 function renderTable(data){
   const body = document.getElementById('tableBody');
   if(!data.length){ body.innerHTML = '<div style="padding:30px;text-align:center;color:var(--muted);font-size:13px;">No signals match your filter.</div>'; return; }
-  body.innerHTML = data.map(s => `
+  body.innerHTML = data.map(s => {
+    const pnl = s.pnl || 0;
+    const isOpen = s.result === 'open';
+    const isWin = s.result === 'win';
+    const pnlColor = isOpen ? 'var(--gold)' : isWin ? 'var(--green)' : 'var(--red)';
+    const pnlText = isOpen ? 'Open ⚡' : (pnl >= 0 ? '+' : '') + pnl.toFixed(2) + '%';
+    const entry = s.entry || 0;
+    const exit = s.exit || null;
+    return `
     <div class="table-row">
       <div><span class="action-badge ${s.action==='BUY'?'buy-badge':'sell-badge'}">${s.action}</span></div>
-      <div class="pair-cell">${s.pair}</div>
+      <div class="pair-cell">${s.pair||s.coin+'/USDC'}</div>
       <div class="reason-cell" title="${s.reason}">${s.reason}</div>
-      <div class="price-cell">$${typeof s.entry==='number'&&s.entry>100?s.entry.toLocaleString():s.entry}</div>
-      <div class="price-cell">${s.exit?'$'+(typeof s.exit==='number'&&s.exit>100?s.exit.toLocaleString():s.exit):'—'}</div>
-      <div class="pnl-cell" style="color:${s.result==='open'?'var(--gold)':s.pnl>0?'var(--green)':'var(--red)'}">${s.result==='open'?'Open':s.pnl>0?'+$'+Math.abs(s.pnl).toFixed(0):'-$'+Math.abs(s.pnl).toFixed(0)}</div>
-      <div class="pct-cell" style="color:${s.result==='open'?'var(--gold)':s.pct>0?'var(--green)':'var(--red)'}">${s.result==='open'?'—':s.pct>0?'+'+s.pct.toFixed(2)+'%':s.pct.toFixed(2)+'%'}</div>
-      <div><span class="result-badge ${s.result==='win'?'win-badge':s.result==='loss'?'loss-badge':'open-badge'}">${s.result.toUpperCase()}</span></div>
-    </div>
-  `).join('');
+      <div class="price-cell">$${entry > 100 ? entry.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}) : entry}</div>
+      <div class="price-cell">${exit ? '$'+(exit > 100 ? exit.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}) : exit) : '—'}</div>
+      <div class="pnl-cell" style="color:${pnlColor}">${pnlText}</div>
+      <div class="pct-cell" style="color:var(--muted)">${s.date||''} ${s.time||''}</div>
+      <div><span class="result-badge ${isWin?'win-badge':isOpen?'open-badge':'loss-badge'}">${(s.result||'open').toUpperCase()}</span></div>
+    </div>`;
+  }).join('');
 }
 
 function filterResults(type, btn){
@@ -354,7 +375,11 @@ months.forEach(m=>{
   chart.appendChild(col);
 });
 
-renderTable(SIGNALS);
+// Load live signals from GitHub on page load
+window.addEventListener('load', () => {
+  loadSignals();
+  setInterval(loadSignals, 60000); // refresh every minute
+});
 </script>
 <script src="empire.js"></script>
 </body>
