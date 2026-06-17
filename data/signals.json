@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781691380,
+    "date": "Jun 17",
+    "time": "10:16",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "AVAX",
+    "pair": "AVAX/USDC",
+    "entry": 6.8285,
+    "target": 6.9651,
+    "stop": 6.7602,
+    "rsi": null,
+    "reason": "Bull Power \u00b7 Bullish momentum confirmed",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781687228,
     "date": "Jun 17",
     "time": "09:07",
