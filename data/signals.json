@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781686614,
+    "date": "Jun 17",
+    "time": "08:56",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "ADA",
+    "pair": "ADA/USDC",
+    "entry": 0.169475,
+    "target": 0.1729,
+    "stop": 0.1678,
+    "rsi": null,
+    "reason": "Bull Power \u00b7 Bullish momentum confirmed",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781684530,
     "date": "Jun 17",
     "time": "08:22",
