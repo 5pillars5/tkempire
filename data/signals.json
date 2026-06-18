@@ -306,10 +306,11 @@
     "stop": 0.0835,
     "confidence": 63,
     "reason": "SuperTrend BULL 4H \u00b7 \u26a0\ufe0f ADX 16 low \u2014 choppy \u00b7 RSI 43 bull momentum zone",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.08532,
+    "pnl": 1.17,
+    "result": "win",
+    "holdMins": 240
   },
   {
     "id": 1781757530,
