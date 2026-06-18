@@ -30,10 +30,11 @@
     "stop": 6.4383,
     "confidence": 78,
     "reason": "SuperTrend BULL 4H \u00b7 RSI 29 oversold bounce \u00b7 RSI Bullish Divergence \u2014 reversal signal",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 6.5422,
+    "pnl": -1.0,
+    "result": "loss",
+    "holdMins": 95
   },
   {
     "id": 1781794138,
