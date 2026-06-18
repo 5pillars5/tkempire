@@ -190,6 +190,7 @@ body.private-mode .view-private{display:block;}
   </div>
   <div class="nav-right">
     <div class="live-pill"><span class="live-dot"></span>LIVE</div>
+    <div id="modePill" style="display:flex;align-items:center;gap:5px;border-radius:20px;padding:4px 10px;font-size:10px;font-weight:700;background:#150a2a;border:1px solid #2a1a4a;color:#A78BFA;">⚙️ —</div>
     <div style="font-size:11px;color:var(--muted)" id="lastUpdated">Updating...</div>
   </div>
 </nav>
@@ -782,15 +783,44 @@ function setEl(id, val){
   if(el) el.textContent = val;
 }
 
+// ── MARKET MODE ──
+async function fetchMarketMode(){
+  try {
+    const r = await fetch('https://raw.githubusercontent.com/5pillars5/tkempire/main/stats.json?t='+Date.now());
+    const d = await r.json();
+    const mode = (d.market_mode||'bull').toUpperCase();
+    const pairs = d.pairs||20;
+    const el = document.getElementById('modePill');
+    if(el){
+      const color = mode==='BULL'?'#00e5a0':mode==='BEAR'?'#ff4b6e':'#F59E0B';
+      const emoji = mode==='BULL'?'📈':mode==='BEAR'?'📉':'↔️';
+      el.textContent = emoji+' '+mode+' MODE';
+      el.style.color = color;
+      el.style.borderColor = color+'66';
+    }
+    // Also update public stats
+    const s = d.stats||{};
+    const total = (s.wins||0)+(s.losses||0);
+    const wr = total>0?Math.round(s.wins/total*100):0;
+    setEl('pub-winrate', wr+'%');
+    setEl('pub-wr2', wr+'%');
+    setEl('pub-signals', (total+(d.stats?.signals||0)).toString());
+    setEl('pub-wins', (s.wins||0).toString());
+    setEl('pub-losses', (s.losses||0).toString());
+  } catch(e){}
+}
+
 // ── INIT ──
 window.addEventListener('load', () => {
   fetchPrices();
   fetchPortfolio();
   fetchSignals();
+  fetchMarketMode();
   buildEthMiniChart();
   setInterval(fetchPrices, 30000);
   setInterval(fetchPortfolio, 30000);
   setInterval(fetchSignals, 60000);
+  setInterval(fetchMarketMode, 60000);
 });
 </script>
 <!-- empire.js removed from dashboard to prevent canvas z-index conflicts -->
