@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781756449,
+    "date": "Jun 18",
+    "time": "04:20",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "SAND",
+    "pair": "SAND/USDC",
+    "entry": 0.051895,
+    "target": 0.0529,
+    "stop": 0.0514,
+    "confidence": 63,
+    "reason": "SuperTrend BULL 4H \u00b7 \u26a0\ufe0f ADX 14 low \u2014 choppy \u00b7 RSI 42 bull momentum zone",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781756447,
     "date": "Jun 18",
     "time": "04:20",
