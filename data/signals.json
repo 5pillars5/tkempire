@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781811856,
+    "date": "Jun 18",
+    "time": "19:44",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "APT",
+    "pair": "APT/USDC",
+    "entry": 0.6337,
+    "target": 0.6464,
+    "stop": 0.6274,
+    "confidence": 62,
+    "reason": "Oversold (below -80) Williams Percentage Range (14)\u00b7 momentum confirmed",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781809357,
     "date": "Jun 18",
     "time": "19:02",
@@ -1850,24 +1868,5 @@
     "pnl": -1.0,
     "result": "loss",
     "holdMins": 128
-  },
-  {
-    "id": 1781684530,
-    "date": "Jun 17",
-    "time": "08:22",
-    "mode": "\u26a1 SCALP",
-    "action": "BUY",
-    "coin": "ARB",
-    "pair": "ARB/USDC",
-    "entry": 0.08713,
-    "target": 0.0889,
-    "stop": 0.0863,
-    "rsi": null,
-    "reason": "Bull Power \u00b7 Bullish momentum confirmed",
-    "status": "closed",
-    "exit": 0.08618,
-    "pnl": -1.0,
-    "result": "loss",
-    "holdMins": 29
   }
 ]
