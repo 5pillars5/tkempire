@@ -30,10 +30,11 @@
     "stop": 0.6447,
     "confidence": 62,
     "reason": "Oversold (below -80) Williams Percentage Range (14)\u00b7 momentum confirmed",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.6446,
+    "pnl": -1.0,
+    "result": "loss",
+    "holdMins": 52
   },
   {
     "id": 1781779641,
