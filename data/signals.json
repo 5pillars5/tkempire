@@ -294,10 +294,11 @@
     "stop": 1722.402,
     "confidence": 66,
     "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 RSI 42 bull momentum zone",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 1696.55,
+    "pnl": -2.0,
+    "result": "loss",
+    "holdMins": 89
   },
   {
     "id": 1781791294,
