@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781757530,
+    "date": "Jun 18",
+    "time": "04:38",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "BCH",
+    "pair": "BCH/USDC",
+    "entry": 206.84,
+    "target": 210.9768,
+    "stop": 204.7716,
+    "confidence": 66,
+    "reason": "RSI 39 bull momentum zone \u00b7 RSI Bullish Divergence \u2014 reversal signal \u00b7 Price at key support $205.81",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781757093,
     "date": "Jun 18",
     "time": "04:31",
