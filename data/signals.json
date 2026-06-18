@@ -331,10 +331,11 @@
     "stop": 0.0982,
     "confidence": 78,
     "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 ADX 4H 45 bullish",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.098076,
+    "pnl": -2.0,
+    "result": "loss",
+    "holdMins": 102
   },
   {
     "id": 1781790419,
