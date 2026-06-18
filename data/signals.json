@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781757063,
+    "date": "Jun 18",
+    "time": "04:31",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "ETH",
+    "pair": "ETH/USDC",
+    "entry": 1733.4,
+    "target": 1768.068,
+    "stop": 1716.066,
+    "confidence": 63,
+    "reason": "SuperTrend BULL 4H \u00b7 RSI 43 bull momentum zone \u00b7 RSI Bullish Divergence \u2014 reversal signal",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781756925,
     "date": "Jun 18",
     "time": "04:28",
