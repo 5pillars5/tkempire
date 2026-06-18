@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781779345,
+    "date": "Jun 18",
+    "time": "10:42",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "BCH",
+    "pair": "BCH/USDC",
+    "entry": 208.26,
+    "target": 212.4252,
+    "stop": 206.1774,
+    "confidence": 61,
+    "reason": "SuperTrend BULL 4H \u00b7 RSI 38 bull momentum zone \u00b7 RSI Bullish Divergence \u2014 reversal signal",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781778758,
     "date": "Jun 18",
     "time": "10:32",
