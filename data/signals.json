@@ -360,10 +360,11 @@
     "stop": 0.9674,
     "confidence": 63,
     "reason": "SuperTrend BULL 4H \u00b7 RSI 23 oversold bounce \u00b7 Price at key support $0.98",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.97732,
+    "pnl": 0.01,
+    "result": "win",
+    "holdMins": 240
   },
   {
     "id": 1781779482,
