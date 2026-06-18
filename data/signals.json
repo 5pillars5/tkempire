@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781767021,
+    "date": "Jun 18",
+    "time": "07:17",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "ADA",
+    "pair": "ADA/USDC",
+    "entry": 0.16553,
+    "target": 0.1688,
+    "stop": 0.1639,
+    "confidence": 65,
+    "reason": "RSI 30 oversold bounce \u00b7 RSI Bullish Divergence \u2014 reversal signal \u00b7 Price at key support $0.17",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781766149,
     "date": "Jun 18",
     "time": "07:02",
