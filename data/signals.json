@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781804658,
+    "date": "Jun 18",
+    "time": "17:44",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "LDO",
+    "pair": "LDO/USDC",
+    "entry": 0.26846,
+    "target": 0.2738,
+    "stop": 0.2658,
+    "confidence": 65,
+    "reason": "SuperTrend BULL 4H \u00b7 \u26a0\ufe0f ADX 16 low \u2014 choppy \u00b7 RSI 41 bull momentum zone",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781802763,
     "date": "Jun 18",
     "time": "17:12",
@@ -1848,24 +1866,5 @@
     "pnl": 2.0,
     "result": "win",
     "holdMins": 203
-  },
-  {
-    "id": 1781677325,
-    "date": "Jun 17",
-    "time": "06:22",
-    "mode": "\u26a1 SCALP",
-    "action": "BUY",
-    "coin": "BCH",
-    "pair": "BCH/USDC",
-    "entry": 214.845,
-    "target": 219.1419,
-    "stop": 212.6966,
-    "rsi": null,
-    "reason": "Bull Power \u00b7 Bullish momentum confirmed",
-    "status": "closed",
-    "exit": 213.83,
-    "pnl": -0.47,
-    "result": "loss",
-    "holdMins": 240
   }
 ]
