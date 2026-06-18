@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781756433,
+    "date": "Jun 18",
+    "time": "04:20",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "AVAX",
+    "pair": "AVAX/USDC",
+    "entry": 6.6495,
+    "target": 6.7825,
+    "stop": 6.583,
+    "confidence": 68,
+    "reason": "SuperTrend BULL 4H \u00b7 RSI 38 bull momentum zone \u00b7 RSI Bullish Divergence \u2014 reversal signal",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781756253,
     "date": "Jun 18",
     "time": "04:17",
