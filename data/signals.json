@@ -103,10 +103,11 @@
     "stop": 0.7042,
     "confidence": 60,
     "reason": "RSI 23 oversold bounce \u00b7 RSI Bullish Divergence \u2014 reversal signal \u00b7 Price at BB lower band",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.72599,
+    "pnl": 2.0,
+    "result": "win",
+    "holdMins": 187
   },
   {
     "id": 1781802012,
