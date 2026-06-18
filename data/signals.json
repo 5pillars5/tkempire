@@ -67,10 +67,11 @@
     "stop": 0.9688,
     "confidence": 63,
     "reason": "SuperTrend BULL 4H \u00b7 RSI 32 bull momentum zone \u00b7 RSI Bullish Divergence \u2014 reversal signal",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.96682,
+    "pnl": -1.0,
+    "result": "loss",
+    "holdMins": 29
   },
   {
     "id": 1781793967,
