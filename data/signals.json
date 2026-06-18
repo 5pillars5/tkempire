@@ -48,10 +48,11 @@
     "stop": 0.3909,
     "confidence": 60,
     "reason": "SuperTrend BULL 4H \u00b7 \u26a0\ufe0f ADX 14 low \u2014 choppy \u00b7 ADX 4H 55 bullish",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.39016,
+    "pnl": -1.0,
+    "result": "loss",
+    "holdMins": 44
   },
   {
     "id": 1781814194,
