@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781756461,
+    "date": "Jun 18",
+    "time": "04:21",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "SOL",
+    "pair": "SOL/USDC",
+    "entry": 70.999,
+    "target": 72.419,
+    "stop": 70.289,
+    "confidence": 68,
+    "reason": "SuperTrend BULL 4H \u00b7 \u26a0\ufe0f ADX 19 low \u2014 choppy \u00b7 RSI 41 bull momentum zone",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781756453,
     "date": "Jun 18",
     "time": "04:20",
