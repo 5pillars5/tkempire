@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781756623,
+    "date": "Jun 18",
+    "time": "04:23",
+    "mode": "\ud83d\udcc8 SWING",
+    "action": "BUY",
+    "coin": "TRX",
+    "pair": "TRX/USDC",
+    "entry": 0.31985,
+    "target": 0.3326,
+    "stop": 0.3135,
+    "confidence": 91,
+    "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 EMA Ribbon bull stacked 4/5",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781756618,
     "date": "Jun 18",
     "time": "04:23",
