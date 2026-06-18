@@ -1,10 +1,10 @@
 {
-  "updated_at": "2026-06-18 10:54 UTC",
+  "updated_at": "2026-06-18 10:57 UTC",
   "stats": {
     "wins": 14,
     "losses": 15,
     "total_pnl": 6.776089163746909,
-    "signals": 40,
+    "signals": 41,
     "win_rate": 48.3
   },
   "market_mode": "bull",
