@@ -361,10 +361,11 @@
     "stop": 0.0839,
     "confidence": 63,
     "reason": "RSI 41 bull momentum zone \u00b7 RSI Bullish Divergence \u2014 reversal signal \u00b7 Price at key support $0.08",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.084992,
+    "pnl": 0.35,
+    "result": "win",
+    "holdMins": 240
   },
   {
     "id": 1781756634,
