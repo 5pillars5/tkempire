@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781764560,
+    "date": "Jun 18",
+    "time": "06:36",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "TIA",
+    "pair": "TIA/USDC",
+    "entry": 0.38761,
+    "target": 0.3954,
+    "stop": 0.3837,
+    "confidence": 67,
+    "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 \u26a0\ufe0f ADX 8 low \u2014 choppy",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781763814,
     "date": "Jun 18",
     "time": "06:23",
