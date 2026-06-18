@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781770840,
+    "date": "Jun 18",
+    "time": "08:20",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "LDO",
+    "pair": "LDO/USDC",
+    "entry": 0.28124,
+    "target": 0.2869,
+    "stop": 0.2784,
+    "confidence": 62,
+    "reason": "Low Valuation (Market Cap / TVL < 0.1x)\u00b7 momentum confirmed",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781769652,
     "date": "Jun 18",
     "time": "08:00",
