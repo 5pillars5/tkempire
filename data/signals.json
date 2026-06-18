@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781795760,
+    "date": "Jun 18",
+    "time": "15:16",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "OP",
+    "pair": "OP/USDC",
+    "entry": 0.1079,
+    "target": 0.1101,
+    "stop": 0.1068,
+    "confidence": 60,
+    "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 \u26a0\ufe0f ADX 17 low \u2014 choppy",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781795462,
     "date": "Jun 18",
     "time": "15:11",
