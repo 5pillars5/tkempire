@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781794138,
+    "date": "Jun 18",
+    "time": "14:48",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "DOT",
+    "pair": "DOT/USDC",
+    "entry": 0.97859,
+    "target": 0.9982,
+    "stop": 0.9688,
+    "confidence": 63,
+    "reason": "SuperTrend BULL 4H \u00b7 RSI 32 bull momentum zone \u00b7 RSI Bullish Divergence \u2014 reversal signal",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781793967,
     "date": "Jun 18",
     "time": "14:46",
