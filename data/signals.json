@@ -31,10 +31,11 @@
     "stop": 71.3057,
     "confidence": 62,
     "reason": "Revenue growth (1 month) above 10%\u00b7 momentum confirmed",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 71.2765,
+    "pnl": -1.0,
+    "result": "loss",
+    "holdMins": 63
   },
   {
     "id": 1781773316,
