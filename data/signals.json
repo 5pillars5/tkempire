@@ -30,11 +30,10 @@
     "stop": 0.0971,
     "confidence": 78,
     "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 \u26a0\ufe0f ADX 13 low \u2014 choppy",
-    "status": "closed",
-    "exit": 0.10159,
-    "pnl": 2.0,
-    "result": "win",
-    "holdMins": 60
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
   },
   {
     "id": 1781772724,
@@ -157,10 +156,11 @@
     "stop": 0.2784,
     "confidence": 62,
     "reason": "Low Valuation (Market Cap / TVL < 0.1x)\u00b7 momentum confirmed",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.28699,
+    "pnl": 2.0,
+    "result": "win",
+    "holdMins": 81
   },
   {
     "id": 1781769652,
