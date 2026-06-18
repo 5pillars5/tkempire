@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781792175,
+    "date": "Jun 18",
+    "time": "14:16",
+    "mode": "\ud83d\udcc8 SWING",
+    "action": "BUY",
+    "coin": "ETH",
+    "pair": "ETH/USDC",
+    "entry": 1732.6,
+    "target": 1801.904,
+    "stop": 1697.948,
+    "confidence": 76,
+    "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 RSI 37 bull momentum zone",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781791747,
     "date": "Jun 18",
     "time": "14:09",
