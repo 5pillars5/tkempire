@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781757818,
+    "date": "Jun 18",
+    "time": "04:43",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "ARB",
+    "pair": "ARB/USDC",
+    "entry": 0.08433,
+    "target": 0.086,
+    "stop": 0.0835,
+    "confidence": 63,
+    "reason": "SuperTrend BULL 4H \u00b7 \u26a0\ufe0f ADX 16 low \u2014 choppy \u00b7 RSI 43 bull momentum zone",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781757530,
     "date": "Jun 18",
     "time": "04:38",
