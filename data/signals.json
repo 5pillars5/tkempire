@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781756453,
+    "date": "Jun 18",
+    "time": "04:20",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "JUP",
+    "pair": "JUP/USDC",
+    "entry": 0.18399,
+    "target": 0.1877,
+    "stop": 0.1822,
+    "confidence": 71,
+    "reason": "SuperTrend BULL 4H \u00b7 RSI 38 bull momentum zone \u00b7 RSI Bullish Divergence \u2014 reversal signal",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781756449,
     "date": "Jun 18",
     "time": "04:20",
