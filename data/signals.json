@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781812297,
+    "date": "Jun 18",
+    "time": "19:51",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "ENS",
+    "pair": "ENS/USDC",
+    "entry": 5.3511,
+    "target": 5.4581,
+    "stop": 5.2976,
+    "confidence": 63,
+    "reason": "SuperTrend BULL 4H \u00b7 \u26a0\ufe0f ADX 10 low \u2014 choppy \u00b7 ADX 4H 40 bullish",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781811856,
     "date": "Jun 18",
     "time": "19:44",
@@ -1850,24 +1868,5 @@
     "exit": null,
     "pnl": null,
     "result": "open"
-  },
-  {
-    "id": 1781686614,
-    "date": "Jun 17",
-    "time": "08:56",
-    "mode": "\u26a1 SCALP",
-    "action": "BUY",
-    "coin": "ADA",
-    "pair": "ADA/USDC",
-    "entry": 0.169475,
-    "target": 0.1729,
-    "stop": 0.1678,
-    "rsi": null,
-    "reason": "Bull Power \u00b7 Bullish momentum confirmed",
-    "status": "closed",
-    "exit": 0.16772,
-    "pnl": -1.0,
-    "result": "loss",
-    "holdMins": 128
   }
 ]
