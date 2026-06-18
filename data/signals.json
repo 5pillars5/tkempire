@@ -215,10 +215,11 @@
     "stop": 0.0971,
     "confidence": 78,
     "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 \u26a0\ufe0f ADX 13 low \u2014 choppy",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.103095,
+    "pnl": 4.0,
+    "result": "win",
+    "holdMins": 220
   },
   {
     "id": 1781772724,
