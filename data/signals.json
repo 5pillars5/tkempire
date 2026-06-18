@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781800389,
+    "date": "Jun 18",
+    "time": "16:33",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "WLD",
+    "pair": "WLD/USDC",
+    "entry": 0.6073,
+    "target": 0.6194,
+    "stop": 0.6012,
+    "confidence": 65,
+    "reason": "SuperTrend BULL 4H \u00b7 \u26a0\ufe0f ADX 13 low \u2014 choppy \u00b7 RSI 29 oversold bounce",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781798601,
     "date": "Jun 18",
     "time": "16:03",
@@ -1850,24 +1868,5 @@
     "pnl": -2.0,
     "result": "loss",
     "holdMins": 137
-  },
-  {
-    "id": 1781671949,
-    "date": "Jun 17",
-    "time": "04:52",
-    "mode": "\ud83d\udcc8 SWING",
-    "action": "BUY",
-    "coin": "AVAX",
-    "pair": "AVAX/USDC",
-    "entry": 6.9573,
-    "target": 7.2356,
-    "stop": 6.8182,
-    "rsi": null,
-    "reason": "Oversold (below -80) Williams Percentage Range (14) \u00b7 Bullish momentum confirmed",
-    "status": "closed",
-    "exit": 6.8175,
-    "pnl": -2.0,
-    "result": "loss",
-    "holdMins": 225
   }
 ]
