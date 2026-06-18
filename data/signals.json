@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781778758,
+    "date": "Jun 18",
+    "time": "10:32",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "SOL",
+    "pair": "SOL/USDC",
+    "entry": 71.257,
+    "target": 72.6821,
+    "stop": 70.5444,
+    "confidence": 61,
+    "reason": "SuperTrend BULL 4H \u00b7 RSI 40 bull momentum zone \u00b7 RSI Bullish Divergence \u2014 reversal signal",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781777130,
     "date": "Jun 18",
     "time": "10:05",
