@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781786689,
+    "date": "Jun 18",
+    "time": "12:44",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "ALGO",
+    "pair": "ALGO/USDC",
+    "entry": 0.1032,
+    "target": 0.1053,
+    "stop": 0.1022,
+    "confidence": 73,
+    "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 \u26a0\ufe0f ADX 19 low \u2014 choppy",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781786258,
     "date": "Jun 18",
     "time": "12:37",
