@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781798601,
+    "date": "Jun 18",
+    "time": "16:03",
+    "mode": "\ud83d\udcc8 SWING",
+    "action": "BUY",
+    "coin": "ALGO",
+    "pair": "ALGO/USDC",
+    "entry": 0.098253,
+    "target": 0.1022,
+    "stop": 0.0963,
+    "confidence": 76,
+    "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 ADX 4H 44 bullish",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781798319,
     "date": "Jun 18",
     "time": "15:58",
@@ -1850,24 +1868,5 @@
     "pnl": -2.0,
     "result": "loss",
     "holdMins": 225
-  },
-  {
-    "id": 1781669728,
-    "date": "Jun 17",
-    "time": "04:15",
-    "mode": "\ud83d\udcc8 SWING",
-    "action": "BUY",
-    "coin": "APT",
-    "pair": "APT/USDC",
-    "entry": 0.6741,
-    "target": 0.7011,
-    "stop": 0.6606,
-    "rsi": null,
-    "reason": "Oversold (below -80) Williams Percentage Range (14) \u00b7 Bullish \u00b7 AltFINS",
-    "signal_key": "SIGNALS_SUMMARY_WILLIAMS",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
   }
 ]
