@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781796360,
+    "date": "Jun 18",
+    "time": "15:26",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "WIF",
+    "pair": "WIF/USDC",
+    "entry": 0.16373,
+    "target": 0.167,
+    "stop": 0.1621,
+    "confidence": 60,
+    "reason": "SuperTrend BULL 4H \u00b7 \u26a0\ufe0f ADX 13 low \u2014 choppy \u00b7 RSI 39 bull momentum zone",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781795760,
     "date": "Jun 18",
     "time": "15:16",
