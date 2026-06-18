@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781790419,
+    "date": "Jun 18",
+    "time": "13:46",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "TIA",
+    "pair": "TIA/USDC",
+    "entry": 0.38335,
+    "target": 0.391,
+    "stop": 0.3795,
+    "confidence": 60,
+    "reason": "SuperTrend BULL 4H \u00b7 \u26a0\ufe0f ADX 9 low \u2014 choppy \u00b7 RSI 38 bull momentum zone",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781790265,
     "date": "Jun 18",
     "time": "13:44",
