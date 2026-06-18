@@ -12,10 +12,11 @@
     "stop": 1.8256,
     "confidence": 68,
     "reason": "RSI 23 oversold bounce \u00b7 RSI Bullish Divergence \u2014 reversal signal \u00b7 Price at key support $1.84",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 1.8247,
+    "pnl": -1.0,
+    "result": "loss",
+    "holdMins": 1
   },
   {
     "id": 1781773626,
