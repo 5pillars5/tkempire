@@ -199,10 +199,11 @@
     "stop": 63186.75,
     "confidence": 66,
     "reason": "RSI 40 bull momentum zone \u00b7 RSI Bullish Divergence \u2014 reversal signal \u00b7 Price at key support $63,655.00",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 63183.5,
+    "pnl": -1.0,
+    "result": "loss",
+    "holdMins": 80
   },
   {
     "id": 1781791456,
