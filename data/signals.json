@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781780241,
+    "date": "Jun 18",
+    "time": "10:57",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "APT",
+    "pair": "APT/USDC",
+    "entry": 0.6512,
+    "target": 0.6642,
+    "stop": 0.6447,
+    "confidence": 62,
+    "reason": "Oversold (below -80) Williams Percentage Range (14)\u00b7 momentum confirmed",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781779641,
     "date": "Jun 18",
     "time": "10:47",
