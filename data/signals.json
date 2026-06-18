@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781757972,
+    "date": "Jun 18",
+    "time": "04:46",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "AAVE",
+    "pair": "AAVE/USDC",
+    "entry": 73.364,
+    "target": 74.8313,
+    "stop": 72.6304,
+    "confidence": 63,
+    "reason": "SuperTrend BULL 4H \u00b7 \u26a0\ufe0f ADX 15 low \u2014 choppy \u00b7 RSI 43 bull momentum zone",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781757818,
     "date": "Jun 18",
     "time": "04:43",
