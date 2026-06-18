@@ -12,10 +12,11 @@
     "stop": 0.1022,
     "confidence": 73,
     "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 \u26a0\ufe0f ADX 19 low \u2014 choppy",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.10193,
+    "pnl": -1.0,
+    "result": "loss",
+    "holdMins": 6
   },
   {
     "id": 1781786258,
