@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781795462,
+    "date": "Jun 18",
+    "time": "15:11",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "SNX",
+    "pair": "SNX/USDC",
+    "entry": 0.24651,
+    "target": 0.2514,
+    "stop": 0.244,
+    "confidence": 61,
+    "reason": "SuperTrend BULL 4H \u00b7 RSI 28 oversold bounce \u00b7 Price at key support $0.25",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781794431,
     "date": "Jun 18",
     "time": "14:53",
