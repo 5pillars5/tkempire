@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781779641,
+    "date": "Jun 18",
+    "time": "10:47",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "DOT",
+    "pair": "DOT/USDC",
+    "entry": 0.97719,
+    "target": 0.9967,
+    "stop": 0.9674,
+    "confidence": 63,
+    "reason": "SuperTrend BULL 4H \u00b7 RSI 23 oversold bounce \u00b7 Price at key support $0.98",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781779482,
     "date": "Jun 18",
     "time": "10:44",
