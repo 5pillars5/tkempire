@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781758858,
+    "date": "Jun 18",
+    "time": "05:00",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "IMX",
+    "pair": "IMX/USDC",
+    "entry": 0.14174,
+    "target": 0.1446,
+    "stop": 0.1403,
+    "confidence": 60,
+    "reason": "RSI 25 oversold bounce \u00b7 RSI Bullish Divergence \u2014 reversal signal \u00b7 Price at key support $0.14",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781758569,
     "date": "Jun 18",
     "time": "04:56",
