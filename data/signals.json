@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781791747,
+    "date": "Jun 18",
+    "time": "14:09",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "BTC",
+    "pair": "BTC/USDC",
+    "entry": 63825.0,
+    "target": 65101.5,
+    "stop": 63186.75,
+    "confidence": 66,
+    "reason": "RSI 40 bull momentum zone \u00b7 RSI Bullish Divergence \u2014 reversal signal \u00b7 Price at key support $63,655.00",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781791456,
     "date": "Jun 18",
     "time": "14:04",
