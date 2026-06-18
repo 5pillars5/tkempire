@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781756606,
+    "date": "Jun 18",
+    "time": "04:23",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "ALGO",
+    "pair": "ALGO/USDC",
+    "entry": 0.098133,
+    "target": 0.1001,
+    "stop": 0.0972,
+    "confidence": 71,
+    "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 ADX 4H 44 bullish",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781756483,
     "date": "Jun 18",
     "time": "04:21",
