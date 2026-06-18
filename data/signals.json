@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781794431,
+    "date": "Jun 18",
+    "time": "14:53",
+    "mode": "\ud83d\udcc8 SWING",
+    "action": "BUY",
+    "coin": "AVAX",
+    "pair": "AVAX/USDC",
+    "entry": 6.5697,
+    "target": 6.8325,
+    "stop": 6.4383,
+    "confidence": 78,
+    "reason": "SuperTrend BULL 4H \u00b7 RSI 29 oversold bounce \u00b7 RSI Bullish Divergence \u2014 reversal signal",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781794138,
     "date": "Jun 18",
     "time": "14:48",
