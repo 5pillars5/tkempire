@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781756627,
+    "date": "Jun 18",
+    "time": "04:23",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "LINK",
+    "pair": "LINK/USDC",
+    "entry": 7.9671,
+    "target": 8.1264,
+    "stop": 7.8874,
+    "confidence": 66,
+    "reason": "SuperTrend BULL 4H \u00b7 RSI 38 bull momentum zone \u00b7 RSI Bullish Divergence \u2014 reversal signal",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781756623,
     "date": "Jun 18",
     "time": "04:23",
