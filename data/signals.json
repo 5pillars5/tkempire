@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781781717,
+    "date": "Jun 18",
+    "time": "11:21",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "GRT",
+    "pair": "GRT/USDC",
+    "entry": 0.01925498,
+    "target": 0.0196,
+    "stop": 0.0191,
+    "confidence": 62,
+    "reason": "Oversold (below -80) Williams Percentage Range (14)\u00b7 momentum confirmed",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781780241,
     "date": "Jun 18",
     "time": "10:57",
