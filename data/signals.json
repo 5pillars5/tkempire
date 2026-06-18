@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781754476,
+    "date": "Jun 18",
+    "time": "03:47",
+    "mode": "\u26a1 SCALP",
+    "action": "SELL",
+    "coin": "DOGE",
+    "pair": "DOGE/USDC",
+    "entry": 0.08535,
+    "target": 0.0836,
+    "stop": 0.0862,
+    "confidence": 62,
+    "reason": "Downtrend and Fresh Bearish Momentum (declining MACD Histogram bars)\u00b7 momentum confirmed",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781691380,
     "date": "Jun 17",
     "time": "10:16",
