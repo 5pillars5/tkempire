@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781777130,
+    "date": "Jun 18",
+    "time": "10:05",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "ATOM",
+    "pair": "ATOM/USDC",
+    "entry": 1.844,
+    "target": 1.8809,
+    "stop": 1.8256,
+    "confidence": 68,
+    "reason": "RSI 23 oversold bounce \u00b7 RSI Bullish Divergence \u2014 reversal signal \u00b7 Price at key support $1.84",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781773626,
     "date": "Jun 18",
     "time": "09:07",
