@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781757093,
+    "date": "Jun 18",
+    "time": "04:31",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "INJ",
+    "pair": "INJ/USDC",
+    "entry": 5.2516,
+    "target": 5.3566,
+    "stop": 5.1991,
+    "confidence": 68,
+    "reason": "SuperTrend BULL 4H \u00b7 \u26a0\ufe0f ADX 11 low \u2014 choppy \u00b7 RSI 44 bull momentum zone",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781757072,
     "date": "Jun 18",
     "time": "04:31",
