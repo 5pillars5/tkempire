@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781791432,
+    "date": "Jun 18",
+    "time": "14:03",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "ETH",
+    "pair": "ETH/USDC",
+    "entry": 1739.8,
+    "target": 1774.596,
+    "stop": 1722.402,
+    "confidence": 66,
+    "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 RSI 42 bull momentum zone",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781791294,
     "date": "Jun 18",
     "time": "14:01",
