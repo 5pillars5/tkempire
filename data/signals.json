@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781802012,
+    "date": "Jun 18",
+    "time": "17:00",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "ALGO",
+    "pair": "ALGO/USDC",
+    "entry": 0.099398,
+    "target": 0.1014,
+    "stop": 0.0984,
+    "confidence": 66,
+    "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 ADX 4H 44 bullish",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781801285,
     "date": "Jun 18",
     "time": "16:48",
@@ -1850,23 +1868,5 @@
     "pnl": -2.0,
     "result": "loss",
     "holdMins": 155
-  },
-  {
-    "id": 1781673296,
-    "date": "Jun 17",
-    "time": "05:14",
-    "mode": "\ud83d\udcc8 SWING",
-    "action": "SELL",
-    "coin": "ATOM",
-    "pair": "ATOM/USDC",
-    "entry": 1.9979,
-    "target": 1.918,
-    "stop": 2.0379,
-    "rsi": null,
-    "reason": "Overbought Stochastic RSI Fast (3, 3, 14, 14) above 80 \u00b7 Bearish momentum confirmed",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
   }
 ]
