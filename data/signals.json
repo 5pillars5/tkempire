@@ -140,10 +140,11 @@
     "stop": 0.3663,
     "confidence": 70,
     "reason": "SuperTrend BULL 4H \u00b7 \u26a0\ufe0f ADX 10 low \u2014 choppy \u00b7 RSI 28 oversold bounce",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.37757,
+    "pnl": 2.0,
+    "result": "win",
+    "holdMins": 141
   },
   {
     "id": 1781797856,
