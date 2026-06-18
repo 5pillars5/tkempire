@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781756253,
+    "date": "Jun 18",
+    "time": "04:17",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "INJ",
+    "pair": "INJ/USDC",
+    "entry": 5.2743,
+    "target": 5.3798,
+    "stop": 5.2216,
+    "confidence": 60,
+    "reason": "SuperTrend BULL 4H \u00b7 \u26a0\ufe0f ADX 11 low \u2014 choppy \u00b7 RSI Bullish Divergence \u2014 reversal signal",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781756248,
     "date": "Jun 18",
     "time": "04:17",
