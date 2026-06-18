@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781793831,
+    "date": "Jun 18",
+    "time": "14:43",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "SUI",
+    "pair": "SUI/USDC",
+    "entry": 0.73936,
+    "target": 0.7541,
+    "stop": 0.732,
+    "confidence": 61,
+    "reason": "RSI 31 bull momentum zone \u00b7 RSI Bullish Divergence \u2014 reversal signal \u00b7 Price at key support $0.74",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781793230,
     "date": "Jun 18",
     "time": "14:33",
