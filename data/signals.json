@@ -48,10 +48,11 @@
     "stop": 0.1035,
     "confidence": 60,
     "reason": "SuperTrend BULL 4H \u00b7 RSI 30 oversold bounce \u00b7 Price at key support $0.10",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.10683,
+    "pnl": 2.0,
+    "result": "win",
+    "holdMins": 65
   },
   {
     "id": 1781765135,
