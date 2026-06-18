@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781791456,
+    "date": "Jun 18",
+    "time": "14:04",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "SEI",
+    "pair": "SEI/USDC",
+    "entry": 0.053997,
+    "target": 0.0551,
+    "stop": 0.0535,
+    "confidence": 60,
+    "reason": "SuperTrend BULL 4H \u00b7 \u26a0\ufe0f ADX 10 low \u2014 choppy \u00b7 RSI 42 bull momentum zone",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781791432,
     "date": "Jun 18",
     "time": "14:03",
