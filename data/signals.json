@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781759442,
+    "date": "Jun 18",
+    "time": "05:10",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "WLD",
+    "pair": "WLD/USDC",
+    "entry": 0.62504,
+    "target": 0.6375,
+    "stop": 0.6188,
+    "confidence": 68,
+    "reason": "SuperTrend BULL 4H \u00b7 \u26a0\ufe0f ADX 11 low \u2014 choppy \u00b7 RSI 34 bull momentum zone",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781759143,
     "date": "Jun 18",
     "time": "05:05",
