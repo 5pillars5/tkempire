@@ -127,7 +127,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:32px 6%;display:f
   .table-head div:nth-child(7),.table-row div:nth-child(7),
   .table-head div:nth-child(8),.table-row div:nth-child(8){display:none;}
   .bot-grid{grid-template-columns:1fr;}
-  nav .nav-links a:not(.nav-cta){display:none;}
+  nav .nav-links a:not(.nav-cta):not([href="dashboard.html"]){display:none;}
 }
 </style>
 <link rel="stylesheet" href="empire.css"/>
@@ -158,6 +158,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:32px 6%;display:f
 <div class="page-header">
   <div class="page-header-bg"></div>
   <div class="page-badge"><span class="live-dot"></span> LIVE RESULTS — UPDATED DAILY</div>
+  <div id="marketModeBadge" style="display:inline-flex;align-items:center;gap:6px;background:#150a2a;border:1px solid #2a1a4a;color:#A78BFA;font-size:10px;font-weight:700;letter-spacing:0.14em;padding:5px 16px;border-radius:20px;margin-left:10px;">⚙️ LOADING...</div>
   <h1>Empire Signals<br/>Performance Log</h1>
   <p>Every signal. Every result. Every loss shown. This is what real transparency looks like in the trading signal space.</p>
 </div>
@@ -247,6 +248,24 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:32px 6%;display:f
 // ── LIVE SIGNALS FROM GITHUB ──
 const SIGNALS_URL = 'https://raw.githubusercontent.com/5pillars5/tkempire/main/data/signals.json';
 let SIGNALS = [];
+
+async function fetchMarketMode(){
+  try {
+    const r = await fetch('https://raw.githubusercontent.com/5pillars5/tkempire/main/stats.json?t='+Date.now());
+    const d = await r.json();
+    const mode = (d.market_mode||'bull').toUpperCase();
+    const pairs = d.pairs || 20;
+    const minScore = d.min_score || 60;
+    const badge = document.getElementById('marketModeBadge');
+    if(badge){
+      const modeColor = mode==='BULL'?'var(--green)':mode==='BEAR'?'var(--red)':'var(--gold)';
+      const modeEmoji = mode==='BULL'?'📈':mode==='BEAR'?'📉':'↔️';
+      badge.innerHTML = `${modeEmoji} ${mode} MODE · ${pairs} PAIRS · MIN ${minScore}/100`;
+      badge.style.borderColor = modeColor;
+      badge.style.color = modeColor;
+    }
+  } catch(e){ console.log('Mode fetch error:',e); }
+}
 
 async function loadSignals(){
   try {
@@ -394,8 +413,10 @@ async function loadBotData(){
 window.addEventListener('load', () => {
   loadSignals();
   loadBotData();
+  fetchMarketMode();
   setInterval(loadSignals, 60000);
   setInterval(loadBotData, 30000);
+  setInterval(fetchMarketMode, 60000);
 });
 </script>
 <script src="empire.js"></script>
