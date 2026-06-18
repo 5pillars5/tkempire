@@ -1,5 +1,23 @@
 [
   {
+    "id": 1781785209,
+    "date": "Jun 18",
+    "time": "12:20",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "LDO",
+    "pair": "LDO/USDC",
+    "entry": 0.28285,
+    "target": 0.2885,
+    "stop": 0.28,
+    "confidence": 61,
+    "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 \u26a0\ufe0f ADX 12 low \u2014 choppy",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781784624,
     "date": "Jun 18",
     "time": "12:10",
