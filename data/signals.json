@@ -157,10 +157,11 @@
     "stop": 0.2232,
     "confidence": 62,
     "reason": "Total Value Locked (TVL) above $10M\u00b7 momentum confirmed",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.2232,
+    "pnl": -1.0,
+    "result": "loss",
+    "holdMins": 107
   },
   {
     "id": 1781770840,
