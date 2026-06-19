@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Research Signals | TK Empire</title>
+<link rel="icon" type="image/jpeg" href="https://i.imgur.com/Kf99eJt.jpeg"/>
+<meta name="description" content="Higher risk research signals for advanced traders. External technical analysis for informational purposes only."/>
+<link rel="stylesheet" href="empire.css"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --purple:#7C3AED;--purple-light:#A78BFA;--gold:#F59E0B;--gold-light:#FCD34D;
+  --dark:#06060f;--dark2:#0d0d1f;--dark3:#12122a;--dark4:#1a1a3a;
+  --text:#e2e2f0;--muted:#6B7280;--green:#00e5a0;--red:#ff4b6e;--orange:#f97316;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--dark);color:var(--text);font-family:'Inter',system-ui,sans-serif;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--dark);}
+::-webkit-scrollbar-thumb{background:var(--orange);border-radius:2px;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(6,6,15,0.95);backdrop-filter:blur(16px);border-bottom:1px solid #1a1a3a;padding:0 6%;display:flex;align-items:center;height:66px;gap:16px;}
+.nav-logo{display:flex;align-items:center;gap:10px;}
+.nav-logo img{width:40px;height:40px;border-radius:9px;object-fit:cover;border:1px solid #7c3aed55;}
+.nav-brand-name{font-size:14px;font-weight:800;letter-spacing:0.07em;color:#fff;}
+.nav-brand-tag{font-size:8px;color:var(--purple-light);letter-spacing:0.18em;margin-top:2px;}
+.nav-links{margin-left:auto;display:flex;gap:6px;align-items:center;}
+.nav-links a{font-size:12px;color:var(--muted);padding:6px 12px;border-radius:6px;transition:all 0.2s;}
+.nav-links a:hover{color:var(--text);background:#1a1a3a;}
+.nav-active{color:var(--text)!important;background:#1a1a3a!important;}
+.nav-cta{background:linear-gradient(135deg,var(--purple),#4f46e5)!important;color:#fff!important;font-weight:600!important;}
+@media(max-width:768px){
+  .nav-links a:not(.nav-cta):not([href="dashboard.html"]){display:none;}
+}
+
+/* RISK BANNER */
+.risk-banner{background:linear-gradient(135deg,#2a0a00,#1a0600);border-bottom:2px solid var(--orange);padding:12px 6%;display:flex;align-items:center;gap:12px;margin-top:66px;}
+.risk-banner-icon{font-size:20px;flex-shrink:0;}
+.risk-banner-text{font-size:12px;color:#fed7aa;line-height:1.6;}
+.risk-banner-text strong{color:var(--orange);}
+
+/* PAGE HEADER */
+.page-header{padding:48px 6% 40px;text-align:center;position:relative;overflow:hidden;}
+.page-header-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,#f9731614,transparent 60%);pointer-events:none;}
+.page-badge{background:#1a0800;border:1px solid var(--orange);color:var(--orange);font-size:10px;font-weight:700;letter-spacing:0.16em;padding:5px 16px;border-radius:20px;display:inline-flex;align-items:center;gap:6px;margin-bottom:16px;}
+.risk-dot{width:7px;height:7px;border-radius:50%;background:var(--orange);animation:blink 1.2s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.2;}}
+.page-header h1{font-size:clamp(28px,4vw,52px);font-weight:800;letter-spacing:-0.03em;margin-bottom:12px;}
+.page-header h1 span{background:linear-gradient(135deg,var(--orange),#fbbf24);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.page-header p{font-size:14px;color:var(--muted);max-width:560px;margin:0 auto;line-height:1.7;}
+
+/* DISCLAIMER BOX */
+.disclaimer{max-width:900px;margin:0 auto 32px;padding:0 6%;}
+.disclaimer-box{background:#0d0500;border:1px solid #f9731633;border-radius:12px;padding:20px 24px;}
+.disclaimer-title{font-size:11px;font-weight:700;color:var(--orange);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;}
+.disclaimer-text{font-size:12px;color:#9ca3af;line-height:1.8;}
+.disclaimer-text strong{color:#fed7aa;}
+
+/* STATS ROW */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:900px;margin:0 auto 32px;padding:0 6%;}
+.stat-card{background:var(--dark2);border:1px solid #1a1a3a;border-radius:10px;padding:16px;text-align:center;}
+.stat-card.orange{border-top:2px solid var(--orange);}
+.stat-card-num{font-size:24px;font-weight:800;letter-spacing:-0.02em;margin-bottom:3px;}
+.stat-card-label{font-size:9px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;}
+
+/* FILTERS */
+.filters{max-width:900px;margin:0 auto 20px;padding:0 6%;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.filter-btn{padding:6px 14px;border-radius:7px;border:1px solid #1a1a3a;background:var(--dark2);color:var(--muted);font-size:11px;cursor:pointer;transition:all 0.2s;}
+.filter-btn:hover,.filter-btn.active{border-color:var(--orange);color:var(--orange);background:#1a0800;}
+
+/* SIGNAL CARDS */
+.signals-wrap{max-width:900px;margin:0 auto;padding:0 6% 80px;}
+.signal-card{background:var(--dark2);border:1px solid #1a1a3a;border-radius:12px;padding:18px 20px;margin-bottom:10px;display:grid;grid-template-columns:80px 1fr auto;gap:16px;align-items:center;transition:border-color 0.2s;}
+.signal-card:hover{border-color:#2a2a4a;}
+.signal-card.buy{border-left:3px solid var(--green);}
+.signal-card.sell{border-left:3px solid var(--red);}
+.signal-left{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.action-badge{padding:4px 10px;border-radius:6px;font-size:10px;font-weight:800;letter-spacing:0.08em;}
+.badge-buy{background:#003a2a;color:var(--green);}
+.badge-sell{background:#3a0015;color:var(--red);}
+.risk-badge{background:#1a0800;color:var(--orange);font-size:8px;font-weight:700;letter-spacing:0.1em;padding:2px 6px;border-radius:4px;border:1px solid #f9731644;}
+.signal-middle{}
+.signal-pair{font-size:16px;font-weight:800;margin-bottom:3px;}
+.signal-reason{font-size:11px;color:var(--muted);margin-bottom:6px;line-height:1.5;}
+.signal-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.signal-tag{font-size:9px;color:#6b7280;background:#0d0d1f;border:1px solid #1a1a3a;padding:2px 7px;border-radius:4px;}
+.signal-right{text-align:right;}
+.signal-time{font-size:10px;color:var(--muted);margin-bottom:6px;}
+.signal-price{font-size:14px;font-weight:700;margin-bottom:4px;}
+.signal-direction{font-size:10px;color:var(--muted);}
+.signal-strength{display:flex;align-items:center;gap:4px;justify-content:flex-end;margin-top:6px;}
+.strength-bar{height:3px;border-radius:2px;background:#1a1a3a;overflow:hidden;width:60px;}
+.strength-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--orange),#fbbf24);}
+.strength-label{font-size:9px;color:var(--muted);}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted);}
+.empty-icon{font-size:48px;margin-bottom:16px;}
+.empty-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.empty-sub{font-size:13px;line-height:1.7;}
+
+/* LOADING */
+.loading{text-align:center;padding:40px;color:var(--muted);font-size:13px;}
+.spinner{display:inline-block;width:20px;height:20px;border:2px solid #1a1a3a;border-top-color:var(--orange);border-radius:50%;animation:spin 0.8s linear infinite;margin-right:8px;vertical-align:middle;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* RESEARCH NOTE */
+.research-note{max-width:900px;margin:24px auto 0;padding:0 6%;}
+.research-box{background:var(--dark2);border:1px solid #1a1a3a;border-radius:10px;padding:18px 20px;}
+.research-box h4{font-size:11px;font-weight:700;color:var(--purple-light);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;}
+.research-points{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.research-point{font-size:11px;color:var(--muted);padding-left:14px;position:relative;line-height:1.6;}
+.research-point::before{content:'→';position:absolute;left:0;color:var(--orange);}
+
+@media(max-width:700px){
+  .stats-row{grid-template-columns:repeat(2,1fr);}
+  .signal-card{grid-template-columns:60px 1fr;}
+  .signal-right{display:none;}
+  .research-points{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <img src="https://i.imgur.com/Kf99eJt.jpeg" alt="TK Empire"/>
+    <div>
+      <div class="nav-brand-name">TK EMPIRE</div>
+      <div class="nav-brand-tag">BUILT FOR LEGACY</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="results.html">Signals</a>
+    <a href="research.html" class="nav-active">Research</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="join.html" class="nav-cta">Join Imperians</a>
+  </div>
+</nav>
+
+<!-- RISK BANNER -->
+<div class="risk-banner">
+  <div class="risk-banner-icon">⚠️</div>
+  <div class="risk-banner-text">
+    <strong>Higher Risk Content.</strong> These are external technical analysis signals for research purposes only. 
+    They are <strong>not verified by the EAI engine</strong> and carry higher risk than signals on the main results page. 
+    Always conduct your own research. Never risk more than you can afford to lose.
+  </div>
+</div>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-bg"></div>
+  <div class="page-badge"><span class="risk-dot"></span>LIVE RESEARCH FEED</div>
+  <h1>Research <span>Signal Feed</span></h1>
+  <p>External technical analysis across 50+ crypto pairs. Higher frequency, higher risk. Use for research and market awareness — not blind execution.</p>
+</div>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer">
+  <div class="disclaimer-box">
+    <div class="disclaimer-title">⚠️ Important — Read Before Using</div>
+    <div class="disclaimer-text">
+      These signals are sourced from external technical analysis platforms and have <strong>not been filtered through the TK Empire EAI confidence engine.</strong>
+      Win rates on this feed may vary significantly. <strong>These are not financial advice.</strong>
+      The EAI-verified signals on the <a href="results.html" style="color:var(--purple-light);">main results page</a> carry higher conviction.
+      This page is for <strong>research, market awareness, and advanced traders</strong> who conduct their own due diligence.
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-row">
+  <div class="stat-card orange">
+    <div class="stat-card-num" id="r-total" style="color:var(--orange)">—</div>
+    <div class="stat-card-label">Signals Today</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-card-num" id="r-bull" style="color:var(--green)">—</div>
+    <div class="stat-card-label">Bullish</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-card-num" id="r-bear" style="color:var(--red)">—</div>
+    <div class="stat-card-label">Bearish</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-card-num" id="r-pairs" style="color:var(--purple-light)">50+</div>
+    <div class="stat-card-label">Pairs Scanned</div>
+  </div>
+</div>
+
+<!-- FILTERS -->
+<div class="filters">
+  <button class="filter-btn active" onclick="filterSignals('all',this)">All</button>
+  <button class="filter-btn" onclick="filterSignals('buy',this)">BUY Only</button>
+  <button class="filter-btn" onclick="filterSignals('sell',this)">SELL Only</button>
+  <button class="filter-btn" onclick="filterSignals('strong',this)">Strong Only</button>
+</div>
+
+<!-- RESEARCH NOTE -->
+<div class="research-note">
+  <div class="research-box">
+    <h4>How to use this feed</h4>
+    <div class="research-points">
+      <div class="research-point">Cross-reference with the main EAI signals page before acting</div>
+      <div class="research-point">Check the signal strength bar — higher = more indicator agreement</div>
+      <div class="research-point">Confirm on TradingView before any entry</div>
+      <div class="research-point">Never use these signals without your own analysis</div>
+      <div class="research-point">Risk max 1% per trade on research signals (half normal size)</div>
+      <div class="research-point">Strong signals only = filter for higher conviction setups</div>
+    </div>
+  </div>
+</div>
+
+<!-- SIGNALS -->
+<div class="signals-wrap">
+  <div id="signalList"><div class="loading"><span class="spinner"></span>Loading research feed...</div></div>
+</div>
+
+<script>
+const GH = 'https://raw.githubusercontent.com/5pillars5/tkempire/main';
+let allSignals = [];
+let activeFilter = 'all';
+
+// Signal name to strength mapping (0-100)
+const SIGNAL_STRENGTH = {
+  'SIGNALS_SUMMARY_STRONG_BUY': 85,
+  'SIGNALS_SUMMARY_STRONG_SELL': 85,
+  'EMA9_CROSSED_ABOVE_EMA21': 75,
+  'EMA9_CROSSED_BELOW_EMA21': 75,
+  'MACD_CROSSED_SIGNAL_BULLISH': 72,
+  'MACD_CROSSED_SIGNAL_BEARISH': 72,
+  'RSI_CROSSED_ABOVE_30': 70,
+  'RSI_CROSSED_BELOW_70': 70,
+  'SUPPORT_RESISTANCE_BREAKOUT': 80,
+  'SUPPORT_RESISTANCE_BREAKDOWN': 80,
+  'CHANNEL_BREAKOUT_UP': 78,
+  'CHANNEL_BREAKOUT_DOWN': 78,
+  'TRIANGLE_BREAKOUT': 76,
+  'WEDGE_BREAKOUT': 76,
+};
+
+async function fetchResearchSignals(){
+  try {
+    const [bull, bear] = await Promise.all([
+      fetch('https://api.altfins.com/api/v2/public/signals-feed/search-requests', {
+        method: 'POST',
+        headers: {'x-api-key': 'afns_sk_117303.l8KB7qjMo1XCk3dYudXXyTMricXDaG2RRGWZS9PpnBc', 'Content-Type': 'application/json'},
+        body: JSON.stringify({direction: 'BULLISH', limit: 50, sort: [{property: 'timestamp', direction: 'DESC'}]})
+      }).then(r => r.json()),
+      fetch('https://api.altfins.com/api/v2/public/signals-feed/search-requests', {
+        method: 'POST',
+        headers: {'x-api-key': 'afns_sk_117303.l8KB7qjMo1XCk3dYudXXyTMricXDaG2RRGWZS9PpnBc', 'Content-Type': 'application/json'},
+        body: JSON.stringify({direction: 'BEARISH', limit: 50, sort: [{property: 'timestamp', direction: 'DESC'}]})
+      }).then(r => r.json()),
+    ]);
+
+    const bullish = (bull.content || []).map(s => ({...s, direction: 'BULLISH'}));
+    const bearish = (bear.content || []).map(s => ({...s, direction: 'BEARISH'}));
+    allSignals = [...bullish, ...bearish].sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+    // Update stats
+    document.getElementById('r-total').textContent = allSignals.length;
+    document.getElementById('r-bull').textContent = bullish.length;
+    document.getElementById('r-bear').textContent = bearish.length;
+
+    renderSignals();
+  } catch(e) {
+    document.getElementById('signalList').innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">📡</div>
+        <div class="empty-title">Feed temporarily unavailable</div>
+        <div class="empty-sub">External research feed is updating.<br/>Check back in a few minutes.</div>
+      </div>`;
+  }
+}
+
+function filterSignals(type, btn){
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeFilter = type;
+  renderSignals();
+}
+
+function renderSignals(){
+  let filtered = [...allSignals];
+
+  if(activeFilter === 'buy')    filtered = filtered.filter(s => s.direction === 'BULLISH');
+  if(activeFilter === 'sell')   filtered = filtered.filter(s => s.direction === 'BEARISH');
+  if(activeFilter === 'strong') filtered = filtered.filter(s => (SIGNAL_STRENGTH[s.signalKey] || 60) >= 75);
+
+  if(!filtered.length){
+    document.getElementById('signalList').innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">🔍</div>
+        <div class="empty-title">No signals match this filter</div>
+        <div class="empty-sub">Try a different filter or check back soon.</div>
+      </div>`;
+    return;
+  }
+
+  document.getElementById('signalList').innerHTML = filtered.map(s => {
+    const isBull = s.direction === 'BULLISH';
+    const strength = SIGNAL_STRENGTH[s.signalKey] || 60;
+    const price = parseFloat(s.lastPrice?.replace(',','.') || 0);
+    const priceStr = price > 0 ? '$' + (price > 1000 ? price.toLocaleString('en-US',{maximumFractionDigits:2}) : price.toFixed(price < 0.01 ? 6 : 4)) : '—';
+    const ts = new Date(s.timestamp);
+    const timeStr = ts.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit'}) + ' · ' + ts.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+    const name = (s.signalName || '').replace(' · Bullish', '').replace(' · Bearish', '');
+
+    return `<div class="signal-card ${isBull?'buy':'sell'}">
+      <div class="signal-left">
+        <span class="action-badge ${isBull?'badge-buy':'badge-sell'}">${isBull?'BUY':'SELL'}</span>
+        <span class="risk-badge">HIGH RISK</span>
+      </div>
+      <div class="signal-middle">
+        <div class="signal-pair">${s.symbol || '—'}/USDT</div>
+        <div class="signal-reason">${name} · ${isBull?'Bullish':'Bearish'} signal confirmed</div>
+        <div class="signal-tags">
+          <span class="signal-tag">Research Only</span>
+          <span class="signal-tag">Verify Before Acting</span>
+          <span class="signal-tag">${s.interval || '1H'}</span>
+        </div>
+      </div>
+      <div class="signal-right">
+        <div class="signal-time">${timeStr}</div>
+        <div class="signal-price">${priceStr}</div>
+        <div class="signal-direction">${isBull?'↑ Bullish momentum':'↓ Bearish momentum'}</div>
+        <div class="signal-strength">
+          <span class="strength-label">${strength}%</span>
+          <div class="strength-bar"><div class="strength-fill" style="width:${strength}%"></div></div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// Load on page start
+fetchResearchSignals();
+setInterval(fetchResearchSignals, 120000); // refresh every 2 min
+</script>
+<script src="empire.js"></script>
+</body>
+</html>
