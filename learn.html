@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Learn Trading | TK Empire</title>
+<link rel="icon" type="image/jpeg" href="https://i.imgur.com/Kf99eJt.jpeg"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --purple:#7C3AED;--purple-light:#A78BFA;--gold:#F59E0B;--gold-light:#FCD34D;
+  --dark:#06060f;--dark2:#0d0d1f;--dark3:#12122a;--dark4:#1a1a3a;
+  --text:#e2e2f0;--muted:#6B7280;--green:#00e5a0;--red:#ff4b6e;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--dark);color:var(--text);font-family:'Inter',system-ui,sans-serif;line-height:1.7;}
+a{text-decoration:none;color:inherit;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--dark);}
+::-webkit-scrollbar-thumb{background:var(--purple);border-radius:2px;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(6,6,15,0.97);backdrop-filter:blur(16px);border-bottom:1px solid #1a1a3a;padding:0 6%;display:flex;align-items:center;height:66px;gap:16px;}
+.nav-logo{display:flex;align-items:center;gap:10px;}
+.nav-logo img{width:40px;height:40px;border-radius:9px;object-fit:cover;border:1px solid #7c3aed55;}
+.nav-brand-name{font-size:14px;font-weight:800;letter-spacing:0.07em;color:#fff;}
+.nav-brand-tag{font-size:8px;color:var(--purple-light);letter-spacing:0.18em;margin-top:2px;}
+.nav-links{margin-left:auto;display:flex;gap:6px;align-items:center;}
+.nav-links a{font-size:12px;color:var(--muted);padding:6px 12px;border-radius:6px;transition:all 0.2s;}
+.nav-links a:hover{color:var(--text);background:#1a1a3a;}
+.nav-active{color:var(--text)!important;background:#1a1a3a!important;}
+.nav-cta{background:linear-gradient(135deg,var(--purple),#4f46e5)!important;color:#fff!important;font-weight:600!important;}
+@media(max-width:768px){.nav-links a:not(.nav-cta):not([href="dashboard.html"]){display:none;}}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh;padding-top:66px;}
+
+/* SIDEBAR */
+.sidebar{position:sticky;top:66px;height:calc(100vh - 66px);overflow-y:auto;background:var(--dark2);border-right:1px solid #1a1a3a;padding:24px 0;}
+.sidebar-section{margin-bottom:24px;}
+.sidebar-title{font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);padding:0 20px;margin-bottom:10px;}
+.sidebar-link{display:block;padding:8px 20px;font-size:12px;color:var(--muted);cursor:pointer;transition:all 0.2s;border-left:2px solid transparent;}
+.sidebar-link:hover{color:var(--text);background:#12122a;border-left-color:var(--purple);}
+.sidebar-link.active{color:var(--purple-light);background:#150a2a;border-left-color:var(--purple);}
+
+/* CONTENT */
+.content{padding:48px 6% 80px;max-width:800px;}
+.chapter{margin-bottom:64px;scroll-margin-top:90px;}
+.chapter-eyebrow{font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--purple-light);margin-bottom:8px;}
+.chapter h2{font-size:clamp(24px,3vw,36px);font-weight:800;letter-spacing:-0.02em;margin-bottom:16px;line-height:1.2;}
+.chapter p{font-size:14px;color:#b0b0c8;margin-bottom:16px;line-height:1.8;}
+.chapter h3{font-size:18px;font-weight:700;margin:32px 0 12px;color:var(--text);}
+.chapter h4{font-size:14px;font-weight:700;margin:24px 0 8px;color:var(--gold);}
+
+/* CALLOUT BOXES */
+.callout{border-radius:10px;padding:16px 20px;margin:20px 0;font-size:13px;line-height:1.7;}
+.callout-key{background:#150a2a;border:1px solid #2a1a4a;border-left:3px solid var(--purple);}
+.callout-key .callout-label{font-size:9px;font-weight:700;letter-spacing:0.14em;color:var(--purple-light);margin-bottom:6px;}
+.callout-warning{background:#1a0800;border:1px solid #f9731633;border-left:3px solid #f97316;}
+.callout-warning .callout-label{font-size:9px;font-weight:700;letter-spacing:0.14em;color:#f97316;margin-bottom:6px;}
+.callout-truth{background:#001a0e;border:1px solid #00e5a033;border-left:3px solid var(--green);}
+.callout-truth .callout-label{font-size:9px;font-weight:700;letter-spacing:0.14em;color:var(--green);margin-bottom:6px;}
+
+/* FORMULA BOX */
+.formula{background:#080814;border:1px solid #1a1a3a;border-radius:8px;padding:14px 18px;font-family:monospace;font-size:13px;color:var(--green);margin:16px 0;}
+
+/* COMPARISON TABLE */
+.compare-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:13px;}
+.compare-table th{background:#0d0d1f;padding:10px 14px;text-align:left;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid #1a1a3a;}
+.compare-table td{padding:10px 14px;border-bottom:1px solid #0f0f1a;color:#b0b0c8;vertical-align:top;}
+.compare-table tr:hover td{background:#0a0a16;}
+
+/* CANDLE DIAGRAM */
+.candle-demo{display:flex;gap:24px;align-items:flex-end;background:#080814;border:1px solid #1a1a3a;border-radius:10px;padding:24px;margin:20px 0;justify-content:center;}
+.candle-wrap{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.candle-label{font-size:10px;color:var(--muted);text-align:center;}
+.candle{display:flex;flex-direction:column;align-items:center;gap:0;}
+.wick{width:2px;border-radius:1px;}
+.body{width:16px;border-radius:2px;}
+.wick-top{height:20px;}
+.wick-bot{height:12px;}
+
+/* INDICATOR VISUAL */
+.indicator-demo{background:#080814;border:1px solid #1a1a3a;border-radius:10px;padding:20px;margin:20px 0;}
+.indicator-demo-title{font-size:10px;font-weight:700;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;margin-bottom:12px;}
+
+/* RULE CARDS */
+.rules-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0;}
+.rule-card{background:var(--dark2);border:1px solid #1a1a3a;border-radius:10px;padding:18px;}
+.rule-num{font-size:24px;font-weight:800;color:var(--gold);margin-bottom:6px;}
+.rule-title{font-size:13px;font-weight:700;margin-bottom:6px;}
+.rule-desc{font-size:12px;color:var(--muted);line-height:1.6;}
+
+/* QUIZ */
+.quiz-card{background:var(--dark2);border:1px solid #1a1a3a;border-radius:10px;padding:20px;margin:20px 0;}
+.quiz-q{font-size:14px;font-weight:600;margin-bottom:14px;}
+.quiz-options{display:flex;flex-direction:column;gap:8px;}
+.quiz-opt{padding:10px 14px;border-radius:7px;border:1px solid #1a1a3a;background:var(--dark3);font-size:13px;cursor:pointer;transition:all 0.2s;color:var(--text);}
+.quiz-opt:hover{border-color:var(--purple);background:#150a2a;}
+.quiz-opt.correct{border-color:var(--green);background:#001a0e;color:var(--green);}
+.quiz-opt.wrong{border-color:var(--red);background:#1a0010;color:var(--red);}
+.quiz-feedback{margin-top:10px;font-size:12px;padding:10px;border-radius:6px;display:none;}
+
+/* PROGRESS */
+.progress-bar{background:#0d0d1f;border-radius:20px;height:6px;margin-bottom:32px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--purple),var(--gold));transition:width 0.5s;}
+.progress-label{font-size:10px;color:var(--muted);margin-bottom:6px;}
+
+@media(max-width:768px){
+  .layout{grid-template-columns:1fr;}
+  .sidebar{display:none;}
+  .rules-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <img src="https://i.imgur.com/Kf99eJt.jpeg" alt="TK Empire"/>
+    <div>
+      <div class="nav-brand-name">TK EMPIRE</div>
+      <div class="nav-brand-tag">BUILT FOR LEGACY</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="results.html">Signals</a>
+    <a href="research.html">Research</a>
+    <a href="learn.html" class="nav-active">Learn</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="join.html" class="nav-cta">Join Imperians</a>
+  </div>
+</nav>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-title">Foundations</div>
+    <a class="sidebar-link active" onclick="scrollTo('foundations')">What is Trading</a>
+    <a class="sidebar-link" onclick="scrollTo('candles')">Candlestick Charts</a>
+    <a class="sidebar-link" onclick="scrollTo('structure')">Market Structure</a>
+    <a class="sidebar-link" onclick="scrollTo('support')">Support & Resistance</a>
+    <a class="sidebar-link" onclick="scrollTo('volume')">Volume</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-title">Indicators</div>
+    <a class="sidebar-link" onclick="scrollTo('ema')">EMA & Moving Averages</a>
+    <a class="sidebar-link" onclick="scrollTo('rsi')">RSI</a>
+    <a class="sidebar-link" onclick="scrollTo('macd')">MACD</a>
+    <a class="sidebar-link" onclick="scrollTo('bb')">Bollinger Bands</a>
+    <a class="sidebar-link" onclick="scrollTo('adx')">ADX</a>
+    <a class="sidebar-link" onclick="scrollTo('supertrend')">SuperTrend</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-title">Risk Management</div>
+    <a class="sidebar-link" onclick="scrollTo('risk')">The 2% Rule</a>
+    <a class="sidebar-link" onclick="scrollTo('position')">Position Sizing</a>
+    <a class="sidebar-link" onclick="scrollTo('stoploss')">Stop Losses</a>
+    <a class="sidebar-link" onclick="scrollTo('rr')">Risk/Reward Ratio</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-title">Strategy</div>
+    <a class="sidebar-link" onclick="scrollTo('styles')">Trading Styles</a>
+    <a class="sidebar-link" onclick="scrollTo('gridbot')">How Grid Bots Work</a>
+    <a class="sidebar-link" onclick="scrollTo('timeframes')">Multi-Timeframe Analysis</a>
+    <a class="sidebar-link" onclick="scrollTo('confluence')">Signal Confluence</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-title">Psychology</div>
+    <a class="sidebar-link" onclick="scrollTo('psychology')">Trading Psychology</a>
+    <a class="sidebar-link" onclick="scrollTo('mistakes')">Common Mistakes</a>
+    <a class="sidebar-link" onclick="scrollTo('journal')">Trade Journaling</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-title">Crypto Specific</div>
+    <a class="sidebar-link" onclick="scrollTo('funding')">Funding Rates</a>
+    <a class="sidebar-link" onclick="scrollTo('liquidation')">Liquidation</a>
+    <a class="sidebar-link" onclick="scrollTo('feargreed')">Fear & Greed Index</a>
+    <a class="sidebar-link" onclick="scrollTo('onchain')">On-Chain Basics</a>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <div class="progress-label" id="progressLabel">0% complete</div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+  <!-- ══ FOUNDATIONS ══ -->
+  <div class="chapter" id="foundations">
+    <div class="chapter-eyebrow">Chapter 1 · Foundations</div>
+    <h2>What is Trading?</h2>
+    <p>Trading is the act of buying an asset at one price and selling it at a higher price — or selling it short at a high price and buying it back lower. The difference is your profit or loss.</p>
+    <p>In crypto, you are trading against other market participants — not a casino, not a random number generator. Every buyer has a seller on the other side. The question is always: who is right about where price is going?</p>
+
+    <div class="callout callout-warning">
+      <div class="callout-label">⚠️ The Honest Truth</div>
+      Most people who start trading lose money. Not because the markets are rigged — but because they trade without an edge, without risk management, and let emotions drive decisions. This library exists to help you understand what actually matters.
+    </div>
+
+    <h3>Spot vs Futures</h3>
+    <p><strong>Spot trading</strong> means you buy the actual asset. If you buy 1 ETH at $1,700 and it goes to $1,900 you made $200. You own the ETH.</p>
+    <p><strong>Futures trading</strong> means you trade a contract that tracks the price of an asset. You don't own the underlying asset. You can use leverage — meaning you control a larger position than your capital. This amplifies both gains and losses.</p>
+
+    <div class="callout callout-key">
+      <div class="callout-label">KEY CONCEPT</div>
+      10x leverage means a 10% move in your favor doubles your money. It also means a 10% move against you wipes it out completely. Leverage is a tool — not a cheat code.
+    </div>
+
+    <h3>What Moves Price?</h3>
+    <p>Price moves when there is an imbalance between buyers and sellers. More buyers than sellers — price goes up. More sellers than buyers — price goes down. Everything else — indicators, news, fundamentals — only matters because of how it influences that buying and selling pressure.</p>
+  </div>
+
+  <!-- ══ CANDLES ══ -->
+  <div class="chapter" id="candles">
+    <div class="chapter-eyebrow">Chapter 1 · Foundations</div>
+    <h2>Candlestick Charts</h2>
+    <p>Every candle on a chart represents a specific time period — 1 minute, 1 hour, 1 day. Each candle shows four pieces of information: the open price, the close price, the high, and the low.</p>
+
+    <div class="candle-demo">
+      <div class="candle-wrap">
+        <div class="candle-label">Bullish Candle<br/>(price went UP)</div>
+        <div class="candle">
+          <div class="wick wick-top" style="background:#00e5a0;height:24px;"></div>
+          <div class="body" style="height:48px;background:#00e5a0;"></div>
+          <div class="wick wick-bot" style="background:#00e5a0;height:10px;"></div>
+        </div>
+        <div style="font-size:10px;color:var(--muted);margin-top:8px;text-align:center;">Close > Open<br/>Green candle</div>
+      </div>
+      <div class="candle-wrap">
+        <div class="candle-label">Bearish Candle<br/>(price went DOWN)</div>
+        <div class="candle">
+          <div class="wick wick-top" style="background:#ff4b6e;height:16px;"></div>
+          <div class="body" style="height:48px;background:#ff4b6e;"></div>
+          <div class="wick wick-bot" style="background:#ff4b6e;height:20px;"></div>
+        </div>
+        <div style="font-size:10px;color:var(--muted);margin-top:8px;text-align:center;">Close < Open<br/>Red candle</div>
+      </div>
+      <div class="candle-wrap">
+        <div class="candle-label">Doji<br/>(indecision)</div>
+        <div class="candle">
+          <div class="wick wick-top" style="background:#6B7280;height:30px;"></div>
+          <div class="body" style="height:3px;background:#6B7280;width:18px;"></div>
+          <div class="wick wick-bot" style="background:#6B7280;height:30px;"></div>
+        </div>
+        <div style="font-size:10px;color:var(--muted);margin-top:8px;text-align:center;">Open ≈ Close<br/>No clear winner</div>
+      </div>
+    </div>
+
+    <h3>Key Candle Patterns</h3>
+
+    <h4>Hammer</h4>
+    <p>Small body at the top, long lower wick. Appears after a downtrend. Means sellers pushed price down hard but buyers fought back and closed near the open. Potential reversal signal.</p>
+
+    <h4>Engulfing Candle</h4>
+    <p>A large candle that completely covers the previous candle's body. A bullish engulfing after a downtrend signals buyers taking control. One of the most reliable single candlestick reversal signals.</p>
+
+    <h4>Shooting Star</h4>
+    <p>Small body at the bottom, long upper wick. Appears after an uptrend. Means buyers pushed price up but sellers rejected it hard. Potential reversal down.</p>
+
+    <div class="callout callout-key">
+      <div class="callout-label">KEY CONCEPT</div>
+      No single candle pattern is reliable on its own. Always confirm with other indicators and the overall trend. A hammer in a downtrend is interesting. A hammer at key support with RSI oversold and increasing volume is a real signal.
+    </div>
+  </div>
+
+  <!-- ══ MARKET STRUCTURE ══ -->
+  <div class="chapter" id="structure">
+    <div class="chapter-eyebrow">Chapter 1 · Foundations</div>
+    <h2>Market Structure</h2>
+    <p>Market structure is the pattern of highs and lows that price creates over time. Understanding it tells you whether you're in an uptrend, downtrend, or range — and that should determine every trade you take.</p>
+
+    <h3>Uptrend</h3>
+    <p>Price makes <strong>Higher Highs (HH)</strong> and <strong>Higher Lows (HL)</strong>. Each rally goes higher than the last. Each pullback stops above the previous pullback. In an uptrend — look for longs only. Trading short against an uptrend is swimming against the current.</p>
+
+    <h3>Downtrend</h3>
+    <p>Price makes <strong>Lower Highs (LH)</strong> and <strong>Lower Lows (LL)</strong>. Each bounce fails below the previous bounce. Each drop goes lower than the last. In a downtrend — look for shorts only or stay flat.</p>
+
+    <h3>Range / Sideways</h3>
+    <p>Price bounces between a defined high and a defined low without making new highs or lows. This is the most dangerous environment for trend-following strategies. The EAI engine specifically detects this and stops firing signals. Trading ranges requires a completely different approach — mean reversion — and is harder than it looks.</p>
+
+    <div class="callout callout-warning">
+      <div class="callout-label">⚠️ Common Mistake</div>
+      Most new traders try to pick tops and bottoms — calling reversals before they've confirmed. The market can stay trending far longer than you expect. Wait for structure to actually break before calling a reversal.
+    </div>
+  </div>
+
+  <!-- ══ SUPPORT RESISTANCE ══ -->
+  <div class="chapter" id="support">
+    <div class="chapter-eyebrow">Chapter 1 · Foundations</div>
+    <h2>Support & Resistance</h2>
+    <p>Support is a price level where buying pressure has historically been strong enough to stop price from falling further. Resistance is where selling pressure has historically stopped price from rising further.</p>
+
+    <h3>Why These Levels Matter</h3>
+    <p>Levels matter because of <strong>memory</strong>. Traders remember where price reversed before. When price returns to that level, the same battle between buyers and sellers tends to repeat — at least temporarily.</p>
+
+    <h3>How to Identify Them</h3>
+    <p>Look for price levels where price has reversed multiple times. The more times a level has been tested and held, the stronger it is. Round numbers ($60,000, $2,000) also act as support and resistance because humans cluster orders around them.</p>
+
+    <h3>Support Becomes Resistance</h3>
+    <p>When price breaks below a support level and then returns to that level from below — the old support often becomes new resistance. This is called a <strong>role reversal</strong> and it's one of the most reliable phenomena in technical analysis.</p>
+
+    <div class="callout callout-truth">
+      <div class="callout-label">✓ EMPIRE SIGNAL CONTEXT</div>
+      The EAI engine detects key support and resistance levels using pivot highs and lows. When price is sitting at identified support with other bullish indicators — it adds to the confidence score. Context always beats a single data point.
+    </div>
+  </div>
+
+  <!-- ══ VOLUME ══ -->
+  <div class="chapter" id="volume">
+    <div class="chapter-eyebrow">Chapter 1 · Foundations</div>
+    <h2>Volume</h2>
+    <p>Volume is the number of units traded in a given period. It tells you how much conviction is behind a price move. A price move on high volume is more significant than the same move on low volume.</p>
+
+    <h3>Volume Rules</h3>
+    <p><strong>Price up + volume up</strong> = strong bullish move. Real buyers stepping in.<br/>
+    <strong>Price up + volume down</strong> = weak rally. Suspect it.<br/>
+    <strong>Price down + volume up</strong> = strong bearish move. Real selling pressure.<br/>
+    <strong>Price down + volume down</strong> = weak selloff. Could be a pause before a bounce.</p>
+
+    <h3>Volume Spikes</h3>
+    <p>A sudden spike in volume — 1.5x or more above the 20-period average — often signals a significant market event. It can mark the start of a new trend or the exhaustion of an existing one. Context determines which.</p>
+  </div>
+
+  <!-- ══ EMA ══ -->
+  <div class="chapter" id="ema">
+    <div class="chapter-eyebrow">Chapter 2 · Indicators</div>
+    <h2>EMA & Moving Averages</h2>
+    <p>A Moving Average smooths out price action by calculating an average price over a set number of periods. This helps you see the trend more clearly by filtering out noise.</p>
+
+    <h3>SMA vs EMA</h3>
+    <p><strong>Simple Moving Average (SMA)</strong> gives equal weight to every period in the calculation.<br/>
+    <strong>Exponential Moving Average (EMA)</strong> gives more weight to recent prices — making it more responsive to new information.</p>
+    <p>For trading signals, EMA is generally preferred because it reacts faster to price changes.</p>
+
+    <h3>Key EMA Levels</h3>
+    <table class="compare-table">
+      <tr><th>EMA Period</th><th>What It Represents</th><th>Timeframe Use</th></tr>
+      <tr><td>EMA 9</td><td>Very short-term trend</td><td>Scalping, entries</td></tr>
+      <tr><td>EMA 21</td><td>Short-term trend</td><td>Scalp/swing entries</td></tr>
+      <tr><td>EMA 50</td><td>Medium-term trend</td><td>Swing confirmation</td></tr>
+      <tr><td>EMA 200</td><td>Long-term trend (master trend)</td><td>Bias determination</td></tr>
+    </table>
+
+    <h3>EMA Crossover</h3>
+    <p>When a faster EMA crosses above a slower EMA — bullish signal. When it crosses below — bearish signal. The most common is the <strong>9 × 21 crossover</strong> for short-term signals and the <strong>50 × 200 crossover</strong> (Golden Cross / Death Cross) for long-term trend changes.</p>
+
+    <h3>EMA Ribbon</h3>
+    <p>A ribbon uses multiple EMAs together (8, 13, 21, 34, 55). When they're all stacked in order — fast above slow — it confirms a strong trend. When they're tangled or crossing each other — the market is choppy. The EAI engine uses this ribbon as one of its 15 scoring layers.</p>
+
+    <div class="callout callout-key">
+      <div class="callout-label">KEY CONCEPT</div>
+      Price above EMA 200 = long-term bull trend. Never fight this. On the 4H chart, if price is above EMA 200, only look for longs. The EAI engine penalizes SELL signals when the 4H master trend is bullish for exactly this reason.
+    </div>
+  </div>
+
+  <!-- ══ RSI ══ -->
+  <div class="chapter" id="rsi">
+    <div class="chapter-eyebrow">Chapter 2 · Indicators</div>
+    <h2>RSI — Relative Strength Index</h2>
+    <p>RSI measures the speed and magnitude of recent price changes to evaluate overbought or oversold conditions. It outputs a number between 0 and 100.</p>
+
+    <div class="formula">RSI = 100 - [100 / (1 + (Average Gain / Average Loss))]</div>
+
+    <h3>Standard Levels</h3>
+    <p><strong>RSI above 70</strong> = overbought. Price has moved up fast. Doesn't mean sell immediately — in strong trends RSI can stay above 70 for extended periods. But it warns you the move may be extended.<br/>
+    <strong>RSI below 30</strong> = oversold. Price has moved down fast. Potential bounce zone — especially at key support.</p>
+
+    <h3>RSI Divergence — The Most Powerful Use</h3>
+    <p>Divergence occurs when price and RSI disagree with each other. This is one of the highest-value signals in technical analysis.</p>
+
+    <h4>Regular Bullish Divergence</h4>
+    <p>Price makes a <strong>lower low</strong> but RSI makes a <strong>higher low</strong>. Sellers are losing strength. Price is likely to reverse up. Strong reversal signal.</p>
+
+    <h4>Regular Bearish Divergence</h4>
+    <p>Price makes a <strong>higher high</strong> but RSI makes a <strong>lower high</strong>. Buyers are losing momentum. Price is likely to reverse down.</p>
+
+    <h4>Hidden Bullish Divergence</h4>
+    <p>Price makes a <strong>higher low</strong> but RSI makes a <strong>lower low</strong>. This is a trend <strong>continuation</strong> signal — the pullback is over and the uptrend is resuming. Use this to add to long positions on dips.</p>
+
+    <div class="callout callout-warning">
+      <div class="callout-label">⚠️ Common Mistake</div>
+      RSI divergence on 1-minute or 5-minute charts is unreliable. Market makers can manipulate short-term price enough to create false divergences within minutes. The EAI engine only calculates RSI divergence on 1H candles for this reason. 4H and Daily are the most reliable timeframes.
+    </div>
+  </div>
+
+  <!-- ══ MACD ══ -->
+  <div class="chapter" id="macd">
+    <div class="chapter-eyebrow">Chapter 2 · Indicators</div>
+    <h2>MACD</h2>
+    <p>MACD stands for Moving Average Convergence Divergence. It measures the relationship between two EMAs and shows momentum shifts and trend direction.</p>
+
+    <h3>Components</h3>
+    <p><strong>MACD Line</strong> = EMA 12 minus EMA 26. When positive, short-term momentum is above long-term — bullish. When negative — bearish.<br/>
+    <strong>Signal Line</strong> = EMA 9 of the MACD line. Acts as a trigger.<br/>
+    <strong>Histogram</strong> = MACD Line minus Signal Line. Shows whether momentum is increasing or decreasing.</p>
+
+    <h3>Golden Cross / Death Cross</h3>
+    <p><strong>MACD crosses above the Signal Line</strong> = Golden Cross. Bullish momentum confirmed.<br/>
+    <strong>MACD crosses below the Signal Line</strong> = Death Cross. Bearish momentum confirmed.<br/>
+    These crossovers are especially significant when they happen below zero (for bullish) or above zero (for bearish).</p>
+
+    <h3>Histogram Analysis</h3>
+    <p>The histogram shrinking tells you momentum is fading even if price is still moving in the same direction. A shrinking histogram after a strong move can warn of a reversal before the MACD crossover actually happens.</p>
+  </div>
+
+  <!-- ══ BOLLINGER BANDS ══ -->
+  <div class="chapter" id="bb">
+    <div class="chapter-eyebrow">Chapter 2 · Indicators</div>
+    <h2>Bollinger Bands</h2>
+    <p>Bollinger Bands consist of a middle band (20-period SMA) and two outer bands set 2 standard deviations above and below. They measure volatility — when the bands are wide, volatility is high. When they're narrow, volatility is low.</p>
+
+    <h3>The Squeeze</h3>
+    <p>When the bands narrow significantly — called a squeeze — it signals that a big move is coming. The bands can't stay narrow forever. The direction of the breakout from a squeeze often defines the next significant trend.</p>
+
+    <h3>Band Touches</h3>
+    <p>Price touching the lower band in an uptrend is often a buying opportunity. Price touching the upper band in a downtrend is often a selling opportunity. In a strong trend, price can walk along the upper or lower band for extended periods.</p>
+
+    <div class="callout callout-key">
+      <div class="callout-label">KEY CONCEPT</div>
+      Bollinger Bands tell you about volatility — not direction. A touch of the lower band doesn't mean buy automatically. It means volatility is extended. You still need other signals to confirm direction.
+    </div>
+  </div>
+
+  <!-- ══ ADX ══ -->
+  <div class="chapter" id="adx">
+    <div class="chapter-eyebrow">Chapter 2 · Indicators</div>
+    <h2>ADX — Average Directional Index</h2>
+    <p>ADX measures <strong>trend strength</strong> — not direction. A high ADX means a strong trend. A low ADX means a weak or sideways market. This is critical for knowing whether your trend-following signals are likely to work.</p>
+
+    <h3>ADX Levels</h3>
+    <table class="compare-table">
+      <tr><th>ADX Value</th><th>Market Condition</th><th>Strategy</th></tr>
+      <tr><td>0 - 20</td><td>No trend / ranging</td><td>Avoid trend-following. Wait.</td></tr>
+      <tr><td>20 - 25</td><td>Weak trend forming</td><td>Cautious entries only</td></tr>
+      <tr><td>25 - 50</td><td>Strong trend</td><td>Trend-following strategies work well</td></tr>
+      <tr><td>50+</td><td>Very strong trend</td><td>Trend is mature — watch for exhaustion</td></tr>
+    </table>
+
+    <h3>DI+ and DI-</h3>
+    <p>ADX comes with two directional indicators. <strong>DI+</strong> measures upward movement. <strong>DI-</strong> measures downward movement. When DI+ is above DI- and ADX is above 25 — strong bullish trend. The opposite means strong bearish trend.</p>
+
+    <div class="callout callout-truth">
+      <div class="callout-label">✓ EMPIRE SIGNAL CONTEXT</div>
+      The EAI engine penalizes all scores by 40% when ADX is below 20. This single filter prevents a large number of false signals from firing in choppy sideways markets — which is where most traders lose money.
+    </div>
+  </div>
+
+  <!-- ══ SUPERTREND ══ -->
+  <div class="chapter" id="supertrend">
+    <div class="chapter-eyebrow">Chapter 2 · Indicators</div>
+    <h2>SuperTrend</h2>
+    <p>SuperTrend is an indicator that uses ATR (Average True Range) to plot a trailing line above or below price. When price is above the line — bullish. When price is below — bearish. It flips when price closes on the other side.</p>
+
+    <h3>How It's Calculated</h3>
+    <p>SuperTrend = Midpoint of the candle ± (ATR multiplier × ATR). The default settings are a multiplier of 3 and ATR period of 10. The EAI engine checks SuperTrend on both the 1H and 4H charts — requiring both to agree before giving full score.</p>
+
+    <h3>Why It Works</h3>
+    <p>SuperTrend adapts to volatility. In volatile markets the bands widen — reducing false flips. In calm markets they tighten. This self-adjustment makes it more reliable than a fixed moving average for trend detection.</p>
+  </div>
+
+  <!-- ══ RISK MANAGEMENT ══ -->
+  <div class="chapter" id="risk">
+    <div class="chapter-eyebrow">Chapter 3 · Risk Management</div>
+    <h2>The 2% Rule</h2>
+    <p>Never risk more than 2% of your total trading capital on a single trade. This is not a suggestion. It is the foundation of every sustainable trading career.</p>
+
+    <h3>Why 2%?</h3>
+    <p>With 2% risk per trade, you can lose 10 consecutive trades and still have 80% of your capital. You can recover. You can keep trading. With 10% risk per trade, 10 losses in a row means you're down 65% — and at that point recovery requires a 186% gain just to break even.</p>
+
+    <div class="formula">
+      $1,000 account × 2% = $20 max risk per trade
+      $5,000 account × 2% = $100 max risk per trade
+      $10,000 account × 2% = $200 max risk per trade
+    </div>
+
+    <div class="callout callout-warning">
+      <div class="callout-label">⚠️ Research Signals — 1% Rule</div>
+      For higher-risk research signals, cut position size in half. Risk max 1% per trade. These signals have not been through the EAI confidence filter. Treat them accordingly.
+    </div>
+  </div>
+
+  <!-- ══ POSITION SIZING ══ -->
+  <div class="chapter" id="position">
+    <div class="chapter-eyebrow">Chapter 3 · Risk Management</div>
+    <h2>Position Sizing</h2>
+    <p>Position sizing answers the question: how much do I buy? The answer is always determined by your stop loss distance and your maximum risk amount — never by how confident you feel.</p>
+
+    <h3>The Formula</h3>
+    <div class="formula">
+Position Size = Account Risk $ ÷ Stop Loss Distance $
+
+Example:
+Account: $5,000
+Max Risk: 2% = $100
+Entry: $1,800 (ETH)
+Stop Loss: $1,764 (2% below entry)
+Stop Distance: $36
+
+Position Size = $100 ÷ $36 = 2.78 ETH worth of exposure
+    </div>
+
+    <p>This formula ensures that if your stop loss hits, you lose exactly 2% — no more. It removes emotion from the sizing decision entirely.</p>
+  </div>
+
+  <!-- ══ STOP LOSSES ══ -->
+  <div class="chapter" id="stoploss">
+    <div class="chapter-eyebrow">Chapter 3 · Risk Management</div>
+    <h2>Stop Losses</h2>
+    <p>A stop loss is an automatic exit order placed below your entry (for longs) that closes your position if price falls to that level. It is not optional. Trading without stop losses is how accounts get wiped.</p>
+
+    <h3>Where to Place Them</h3>
+    <p>Stop losses should be placed at a level that <strong>invalidates your trade thesis</strong> — not at an arbitrary percentage. If you bought because price bounced off support at $1,750, your stop loss goes below that support — because if it breaks, your reason for the trade is wrong.</p>
+
+    <h3>ATR-Based Stops</h3>
+    <p>The EAI engine uses ATR (Average True Range) to set dynamic stop losses. ATR measures how much an asset typically moves in a given period. Setting a stop at 2× ATR below entry means price has to move significantly further than its normal range before you're stopped out — reducing false stop-outs from normal volatility.</p>
+
+    <h3>Moving Your Stop to Breakeven</h3>
+    <p>Once a trade reaches your first take profit target — move your stop loss to your entry price. Now the trade is risk-free. The worst that can happen is you break even. This is a core part of the EAI trade management system.</p>
+  </div>
+
+  <!-- ══ RISK REWARD ══ -->
+  <div class="chapter" id="rr">
+    <div class="chapter-eyebrow">Chapter 3 · Risk Management</div>
+    <h2>Risk/Reward Ratio</h2>
+    <p>Risk/reward ratio compares how much you stand to lose if wrong versus how much you gain if right. A 1:2 ratio means you risk $1 to make $2. This is the minimum acceptable ratio for most professional traders.</p>
+
+    <h3>Why It Changes Everything</h3>
+    <p>With a 1:2 risk/reward ratio, you only need to be right <strong>34% of the time</strong> to be profitable. Think about that. You can lose twice as many trades as you win and still make money — as long as your winners are twice the size of your losers.</p>
+
+    <table class="compare-table">
+      <tr><th>R/R Ratio</th><th>Win Rate Needed to Break Even</th></tr>
+      <tr><td>1:1</td><td>50%</td></tr>
+      <tr><td>1:2</td><td>34%</td></tr>
+      <tr><td>1:3</td><td>25%</td></tr>
+      <tr><td>1:4</td><td>20%</td></tr>
+    </table>
+
+    <div class="callout callout-key">
+      <div class="callout-label">KEY CONCEPT</div>
+      Win rate alone means nothing without context. A 40% win rate with 1:3 R/R is more profitable than a 60% win rate with 1:1 R/R. Focus on the math — not on being right.
+    </div>
+  </div>
+
+  <!-- ══ TRADING STYLES ══ -->
+  <div class="chapter" id="styles">
+    <div class="chapter-eyebrow">Chapter 4 · Strategy</div>
+    <h2>Trading Styles</h2>
+
+    <table class="compare-table">
+      <tr><th>Style</th><th>Hold Time</th><th>Signals/Day</th><th>Best For</th></tr>
+      <tr><td>Scalping</td><td>Minutes to hours</td><td>Many</td><td>High attention, fast decisions</td></tr>
+      <tr><td>Day Trading</td><td>Hours</td><td>1-5</td><td>Active traders, no overnight risk</td></tr>
+      <tr><td>Swing Trading</td><td>Days to weeks</td><td>1-3/week</td><td>Part-time traders, patience</td></tr>
+      <tr><td>Position Trading</td><td>Weeks to months</td><td>Rare</td><td>Long-term conviction, less stress</td></tr>
+    </table>
+
+    <div class="callout callout-warning">
+      <div class="callout-label">⚠️ Honest Assessment</div>
+      Scalping is the hardest style for most people. It requires fast execution, emotional discipline under pressure, and deep knowledge of market microstructure. Most retail traders who try scalping lose to professionals with faster systems and better information. Swing trading has a more favorable edge for most people.
+    </div>
+  </div>
+
+  <!-- ══ GRID BOT ══ -->
+  <div class="chapter" id="gridbot">
+    <div class="chapter-eyebrow">Chapter 4 · Strategy</div>
+    <h2>How Grid Bots Work</h2>
+    <p>A grid bot places buy orders at regular intervals below the current price and sell orders above it — creating a grid of orders. When price moves down it buys. When price moves back up it sells. Every completed cycle generates profit.</p>
+
+    <h3>The Mechanics</h3>
+    <p>Imagine ETH at $1,800. You set a grid with 60 levels between $1,650 and $1,900. The bot places buy orders every ~$4 below the price and sell orders every ~$4 above. As price bounces within this range the bot executes buy-sell cycles continuously, collecting the spread on each cycle.</p>
+
+    <h3>When Grid Bots Work Best</h3>
+    <p>Grid bots thrive in <strong>sideways or oscillating markets</strong>. The more cycles the price completes within the range, the more profit. They struggle in strongly trending markets — if price trends strongly outside the grid range, the bot can suffer losses on the open position.</p>
+
+    <h3>Leverage in Grid Bots</h3>
+    <p>Adding leverage multiplies both profits and risks. The TK Empire grid bot runs at 15x leverage on ETH. This means a $402 capital base controls $6,000+ worth of ETH. The grid profit percentage is multiplied by 15 — but so is the distance to liquidation risk.</p>
+
+    <div class="callout callout-truth">
+      <div class="callout-label">✓ LIVE EXAMPLE</div>
+      The TK Empire ETH grid bot has run 600+ cycles on $402 capital, generating $57+ in grid profit. That's 14%+ return in under 3 days. The key is the range held — ETH stayed within the $1,650-$1,889 grid. If ETH drops below $1,529 (the liquidation price), the position closes at a loss.
+    </div>
+  </div>
+
+  <!-- ══ MULTI-TIMEFRAME ══ -->
+  <div class="chapter" id="timeframes">
+    <div class="chapter-eyebrow">Chapter 4 · Strategy</div>
+    <h2>Multi-Timeframe Analysis</h2>
+    <p>Professional traders never look at just one timeframe. They use multiple timeframes to get a complete picture of what's happening — from the big trend down to the entry timing.</p>
+
+    <h3>The Three-Timeframe Approach</h3>
+    <p><strong>Higher timeframe (Daily/4H)</strong> — Determine the overall trend and bias. Is the market bullish or bearish? Only trade in this direction.<br/>
+    <strong>Middle timeframe (1H)</strong> — Find the setup. Look for the pattern, the indicator signal, the entry zone.<br/>
+    <strong>Lower timeframe (15M)</strong> — Time the entry precisely. Wait for confirmation on the smaller timeframe before entering.</p>
+
+    <div class="callout callout-key">
+      <div class="callout-label">KEY CONCEPT</div>
+      If the daily trend is bearish, don't take bullish signals on the 1H chart. You're fighting the bigger trend. The EAI engine enforces this by penalizing signals that go against the 4H master trend by 50%.
+    </div>
+  </div>
+
+  <!-- ══ CONFLUENCE ══ -->
+  <div class="chapter" id="confluence">
+    <div class="chapter-eyebrow">Chapter 4 · Strategy</div>
+    <h2>Signal Confluence</h2>
+    <p>Confluence means multiple independent signals pointing to the same conclusion at the same time. A single indicator saying buy is interesting. Five independent indicators all saying buy simultaneously is a high-conviction signal.</p>
+
+    <h3>Example of Strong Confluence</h3>
+    <p>Price at key support level (S/R) + RSI oversold below 30 + EMA 9 crossing above EMA 21 + MACD bullish crossover + Volume spike + SuperTrend bullish = every major layer is aligned. This is the kind of setup the EAI engine is built to identify.</p>
+
+    <p>The opposite of confluence is noise — a single indicator flashing while everything else is flat or contradicting it. Those signals have low probability.</p>
+  </div>
+
+  <!-- ══ PSYCHOLOGY ══ -->
+  <div class="chapter" id="psychology">
+    <div class="chapter-eyebrow">Chapter 5 · Psychology</div>
+    <h2>Trading Psychology</h2>
+    <p>Technical knowledge is probably 30% of trading success. The other 70% is psychology — how you handle winning streaks, losing streaks, fear, greed, and the constant uncertainty of the markets.</p>
+
+    <h3>Fear and Greed</h3>
+    <p><strong>Fear</strong> causes you to exit winning trades too early, miss entries because you're waiting for perfect confirmation, and close positions at the first sign of trouble.<br/>
+    <strong>Greed</strong> causes you to hold losers too long hoping they recover, take on too much size, and add to losing positions.</p>
+
+    <p>The antidote to both is a written trading plan with predetermined entries, exits, and position sizes. When the plan is set before you're in a trade — emotions have less power over decisions.</p>
+
+    <h3>The Psychological Cycle of Markets</h3>
+    <p>Markets move in cycles of sentiment. At the bottom of a move — maximum fear, best buying opportunity. At the top — maximum greed, best selling opportunity. The Fear & Greed Index measures this. Extreme fear has historically been one of the best times to buy crypto assets long-term.</p>
+  </div>
+
+  <!-- ══ COMMON MISTAKES ══ -->
+  <div class="chapter" id="mistakes">
+    <div class="chapter-eyebrow">Chapter 5 · Psychology</div>
+    <h2>Common Mistakes</h2>
+
+    <div class="rules-grid">
+      <div class="rule-card">
+        <div class="rule-num">01</div>
+        <div class="rule-title">Revenge Trading</div>
+        <div class="rule-desc">Taking impulsive trades after a loss to make it back immediately. Leads to larger losses. The market doesn't owe you a recovery.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">02</div>
+        <div class="rule-title">Moving Stop Losses</div>
+        <div class="rule-desc">Widening your stop loss when price approaches it. You set it for a reason. Moving it just delays taking a small loss and turns it into a large one.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">03</div>
+        <div class="rule-title">Overtrading</div>
+        <div class="rule-desc">Taking every signal, every day, at all hours. Most of the time there is no edge. The best traders sit in cash most of the time and only act when the setup is clear.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">04</div>
+        <div class="rule-title">Too Much Leverage</div>
+        <div class="rule-desc">High leverage amplifies losses as much as gains. A 5% move against a 20x leveraged position wipes 100% of your capital. Start with low or no leverage.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">05</div>
+        <div class="rule-title">FOMO Entries</div>
+        <div class="rule-desc">Buying after a large move because you fear missing more upside. You're buying someone else's profit. Wait for a pullback and a proper setup.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">06</div>
+        <div class="rule-title">No Trading Plan</div>
+        <div class="rule-desc">Entering trades without knowing in advance where you'll exit if right or wrong. Without a plan, every decision is made in the heat of the moment — the worst time to decide.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ JOURNALING ══ -->
+  <div class="chapter" id="journal">
+    <div class="chapter-eyebrow">Chapter 5 · Psychology</div>
+    <h2>Trade Journaling</h2>
+    <p>A trade journal is a record of every trade you take — entry, exit, reason, result, and how you felt during the trade. It is one of the most powerful tools for improving as a trader and almost nobody does it consistently.</p>
+
+    <h3>What to Record</h3>
+    <p>Date and time · Asset and pair · Entry price · Stop loss · Take profit targets · Position size · Reason for entry (what was the setup?) · Result · What you learned</p>
+
+    <h3>Why It Works</h3>
+    <p>Patterns become visible over time. You might discover you consistently lose on trades taken after 9pm. Or that your MACD crossover setups have a 65% win rate but you're not taking them because you're too busy chasing other signals. The journal shows you the truth about your own trading.</p>
+  </div>
+
+  <!-- ══ FUNDING RATES ══ -->
+  <div class="chapter" id="funding">
+    <div class="chapter-eyebrow">Chapter 6 · Crypto Specific</div>
+    <h2>Funding Rates</h2>
+    <p>In perpetual futures markets, funding rates are periodic payments between long and short traders. They exist to keep the futures price in line with the spot price.</p>
+
+    <h3>How It Works</h3>
+    <p><strong>Positive funding rate</strong> means longs pay shorts. This happens when the futures price is above spot — more people are long than short, creating excess demand. When funding is very positive (above 0.1%), it signals crowded longs — a warning that a long squeeze may be coming.<br/>
+    <strong>Negative funding rate</strong> means shorts pay longs. Signals excessive short positioning — potential short squeeze.</p>
+
+    <div class="callout callout-truth">
+      <div class="callout-label">✓ EMPIRE SIGNAL CONTEXT</div>
+      Extreme positive funding is a red flag for long signals. The EAI engine penalizes BUY signals when funding is above 0.1% because history shows crowded long positioning often precedes sharp corrections as over-leveraged traders get liquidated.
+    </div>
+  </div>
+
+  <!-- ══ LIQUIDATION ══ -->
+  <div class="chapter" id="liquidation">
+    <div class="chapter-eyebrow">Chapter 6 · Crypto Specific</div>
+    <h2>Liquidation</h2>
+    <p>When you trade with leverage, your exchange requires you to maintain a minimum margin balance. If your losses eat into that balance enough, the exchange automatically closes your position — this is liquidation. You lose your entire margin for that position.</p>
+
+    <h3>How to Calculate Liquidation Price</h3>
+    <div class="formula">
+Long liquidation ≈ Entry Price × (1 - 1/Leverage + Maintenance Margin %)
+
+Example: ETH at $1,800, 15x leverage
+Liquidation ≈ $1,800 × (1 - 1/15) = $1,800 × 0.933 = ~$1,680
+    </div>
+
+    <h3>How to Avoid It</h3>
+    <p>Add extra margin to your position — this pushes the liquidation price further away. Use lower leverage. Set stop losses well above your liquidation price. Never add to a losing leveraged position without understanding exactly where liquidation sits.</p>
+
+    <div class="callout callout-warning">
+      <div class="callout-label">⚠️ Critical Warning</div>
+      Liquidation in crypto can happen very fast during high-volatility events. A 5% flash crash can liquidate 20x leveraged positions in seconds. Always know your liquidation price before entering a leveraged trade.
+    </div>
+  </div>
+
+  <!-- ══ FEAR GREED ══ -->
+  <div class="chapter" id="feargreed">
+    <div class="chapter-eyebrow">Chapter 6 · Crypto Specific</div>
+    <h2>Fear & Greed Index</h2>
+    <p>The Crypto Fear & Greed Index (alternative.me) measures overall market sentiment on a scale of 0-100. It combines volatility, market momentum, social media sentiment, surveys, Bitcoin dominance, and Google Trends data.</p>
+
+    <table class="compare-table">
+      <tr><th>Score</th><th>Classification</th><th>Historical Signal</th></tr>
+      <tr><td>0 - 24</td><td>Extreme Fear</td><td>Historically strong long-term buy zone</td></tr>
+      <tr><td>25 - 44</td><td>Fear</td><td>Cautious buying opportunity</td></tr>
+      <tr><td>45 - 55</td><td>Neutral</td><td>No strong bias</td></tr>
+      <tr><td>56 - 74</td><td>Greed</td><td>Be cautious on new longs</td></tr>
+      <tr><td>75 - 100</td><td>Extreme Greed</td><td>Historically poor entry for longs</td></tr>
+    </table>
+
+    <p>Warren Buffett's principle applies directly to crypto: <em>"Be fearful when others are greedy. Be greedy when others are fearful."</em> The index quantifies what that looks like in real time.</p>
+  </div>
+
+  <!-- ══ ON-CHAIN ══ -->
+  <div class="chapter" id="onchain">
+    <div class="chapter-eyebrow">Chapter 6 · Crypto Specific</div>
+    <h2>On-Chain Basics</h2>
+    <p>Unlike traditional markets, cryptocurrency transactions are publicly recorded on the blockchain. This means you can see where large amounts of crypto are moving — information that sophisticated traders use to anticipate price movements.</p>
+
+    <h3>Exchange Flows</h3>
+    <p><strong>Large inflows to exchanges</strong> (wallets moving crypto to Binance, Coinbase etc) often precede selling — people send to exchanges to sell. Bearish signal.<br/>
+    <strong>Large outflows from exchanges</strong> suggest people are moving crypto to cold storage — holding long term. Bullish signal.</p>
+
+    <h3>Whale Wallets</h3>
+    <p>Wallets holding large amounts of crypto are tracked publicly. When multiple large wallets start accumulating a coin simultaneously it can precede significant price moves. On-chain analytics platforms like Glassnode and Nansen specialize in this data.</p>
+
+    <div class="callout callout-key">
+      <div class="callout-label">KEY CONCEPT</div>
+      On-chain data tells you what is actually happening on the blockchain — not what people say is happening. It's one layer of information that pure technical analysis misses. The EAI engine currently uses funding rates and order book data as real-time derivatives of this. Full on-chain integration is a future development.
+    </div>
+  </div>
+
+  <!-- DISCLAIMER -->
+  <div style="background:#0d0d1f;border:1px solid #1a1a3a;border-radius:10px;padding:20px;margin-top:40px;">
+    <div style="font-size:9px;font-weight:700;letter-spacing:0.14em;color:#6B7280;text-transform:uppercase;margin-bottom:8px;">Educational Disclaimer</div>
+    <div style="font-size:11px;color:#6B7280;line-height:1.8;">
+      All content on this page is for educational purposes only. Nothing here constitutes financial advice or a recommendation to buy or sell any asset.
+      Trading involves significant risk of loss. Past performance does not guarantee future results.
+      Always conduct your own research and consult a qualified financial advisor before making investment decisions.
+      TK Empire signals are educational analysis tools — not personalized financial advice.
+    </div>
+  </div>
+
+</div><!-- /content -->
+</div><!-- /layout -->
+
+<script>
+// Sidebar active state on scroll
+function scrollTo(id){
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
+}
+
+// Progress tracking
+const chapters = document.querySelectorAll('.chapter');
+const totalChapters = chapters.length;
+let viewed = new Set();
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      viewed.add(e.target.id);
+      const pct = Math.round(viewed.size / totalChapters * 100);
+      document.getElementById('progressFill').style.width = pct + '%';
+      document.getElementById('progressLabel').textContent = pct + '% complete';
+
+      // Update sidebar
+      document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`.sidebar-link[onclick="scrollTo('${e.target.id}')"]`);
+      if(active) active.classList.add('active');
+    }
+  });
+}, {threshold: 0.3});
+
+chapters.forEach(c => observer.observe(c));
+</script>
+<script src="empire.js"></script>
+</body>
+</html>
