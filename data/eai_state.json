@@ -26,6 +26,11 @@
       "wins": 1,
       "losses": 0,
       "streak": 1
+    },
+    "APT": {
+      "wins": 0,
+      "losses": 1,
+      "streak": -1
     }
   },
   "hour_memory": {
@@ -36,11 +41,15 @@
     "14": {
       "wins": 1,
       "losses": 0
+    },
+    "22": {
+      "wins": 0,
+      "losses": 1
     }
   },
   "wins": 2,
-  "losses": 0,
-  "total_pnl": 1.157326469111889,
+  "losses": 1,
+  "total_pnl": -0.8909428227267935,
   "signals": 3,
-  "updated": "2026-06-20 14:46 UTC"
+  "updated": "2026-06-20 22:14 UTC"
 }
