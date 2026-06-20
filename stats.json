@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-06-20 22:13 UTC",
+  "updated_at": "2026-06-20 22:14 UTC",
   "market_mode": "sideways",
   "pairs": 15,
   "min_score": 30,
   "stats": {
     "wins": 2,
-    "losses": 0,
-    "total_pnl": 1.16,
+    "losses": 1,
+    "total_pnl": -0.89,
     "signals": 3,
-    "win_rate": 100.0
+    "win_rate": 66.7
   }
 }
