@@ -1,5 +1,24 @@
 [
   {
+    "id": 1781931620,
+    "date": "Jun 20",
+    "time": "05:00",
+    "action": "SELL",
+    "coin": "AVAX",
+    "pair": "AVAX/USDC",
+    "entry": 5.9785,
+    "tp1": 5.8253,
+    "tp2": 5.672,
+    "stop": 6.1828,
+    "confidence": 59,
+    "reason": "SuperTrend BEAR 1H \u00b7 SuperTrend BEAR 4H \u00b7 ADX 50 DI- dominant",
+    "regime": "bear",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781820320,
     "date": "Jun 18",
     "time": "22:05",
