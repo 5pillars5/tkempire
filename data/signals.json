@@ -34,10 +34,12 @@
     "confidence": 55,
     "reason": "SuperTrend BEAR 1H \u00b7 SuperTrend BEAR 4H \u00b7 EMA Ribbon bear 5/5",
     "regime": "bear",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.6427,
+    "pnl": -2.05,
+    "result": "loss",
+    "holdMins": 1033,
+    "tp_hit": 0
   },
   {
     "id": 1781931620,
