@@ -1,5 +1,24 @@
 [
   {
+    "id": 1781931621,
+    "date": "Jun 20",
+    "time": "05:00",
+    "action": "SELL",
+    "coin": "APT",
+    "pair": "APT/USDC",
+    "entry": 0.6298,
+    "tp1": 0.6202,
+    "tp2": 0.6105,
+    "stop": 0.6427,
+    "confidence": 55,
+    "reason": "SuperTrend BEAR 1H \u00b7 SuperTrend BEAR 4H \u00b7 EMA Ribbon bear 5/5",
+    "regime": "bear",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1781931620,
     "date": "Jun 20",
     "time": "05:00",
