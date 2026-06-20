@@ -1,0 +1,37 @@
+{
+  "weights": {
+    "supertrend_1h": 1.0,
+    "supertrend_4h": 1.0,
+    "adx": 1.0,
+    "ema_ribbon": 1.0,
+    "ema_cross": 1.0,
+    "ema_4h_master": 1.0,
+    "rsi": 1.0,
+    "rsi_divergence": 1.0,
+    "macd": 1.0,
+    "bb_sr": 1.0,
+    "volume": 1.0,
+    "fear_greed": 1.0,
+    "funding": 1.0,
+    "order_book": 1.0,
+    "altfins": 1.0
+  },
+  "coin_memory": {
+    "AVAX": {
+      "wins": 1,
+      "losses": 0,
+      "streak": 1
+    }
+  },
+  "hour_memory": {
+    "7": {
+      "wins": 1,
+      "losses": 0
+    }
+  },
+  "wins": 1,
+  "losses": 0,
+  "total_pnl": 0.6055030526051687,
+  "signals": 3,
+  "updated": "2026-06-20 07:11 UTC"
+}
