@@ -21,17 +21,26 @@
       "wins": 1,
       "losses": 0,
       "streak": 1
+    },
+    "ARB": {
+      "wins": 1,
+      "losses": 0,
+      "streak": 1
     }
   },
   "hour_memory": {
     "7": {
       "wins": 1,
       "losses": 0
+    },
+    "14": {
+      "wins": 1,
+      "losses": 0
     }
   },
-  "wins": 1,
+  "wins": 2,
   "losses": 0,
-  "total_pnl": 0.6055030526051687,
+  "total_pnl": 1.157326469111889,
   "signals": 3,
-  "updated": "2026-06-20 07:11 UTC"
+  "updated": "2026-06-20 14:46 UTC"
 }
