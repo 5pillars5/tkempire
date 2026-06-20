@@ -51,10 +51,12 @@
     "confidence": 59,
     "reason": "SuperTrend BEAR 1H \u00b7 SuperTrend BEAR 4H \u00b7 ADX 50 DI- dominant",
     "regime": "bear",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 6.0147,
+    "pnl": -0.61,
+    "result": "win",
+    "holdMins": 130,
+    "tp_hit": 1
   },
   {
     "id": 1781820320,
