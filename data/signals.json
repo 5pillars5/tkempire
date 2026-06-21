@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782003717,
+    "date": "Jun 21",
+    "time": "01:01",
+    "action": "BUY",
+    "coin": "DOGE",
+    "pair": "DOGE/USDC",
+    "entry": 0.083618,
+    "tp1": 0.0843,
+    "tp2": 0.085,
+    "stop": 0.0827,
+    "confidence": 43,
+    "reason": "SuperTrend BULL 1H \u00b7 EMA Ribbon bull 4/5 \u00b7 RSI Bullish Divergence",
+    "regime": "bull",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782003430,
     "date": "Jun 21",
     "time": "00:57",
