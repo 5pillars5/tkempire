@@ -19,8 +19,8 @@
   "coin_memory": {
     "AVAX": {
       "wins": 1,
-      "losses": 0,
-      "streak": 1
+      "losses": 1,
+      "streak": -1
     },
     "ARB": {
       "wins": 1,
@@ -68,12 +68,12 @@
     },
     "8": {
       "wins": 0,
-      "losses": 4
+      "losses": 5
     }
   },
   "wins": 2,
-  "losses": 5,
-  "total_pnl": -1.6922450082302616,
+  "losses": 6,
+  "total_pnl": -1.7034795206524247,
   "signals": 16,
-  "updated": "2026-06-21 08:35 UTC"
+  "updated": "2026-06-21 08:36 UTC"
 }
