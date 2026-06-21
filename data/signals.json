@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782018944,
+    "date": "Jun 21",
+    "time": "05:15",
+    "action": "BUY",
+    "coin": "ADA",
+    "pair": "ADA/USDC",
+    "entry": 0.16026,
+    "tp1": 0.1618,
+    "tp2": 0.1633,
+    "stop": 0.1582,
+    "confidence": 48,
+    "reason": "RSI 38 bull zone \u00b7 RSI Bullish Divergence \u00b7 At key support $0.160",
+    "regime": "bull",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782018801,
     "date": "Jun 21",
     "time": "05:13",
