@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782018076,
+    "date": "Jun 21",
+    "time": "05:01",
+    "action": "BUY",
+    "coin": "APT",
+    "pair": "APT/USDC",
+    "entry": 0.6475,
+    "tp1": 0.6557,
+    "tp2": 0.6639,
+    "stop": 0.6365,
+    "confidence": 53,
+    "reason": "SuperTrend BULL 1H \u00b7 ADX 27 DI+ dominant \u00b7 EMA Ribbon bull 4/5",
+    "regime": "bull",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782018075,
     "date": "Jun 21",
     "time": "05:01",
