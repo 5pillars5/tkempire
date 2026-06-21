@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782005440,
+    "date": "Jun 21",
+    "time": "01:30",
+    "action": "BUY",
+    "coin": "AVAX",
+    "pair": "AVAX/USDC",
+    "entry": 6.2291,
+    "tp1": 6.3239,
+    "tp2": 6.4186,
+    "stop": 6.1028,
+    "confidence": 30,
+    "reason": "SuperTrend BULL 1H \u00b7 At key support $6.210 \u00b7 Extreme Fear 23 \u2014 contrarian BUY",
+    "regime": "bull",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782003717,
     "date": "Jun 21",
     "time": "01:01",
