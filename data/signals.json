@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782002849,
+    "date": "Jun 21",
+    "time": "00:47",
+    "action": "BUY",
+    "coin": "OP",
+    "pair": "OP/USDC",
+    "entry": 0.10335,
+    "tp1": 0.1054,
+    "tp2": 0.1074,
+    "stop": 0.1007,
+    "confidence": 30,
+    "reason": "SuperTrend BULL 1H \u00b7 At key support $0.103 \u00b7 Extreme Fear 23 \u2014 contrarian BUY",
+    "regime": "bull",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782002835,
     "date": "Jun 21",
     "time": "00:47",
