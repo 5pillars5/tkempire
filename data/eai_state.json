@@ -61,6 +61,16 @@
       "wins": 0,
       "losses": 1,
       "streak": -1
+    },
+    "SOL": {
+      "wins": 0,
+      "losses": 1,
+      "streak": -1
+    },
+    "ETH": {
+      "wins": 0,
+      "losses": 1,
+      "streak": -1
     }
   },
   "hour_memory": {
@@ -86,12 +96,12 @@
     },
     "11": {
       "wins": 0,
-      "losses": 2
+      "losses": 4
     }
   },
   "wins": 3,
-  "losses": 8,
-  "total_pnl": 0.7758474907510491,
+  "losses": 10,
+  "total_pnl": -0.15398529628510527,
   "signals": 16,
   "updated": "2026-06-21 11:18 UTC"
 }
