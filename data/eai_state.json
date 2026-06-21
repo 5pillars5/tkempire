@@ -36,6 +36,21 @@
       "wins": 0,
       "losses": 1,
       "streak": -1
+    },
+    "BTC": {
+      "wins": 0,
+      "losses": 1,
+      "streak": -1
+    },
+    "ADA": {
+      "wins": 0,
+      "losses": 1,
+      "streak": -1
+    },
+    "TIA": {
+      "wins": 0,
+      "losses": 1,
+      "streak": -1
     }
   },
   "hour_memory": {
@@ -53,12 +68,12 @@
     },
     "8": {
       "wins": 0,
-      "losses": 1
+      "losses": 4
     }
   },
   "wins": 2,
-  "losses": 2,
-  "total_pnl": -0.9232025303519789,
+  "losses": 5,
+  "total_pnl": -1.6922450082302616,
   "signals": 16,
-  "updated": "2026-06-21 08:33 UTC"
+  "updated": "2026-06-21 08:35 UTC"
 }
