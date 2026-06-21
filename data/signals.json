@@ -51,10 +51,12 @@
     "confidence": 48,
     "reason": "SuperTrend BULL 1H \u00b7 EMA Ribbon bull 4/5 \u00b7 RSI 44 bull zone",
     "regime": "bull",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 7.9315,
+    "pnl": -0.01,
+    "result": "loss",
+    "holdMins": 374,
+    "tp_hit": 1
   },
   {
     "id": 1782018080,
