@@ -51,6 +51,16 @@
       "wins": 0,
       "losses": 1,
       "streak": -1
+    },
+    "LINK": {
+      "wins": 0,
+      "losses": 1,
+      "streak": -1
+    },
+    "XRP": {
+      "wins": 0,
+      "losses": 1,
+      "streak": -1
     }
   },
   "hour_memory": {
@@ -73,11 +83,15 @@
     "9": {
       "wins": 1,
       "losses": 0
+    },
+    "11": {
+      "wins": 0,
+      "losses": 2
     }
   },
   "wins": 3,
-  "losses": 6,
-  "total_pnl": 0.8602270430541485,
+  "losses": 8,
+  "total_pnl": 0.7758474907510491,
   "signals": 16,
-  "updated": "2026-06-21 09:51 UTC"
+  "updated": "2026-06-21 11:18 UTC"
 }
