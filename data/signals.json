@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782018075,
+    "date": "Jun 21",
+    "time": "05:01",
+    "action": "BUY",
+    "coin": "DOGE",
+    "pair": "DOGE/USDC",
+    "entry": 0.083259,
+    "tp1": 0.0837,
+    "tp2": 0.0842,
+    "stop": 0.0826,
+    "confidence": 54,
+    "reason": "SuperTrend BULL 1H \u00b7 RSI 40 bull zone \u00b7 RSI Hidden Bull Div",
+    "regime": "bull",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782018059,
     "date": "Jun 21",
     "time": "05:00",
