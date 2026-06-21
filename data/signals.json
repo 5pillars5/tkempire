@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782002835,
+    "date": "Jun 21",
+    "time": "00:47",
+    "action": "BUY",
+    "coin": "TIA",
+    "pair": "TIA/USDC",
+    "entry": 0.37216,
+    "tp1": 0.3782,
+    "tp2": 0.3842,
+    "stop": 0.3641,
+    "confidence": 35,
+    "reason": "SuperTrend BULL 4H \u00b7 RSI 37 bull zone \u00b7 Extreme Fear 23 \u2014 contrarian BUY",
+    "regime": "bull",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782002822,
     "date": "Jun 21",
     "time": "00:47",
