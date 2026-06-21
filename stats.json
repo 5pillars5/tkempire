@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-06-21 14:57 UTC",
+  "updated_at": "2026-06-21 14:59 UTC",
   "market_mode": "sideways",
   "pairs": 15,
-  "min_score": 30,
+  "min_score": 72,
   "stats": {
     "wins": 3,
     "losses": 10,
