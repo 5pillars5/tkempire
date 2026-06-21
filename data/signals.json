@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782018226,
+    "date": "Jun 21",
+    "time": "05:03",
+    "action": "BUY",
+    "coin": "LINK",
+    "pair": "LINK/USDC",
+    "entry": 7.9323,
+    "tp1": 7.9941,
+    "tp2": 8.0559,
+    "stop": 7.8499,
+    "confidence": 48,
+    "reason": "SuperTrend BULL 1H \u00b7 EMA Ribbon bull 4/5 \u00b7 RSI 44 bull zone",
+    "regime": "bull",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782018080,
     "date": "Jun 21",
     "time": "05:01",
