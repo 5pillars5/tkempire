@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782000093,
+    "date": "Jun 21",
+    "time": "00:01",
+    "action": "BUY",
+    "coin": "BTC",
+    "pair": "BTC/USDC",
+    "entry": 64280.0,
+    "tp1": 64703.5357,
+    "tp2": 65127.0714,
+    "stop": 63715.2857,
+    "confidence": 64,
+    "reason": "SuperTrend BULL 1H \u00b7 ADX 29 DI+ dominant \u00b7 EMA Ribbon bull 4/5",
+    "regime": "bull",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782000091,
     "date": "Jun 21",
     "time": "00:01",
