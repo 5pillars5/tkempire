@@ -31,6 +31,11 @@
       "wins": 0,
       "losses": 1,
       "streak": -1
+    },
+    "BNB": {
+      "wins": 0,
+      "losses": 1,
+      "streak": -1
     }
   },
   "hour_memory": {
@@ -45,11 +50,15 @@
     "22": {
       "wins": 0,
       "losses": 1
+    },
+    "8": {
+      "wins": 0,
+      "losses": 1
     }
   },
   "wins": 2,
-  "losses": 1,
-  "total_pnl": -0.8909428227267935,
-  "signals": 3,
-  "updated": "2026-06-20 22:14 UTC"
+  "losses": 2,
+  "total_pnl": -0.9232025303519789,
+  "signals": 16,
+  "updated": "2026-06-21 08:33 UTC"
 }
