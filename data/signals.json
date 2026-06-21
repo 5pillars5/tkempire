@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782057755,
+    "date": "Jun 21",
+    "time": "16:02",
+    "action": "BUY",
+    "coin": "APT",
+    "pair": "APT/USDC",
+    "entry": 0.657,
+    "tp1": 0.6668,
+    "tp2": 0.6766,
+    "stop": 0.6439,
+    "confidence": 76,
+    "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 ADX 39 DI+ dominant",
+    "regime": "bull",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782057750,
     "date": "Jun 21",
     "time": "16:02",
