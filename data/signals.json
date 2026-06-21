@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782006737,
+    "date": "Jun 21",
+    "time": "01:52",
+    "action": "BUY",
+    "coin": "ADA",
+    "pair": "ADA/USDC",
+    "entry": 0.16286,
+    "tp1": 0.1647,
+    "tp2": 0.1665,
+    "stop": 0.1604,
+    "confidence": 30,
+    "reason": "SuperTrend BULL 1H \u00b7 At key support $0.162 \u00b7 Extreme Fear 23 \u2014 contrarian BUY",
+    "regime": "bull",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782005440,
     "date": "Jun 21",
     "time": "01:30",
