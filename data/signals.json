@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782002822,
+    "date": "Jun 21",
+    "time": "00:47",
+    "action": "BUY",
+    "coin": "APT",
+    "pair": "APT/USDC",
+    "entry": 0.6463,
+    "tp1": 0.6562,
+    "tp2": 0.6661,
+    "stop": 0.6331,
+    "confidence": 56,
+    "reason": "SuperTrend BULL 1H \u00b7 EMA Ribbon bull 4/5 \u00b7 RSI Bullish Divergence",
+    "regime": "bull",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782002810,
     "date": "Jun 21",
     "time": "00:46",
