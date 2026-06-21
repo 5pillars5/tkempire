@@ -70,10 +70,12 @@
     "confidence": 40,
     "reason": "SuperTrend BULL 1H \u00b7 EMA Ribbon bull 4/5 \u00b7 At key support $6.210",
     "regime": "bull",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 6.2301,
+    "pnl": -0.01,
+    "result": "loss",
+    "holdMins": 214,
+    "tp_hit": 1
   },
   {
     "id": 1782018075,
