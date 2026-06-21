@@ -28,9 +28,9 @@
       "streak": 1
     },
     "APT": {
-      "wins": 0,
+      "wins": 1,
       "losses": 1,
-      "streak": -1
+      "streak": 1
     },
     "BNB": {
       "wins": 0,
@@ -69,11 +69,15 @@
     "8": {
       "wins": 0,
       "losses": 5
+    },
+    "9": {
+      "wins": 1,
+      "losses": 0
     }
   },
-  "wins": 2,
+  "wins": 3,
   "losses": 6,
-  "total_pnl": -1.7034795206524247,
+  "total_pnl": 0.8602270430541485,
   "signals": 16,
-  "updated": "2026-06-21 08:36 UTC"
+  "updated": "2026-06-21 09:51 UTC"
 }
