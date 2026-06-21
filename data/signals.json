@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782018801,
+    "date": "Jun 21",
+    "time": "05:13",
+    "action": "BUY",
+    "coin": "XRP",
+    "pair": "XRP/USDC",
+    "entry": 1.1441,
+    "tp1": 1.1514,
+    "tp2": 1.1588,
+    "stop": 1.1343,
+    "confidence": 43,
+    "reason": "SuperTrend BULL 1H \u00b7 RSI 41 bull zone \u00b7 At key support $1.142",
+    "regime": "bull",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782018226,
     "date": "Jun 21",
     "time": "05:03",
