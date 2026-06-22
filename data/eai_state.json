@@ -14,7 +14,8 @@
     "fear_greed": 1.0,
     "funding": 1.0,
     "order_book": 1.0,
-    "altfins": 1.0
+    "altfins": 1.0,
+    "ob_imbalance": 1.0
   },
   "coin_memory": {
     "AVAX": {
@@ -103,5 +104,6 @@
   "losses": 10,
   "total_pnl": -0.15398529628510527,
   "signals": 16,
-  "updated": "2026-06-21 11:18 UTC"
+  "trade_history": [],
+  "updated": "2026-06-22 00:18 UTC"
 }
