@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782158778,
+    "date": "Jun 22",
+    "time": "20:06",
+    "action": "BUY",
+    "coin": "TIA",
+    "pair": "TIA/USDC",
+    "entry": 0.39446,
+    "tp1": 0.4075,
+    "tp2": 0.4205,
+    "stop": 0.3771,
+    "confidence": 85,
+    "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 ADX 46 DI+ dominant",
+    "regime": "bull",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782113473,
     "date": "Jun 22",
     "time": "07:31",
