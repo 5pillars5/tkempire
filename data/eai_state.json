@@ -49,9 +49,9 @@
       "streak": -1
     },
     "TIA": {
-      "wins": 0,
+      "wins": 1,
       "losses": 1,
-      "streak": -1
+      "streak": 1
     },
     "LINK": {
       "wins": 0,
@@ -98,12 +98,60 @@
     "11": {
       "wins": 0,
       "losses": 4
+    },
+    "12": {
+      "wins": 1,
+      "losses": 0
     }
   },
-  "wins": 3,
+  "wins": 4,
   "losses": 10,
-  "total_pnl": -0.15398529628510527,
-  "signals": 16,
-  "trade_history": [],
-  "updated": "2026-06-22 00:18 UTC"
+  "total_pnl": 3.8298288271974674,
+  "signals": 17,
+  "trade_history": [
+    {
+      "coin": "TIA",
+      "action": "BUY",
+      "entry": 0.38305,
+      "exit": 0.39831,
+      "pnl": 3.98,
+      "result": "WIN",
+      "hold_mins": 273,
+      "hour": 12,
+      "atr": 0.004935714285714289,
+      "tp_hit": 2,
+      "context": {
+        "st_1h": 1,
+        "st_4h": 1,
+        "adx": 23.01648780349104,
+        "dip": 32.78743236461442,
+        "dim": 20.205768187614336,
+        "ribbon": 2,
+        "cross_up": false,
+        "cross_dn": false,
+        "e50_4h": 0.37248389752754624,
+        "e200_4h": 0.3696189792365067,
+        "rsi_1h": 66.75695641467614,
+        "rsi_4h": 52.87111111111112,
+        "divergence": null,
+        "macd": 0.0015195768581231506,
+        "at_support": true,
+        "at_resistance": true,
+        "bb_squeeze": false,
+        "vol_spike": true,
+        "fear_greed": 20,
+        "funding": -4.6808e-05,
+        "ob_imbalance": 0,
+        "news": -18,
+        "cg_bull": 14,
+        "cg_bear": 0,
+        "change_7d": 5.488734147355174,
+        "regime": "bull",
+        "bull_score": 83,
+        "bear_score": 28
+      },
+      "timestamp": "2026-06-22 12:04"
+    }
+  ],
+  "updated": "2026-06-22 12:04 UTC"
 }
