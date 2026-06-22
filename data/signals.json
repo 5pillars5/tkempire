@@ -13,10 +13,12 @@
     "confidence": 83,
     "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 4H master trend BULL",
     "regime": "bull",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.39831,
+    "pnl": 3.98,
+    "result": "win",
+    "holdMins": 273,
+    "tp_hit": 2
   },
   {
     "id": 1782113459,
