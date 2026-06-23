@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782192063,
+    "date": "Jun 23",
+    "time": "05:21",
+    "action": "BUY",
+    "coin": "AVAX",
+    "pair": "AVAX/USDC",
+    "entry": 6.265,
+    "tp1": 6.3498,
+    "tp2": 6.4345,
+    "stop": 6.152,
+    "confidence": 51,
+    "reason": "SuperTrend BULL 1H \u00b7 RSI 44 bull zone \u00b7 MACD Golden Cross",
+    "regime": "bull",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782190910,
     "date": "Jun 23",
     "time": "05:01",
