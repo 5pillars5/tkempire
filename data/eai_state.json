@@ -50,8 +50,8 @@
     },
     "TIA": {
       "wins": 1,
-      "losses": 1,
-      "streak": 1
+      "losses": 2,
+      "streak": -1
     },
     "LINK": {
       "wins": 0,
@@ -89,7 +89,7 @@
     },
     "8": {
       "wins": 0,
-      "losses": 5
+      "losses": 6
     },
     "9": {
       "wins": 1,
@@ -109,8 +109,8 @@
     }
   },
   "wins": 4,
-  "losses": 11,
-  "total_pnl": 1.892079425760923,
+  "losses": 12,
+  "total_pnl": -1.994702461377318,
   "signals": 20,
-  "updated": "2026-06-23 06:21 UTC"
+  "updated": "2026-06-23 08:15 UTC"
 }
