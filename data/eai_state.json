@@ -106,17 +106,17 @@
   },
   "wins": 4,
   "losses": 10,
-  "total_pnl": 3.835050077686965,
+  "total_pnl": 3.8298288271974674,
   "signals": 18,
   "trade_history": [
     {
       "coin": "TIA",
       "action": "BUY",
       "entry": 0.38305,
-      "exit": 0.39833,
-      "pnl": 3.99,
+      "exit": 0.39831,
+      "pnl": 3.98,
       "result": "WIN",
-      "hold_mins": 274,
+      "hold_mins": 273,
       "hour": 12,
       "atr": 0.004935714285714289,
       "tp_hit": 2,
@@ -140,7 +140,7 @@
         "bb_squeeze": false,
         "vol_spike": true,
         "fear_greed": 20,
-        "funding": -4.72682e-05,
+        "funding": -4.6808e-05,
         "ob_imbalance": 0,
         "news": -18,
         "cg_bull": 14,
@@ -150,7 +150,7 @@
         "bull_score": 83,
         "bear_score": 28
       },
-      "timestamp": "2026-06-22 12:05"
+      "timestamp": "2026-06-22 12:04"
     }
   ],
   "updated": "2026-06-23 00:01 UTC"
