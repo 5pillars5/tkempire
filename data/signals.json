@@ -13,10 +13,12 @@
     "confidence": 51,
     "reason": "SuperTrend BULL 1H \u00b7 RSI 44 bull zone \u00b7 MACD Golden Cross",
     "regime": "bull",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 6.1436,
+    "pnl": -1.94,
+    "result": "loss",
+    "holdMins": 60,
+    "tp_hit": 0
   },
   {
     "id": 1782190910,
