@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-06-23 04:22 UTC",
+  "updated_at": "2026-06-23 04:23 UTC",
   "market_mode": "bull",
   "pairs": 15,
-  "min_score": 72,
+  "min_score": 50,
   "stats": {
     "wins": 4,
     "losses": 10,
