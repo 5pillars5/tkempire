@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782234192,
+    "date": "Jun 23",
+    "time": "17:03",
+    "action": "BUY",
+    "coin": "DOGE",
+    "pair": "DOGE/USDC",
+    "entry": 0.078753,
+    "tp1": 0.0798,
+    "tp2": 0.0808,
+    "stop": 0.0774,
+    "confidence": 55,
+    "reason": "RSI 17 oversold \u00b7 RSI Bullish Divergence \u00b7 At key support $0.078",
+    "regime": "bull",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782234047,
     "date": "Jun 23",
     "time": "17:00",
