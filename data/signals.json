@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782231453,
+    "date": "Jun 23",
+    "time": "16:17",
+    "action": "BUY",
+    "coin": "BTC",
+    "pair": "BTC/USDC",
+    "entry": 62645.0,
+    "tp1": 63297.0714,
+    "tp2": 63949.1429,
+    "stop": 61775.5714,
+    "confidence": 51,
+    "reason": "RSI 22 oversold \u00b7 RSI Bullish Divergence \u00b7 At key support $62,350.000",
+    "regime": "bull",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782231452,
     "date": "Jun 23",
     "time": "16:17",
