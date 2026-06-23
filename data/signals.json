@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782234047,
+    "date": "Jun 23",
+    "time": "17:00",
+    "action": "BUY",
+    "coin": "AVAX",
+    "pair": "AVAX/USDC",
+    "entry": 6.3268,
+    "tp1": 6.461,
+    "tp2": 6.5952,
+    "stop": 6.1479,
+    "confidence": 53,
+    "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 EMA Ribbon bull 4/5",
+    "regime": "bull",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782231751,
     "date": "Jun 23",
     "time": "16:22",
