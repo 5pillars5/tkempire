@@ -107,7 +107,7 @@
   "wins": 4,
   "losses": 10,
   "total_pnl": 3.835050077686965,
-  "signals": 17,
+  "signals": 18,
   "trade_history": [
     {
       "coin": "TIA",
@@ -153,5 +153,5 @@
       "timestamp": "2026-06-22 12:05"
     }
   ],
-  "updated": "2026-06-22 12:05 UTC"
+  "updated": "2026-06-23 00:01 UTC"
 }
