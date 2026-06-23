@@ -34,10 +34,12 @@
     "confidence": 87,
     "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 ADX 34 DI+ dominant",
     "regime": "bull",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.3776,
+    "pnl": -3.89,
+    "result": "loss",
+    "holdMins": 193,
+    "tp_hit": 0
   },
   {
     "id": 1782158784,
