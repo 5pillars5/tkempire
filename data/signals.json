@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782231751,
+    "date": "Jun 23",
+    "time": "16:22",
+    "action": "BUY",
+    "coin": "XRP",
+    "pair": "XRP/USDC",
+    "entry": 1.0985,
+    "tp1": 1.1105,
+    "tp2": 1.1224,
+    "stop": 1.0826,
+    "confidence": 51,
+    "reason": "RSI 20 oversold \u00b7 RSI Bullish Divergence \u00b7 At key support $1.094",
+    "regime": "bull",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782231453,
     "date": "Jun 23",
     "time": "16:17",
