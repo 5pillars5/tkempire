@@ -20,8 +20,8 @@
   "coin_memory": {
     "AVAX": {
       "wins": 1,
-      "losses": 1,
-      "streak": -1
+      "losses": 2,
+      "streak": -2
     },
     "ARB": {
       "wins": 1,
@@ -114,12 +114,12 @@
     },
     "13": {
       "wins": 0,
-      "losses": 1
+      "losses": 2
     }
   },
   "wins": 4,
-  "losses": 14,
-  "total_pnl": -5.438838487515883,
+  "losses": 15,
+  "total_pnl": -7.547112998539238,
   "signals": 24,
   "trade_history": [
     {
@@ -327,7 +327,47 @@
         "bear_score": 25
       },
       "timestamp": "2026-06-24 13:12"
+    },
+    {
+      "coin": "AVAX",
+      "action": "BUY",
+      "entry": 6.4318,
+      "exit": 6.2962,
+      "pnl": -2.11,
+      "result": "LOSS",
+      "hold_mins": 498,
+      "hour": 13,
+      "atr": 0.06505000000000027,
+      "tp_hit": 0,
+      "context": {
+        "st_1h": 1,
+        "st_4h": 1,
+        "adx": 17.897862600590965,
+        "dip": 26.80673362856592,
+        "dim": 22.370384199106624,
+        "ribbon": 4,
+        "cross_up": false,
+        "cross_dn": false,
+        "e50_4h": 6.392753535078657,
+        "e200_4h": 7.313742541088402,
+        "rsi_1h": 57.7814182073484,
+        "rsi_4h": 64.93470408446788,
+        "divergence": null,
+        "macd": 0.046670740924666276,
+        "at_support": false,
+        "at_resistance": true,
+        "bb_squeeze": false,
+        "vol_spike": false,
+        "fear_greed": 17,
+        "funding": -1.382e-07,
+        "ob_imbalance": 0,
+        "news": 0,
+        "regime": "bull",
+        "bull_score": 45,
+        "bear_score": 18
+      },
+      "timestamp": "2026-06-24 13:23"
     }
   ],
-  "updated": "2026-06-24 13:12 UTC"
+  "updated": "2026-06-24 13:23 UTC"
 }
