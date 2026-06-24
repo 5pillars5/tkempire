@@ -32,10 +32,12 @@
     "confidence": 49,
     "reason": "RSI 44 bull zone \u00b7 RSI Bullish Divergence \u00b7 At key support $0.078",
     "regime": "bull",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.07715,
+    "pnl": -1.38,
+    "result": "loss",
+    "holdMins": 213,
+    "tp_hit": 0
   },
   {
     "id": 1782292968,
