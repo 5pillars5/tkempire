@@ -139,10 +139,12 @@
     "confidence": 52,
     "reason": "SuperTrend BULL 4H \u00b7 RSI 43 bull zone \u00b7 RSI Bullish Divergence",
     "regime": "bull",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.35469,
+    "pnl": -3.78,
+    "result": "loss",
+    "holdMins": 135,
+    "tp_hit": 0
   },
   {
     "id": 1782277510,
