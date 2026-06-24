@@ -13,10 +13,12 @@
     "confidence": 72,
     "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 RSI 32 bull zone",
     "regime": "bull",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.35777,
+    "pnl": -3.55,
+    "result": "loss",
+    "holdMins": 569,
+    "tp_hit": 0
   },
   {
     "id": 1782307422,
