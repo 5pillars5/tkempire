@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782344955,
+    "date": "Jun 24",
+    "time": "23:49",
+    "action": "SELL",
+    "coin": "ADA",
+    "pair": "ADA/USDC",
+    "entry": 0.14741,
+    "tp1": 0.1434,
+    "tp2": 0.1393,
+    "stop": 0.1528,
+    "confidence": 64,
+    "reason": "SuperTrend BEAR 1H \u00b7 SuperTrend BEAR 4H \u00b7 ADX 53 DI- dominant",
+    "regime": "bear",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782344954,
     "date": "Jun 24",
     "time": "23:49",
