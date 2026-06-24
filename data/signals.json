@@ -34,10 +34,12 @@
     "confidence": 45,
     "reason": "RSI 40 bull zone \u00b7 RSI Bullish Divergence \u00b7 Price at BB lower band",
     "regime": "bull",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.144935,
+    "pnl": -1.97,
+    "result": "loss",
+    "holdMins": 217,
+    "tp_hit": 0
   },
   {
     "id": 1782293990,
