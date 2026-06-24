@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782293990,
+    "date": "Jun 24",
+    "time": "09:39",
+    "action": "BUY",
+    "coin": "ARB",
+    "pair": "ARB/USDC",
+    "entry": 0.07823,
+    "tp1": 0.079,
+    "tp2": 0.0798,
+    "stop": 0.0772,
+    "confidence": 49,
+    "reason": "RSI 44 bull zone \u00b7 RSI Bullish Divergence \u00b7 At key support $0.078",
+    "regime": "bull",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782292968,
     "date": "Jun 24",
     "time": "09:22",
