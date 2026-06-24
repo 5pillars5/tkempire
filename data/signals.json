@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782288065,
+    "date": "Jun 24",
+    "time": "08:01",
+    "action": "BUY",
+    "coin": "INJ",
+    "pair": "INJ/USDC",
+    "entry": 4.5096,
+    "tp1": 4.5686,
+    "tp2": 4.6277,
+    "stop": 4.4309,
+    "confidence": 49,
+    "reason": "RSI 45 bull zone \u00b7 RSI Bullish Divergence \u00b7 At key support $4.502",
+    "regime": "bull",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782281854,
     "date": "Jun 24",
     "time": "06:17",
