@@ -60,8 +60,8 @@
     },
     "XRP": {
       "wins": 0,
-      "losses": 1,
-      "streak": -1
+      "losses": 2,
+      "streak": -2
     },
     "SOL": {
       "wins": 0,
@@ -102,12 +102,16 @@
     "12": {
       "wins": 1,
       "losses": 0
+    },
+    "10": {
+      "wins": 0,
+      "losses": 1
     }
   },
   "wins": 4,
-  "losses": 11,
-  "total_pnl": -0.7571877124038635,
-  "signals": 18,
+  "losses": 12,
+  "total_pnl": -1.850781077937447,
+  "signals": 24,
   "trade_history": [
     {
       "coin": "TIA",
@@ -194,7 +198,47 @@
         "bear_score": 22
       },
       "timestamp": "2026-06-23 08:15"
+    },
+    {
+      "coin": "XRP",
+      "action": "BUY",
+      "entry": 1.0973,
+      "exit": 1.0853,
+      "pnl": -1.09,
+      "result": "LOSS",
+      "hold_mins": 57,
+      "hour": 10,
+      "atr": 0.005350000000000014,
+      "tp_hit": 0,
+      "context": {
+        "st_1h": -1,
+        "st_4h": -1,
+        "adx": 23.22042909736344,
+        "dip": 14.412385894583633,
+        "dim": 27.67408526552631,
+        "ribbon": 0,
+        "cross_up": false,
+        "cross_dn": false,
+        "e50_4h": 1.1482594167841609,
+        "e200_4h": 1.2029259034138606,
+        "rsi_1h": 43.589743589743684,
+        "rsi_4h": 32.075471698113176,
+        "divergence": "bull",
+        "macd": -0.0035169273508204313,
+        "at_support": true,
+        "at_resistance": false,
+        "bb_squeeze": true,
+        "vol_spike": false,
+        "fear_greed": 17,
+        "funding": 4.6809e-06,
+        "ob_imbalance": 0,
+        "news": 0,
+        "regime": "bull",
+        "bull_score": 45,
+        "bear_score": 21
+      },
+      "timestamp": "2026-06-24 10:19"
     }
   ],
-  "updated": "2026-06-24 03:27 UTC"
+  "updated": "2026-06-24 10:19 UTC"
 }
