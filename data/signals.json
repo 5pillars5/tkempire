@@ -13,10 +13,12 @@
     "confidence": 72,
     "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 RSI 27 oversold",
     "regime": "bull",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 6.2962,
+    "pnl": -2.11,
+    "result": "loss",
+    "holdMins": 498,
+    "tp_hit": 0
   },
   {
     "id": 1782295874,
