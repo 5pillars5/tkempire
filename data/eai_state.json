@@ -59,9 +59,9 @@
       "streak": -1
     },
     "XRP": {
-      "wins": 0,
+      "wins": 1,
       "losses": 2,
-      "streak": -2
+      "streak": 1
     },
     "SOL": {
       "wins": 0,
@@ -77,6 +77,11 @@
       "wins": 0,
       "losses": 1,
       "streak": -1
+    },
+    "DOT": {
+      "wins": 1,
+      "losses": 0,
+      "streak": 1
     }
   },
   "hour_memory": {
@@ -113,7 +118,7 @@
       "losses": 1
     },
     "13": {
-      "wins": 0,
+      "wins": 2,
       "losses": 3
     },
     "15": {
@@ -121,10 +126,10 @@
       "losses": 1
     }
   },
-  "wins": 4,
+  "wins": 6,
   "losses": 17,
-  "total_pnl": -13.06394469463434,
-  "signals": 26,
+  "total_pnl": -4.528463941144703,
+  "signals": 34,
   "trade_history": [
     {
       "coin": "TIA",
@@ -451,7 +456,87 @@
         "bear_score": 22
       },
       "timestamp": "2026-06-24 15:47"
+    },
+    {
+      "coin": "XRP",
+      "action": "SELL",
+      "entry": 1.0737,
+      "exit": 1.03375,
+      "pnl": 3.72,
+      "result": "WIN",
+      "hold_mins": 687,
+      "hour": 13,
+      "atr": 0.01202142857142858,
+      "tp_hit": 2,
+      "context": {
+        "st_1h": -1,
+        "st_4h": -1,
+        "adx": 39.48875199078019,
+        "dip": 17.9502576617939,
+        "dim": 22.75741522544649,
+        "ribbon": 0,
+        "cross_up": false,
+        "cross_dn": false,
+        "e50_4h": 1.1336679676784593,
+        "e200_4h": 1.1930591006654843,
+        "rsi_1h": 40.0749063670413,
+        "rsi_4h": 23.772609819121485,
+        "divergence": null,
+        "macd": -0.006525092908792329,
+        "at_support": false,
+        "at_resistance": false,
+        "bb_squeeze": false,
+        "vol_spike": false,
+        "fear_greed": 12,
+        "funding": -6.366e-07,
+        "ob_imbalance": 0,
+        "news": 0,
+        "regime": "bear",
+        "bull_score": 21,
+        "bear_score": 63
+      },
+      "timestamp": "2026-06-25 13:51"
+    },
+    {
+      "coin": "DOT",
+      "action": "SELL",
+      "entry": 0.88749,
+      "exit": 0.84476,
+      "pnl": 4.81,
+      "result": "WIN",
+      "hold_mins": 687,
+      "hour": 13,
+      "atr": 0.013906428571428566,
+      "tp_hit": 2,
+      "context": {
+        "st_1h": -1,
+        "st_4h": -1,
+        "adx": 31.202623423519153,
+        "dip": 19.726440547014583,
+        "dim": 24.820359100646378,
+        "ribbon": 1,
+        "cross_up": false,
+        "cross_dn": false,
+        "e50_4h": 0.9435547494015317,
+        "e200_4h": 1.0375647548480904,
+        "rsi_1h": 44.38597980140882,
+        "rsi_4h": 27.56138526753581,
+        "divergence": null,
+        "macd": -0.004439284660842868,
+        "at_support": false,
+        "at_resistance": true,
+        "bb_squeeze": false,
+        "vol_spike": false,
+        "fear_greed": 12,
+        "funding": -5.0352e-06,
+        "ob_imbalance": 0,
+        "news": 0,
+        "regime": "bear",
+        "bull_score": 26,
+        "bear_score": 70
+      },
+      "timestamp": "2026-06-25 13:51"
     }
   ],
-  "updated": "2026-06-25 00:05 UTC"
+  "updated": "2026-06-25 13:51 UTC"
 }
