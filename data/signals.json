@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782354568,
+    "date": "Jun 25",
+    "time": "02:29",
+    "action": "SELL",
+    "coin": "SOL",
+    "pair": "SOL/USDC",
+    "entry": 67.815,
+    "tp1": 66.1067,
+    "tp2": 64.3984,
+    "stop": 70.0927,
+    "confidence": 60,
+    "reason": "SuperTrend BEAR 1H \u00b7 SuperTrend BEAR 4H \u00b7 ADX 31 DI- dominant",
+    "regime": "bear",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782354422,
     "date": "Jun 25",
     "time": "02:27",
