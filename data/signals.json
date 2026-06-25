@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782348931,
+    "date": "Jun 25",
+    "time": "00:55",
+    "action": "SELL",
+    "coin": "INJ",
+    "pair": "INJ/USDC",
+    "entry": 4.2222,
+    "tp1": 4.0748,
+    "tp2": 3.9274,
+    "stop": 4.4187,
+    "confidence": 78,
+    "reason": "SuperTrend BEAR 1H \u00b7 SuperTrend BEAR 4H \u00b7 ADX 62 DI- dominant",
+    "regime": "bear",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782348929,
     "date": "Jun 25",
     "time": "00:55",
