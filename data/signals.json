@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782354261,
+    "date": "Jun 25",
+    "time": "02:24",
+    "action": "SELL",
+    "coin": "XRP",
+    "pair": "XRP/USDC",
+    "entry": 1.0737,
+    "tp1": 1.0557,
+    "tp2": 1.0376,
+    "stop": 1.0977,
+    "confidence": 63,
+    "reason": "SuperTrend BEAR 1H \u00b7 SuperTrend BEAR 4H \u00b7 ADX 39 DI- dominant",
+    "regime": "bear",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782354259,
     "date": "Jun 25",
     "time": "02:24",
