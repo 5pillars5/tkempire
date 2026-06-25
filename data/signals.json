@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782348935,
+    "date": "Jun 25",
+    "time": "00:55",
+    "action": "SELL",
+    "coin": "ARB",
+    "pair": "ARB/USDC",
+    "entry": 0.07594,
+    "tp1": 0.0738,
+    "tp2": 0.0717,
+    "stop": 0.0788,
+    "confidence": 72,
+    "reason": "SuperTrend BEAR 1H \u00b7 SuperTrend BEAR 4H \u00b7 ADX 42 DI- dominant",
+    "regime": "bear",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782348934,
     "date": "Jun 25",
     "time": "00:55",
