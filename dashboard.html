@@ -1028,5 +1028,84 @@ loadOpenTradeStatus();
 setInterval(loadOpenTradeStatus, 30000);
 </script>
 
+
+<section id="engine-health-panel" style="max-width:1180px;margin:24px auto;padding:0 20px;">
+  <div style="background:linear-gradient(180deg,#0b0b18,#070710);border:1px solid #2a2347;border-radius:22px;padding:24px;box-shadow:0 0 40px #0007;">
+    <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center;">
+      <div>
+        <div style="color:#f5c542;font-size:12px;font-weight:900;letter-spacing:2px;text-transform:uppercase;">System Status</div>
+        <h2 style="color:#fff;margin:8px 0 6px;font-size:28px;">EAI Engine Health</h2>
+        <p style="color:#9ca3af;margin:0;">Live operating status for the TK Empire signal engine.</p>
+      </div>
+      <div style="text-align:right;">
+        <div style="color:#00ffc8;font-size:32px;font-weight:950;" id="engineHealthScore">--%</div>
+        <div style="color:#9ca3af;font-size:12px;text-transform:uppercase;letter-spacing:1px;">Health Score</div>
+      </div>
+    </div>
+
+    <div style="margin-top:20px;height:12px;background:#14142a;border-radius:999px;overflow:hidden;">
+      <div id="engineHealthBar" style="height:100%;width:0%;background:linear-gradient(90deg,#7c3aed,#00ffc8,#f5c542);border-radius:999px;"></div>
+    </div>
+
+    <div id="engineHealthGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:22px;">
+      <div style="color:#9ca3af;">Loading engine health...</div>
+    </div>
+  </div>
+</section>
+
+
+<script>
+async function loadEngineHealth(){
+  try{
+    const res = await fetch('data/dashboard.json?cache=' + Date.now());
+    const d = await res.json();
+
+    const openCount = Array.isArray(d.open_signals) ? d.open_signals.length : 0;
+    const regime = String(d.regime || 'learning').toUpperCase();
+    const engine = d.engine || 'ONLINE';
+    const learning = d.learning || 'ACTIVE';
+    const updated = d.updated_at || '--';
+
+    let health = 92;
+    if(engine !== 'ONLINE') health -= 40;
+    if(!Array.isArray(d.open_signals)) health -= 10;
+    if(!d.updated_at) health -= 10;
+    health = Math.max(0, Math.min(100, health));
+
+    const score = document.getElementById('engineHealthScore');
+    const bar = document.getElementById('engineHealthBar');
+    const grid = document.getElementById('engineHealthGrid');
+
+    if(score) score.textContent = health + '%';
+    if(bar) bar.style.width = health + '%';
+
+    if(grid){
+      const items = [
+        ['Engine', engine, '#00ffc8'],
+        ['Learning', learning, '#f5c542'],
+        ['Regime', regime, '#f5c542'],
+        ['Open Trades', openCount, '#fff'],
+        ['Signals', d.signals ?? '--', '#fff'],
+        ['Win Rate', d.win_rate !== undefined ? d.win_rate + '%' : 'Validation', '#fff'],
+        ['Min Score', d.min_score ?? '--', '#fff'],
+        ['Last Update', updated, '#9ca3af']
+      ];
+
+      grid.innerHTML = items.map(([label,value,color]) => `
+        <div style="background:#090916;border:1px solid #2a2347;border-radius:16px;padding:16px;">
+          <div style="color:#9ca3af;font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">${label}</div>
+          <div style="color:${color};font-size:18px;font-weight:900;">${value}</div>
+        </div>
+      `).join('');
+    }
+  }catch(e){
+    const grid = document.getElementById('engineHealthGrid');
+    if(grid) grid.innerHTML = '<div style="color:#9ca3af;">Engine health unavailable.</div>';
+  }
+}
+loadEngineHealth();
+setInterval(loadEngineHealth, 30000);
+</script>
+
 </body>
 </html>
