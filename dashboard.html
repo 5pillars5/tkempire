@@ -157,8 +157,96 @@ body.private-mode .view-private{display:block;}
   .sig-row div:nth-child(5),.sig-row div:nth-child(6){display:none;}
 }
 </style>
+
+<style>
+.v3-wrap{max-width:1180px;margin:24px auto;padding:0 20px}
+.v3-hero{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;align-items:stretch;margin-bottom:18px}
+.v3-panel{background:linear-gradient(180deg,#0b0b18,#070710);border:1px solid #2a2347;border-radius:22px;padding:22px;box-shadow:0 0 40px #0007}
+.v3-kicker{color:#f5c542;font-size:12px;font-weight:900;letter-spacing:2px;text-transform:uppercase}
+.v3-title{font-size:34px;font-weight:950;color:#fff;margin:8px 0}
+.v3-sub{color:#9ca3af;line-height:1.5}
+.v3-badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.v3-badge{border:1px solid #2a2347;border-radius:999px;padding:8px 12px;font-size:12px;font-weight:800;color:#e5e7eb;background:#0d0d1d}
+.v3-badge.live{color:#00ffc8;border-color:#00ffc855}
+.v3-badge.beta{color:#f5c542;border-color:#f5c54266}
+.v3-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.v3-metric{background:#090916;border:1px solid #2a2347;border-radius:18px;padding:16px}
+.v3-metric span{display:block;color:#9ca3af;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}
+.v3-metric strong{display:block;color:#f5c542;font-size:24px;font-weight:950}
+.v3-grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.v3-brain-line{padding:11px 0;border-bottom:1px solid #1f1b35;color:#e5e7eb;font-size:14px}
+.v3-brain-line:last-child{border-bottom:0}
+.v3-signal-card{display:grid;grid-template-columns:70px 1fr 90px;gap:12px;align-items:center;padding:13px;border-bottom:1px solid #1f1b35}
+.v3-signal-card:last-child{border-bottom:0}
+.v3-action{font-weight:900;border-radius:8px;padding:6px 8px;text-align:center;font-size:12px}
+.v3-action.SELL{background:#4c0519;color:#ff4d7d}
+.v3-action.BUY{background:#052e24;color:#00ffc8}
+.v3-coin{font-weight:900;color:#fff}
+.v3-reason{font-size:12px;color:#9ca3af;margin-top:3px}
+.v3-conf{color:#f5c542;font-weight:900;text-align:right}
+.v3-radar-row{display:grid;grid-template-columns:100px 1fr 44px;gap:10px;align-items:center;margin:10px 0;color:#d1d5db;font-size:13px}
+.v3-bar{height:9px;background:#14142a;border-radius:99px;overflow:hidden}
+.v3-fill{height:100%;background:linear-gradient(90deg,#7c3aed,#f5c542);border-radius:99px}
+@media(max-width:800px){.v3-hero,.v3-grid2{grid-template-columns:1fr}.v3-title{font-size:28px}}
+</style>
+
 </head>
 <body>
+
+<section class="v3-wrap" id="eai-v3">
+  <div class="v3-hero">
+    <div class="v3-panel">
+      <div class="v3-kicker">Empire Adaptive Intelligence</div>
+      <div class="v3-title">TK Empire Command Center</div>
+      <div class="v3-sub">A live operating window into the EAI engine: market regime, performance, open signals, learning state, and AI reasoning.</div>
+      <div class="v3-badges">
+        <div class="v3-badge live">● LIVE</div>
+        <div class="v3-badge beta">PRIVATE BETA</div>
+        <div class="v3-badge" id="v3RegimeBadge">REGIME: --</div>
+        <div class="v3-badge" id="v3Updated">UPDATED: --</div>
+      </div>
+    </div>
+
+    <div class="v3-panel">
+      <div class="v3-kicker">Next Scan</div>
+      <div id="v3ScanTimer" style="font-size:54px;font-weight:950;color:#f5c542;margin-top:8px;">02:00</div>
+      <div class="v3-sub">The public command center refreshes every 30 seconds. The engine scan cycle runs continuously on the VPS.</div>
+    </div>
+  </div>
+
+  <div class="v3-metrics">
+    <div class="v3-metric"><span>Engine</span><strong id="v3Engine">ONLINE</strong></div>
+    <div class="v3-metric"><span>Mode</span><strong>Beta</strong></div>
+    <div class="v3-metric"><span>Signals</span><strong id="v3Signals">--</strong></div>
+    <div class="v3-metric"><span>Win Rate</span><strong id="v3WinRate">--</strong></div>
+    <div class="v3-metric"><span>Total PnL</span><strong id="v3Pnl">--</strong></div>
+    <div class="v3-metric"><span>Learning</span><strong>Active</strong></div>
+  </div>
+
+  <div class="v3-grid2">
+    <div class="v3-panel">
+      <div class="v3-kicker">AI Brain Feed</div>
+      <div id="v3BrainFeed" style="margin-top:12px;">Loading EAI thoughts...</div>
+    </div>
+
+    <div class="v3-panel">
+      <div class="v3-kicker">Strategy Radar</div>
+      <div id="v3Radar" style="margin-top:14px;">
+        <div class="v3-radar-row"><span>Trend</span><div class="v3-bar"><div class="v3-fill" style="width:80%"></div></div><b>80</b></div>
+        <div class="v3-radar-row"><span>Momentum</span><div class="v3-bar"><div class="v3-fill" style="width:65%"></div></div><b>65</b></div>
+        <div class="v3-radar-row"><span>Funding</span><div class="v3-bar"><div class="v3-fill" style="width:55%"></div></div><b>55</b></div>
+        <div class="v3-radar-row"><span>Fear/Greed</span><div class="v3-bar"><div class="v3-fill" style="width:70%"></div></div><b>70</b></div>
+        <div class="v3-radar-row"><span>Memory</span><div class="v3-bar"><div class="v3-fill" style="width:60%"></div></div><b>60</b></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="v3-panel" style="margin-top:18px;">
+    <div class="v3-kicker">Live Open Signals</div>
+    <div id="v3OpenSignals" style="margin-top:12px;">Loading open signals...</div>
+  </div>
+</section>
+
 
 <section class="eai-command-center" style="padding:60px 20px;background:#05050d;border-top:1px solid #2a2347;border-bottom:1px solid #2a2347;">
   <div style="max-width:1200px;margin:0 auto;">
@@ -800,5 +888,62 @@ async function loadDashboardJson(){
 loadDashboardJson();
 setInterval(loadDashboardJson, 30000);
 </script>
-\n</body>
+\n
+<script>
+let v3ScanSeconds = 120;
+function v3Tick(){
+  v3ScanSeconds--;
+  if(v3ScanSeconds < 0) v3ScanSeconds = 120;
+  const m = String(Math.floor(v3ScanSeconds/60)).padStart(2,'0');
+  const sec = String(v3ScanSeconds%60).padStart(2,'0');
+  const el = document.getElementById('v3ScanTimer');
+  if(el) el.textContent = `${m}:${sec}`;
+}
+setInterval(v3Tick,1000);
+
+async function loadEaiV3(){
+  try{
+    const res = await fetch('data/dashboard.json?cache=' + Date.now());
+    const d = await res.json();
+    const set=(id,v)=>{const el=document.getElementById(id); if(el) el.textContent=v;};
+
+    set('v3Engine', d.engine || 'ONLINE');
+    set('v3Signals', d.signals ?? '--');
+    set('v3WinRate', d.win_rate !== undefined ? d.win_rate + '%' : '--');
+    set('v3Pnl', d.total_pnl !== undefined ? ((d.total_pnl >= 0 ? '+' : '') + d.total_pnl) : '--');
+    set('v3RegimeBadge', 'REGIME: ' + String(d.regime || 'learning').toUpperCase());
+    set('v3Updated', 'UPDATED: ' + (d.updated_at || '--'));
+
+    const brain=document.getElementById('v3BrainFeed');
+    if(brain){
+      const lines = Array.isArray(d.brain) ? d.brain : [];
+      brain.innerHTML = lines.map(x=>`<div class="v3-brain-line">${x}</div>`).join('') || '<div class="v3-brain-line">EAI learning active.</div>';
+    }
+
+    const open=document.getElementById('v3OpenSignals');
+    if(open){
+      const sigs = Array.isArray(d.open_signals) ? d.open_signals.slice(0,8) : [];
+      open.innerHTML = sigs.length ? sigs.map(s=>{
+        const action = String(s.action || '--').toUpperCase();
+        const conf = s.confidence || s.score || '--';
+        const reason = s.reason || s?.features?.reason_text || 'EAI setup detected';
+        const entry = Number(s.entry || 0);
+        const entryFmt = entry ? '$' + entry.toLocaleString('en-US',{maximumFractionDigits: entry > 10 ? 2 : 6}) : '--';
+        return `<div class="v3-signal-card">
+          <div class="v3-action ${action}">${action}</div>
+          <div><div class="v3-coin">${s.coin || '--'} / USDC · ${entryFmt}</div><div class="v3-reason">${reason}</div></div>
+          <div class="v3-conf">${conf}/100</div>
+        </div>`;
+      }).join('') : '<div class="v3-brain-line">No open signals right now. EAI is waiting.</div>';
+    }
+  }catch(e){
+    const brain=document.getElementById('v3BrainFeed');
+    if(brain) brain.innerHTML='<div class="v3-brain-line">Dashboard data unavailable.</div>';
+  }
+}
+loadEaiV3();
+setInterval(loadEaiV3,30000);
+</script>
+
+</body>
 </html>
