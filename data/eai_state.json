@@ -35,8 +35,8 @@
     },
     "BNB": {
       "wins": 0,
-      "losses": 1,
-      "streak": -1
+      "losses": 2,
+      "streak": -2
     },
     "BTC": {
       "wins": 0,
@@ -92,7 +92,7 @@
   "hour_memory": {
     "7": {
       "wins": 1,
-      "losses": 1
+      "losses": 2
     },
     "14": {
       "wins": 1,
@@ -128,8 +128,8 @@
     }
   },
   "wins": 8,
-  "losses": 15,
-  "total_pnl": 12.469410732189901,
+  "losses": 16,
+  "total_pnl": 10.709274993665161,
   "signals": 33,
   "trade_history": [
     {
@@ -558,7 +558,47 @@
         "bear_score": 55
       },
       "timestamp": "2026-06-26 07:07"
+    },
+    {
+      "coin": "BNB",
+      "action": "SELL",
+      "entry": 559.9,
+      "exit": 569.755,
+      "pnl": -1.76,
+      "result": "LOSS",
+      "hold_mins": 152,
+      "hour": 7,
+      "atr": 4.832857142857141,
+      "tp_hit": 0,
+      "context": {
+        "st_1h": -1,
+        "st_4h": -1,
+        "adx": 20.996926563588094,
+        "dip": 20.06693949670775,
+        "dim": 25.635172179705336,
+        "ribbon": 1,
+        "cross_up": false,
+        "cross_dn": false,
+        "e50_4h": 577.3223983163431,
+        "e200_4h": 607.665898771591,
+        "rsi_1h": 57.63522012578604,
+        "rsi_4h": 37.2694781987134,
+        "divergence": "hidden_bear",
+        "macd": -0.1463552443960907,
+        "at_support": false,
+        "at_resistance": false,
+        "bb_squeeze": true,
+        "vol_spike": false,
+        "fear_greed": 13,
+        "funding": 1.25e-05,
+        "ob_imbalance": 0,
+        "news": 0,
+        "regime": "bear",
+        "bull_score": 12,
+        "bear_score": 67
+      },
+      "timestamp": "2026-06-26 07:38"
     }
   ],
-  "updated": "2026-06-26 07:07 UTC"
+  "updated": "2026-06-26 07:38 UTC"
 }
