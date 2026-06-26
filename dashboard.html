@@ -945,5 +945,88 @@ loadEaiV3();
 setInterval(loadEaiV3,30000);
 </script>
 
+
+<section id="open-trade-status" style="max-width:1180px;margin:24px auto;padding:0 20px;">
+  <div style="background:linear-gradient(180deg,#0b0b18,#070710);border:1px solid #2a2347;border-radius:22px;padding:24px;box-shadow:0 0 40px #0007;">
+    <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center;">
+      <div>
+        <div style="color:#f5c542;font-size:12px;font-weight:900;letter-spacing:2px;text-transform:uppercase;">Private Beta Validation</div>
+        <h2 style="color:#fff;margin:8px 0 6px;font-size:28px;">Open Trade Status</h2>
+        <p style="color:#9ca3af;margin:0;">Trades remain active until TP1, TP2, stop-loss, or 24h timeout.</p>
+      </div>
+      <div style="text-align:right;">
+        <div style="color:#f5c542;font-size:32px;font-weight:950;" id="openTradeCount">--</div>
+        <div style="color:#9ca3af;font-size:12px;text-transform:uppercase;letter-spacing:1px;">Active Trades</div>
+      </div>
+    </div>
+
+    <div id="openTradeCards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:22px;">
+      <div style="color:#9ca3af;">Loading open trades...</div>
+    </div>
+
+    <div style="margin-top:24px;padding-top:18px;border-top:1px solid #1f1b35;color:#d1d5db;font-size:13px;line-height:1.7;">
+      <b style="color:#f5c542;">Result Legend:</b>
+      🟢 Win = TP2 / full profit ·
+      🟡 Partial = TP1 locked profit ·
+      ⚪ BE = breakeven ·
+      🔴 Loss = stopped before TP1
+    </div>
+  </div>
+</section>
+
+
+<script>
+async function loadOpenTradeStatus(){
+  try{
+    const res = await fetch('data/dashboard.json?cache=' + Date.now());
+    const d = await res.json();
+    const trades = Array.isArray(d.open_signals) ? d.open_signals : [];
+
+    const count = document.getElementById('openTradeCount');
+    if(count) count.textContent = trades.length;
+
+    const box = document.getElementById('openTradeCards');
+    if(!box) return;
+
+    if(!trades.length){
+      box.innerHTML = '<div style="color:#9ca3af;">No open trades. EAI is waiting for a valid setup.</div>';
+      return;
+    }
+
+    box.innerHTML = trades.map(t=>{
+      const action = String(t.action || '--').toUpperCase();
+      const color = action === 'SELL' ? '#ff4d7d' : '#00ffc8';
+      const entry = Number(t.entry || 0);
+      const tp1 = Number(t.tp1 || 0);
+      const tp2 = Number(t.tp2 || 0);
+      const stop = Number(t.stop || 0);
+
+      const fmt = n => n ? '$' + n.toLocaleString('en-US',{maximumFractionDigits:n>10?2:6}) : '--';
+
+      return `
+        <div style="background:#090916;border:1px solid #2a2347;border-radius:18px;padding:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+            <div style="font-size:22px;font-weight:950;color:#fff;">${t.coin || '--'}</div>
+            <div style="color:${color};font-weight:900;">${action}</div>
+          </div>
+          <div style="color:#9ca3af;font-size:12px;line-height:1.8;">
+            Entry: <b style="color:#fff;">${fmt(entry)}</b><br>
+            TP1: <b style="color:#00ffc8;">${fmt(tp1)}</b><br>
+            TP2: <b style="color:#00ffc8;">${fmt(tp2)}</b><br>
+            Stop: <b style="color:#ff4d7d;">${fmt(stop)}</b><br>
+            Confidence: <b style="color:#f5c542;">${t.confidence || '--'}/100</b><br>
+            Status: <b style="color:#f5c542;">Monitoring</b>
+          </div>
+        </div>`;
+    }).join('');
+  }catch(e){
+    const box = document.getElementById('openTradeCards');
+    if(box) box.innerHTML = '<div style="color:#9ca3af;">Open trade data unavailable.</div>';
+  }
+}
+loadOpenTradeStatus();
+setInterval(loadOpenTradeStatus, 30000);
+</script>
+
 </body>
 </html>
