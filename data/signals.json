@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782432264,
+    "date": "Jun 26",
+    "time": "00:04",
+    "action": "SELL",
+    "coin": "DOT",
+    "pair": "DOT/USDC",
+    "entry": 0.84356,
+    "tp1": 0.8178,
+    "tp2": 0.792,
+    "stop": 0.8779,
+    "confidence": 60,
+    "reason": "SuperTrend BEAR 1H \u00b7 SuperTrend BEAR 4H \u00b7 ADX 40 DI- dominant",
+    "regime": "bear",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782432262,
     "date": "Jun 26",
     "time": "00:04",
