@@ -1107,5 +1107,89 @@ loadEngineHealth();
 setInterval(loadEngineHealth, 30000);
 </script>
 
+
+<section id="decision-timeline" style="max-width:1180px;margin:24px auto;padding:0 20px;">
+  <div style="background:linear-gradient(180deg,#0b0b18,#070710);border:1px solid #2a2347;border-radius:22px;padding:24px;box-shadow:0 0 40px #0007;">
+    <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center;">
+      <div>
+        <div style="color:#f5c542;font-size:12px;font-weight:900;letter-spacing:2px;text-transform:uppercase;">EAI Decision Feed</div>
+        <h2 style="color:#fff;margin:8px 0 6px;font-size:28px;">Live AI Decision Timeline</h2>
+        <p style="color:#9ca3af;margin:0;">Chronological view of active trades, regime state, and engine reasoning.</p>
+      </div>
+      <div style="color:#00ffc8;font-weight:900;">● LIVE</div>
+    </div>
+
+    <div id="decisionTimelineFeed" style="margin-top:22px;">
+      <div style="color:#9ca3af;">Loading timeline...</div>
+    </div>
+  </div>
+</section>
+
+
+<script>
+async function loadDecisionTimeline(){
+  try{
+    const res = await fetch('data/dashboard.json?cache=' + Date.now());
+    const d = await res.json();
+    const feed = document.getElementById('decisionTimelineFeed');
+    if(!feed) return;
+
+    const events = [];
+
+    const open = Array.isArray(d.open_signals) ? d.open_signals : [];
+    open.slice(0,10).forEach(t=>{
+      events.push({
+        time: t.time || '--',
+        icon: t.action === 'SELL' ? '🔴' : '🟢',
+        title: `${t.coin || '--'} ${String(t.action || '').toUpperCase()} opened`,
+        detail: `Confidence ${t.confidence || '--'}/100 · ${t.reason || 'EAI setup detected'}`
+      });
+    });
+
+    if(d.regime){
+      events.push({
+        time: d.updated_at ? String(d.updated_at).split(' ')[1] || '--' : '--',
+        icon: '📈',
+        title: `Market regime detected: ${String(d.regime).toUpperCase()}`,
+        detail: `Minimum score ${d.min_score || '--'} · Minimum gap ${d.min_gap || '--'}`
+      });
+    }
+
+    if(Array.isArray(d.brain)){
+      d.brain.slice(0,6).forEach(line=>{
+        events.push({
+          time: '--',
+          icon: '🧠',
+          title: line,
+          detail: 'EAI brain activity'
+        });
+      });
+    }
+
+    if(!events.length){
+      feed.innerHTML = '<div style="color:#9ca3af;">No decision events available.</div>';
+      return;
+    }
+
+    feed.innerHTML = events.map(e=>`
+      <div style="display:grid;grid-template-columns:72px 34px 1fr;gap:12px;align-items:flex-start;padding:14px 0;border-bottom:1px solid #1f1b35;">
+        <div style="color:#9ca3af;font-size:12px;font-weight:800;">${e.time}</div>
+        <div style="font-size:18px;">${e.icon}</div>
+        <div>
+          <div style="color:#fff;font-weight:900;font-size:15px;">${e.title}</div>
+          <div style="color:#9ca3af;font-size:12px;margin-top:4px;line-height:1.4;">${e.detail}</div>
+        </div>
+      </div>
+    `).join('');
+  }catch(e){
+    const feed = document.getElementById('decisionTimelineFeed');
+    if(feed) feed.innerHTML = '<div style="color:#9ca3af;">Decision timeline unavailable.</div>';
+  }
+}
+
+loadDecisionTimeline();
+setInterval(loadDecisionTimeline, 30000);
+</script>
+
 </body>
 </html>
