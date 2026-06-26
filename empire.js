@@ -149,3 +149,37 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   animate();
 })();
+
+// === TK Empire Live Dashboard Loader ===
+async function loadDashboardJson(){
+  try{
+    const res = await fetch('data/dashboard.json?cache=' + Date.now());
+    const d = await res.json();
+
+    const set = (id, value) => {
+      const el = document.getElementById(id);
+      if(el) el.textContent = value;
+    };
+
+    set('eaiEngine', d.engine || 'ONLINE');
+    set('eaiRegime2', String(d.regime || 'learning').toUpperCase());
+    set('eaiSignals2', d.signals ?? '--');
+    set('eaiWinRate2', d.win_rate !== undefined ? d.win_rate + '%' : '--');
+    set('eaiPnl2', d.total_pnl !== undefined ? ((d.total_pnl >= 0 ? '+' : '') + d.total_pnl) : '--');
+    set('eaiMinScore', d.min_score ?? '--');
+    set('eaiMinGap', d.min_gap ?? '--');
+
+    const feed = document.getElementById('eaiBrainFeed');
+    if(feed && Array.isArray(d.brain)){
+      feed.innerHTML = d.brain.map(line =>
+        `<div class="brain-line">${line}</div>`
+      ).join('');
+    }
+  }catch(err){
+    const feed = document.getElementById('eaiBrainFeed');
+    if(feed) feed.innerHTML = '<div class="brain-line">EAI dashboard data temporarily unavailable.</div>';
+  }
+}
+
+loadDashboardJson();
+setInterval(loadDashboardJson, 30000);
