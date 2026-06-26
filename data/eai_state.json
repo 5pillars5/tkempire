@@ -60,8 +60,8 @@
     },
     "XRP": {
       "wins": 0,
-      "losses": 1,
-      "streak": -1
+      "losses": 2,
+      "streak": -2
     },
     "SOL": {
       "wins": 0,
@@ -128,12 +128,12 @@
     },
     "6": {
       "wins": 0,
-      "losses": 2
+      "losses": 3
     }
   },
   "wins": 8,
-  "losses": 16,
-  "total_pnl": 15.221653911901665,
+  "losses": 17,
+  "total_pnl": 15.168860669436695,
   "signals": 30,
   "trade_history": [
     {
@@ -608,7 +608,50 @@
         "bear_score": 78
       },
       "timestamp": "2026-06-26 06:39"
+    },
+    {
+      "coin": "XRP",
+      "action": "SELL",
+      "entry": 1.0418,
+      "exit": 1.04235,
+      "pnl": -0.05,
+      "result": "LOSS",
+      "hold_mins": 369,
+      "hour": 6,
+      "atr": 0.01625714285714286,
+      "tp_hit": 1,
+      "context": {
+        "st_1h": -1,
+        "st_4h": -1,
+        "adx": 35.6602746471745,
+        "dip": 16.493457460263695,
+        "dim": 24.85186110821696,
+        "ribbon": 0,
+        "cross_up": false,
+        "cross_dn": false,
+        "e50_4h": 1.1121378404386484,
+        "e200_4h": 1.1859991922854296,
+        "rsi_1h": 38.55685131195334,
+        "rsi_4h": 30.620155038759748,
+        "divergence": null,
+        "macd": -0.00984764397400939,
+        "at_support": false,
+        "at_resistance": true,
+        "bb_squeeze": false,
+        "vol_spike": false,
+        "fear_greed": 12,
+        "funding": -2.26614e-05,
+        "ob_imbalance": 0,
+        "news": -18,
+        "cg_bull": 0,
+        "cg_bear": 6,
+        "change_7d": -9.114302815191673,
+        "regime": "bear",
+        "bull_score": 23,
+        "bear_score": 76
+      },
+      "timestamp": "2026-06-26 06:43"
     }
   ],
-  "updated": "2026-06-26 06:39 UTC"
+  "updated": "2026-06-26 06:43 UTC"
 }
