@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782432187,
+    "date": "Jun 26",
+    "time": "00:03",
+    "action": "SELL",
+    "coin": "INJ",
+    "pair": "INJ/USDC",
+    "entry": 4.3213,
+    "tp1": 4.1486,
+    "tp2": 3.976,
+    "stop": 4.5515,
+    "confidence": 72,
+    "reason": "SuperTrend BEAR 1H \u00b7 SuperTrend BEAR 4H \u00b7 4H master trend BEAR",
+    "regime": "bear",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782432114,
     "date": "Jun 26",
     "time": "00:01",
