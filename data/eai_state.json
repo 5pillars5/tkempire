@@ -1,12 +1,12 @@
 {
   "weights": {
-    "supertrend_1h": 0.722,
+    "supertrend_1h": 0.85,
     "supertrend_4h": 0.85,
-    "adx": 1.15,
+    "adx": 1.0,
     "ema_ribbon": 1.0,
     "ema_cross": 1.0,
     "ema_4h_master": 1.0,
-    "rsi": 1.15,
+    "rsi": 1.0,
     "rsi_divergence": 1.0,
     "macd": 1.0,
     "bb_sr": 1.0,
@@ -45,8 +45,8 @@
     },
     "ADA": {
       "wins": 1,
-      "losses": 1,
-      "streak": 1
+      "losses": 2,
+      "streak": -1
     },
     "TIA": {
       "wins": 1,
@@ -125,12 +125,16 @@
     "13": {
       "wins": 4,
       "losses": 0
+    },
+    "6": {
+      "wins": 0,
+      "losses": 1
     }
   },
   "wins": 8,
-  "losses": 14,
-  "total_pnl": 15.400007431301216,
-  "signals": 25,
+  "losses": 15,
+  "total_pnl": 15.225657755591612,
+  "signals": 30,
   "trade_history": [
     {
       "coin": "TIA",
@@ -518,7 +522,50 @@
         "bear_score": 78
       },
       "timestamp": "2026-06-25 14:21"
+    },
+    {
+      "coin": "ADA",
+      "action": "SELL",
+      "entry": 0.14339,
+      "exit": 0.14364,
+      "pnl": -0.17,
+      "result": "LOSS",
+      "hold_mins": 348,
+      "hour": 6,
+      "atr": 0.002834999999999998,
+      "tp_hit": 1,
+      "context": {
+        "st_1h": -1,
+        "st_4h": -1,
+        "adx": 32.40747501178957,
+        "dip": 15.895370591908634,
+        "dim": 24.46749227438965,
+        "ribbon": 0,
+        "cross_up": false,
+        "cross_dn": false,
+        "e50_4h": 0.1546608135457964,
+        "e200_4h": 0.18249323589500574,
+        "rsi_1h": 40.93825180433035,
+        "rsi_4h": 40.21964974769959,
+        "divergence": null,
+        "macd": -0.0010659999366606498,
+        "at_support": false,
+        "at_resistance": false,
+        "bb_squeeze": false,
+        "vol_spike": false,
+        "fear_greed": 12,
+        "funding": -9.3235e-06,
+        "ob_imbalance": 0,
+        "news": -18,
+        "cg_bull": 0,
+        "cg_bear": 6,
+        "change_7d": -12.247560856251749,
+        "regime": "bear",
+        "bull_score": 23,
+        "bear_score": 74
+      },
+      "timestamp": "2026-06-26 06:22"
     }
   ],
-  "updated": "2026-06-26 00:05 UTC"
+  "updated": "2026-06-26 06:22 UTC"
 }
