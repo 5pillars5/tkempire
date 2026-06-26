@@ -193,6 +193,11 @@ body.private-mode .view-private{display:block;}
 </head>
 <body>
 
+<script>
+const TK_API_DASHBOARD = 'http://143.244.155.109:5000/api/dashboard';
+</script>
+
+
 <section class="v3-wrap" id="eai-v3">
   <div class="v3-hero">
     <div class="v3-panel">
@@ -860,7 +865,7 @@ window.addEventListener('load', () => {
 <script>
 async function loadDashboardJson(){
   try{
-    const res = await fetch('data/dashboard.json?cache=' + Date.now());
+    const res = await fetch(TK_API_DASHBOARD + '?cache=' + Date.now());
     const d = await res.json();
 
     const set = (id, val) => {
@@ -903,7 +908,7 @@ setInterval(v3Tick,1000);
 
 async function loadEaiV3(){
   try{
-    const res = await fetch('data/dashboard.json?cache=' + Date.now());
+    const res = await fetch(TK_API_DASHBOARD + '?cache=' + Date.now());
     const d = await res.json();
     const set=(id,v)=>{const el=document.getElementById(id); if(el) el.textContent=v;};
 
@@ -978,7 +983,7 @@ setInterval(loadEaiV3,30000);
 <script>
 async function loadOpenTradeStatus(){
   try{
-    const res = await fetch('data/dashboard.json?cache=' + Date.now());
+    const res = await fetch(TK_API_DASHBOARD + '?cache=' + Date.now());
     const d = await res.json();
     const trades = Array.isArray(d.open_signals) ? d.open_signals : [];
 
@@ -1057,7 +1062,7 @@ setInterval(loadOpenTradeStatus, 30000);
 <script>
 async function loadEngineHealth(){
   try{
-    const res = await fetch('data/dashboard.json?cache=' + Date.now());
+    const res = await fetch(TK_API_DASHBOARD + '?cache=' + Date.now());
     const d = await res.json();
 
     const openCount = Array.isArray(d.open_signals) ? d.open_signals.length : 0;
@@ -1129,7 +1134,7 @@ setInterval(loadEngineHealth, 30000);
 <script>
 async function loadDecisionTimeline(){
   try{
-    const res = await fetch('data/dashboard.json?cache=' + Date.now());
+    const res = await fetch(TK_API_DASHBOARD + '?cache=' + Date.now());
     const d = await res.json();
     const feed = document.getElementById('decisionTimelineFeed');
     if(!feed) return;
