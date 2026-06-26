@@ -257,18 +257,37 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:44px 6%;}
   <div class="hero-badge">⚡ LIMITED TO 100 IMPERIANS — SPOTS AVAILABLE</div>
   <img src="https://i.imgur.com/Kf99eJt.jpeg" alt="TK Empire" class="hero-logo"/>
   <h1>Trade Like An<br/><span class="gold">Empire</span></h1>
-  <p class="hero-sub">Premium crypto trading signals with a documented 73% win rate. Grid bot automation. Real-time Telegram alerts. Built for serious traders who want real results.</p>
+  <p class="hero-sub">Empire Adaptive Intelligence is currently in private optimization mode. The engine scans markets, tracks every signal, studies performance, and sharpens before the Imperian doors officially open.</p>
   <div class="hero-stats">
-    <div><div class="stat-num">73%</div><div class="stat-label">Win Rate</div></div>
+    <div><div class="stat-num" id="liveWinRate">Learning</div><div class="stat-label">EAI Status</div></div>
     <div><div class="stat-num">100</div><div class="stat-label">Max Members</div></div>
     <div><div class="stat-num">24/7</div><div class="stat-label">Bot Active</div></div>
     <div><div class="stat-num">3</div><div class="stat-label">Free Signals</div></div>
   </div>
   <div class="hero-btns">
-    <a href="join.html" class="btn-primary">Join the Imperians — $297/mo</a>
+    <a href="join.html" class="btn-primary">Join the Imperian Waitlist</a>
     <a href="#signals" class="btn-secondary">See Live Signals</a>
   </div>
-  <p class="hero-note">First 3 signals completely free. No commitment required.</p>
+  <p class="hero-note">Private beta is active. Full membership opens after verified performance validation.</p>
+<div class="beta-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:34px auto 0;max-width:900px;">
+  <div class="beta-card" style="background:#080816;border:1px solid #2a2347;border-radius:18px;padding:18px;">
+    <div style="color:#9ca3af;font-size:12px;">ENGINE MODE</div>
+    <div style="color:var(--gold);font-size:24px;font-weight:800;">PRIVATE BETA</div>
+  </div>
+  <div class="beta-card" style="background:#080816;border:1px solid #2a2347;border-radius:18px;padding:18px;">
+    <div style="color:#9ca3af;font-size:12px;">LIVE REGIME</div>
+    <div id="eaiRegime" style="color:white;font-size:24px;font-weight:800;">Loading</div>
+  </div>
+  <div class="beta-card" style="background:#080816;border:1px solid #2a2347;border-radius:18px;padding:18px;">
+    <div style="color:#9ca3af;font-size:12px;">SIGNALS TRACKED</div>
+    <div id="eaiSignals" style="color:white;font-size:24px;font-weight:800;">--</div>
+  </div>
+  <div class="beta-card" style="background:#080816;border:1px solid #2a2347;border-radius:18px;padding:18px;">
+    <div style="color:#9ca3af;font-size:12px;">CURRENT PNL</div>
+    <div id="eaiPnl" style="color:var(--gold);font-size:24px;font-weight:800;">--</div>
+  </div>
+</div>
+
 </section>
 
 <!-- TICKER -->
@@ -280,7 +299,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:44px 6%;}
     <div class="ticker-item"><span class="ticker-pair">XRP/USDT</span><span class="up">▲ +2.44%</span></div>
     <div class="ticker-item"><span class="ticker-pair">BNB/USDT</span><span class="down">▼ -0.82%</span></div>
     <div class="ticker-item"><span class="ticker-pair">DOGE/USDT</span><span class="up">▲ +5.91%</span></div>
-    <div class="ticker-item"><span class="ticker-pair">WIN RATE</span><span class="up">⚡ 73% DOCUMENTED</span></div>
+    <div class="ticker-item"><span class="ticker-pair">WIN RATE</span><span class="up">🧠 PRIVATE BETA</span></div>
     <div class="ticker-item"><span class="ticker-pair">IMPERIANS</span><span class="up">⚡ SPOTS OPEN</span></div>
     <div class="ticker-item"><span class="ticker-pair">BTC/USDT</span><span class="up">▲ +4.35%</span></div>
     <div class="ticker-item"><span class="ticker-pair">ETH/USDT</span><span class="up">▲ +6.72%</span></div>
@@ -288,7 +307,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:44px 6%;}
     <div class="ticker-item"><span class="ticker-pair">XRP/USDT</span><span class="up">▲ +2.44%</span></div>
     <div class="ticker-item"><span class="ticker-pair">BNB/USDT</span><span class="down">▼ -0.82%</span></div>
     <div class="ticker-item"><span class="ticker-pair">DOGE/USDT</span><span class="up">▲ +5.91%</span></div>
-    <div class="ticker-item"><span class="ticker-pair">WIN RATE</span><span class="up">⚡ 73% DOCUMENTED</span></div>
+    <div class="ticker-item"><span class="ticker-pair">WIN RATE</span><span class="up">🧠 PRIVATE BETA</span></div>
     <div class="ticker-item"><span class="ticker-pair">IMPERIANS</span><span class="up">⚡ SPOTS OPEN</span></div>
   </div>
 </div>
@@ -300,9 +319,9 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:44px 6%;}
       <div>
         <div class="section-label">Performance</div>
         <h2 class="section-title">Honest Numbers.<br/>Real Results.</h2>
-        <p class="section-sub" style="margin-bottom:28px;">While competitors claim 90–96% win rates with zero verification, Empire Signals documents every single call. Every win. Every loss. Full transparency always.</p>
+        <p class="section-sub" style="margin-bottom:28px;">EAI is being sharpened in private beta. Every signal, win, loss, blocked coin, and learning cycle is tracked so the engine can be validated before public launch.</p>
         <div class="stats-list">
-          <div class="stat-row"><span class="stat-row-label">Documented Win Rate</span><span class="stat-row-val green">73%</span></div>
+          <div class="stat-row"><span class="stat-row-label">Current EAI Mode</span><span class="stat-row-val green">Private Beta</span></div>
           <div class="stat-row"><span class="stat-row-label">Average Signals Per Week</span><span class="stat-row-val">8–12 Signals</span></div>
           <div class="stat-row"><span class="stat-row-label">Pairs Covered</span><span class="stat-row-val">BTC, ETH, SOL, XRP +</span></div>
           <div class="stat-row"><span class="stat-row-label">Signal Delivery</span><span class="stat-row-val purple">⚡ Telegram Instant</span></div>
@@ -314,12 +333,12 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:44px 6%;}
       <div class="perf-chart">
         <div class="donut">
           <div class="donut-inner">
-            <div class="donut-num">73%</div>
+            <div class="donut-num">EAI</div>
             <div class="donut-label">Win Rate</div>
           </div>
         </div>
         <div class="perf-legend">
-          <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div>Wins (73%)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div>Learning Mode Active</div>
           <div class="legend-item"><div class="legend-dot" style="background:#1e1e3a"></div>Losses (27%)</div>
         </div>
       </div>
@@ -402,7 +421,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:44px 6%;}
         <div>Binance Killers</div>
       </div>
       <div class="comp-row"><div>Monthly Price</div><div>$999–$1,567</div><div class="comp-ours">$297</div><div>$290</div></div>
-      <div class="comp-row"><div>Verified Win Rate</div><div><span class="x">✗</span> Claimed only</div><div class="comp-ours"><span class="chk">✓</span> 73% Documented</div><div><span class="x">✗</span></div></div>
+      <div class="comp-row"><div>Verified Win Rate</div><div><span class="x">✗</span> Claimed only</div><div class="comp-ours"><span class="chk">✓</span> Live Verified Stats</div><div><span class="x">✗</span></div></div>
       <div class="comp-row"><div>Grid Bot Included</div><div><span class="x">✗</span></div><div class="comp-ours"><span class="chk">✓</span> Yes — 24/7</div><div><span class="x">✗</span></div></div>
       <div class="comp-row"><div>Live Dashboard</div><div><span class="x">✗</span></div><div class="comp-ours"><span class="chk">✓</span> Real Time</div><div><span class="x">✗</span></div></div>
       <div class="comp-row"><div>Member Cap</div><div>Unlimited</div><div class="comp-ours">100 Max</div><div>Unlimited</div></div>
@@ -448,12 +467,12 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:44px 6%;}
   <div class="section-inner text-center">
     <div class="section-label">Membership</div>
     <h2 class="section-title">One Tier. Full Access.</h2>
-    <p class="section-sub">No upsells. No tiers. Imperians get everything from day one — signals, bot, dashboard, community.</p>
+    <p class="section-sub">Private access is being prepared. Imperians will enter only after the engine has completed validation and performance tracking.</p>
     <div class="pricing-wrap">
       <div class="pricing-card">
         <div class="pricing-badge">⚡ Imperian Membership</div>
         <div class="pricing-price">$297<span>/mo</span></div>
-        <p class="pricing-tagline">Full access to all signals, grid bot, live dashboard, and the private Imperians community.</p>
+        <p class="pricing-tagline">Founding access to the TK Empire ecosystem once private beta validation is complete.</p>
         <div class="pricing-feats">
           <div class="pricing-feat">Real-time Telegram signal alerts</div>
           <div class="pricing-feat">TK Empire trailing grid bot access</div>
@@ -462,10 +481,10 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:44px 6%;}
           <div class="pricing-feat">Private Imperians Telegram community</div>
           <div class="pricing-feat">Weekly in-depth market analysis</div>
           <div class="pricing-feat">Full signal history and performance log</div>
-          <div class="pricing-feat">First 3 signals completely free</div>
+          <div class="pricing-feat">Private beta waitlist access</div>
         </div>
         <a href="join.html" class="btn-primary" style="width:100%;display:block;font-size:15px;">
-          Join the Imperians Today
+          Join the Imperian Waitlist
         </a>
         <p class="pricing-slots">⚡ Limited spots — cap is 100 members worldwide</p>
         <p class="pricing-note">Cancel anytime. No lock-in contracts.</p>
@@ -479,9 +498,9 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:44px 6%;}
   <div class="section-inner text-center">
     <div class="section-label">Get Started Today</div>
     <h2>Ready to Trade Like<br/>an <span style="background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Empire?</span></h2>
-    <p class="section-sub" style="margin:16px auto 40px;">Your first 3 signals are completely free. No risk. No commitment. Just real results from a real trading operation.</p>
+    <p class="section-sub" style="margin:16px auto 40px;">The engine is being sharpened before public access. Join the waitlist and watch TK Empire evolve before the doors open.</p>
     <a href="join.html" class="btn-primary" style="font-size:16px;padding:18px 44px;">
-      Start Free — Join the Imperians
+      Join the Imperian Waitlist
     </a>
     <p class="hero-note" style="margin-top:16px;">signals@tkempire.io · @tkempirebot on Telegram</p>
   </div>
@@ -526,14 +545,14 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:44px 6%;}
     <button class="modal-close" onclick="closeModal()">×</button>
     <img src="https://i.imgur.com/Kf99eJt.jpeg" alt="TK Empire" class="modal-logo"/>
     <h3>Join the Imperians</h3>
-    <p>Enter your details below. We'll send your first 3 free signals directly to your Telegram. No payment needed to start.</p>
+    <p>Enter your details below to join the Imperian waitlist. Founding access opens after EAI completes private validation.</p>
     <input type="text" placeholder="Your Name" id="iName"/>
     <input type="email" placeholder="Email Address" id="iEmail"/>
     <input type="text" placeholder="Telegram Username (@yourname)" id="iTelegram"/>
     <a href="https://t.me/tkempirebot" target="_blank" class="btn-primary" style="width:100%;display:block;text-align:center;margin-top:4px;">
       Get My 3 Free Signals →
     </a>
-    <p class="modal-note">You'll receive an invite to the private Imperians channel on Telegram within 24 hours. $297/month billed after your free trial signals. Cancel anytime.</p>
+    <p class="modal-note">You will be notified when founding Imperian access opens. No payment is required during private beta.</p>
   </div>
 </div>
 
@@ -577,5 +596,27 @@ window.addEventListener('load', () => {
 });
 </script>
 <script src="empire.js"></script>
+
+<script>
+(async function(){
+  try{
+    const r = await fetch('data/signal_stats.json?cache=' + Date.now());
+    const d = await r.json();
+    const wr = d.win_rate ?? 0;
+    const sig = d.signals ?? 0;
+    const pnl = d.total_pnl ?? 0;
+    const regime = d.market_mode ?? 'learning';
+    const liveWinRate = document.getElementById('liveWinRate');
+    const eaiRegime = document.getElementById('eaiRegime');
+    const eaiSignals = document.getElementById('eaiSignals');
+    const eaiPnl = document.getElementById('eaiPnl');
+    if(liveWinRate) liveWinRate.textContent = wr ? wr + '%' : 'Learning';
+    if(eaiRegime) eaiRegime.textContent = String(regime).toUpperCase();
+    if(eaiSignals) eaiSignals.textContent = sig;
+    if(eaiPnl) eaiPnl.textContent = (pnl >= 0 ? '+' : '') + pnl;
+  }catch(e){}
+})();
+</script>
+
 </body>
 </html>
