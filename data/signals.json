@@ -272,10 +272,12 @@
       "has_resistance": false,
       "has_orderbook": false
     },
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 569.755,
+    "pnl": -1.76,
+    "result": "loss",
+    "holdMins": 152,
+    "tp_hit": 0
   },
   {
     "id": 1782442586,
