@@ -939,10 +939,12 @@
     "confidence": 74,
     "reason": "SuperTrend BEAR 1H \u00b7 SuperTrend BEAR 4H \u00b7 ADX 32 DI- dominant",
     "regime": "bear",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.145935,
+    "pnl": -2.93,
+    "result": "loss",
+    "holdMins": 118,
+    "tp_hit": 0
   },
   {
     "id": 1782434029,
