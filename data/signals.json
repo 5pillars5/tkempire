@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782432260,
+    "date": "Jun 26",
+    "time": "00:04",
+    "action": "SELL",
+    "coin": "ETH",
+    "pair": "ETH/USDC",
+    "entry": 1569.1,
+    "tp1": 1528.5571,
+    "tp2": 1488.0143,
+    "stop": 1623.1571,
+    "confidence": 60,
+    "reason": "SuperTrend BEAR 1H \u00b7 SuperTrend BEAR 4H \u00b7 ADX 27 DI- dominant",
+    "regime": "bear",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782432187,
     "date": "Jun 26",
     "time": "00:03",
