@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782432043,
+    "date": "Jun 26",
+    "time": "00:00",
+    "action": "SELL",
+    "coin": "DOGE",
+    "pair": "DOGE/USDC",
+    "entry": 0.074928,
+    "tp1": 0.0729,
+    "tp2": 0.0708,
+    "stop": 0.0777,
+    "confidence": 78,
+    "reason": "SuperTrend BEAR 1H \u00b7 SuperTrend BEAR 4H \u00b7 ADX 29 DI- dominant",
+    "regime": "bear",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782354569,
     "date": "Jun 25",
     "time": "02:29",
