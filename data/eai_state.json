@@ -1,7 +1,7 @@
 {
   "weights": {
-    "supertrend_1h": 1.0,
-    "supertrend_4h": 1.0,
+    "supertrend_1h": 0.85,
+    "supertrend_4h": 0.85,
     "adx": 1.0,
     "ema_ribbon": 1.0,
     "ema_cross": 1.0,
@@ -520,5 +520,5 @@
       "timestamp": "2026-06-25 14:21"
     }
   ],
-  "updated": "2026-06-25 14:21 UTC"
+  "updated": "2026-06-26 00:00 UTC"
 }
