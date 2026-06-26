@@ -1078,10 +1078,12 @@
     "confidence": 72,
     "reason": "SuperTrend BEAR 1H \u00b7 SuperTrend BEAR 4H \u00b7 4H master trend BEAR",
     "regime": "bear",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 4.5574,
+    "pnl": -5.46,
+    "result": "loss",
+    "holdMins": 515,
+    "tp_hit": 0
   },
   {
     "id": 1782432114,
