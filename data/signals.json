@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782432114,
+    "date": "Jun 26",
+    "time": "00:01",
+    "action": "SELL",
+    "coin": "BTC",
+    "pair": "BTC/USDC",
+    "entry": 59773.0,
+    "tp1": 58504.3214,
+    "tp2": 57235.6429,
+    "stop": 61464.5714,
+    "confidence": 60,
+    "reason": "SuperTrend BEAR 1H \u00b7 SuperTrend BEAR 4H \u00b7 ADX 29 DI- dominant",
+    "regime": "bear",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782432113,
     "date": "Jun 26",
     "time": "00:01",
