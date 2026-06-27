@@ -54,9 +54,9 @@
       "streak": -2
     },
     "LINK": {
-      "wins": 0,
+      "wins": 1,
       "losses": 1,
-      "streak": -1
+      "streak": 1
     },
     "XRP": {
       "wins": 1,
@@ -133,11 +133,15 @@
     "18": {
       "wins": 1,
       "losses": 0
+    },
+    "19": {
+      "wins": 1,
+      "losses": 0
     }
   },
-  "wins": 9,
+  "wins": 10,
   "losses": 19,
-  "total_pnl": 11.099054833131024,
+  "total_pnl": 12.728855367008073,
   "signals": 33,
   "trade_history": [
     {
@@ -784,7 +788,50 @@
         "bear_score": 78
       },
       "timestamp": "2026-06-27 18:01"
+    },
+    {
+      "coin": "LINK",
+      "action": "SELL",
+      "entry": 7.4549,
+      "exit": 7.3334,
+      "pnl": 1.63,
+      "result": "WIN",
+      "hold_mins": 252,
+      "hour": 19,
+      "atr": 0.03721428571428571,
+      "tp_hit": 2,
+      "context": {
+        "st_1h": 1,
+        "st_4h": -1,
+        "adx": 20.013501732749127,
+        "dip": 27.010543770205608,
+        "dim": 13.51031473016338,
+        "ribbon": 4,
+        "cross_up": false,
+        "cross_dn": false,
+        "e50_4h": 7.553794617888618,
+        "e200_4h": 8.13791499597035,
+        "rsi_1h": 70.79365079365081,
+        "rsi_4h": 46.60515320334264,
+        "divergence": "bear",
+        "macd": 0.04314430663638369,
+        "at_support": false,
+        "at_resistance": true,
+        "bb_squeeze": true,
+        "vol_spike": true,
+        "fear_greed": 15,
+        "funding": -2.5967e-06,
+        "ob_imbalance": 0,
+        "news": -6,
+        "cg_bull": 0,
+        "cg_bear": 0,
+        "change_7d": -5.931065834034515,
+        "regime": "bear",
+        "bull_score": 31,
+        "bear_score": 79
+      },
+      "timestamp": "2026-06-27 19:25"
     }
   ],
-  "updated": "2026-06-27 18:01 UTC"
+  "updated": "2026-06-27 19:25 UTC"
 }
