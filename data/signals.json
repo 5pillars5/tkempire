@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782556118,
+    "date": "Jun 27",
+    "time": "10:28",
+    "action": "SELL",
+    "coin": "DOT",
+    "pair": "DOT/USDC",
+    "entry": 0.84257,
+    "tp1": 0.8337,
+    "tp2": 0.8249,
+    "stop": 0.8543,
+    "confidence": 75,
+    "reason": "SuperTrend BEAR 4H \u00b7 EMA Ribbon bear 5/5 \u00b7 4H master trend BEAR",
+    "regime": "bear",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782345703,
     "date": "Jun 25",
     "time": "00:01",
