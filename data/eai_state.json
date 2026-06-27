@@ -1,7 +1,7 @@
 {
   "weights": {
-    "supertrend_1h": 0.614,
-    "supertrend_4h": 0.83,
+    "supertrend_1h": 0.722,
+    "supertrend_4h": 0.977,
     "adx": 1.15,
     "ema_ribbon": 1.0,
     "ema_cross": 0.85,
@@ -12,7 +12,7 @@
     "bb_sr": 1.0,
     "volume": 1.0,
     "fear_greed": 1.0,
-    "funding": 1.15,
+    "funding": 1.0,
     "order_book": 1.0,
     "altfins": 1.0,
     "ob_imbalance": 1.0
@@ -85,8 +85,8 @@
     },
     "INJ": {
       "wins": 0,
-      "losses": 2,
-      "streak": -2
+      "losses": 3,
+      "streak": -3
     }
   },
   "hour_memory": {
@@ -104,7 +104,7 @@
     },
     "8": {
       "wins": 0,
-      "losses": 8
+      "losses": 9
     },
     "9": {
       "wins": 1,
@@ -132,9 +132,9 @@
     }
   },
   "wins": 8,
-  "losses": 19,
-  "total_pnl": 9.643647039957031,
-  "signals": 30,
+  "losses": 20,
+  "total_pnl": 5.333195713981068,
+  "signals": 39,
   "trade_history": [
     {
       "coin": "TIA",
@@ -737,7 +737,47 @@
         "bear_score": 72
       },
       "timestamp": "2026-06-26 08:38"
+    },
+    {
+      "coin": "INJ",
+      "action": "SELL",
+      "entry": 4.8568,
+      "exit": 5.06615,
+      "pnl": -4.31,
+      "result": "LOSS",
+      "hold_mins": 772,
+      "hour": 8,
+      "atr": 0.1037714285714285,
+      "tp_hit": 0,
+      "context": {
+        "st_1h": 1,
+        "st_4h": 1,
+        "adx": 43.56339087816208,
+        "dip": 32.21915937851916,
+        "dim": 7.484906680788267,
+        "ribbon": 4,
+        "cross_up": false,
+        "cross_dn": false,
+        "e50_4h": 4.665858479031785,
+        "e200_4h": 5.191258987451933,
+        "rsi_1h": 78.3603556485355,
+        "rsi_4h": 72.7009042825456,
+        "divergence": "bear",
+        "macd": 0.13162460736877168,
+        "at_support": false,
+        "at_resistance": true,
+        "bb_squeeze": false,
+        "vol_spike": false,
+        "fear_greed": 13,
+        "funding": -3.10213e-05,
+        "ob_imbalance": 0,
+        "news": 0,
+        "regime": "bear",
+        "bull_score": 22,
+        "bear_score": 48
+      },
+      "timestamp": "2026-06-27 08:07"
     }
   ],
-  "updated": "2026-06-27 00:05 UTC"
+  "updated": "2026-06-27 08:07 UTC"
 }
