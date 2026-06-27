@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782576554,
+    "date": "Jun 27",
+    "time": "16:09",
+    "action": "SELL",
+    "coin": "XRP",
+    "pair": "XRP/USDC",
+    "entry": 1.0753,
+    "tp1": 1.0676,
+    "tp2": 1.0599,
+    "stop": 1.0856,
+    "confidence": 78,
+    "reason": "SuperTrend BEAR 4H \u00b7 4H master trend BEAR \u00b7 RSI 75 overbought",
+    "regime": "bear",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782573182,
     "date": "Jun 27",
     "time": "15:13",
