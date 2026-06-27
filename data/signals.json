@@ -87,11 +87,13 @@
       "has_resistance": false,
       "has_orderbook": false
     },
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open",
-    "_duplicate_count": 1
+    "status": "closed",
+    "exit": 1564.15,
+    "pnl": 1.13,
+    "result": "win",
+    "_duplicate_count": 1,
+    "holdMins": 253,
+    "tp_hit": 2
   },
   {
     "id": 1782583221,
