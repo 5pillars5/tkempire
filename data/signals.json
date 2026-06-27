@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782573182,
+    "date": "Jun 27",
+    "time": "15:13",
+    "action": "SELL",
+    "coin": "LINK",
+    "pair": "LINK/USDC",
+    "entry": 7.4549,
+    "tp1": 7.3991,
+    "tp2": 7.3433,
+    "stop": 7.5293,
+    "confidence": 79,
+    "reason": "SuperTrend BEAR 4H \u00b7 4H master trend BEAR \u00b7 RSI 71 overbought",
+    "regime": "bear",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782345703,
     "date": "Jun 25",
     "time": "00:01",
