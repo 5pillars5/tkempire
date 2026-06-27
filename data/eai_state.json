@@ -1,14 +1,14 @@
 {
   "weights": {
-    "supertrend_1h": 0.85,
-    "supertrend_4h": 0.85,
-    "adx": 1.0,
+    "supertrend_1h": 0.722,
+    "supertrend_4h": 0.977,
+    "adx": 1.15,
     "ema_ribbon": 1.0,
-    "ema_cross": 1.0,
+    "ema_cross": 0.85,
     "ema_4h_master": 1.0,
     "rsi": 1.0,
     "rsi_divergence": 1.0,
-    "macd": 1.0,
+    "macd": 0.85,
     "bb_sr": 1.0,
     "volume": 1.0,
     "fear_greed": 1.0,
@@ -134,7 +134,7 @@
   "wins": 8,
   "losses": 19,
   "total_pnl": 9.643647039957031,
-  "signals": 30,
+  "signals": 38,
   "trade_history": [
     {
       "coin": "TIA",
@@ -739,5 +739,5 @@
       "timestamp": "2026-06-26 08:38"
     }
   ],
-  "updated": "2026-06-26 08:38 UTC"
+  "updated": "2026-06-27 00:00 UTC"
 }
