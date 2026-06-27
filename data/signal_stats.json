@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-06-27 17:14 UTC",
+  "updated_at": "2026-06-27 17:16 UTC",
   "type": "signals",
   "market_mode": "bear",
   "pairs": 15,
   "min_score": 45,
   "min_gap": 5,
-  "wins": 10,
+  "wins": 11,
   "losses": 24,
   "signals": 39,
-  "total_pnl": 1.84,
-  "win_rate": 29.4
+  "total_pnl": 4.25,
+  "win_rate": 31.4
 }
