@@ -46,17 +46,17 @@
     "result": "open"
   },
   {
-    "id": 1782582755,
+    "id": 1782583076,
     "date": "Jun 27",
-    "time": "17:52",
+    "time": "17:57",
     "hour_utc": 17,
     "action": "SELL",
     "coin": "LINK",
     "pair": "LINK/USDC",
-    "entry": 7.387,
-    "tp1": 7.3283,
-    "tp2": 7.2696,
-    "stop": 7.4653,
+    "entry": 7.3846,
+    "tp1": 7.3259,
+    "tp2": 7.2672,
+    "stop": 7.4629,
     "confidence": 49,
     "reason": "SuperTrend BEAR 4H \u00b7 4H master trend BEAR \u00b7 RSI Bearish Divergence",
     "regime": "bear",
@@ -71,7 +71,7 @@
       "supertrend_4h": true,
       "rsi": null,
       "rsi_divergence": true,
-      "macd": 0.03509900555136802,
+      "macd": 0.03490755255991562,
       "adx": 17.599304953120715,
       "funding": 1.25e-05,
       "fear_greed": 15,
@@ -89,7 +89,9 @@
     "status": "open",
     "exit": null,
     "pnl": null,
-    "result": "open"
+    "result": "OPEN",
+    "duplicate_count": 2,
+    "last_updated": "17:57"
   },
   {
     "id": 1782583065,
