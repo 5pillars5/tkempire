@@ -92,14 +92,14 @@
     "result": "open"
   },
   {
-    "id": 1782582753,
+    "id": 1782583065,
     "date": "Jun 27",
-    "time": "17:52",
+    "time": "17:57",
     "hour_utc": 17,
     "action": "SELL",
     "coin": "DOGE",
     "pair": "DOGE/USDC",
-    "entry": 0.075708,
+    "entry": 0.075699,
     "tp1": 0.0751,
     "tp2": 0.0745,
     "stop": 0.0765,
@@ -117,9 +117,9 @@
       "supertrend_4h": true,
       "rsi": null,
       "rsi_divergence": true,
-      "macd": 0.0002593262868644114,
+      "macd": 0.00025860833814646267,
       "adx": 12.354935167635409,
-      "funding": -3.1034e-06,
+      "funding": -3.5904e-06,
       "fear_greed": 15,
       "ob_imbalance": 0,
       "news": 0,
@@ -135,7 +135,9 @@
     "status": "open",
     "exit": null,
     "pnl": null,
-    "result": "open"
+    "result": "OPEN",
+    "duplicate_count": 2,
+    "last_updated": "17:57"
   },
   {
     "id": 1782582752,
