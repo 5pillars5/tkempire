@@ -226,12 +226,14 @@
       "has_resistance": false,
       "has_orderbook": false
     },
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "OPEN",
+    "status": "closed",
+    "exit": 7.3334,
+    "pnl": 1.63,
+    "result": "win",
     "duplicate_count": 3,
-    "last_updated": "18:00"
+    "last_updated": "18:00",
+    "holdMins": 252,
+    "tp_hit": 2
   },
   {
     "id": 1782583529,
