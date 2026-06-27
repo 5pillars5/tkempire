@@ -411,11 +411,13 @@
     "confidence": 43,
     "reason": "SuperTrend BULL 1H \u00b7 RSI 41 bull zone \u00b7 At key support $1.142",
     "regime": "bull",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open",
-    "_duplicate_count": 1
+    "status": "closed",
+    "exit": 1.05965,
+    "pnl": 1.46,
+    "result": "win",
+    "_duplicate_count": 1,
+    "holdMins": 112,
+    "tp_hit": 2
   },
   {
     "id": 1782000093,
