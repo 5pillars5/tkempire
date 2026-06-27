@@ -70,8 +70,8 @@
     },
     "ETH": {
       "wins": 0,
-      "losses": 1,
-      "streak": -1
+      "losses": 2,
+      "streak": -2
     },
     "DOT": {
       "wins": 1,
@@ -134,11 +134,16 @@
       "wins": 0,
       "losses": 1,
       "breakeven": 0
+    },
+    "17": {
+      "wins": 0,
+      "losses": 1,
+      "breakeven": 0
     }
   },
   "wins": 8,
-  "losses": 21,
-  "total_pnl": 2.927418021231902,
+  "losses": 22,
+  "total_pnl": 2.005131002976312,
   "signals": 39,
   "trade_history": [
     {
@@ -822,7 +827,47 @@
         "bear_score": 73
       },
       "timestamp": "2026-06-27 15:08"
+    },
+    {
+      "coin": "ETH",
+      "action": "SELL",
+      "entry": 1577.6,
+      "exit": 1592.15,
+      "pnl": -0.92,
+      "result": "LOSS",
+      "hold_mins": 1440,
+      "hour": 17,
+      "atr": 20.41428571428573,
+      "tp_hit": 0,
+      "context": {
+        "st_1h": -1,
+        "st_4h": -1,
+        "adx": 25.757216536305034,
+        "dip": 17.48709871374224,
+        "dim": 19.991700778879988,
+        "ribbon": 1,
+        "cross_up": false,
+        "cross_dn": false,
+        "e50_4h": 1651.341971270061,
+        "e200_4h": 1779.8457222074817,
+        "rsi_1h": 56.87707641196007,
+        "rsi_4h": 36.93787366779306,
+        "divergence": "hidden_bear",
+        "macd": -5.052730621702949,
+        "at_support": false,
+        "at_resistance": true,
+        "bb_squeeze": true,
+        "vol_spike": false,
+        "fear_greed": 13,
+        "funding": -9.8615e-06,
+        "ob_imbalance": 0,
+        "news": 0,
+        "regime": "bear",
+        "bull_score": 16,
+        "bear_score": 87
+      },
+      "timestamp": "2026-06-27 17:04"
     }
   ],
-  "updated": "2026-06-27 15:08 UTC"
+  "updated": "2026-06-27 17:04 UTC"
 }
