@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782630185,
+    "date": "Jun 28",
+    "time": "07:03",
+    "action": "SELL",
+    "coin": "BNB",
+    "pair": "BNB/USDC",
+    "entry": 556.46,
+    "tp1": 552.5868,
+    "tp2": 548.7136,
+    "stop": 561.6243,
+    "confidence": 73,
+    "reason": "SuperTrend BEAR 1H \u00b7 SuperTrend BEAR 4H \u00b7 ADX 30 DI- dominant",
+    "regime": "bear",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782630115,
     "date": "Jun 28",
     "time": "07:01",
