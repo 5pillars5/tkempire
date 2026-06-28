@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782633707,
+    "date": "Jun 28",
+    "time": "08:01",
+    "action": "SELL",
+    "coin": "OP",
+    "pair": "OP/USDC",
+    "entry": 0.10113,
+    "tp1": 0.1,
+    "tp2": 0.0989,
+    "stop": 0.1026,
+    "confidence": 75,
+    "reason": "SuperTrend BEAR 1H \u00b7 ADX 42 DI- dominant \u00b7 EMA Ribbon bear 5/5",
+    "regime": "bear",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782630185,
     "date": "Jun 28",
     "time": "07:03",
