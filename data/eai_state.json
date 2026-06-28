@@ -1,14 +1,14 @@
 {
   "weights": {
-    "supertrend_1h": 0.705,
-    "supertrend_4h": 0.706,
-    "adx": 1.15,
+    "supertrend_1h": 0.83,
+    "supertrend_4h": 0.614,
+    "adx": 1.0,
     "ema_ribbon": 1.0,
-    "ema_cross": 0.85,
+    "ema_cross": 1.0,
     "ema_4h_master": 1.0,
     "rsi": 1.0,
     "rsi_divergence": 1.0,
-    "macd": 0.85,
+    "macd": 1.0,
     "bb_sr": 1.0,
     "volume": 1.0,
     "fear_greed": 1.0,
@@ -24,9 +24,9 @@
       "streak": -2
     },
     "ARB": {
-      "wins": 3,
+      "wins": 2,
       "losses": 0,
-      "streak": 3
+      "streak": 2
     },
     "APT": {
       "wins": 1,
@@ -45,8 +45,8 @@
     },
     "ADA": {
       "wins": 1,
-      "losses": 2,
-      "streak": -1
+      "losses": 3,
+      "streak": -2
     },
     "TIA": {
       "wins": 1,
@@ -103,8 +103,8 @@
       "losses": 1
     },
     "8": {
-      "wins": 1,
-      "losses": 9
+      "wins": 0,
+      "losses": 10
     },
     "9": {
       "wins": 1,
@@ -139,10 +139,10 @@
       "losses": 0
     }
   },
-  "wins": 12,
-  "losses": 20,
-  "total_pnl": 13.886125931082768,
-  "signals": 41,
+  "wins": 11,
+  "losses": 21,
+  "total_pnl": 11.745462978756192,
+  "signals": 38,
   "trade_history": [
     {
       "coin": "TIA",
@@ -876,85 +876,91 @@
       "timestamp": "2026-06-27 19:30"
     },
     {
-      "coin": "ARB",
-      "action": "SELL",
-      "entry": 0.07393,
-      "exit": 0.0742,
-      "pnl": 0.46,
-      "result": "WIN",
-      "hold_mins": 254,
-      "hour": 8,
-      "atr": 0.0006285714285714247,
-      "tp_hit": 1,
-      "context": {
-        "st_1h": -1,
-        "st_4h": -1,
-        "adx": 10.331122433986712,
-        "dip": 19.271796952269526,
-        "dim": 17.454403416431788,
-        "ribbon": 1,
-        "cross_up": false,
-        "cross_dn": false,
-        "e50_4h": 0.07735470079182227,
-        "e200_4h": 0.08662173498513061,
-        "rsi_1h": 33.67875647668369,
-        "rsi_4h": 52.694610778443106,
-        "divergence": null,
-        "macd": -0.00020369441484413553,
-        "at_support": false,
-        "at_resistance": true,
-        "bb_squeeze": true,
-        "vol_spike": false,
-        "fear_greed": 18,
-        "funding": 4.0866e-06,
-        "ob_imbalance": 0,
-        "news": 0,
-        "regime": "bear",
-        "bull_score": 24,
-        "bear_score": 50
-      },
-      "timestamp": "2026-06-28 08:38"
-    },
-    {
       "coin": "LINK",
       "action": "SELL",
-      "entry": 7.2443,
-      "exit": 7.3463,
-      "pnl": -1.41,
+      "entry": 7.2514,
+      "exit": 7.3366,
+      "pnl": -1.17,
       "result": "LOSS",
-      "hold_mins": 188,
+      "hold_mins": 97,
       "hour": 8,
-      "atr": 0.04511428571428576,
+      "atr": 0.0400357142857143,
       "tp_hit": 0,
       "context": {
         "st_1h": -1,
         "st_4h": -1,
-        "adx": 22.57958827662053,
-        "dip": 12.508904325113779,
-        "dim": 28.0415733220296,
+        "adx": 26.315659869826817,
+        "dip": 11.37753056920262,
+        "dim": 29.860511697520025,
         "ribbon": 1,
         "cross_up": false,
         "cross_dn": false,
-        "e50_4h": 7.52423403967156,
-        "e200_4h": 8.103074830126513,
-        "rsi_1h": 20.052083333333215,
-        "rsi_4h": 50.13750793315,
+        "e50_4h": 7.52466541222058,
+        "e200_4h": 8.103184282862832,
+        "rsi_1h": 26.56190111153684,
+        "rsi_4h": 50.72773972602741,
         "divergence": null,
-        "macd": -0.024707149619578317,
-        "at_support": false,
+        "macd": -0.025290200126797835,
+        "at_support": true,
         "at_resistance": true,
         "bb_squeeze": true,
-        "vol_spike": false,
+        "vol_spike": true,
         "fear_greed": 18,
-        "funding": -4.396e-07,
+        "funding": -2.34488e-05,
         "ob_imbalance": 0,
-        "news": 0,
+        "news": -2,
+        "cg_bull": 0,
+        "cg_bear": 6,
+        "change_7d": -8.464261913554266,
         "regime": "bear",
-        "bull_score": 31,
-        "bear_score": 56
+        "bull_score": 41,
+        "bear_score": 79
       },
       "timestamp": "2026-06-28 08:38"
+    },
+    {
+      "coin": "ADA",
+      "action": "SELL",
+      "entry": 0.14359,
+      "exit": 0.146345,
+      "pnl": -1.92,
+      "result": "LOSS",
+      "hold_mins": 138,
+      "hour": 8,
+      "atr": 0.001129999999999998,
+      "tp_hit": 0,
+      "context": {
+        "st_1h": -1,
+        "st_4h": -1,
+        "adx": 25.07557631487366,
+        "dip": 12.225228792812501,
+        "dim": 29.716799065941576,
+        "ribbon": 1,
+        "cross_up": false,
+        "cross_dn": false,
+        "e50_4h": 0.15093638121744843,
+        "e200_4h": 0.17800138319996925,
+        "rsi_1h": 24.1189427312775,
+        "rsi_4h": 49.956178790534636,
+        "divergence": null,
+        "macd": -0.0008596157962183493,
+        "at_support": true,
+        "at_resistance": false,
+        "bb_squeeze": true,
+        "vol_spike": true,
+        "fear_greed": 18,
+        "funding": -7.57914e-05,
+        "ob_imbalance": 0,
+        "news": -2,
+        "cg_bull": 0,
+        "cg_bear": 6,
+        "change_7d": -10.539218020973578,
+        "regime": "bear",
+        "bull_score": 41,
+        "bear_score": 77
+      },
+      "timestamp": "2026-06-28 08:39"
     }
   ],
-  "updated": "2026-06-28 08:38 UTC"
+  "updated": "2026-06-28 08:39 UTC"
 }
