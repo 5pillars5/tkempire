@@ -1,0 +1,11 @@
+{
+  "updated_at": "2026-06-27T23:45:27.797784+00:00",
+  "total": 0,
+  "bullish": 0,
+  "bearish": 0,
+  "source": "altFINS private server fetch",
+  "status": "rate_limited_429",
+  "message": "altFINS rate limit hit. Keeping cached research feed.",
+  "signals": [],
+  "last_attempt_at": "2026-06-28T03:00:02.946128+00:00"
+}

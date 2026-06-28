@@ -247,24 +247,14 @@ const SIGNAL_STRENGTH = {
 
 async function fetchResearchSignals(){
   try {
-    const [bull, bear] = await Promise.all([
-      fetch('https://api.altfins.com/api/v2/public/signals-feed/search-requests', {
-        method: 'POST',
-        headers: {'x-api-key': 'afns_sk_117303.l8KB7qjMo1XCk3dYudXXyTMricXDaG2RRGWZS9PpnBc', 'Content-Type': 'application/json'},
-        body: JSON.stringify({direction: 'BULLISH', limit: 50, sort: [{property: 'timestamp', direction: 'DESC'}]})
-      }).then(r => r.json()),
-      fetch('https://api.altfins.com/api/v2/public/signals-feed/search-requests', {
-        method: 'POST',
-        headers: {'x-api-key': 'afns_sk_117303.l8KB7qjMo1XCk3dYudXXyTMricXDaG2RRGWZS9PpnBc', 'Content-Type': 'application/json'},
-        body: JSON.stringify({direction: 'BEARISH', limit: 50, sort: [{property: 'timestamp', direction: 'DESC'}]})
-      }).then(r => r.json()),
-    ]);
+    const r = await fetch('data/research_signals.json?t=' + Date.now());
+    const payload = await r.json();
 
-    const bullish = (bull.content || []).map(s => ({...s, direction: 'BULLISH'}));
-    const bearish = (bear.content || []).map(s => ({...s, direction: 'BEARISH'}));
-    allSignals = [...bullish, ...bearish].sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+    allSignals = payload.signals || [];
 
-    // Update stats
+    const bullish = allSignals.filter(s => s.direction === 'BULLISH');
+    const bearish = allSignals.filter(s => s.direction === 'BEARISH');
+
     document.getElementById('r-total').textContent = allSignals.length;
     document.getElementById('r-bull').textContent = bullish.length;
     document.getElementById('r-bear').textContent = bearish.length;
@@ -273,9 +263,8 @@ async function fetchResearchSignals(){
   } catch(e) {
     document.getElementById('signalList').innerHTML = `
       <div class="empty-state">
-        <div class="empty-icon">📡</div>
-        <div class="empty-title">Feed temporarily unavailable</div>
-        <div class="empty-sub">External research feed is updating.<br/>Check back in a few minutes.</div>
+        <div class="empty-title">Research feed unavailable</div>
+        <div class="empty-sub">Private research feed is updating.<br/>Check back in a few minutes.</div>
       </div>`;
   }
 }
