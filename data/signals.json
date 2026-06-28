@@ -134,11 +134,13 @@
       "has_resistance": false,
       "has_orderbook": false
     },
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open",
-    "_duplicate_count": 1
+    "status": "closed",
+    "exit": 7.3463,
+    "pnl": -1.41,
+    "result": "loss",
+    "_duplicate_count": 1,
+    "holdMins": 188,
+    "tp_hit": 0
   },
   {
     "id": 1782344955,
