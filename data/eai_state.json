@@ -17,132 +17,10 @@
     "altfins": 1.0,
     "ob_imbalance": 1.0
   },
-  "coin_memory": {
-    "AVAX": {
-      "wins": 1,
-      "losses": 2,
-      "streak": -2
-    },
-    "ARB": {
-      "wins": 2,
-      "losses": 0,
-      "streak": 2
-    },
-    "APT": {
-      "wins": 1,
-      "losses": 1,
-      "streak": 1
-    },
-    "BNB": {
-      "wins": 0,
-      "losses": 1,
-      "streak": -1
-    },
-    "BTC": {
-      "wins": 0,
-      "losses": 1,
-      "streak": -1
-    },
-    "ADA": {
-      "wins": 1,
-      "losses": 2,
-      "streak": -1
-    },
-    "TIA": {
-      "wins": 1,
-      "losses": 3,
-      "streak": -2
-    },
-    "LINK": {
-      "wins": 1,
-      "losses": 1,
-      "streak": 1
-    },
-    "XRP": {
-      "wins": 1,
-      "losses": 2,
-      "streak": 1
-    },
-    "SOL": {
-      "wins": 0,
-      "losses": 1,
-      "streak": -1
-    },
-    "ETH": {
-      "wins": 0,
-      "losses": 1,
-      "streak": -1
-    },
-    "DOT": {
-      "wins": 2,
-      "losses": 1,
-      "streak": 1
-    },
-    "DOGE": {
-      "wins": 1,
-      "losses": 1,
-      "streak": -1
-    },
-    "INJ": {
-      "wins": 0,
-      "losses": 2,
-      "streak": -2
-    }
-  },
-  "hour_memory": {
-    "7": {
-      "wins": 1,
-      "losses": 0
-    },
-    "14": {
-      "wins": 1,
-      "losses": 1
-    },
-    "22": {
-      "wins": 0,
-      "losses": 1
-    },
-    "8": {
-      "wins": 0,
-      "losses": 8
-    },
-    "9": {
-      "wins": 1,
-      "losses": 0
-    },
-    "11": {
-      "wins": 0,
-      "losses": 4
-    },
-    "12": {
-      "wins": 1,
-      "losses": 0
-    },
-    "16": {
-      "wins": 0,
-      "losses": 2
-    },
-    "13": {
-      "wins": 4,
-      "losses": 0
-    },
-    "6": {
-      "wins": 0,
-      "losses": 3
-    },
-    "18": {
-      "wins": 1,
-      "losses": 0
-    },
-    "19": {
-      "wins": 2,
-      "losses": 0
-    }
-  },
-  "wins": 11,
-  "losses": 19,
-  "total_pnl": 14.839065794628333,
-  "signals": 33,
+  "consecutive_loss": 0,
+  "paused_until": 0,
+  "daily_count": 0,
+  "daily_date": "",
   "trade_history": [
     {
       "coin": "TIA",
@@ -876,5 +754,130 @@
       "timestamp": "2026-06-27 19:30"
     }
   ],
-  "updated": "2026-06-28 00:05 UTC"
+  "coin_memory": {
+    "AVAX": {
+      "wins": 1,
+      "losses": 2,
+      "streak": -2
+    },
+    "ARB": {
+      "wins": 2,
+      "losses": 0,
+      "streak": 2
+    },
+    "APT": {
+      "wins": 1,
+      "losses": 1,
+      "streak": 1
+    },
+    "BNB": {
+      "wins": 0,
+      "losses": 1,
+      "streak": -1
+    },
+    "BTC": {
+      "wins": 0,
+      "losses": 1,
+      "streak": -1
+    },
+    "ADA": {
+      "wins": 1,
+      "losses": 2,
+      "streak": -1
+    },
+    "TIA": {
+      "wins": 1,
+      "losses": 3,
+      "streak": -2
+    },
+    "LINK": {
+      "wins": 1,
+      "losses": 1,
+      "streak": 1
+    },
+    "XRP": {
+      "wins": 1,
+      "losses": 2,
+      "streak": 1
+    },
+    "SOL": {
+      "wins": 0,
+      "losses": 1,
+      "streak": -1
+    },
+    "ETH": {
+      "wins": 0,
+      "losses": 1,
+      "streak": -1
+    },
+    "DOT": {
+      "wins": 2,
+      "losses": 1,
+      "streak": 1
+    },
+    "DOGE": {
+      "wins": 1,
+      "losses": 1,
+      "streak": -1
+    },
+    "INJ": {
+      "wins": 0,
+      "losses": 2,
+      "streak": -2
+    }
+  },
+  "hour_memory": {
+    "7": {
+      "wins": 1,
+      "losses": 0
+    },
+    "14": {
+      "wins": 1,
+      "losses": 1
+    },
+    "22": {
+      "wins": 0,
+      "losses": 1
+    },
+    "8": {
+      "wins": 0,
+      "losses": 8
+    },
+    "9": {
+      "wins": 1,
+      "losses": 0
+    },
+    "11": {
+      "wins": 0,
+      "losses": 4
+    },
+    "12": {
+      "wins": 1,
+      "losses": 0
+    },
+    "16": {
+      "wins": 0,
+      "losses": 2
+    },
+    "13": {
+      "wins": 4,
+      "losses": 0
+    },
+    "6": {
+      "wins": 0,
+      "losses": 3
+    },
+    "18": {
+      "wins": 1,
+      "losses": 0
+    },
+    "19": {
+      "wins": 2,
+      "losses": 0
+    }
+  },
+  "wins": 11,
+  "losses": 19,
+  "total_pnl": 14.839065794628333,
+  "signals": 33
 }
