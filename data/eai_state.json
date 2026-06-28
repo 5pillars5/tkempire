@@ -1,14 +1,14 @@
 {
   "weights": {
-    "supertrend_1h": 0.705,
-    "supertrend_4h": 0.706,
-    "adx": 1.15,
+    "supertrend_1h": 0.83,
+    "supertrend_4h": 0.614,
+    "adx": 1.0,
     "ema_ribbon": 1.0,
-    "ema_cross": 0.85,
+    "ema_cross": 1.0,
     "ema_4h_master": 1.0,
     "rsi": 1.0,
     "rsi_divergence": 1.0,
-    "macd": 0.85,
+    "macd": 1.0,
     "bb_sr": 1.0,
     "volume": 1.0,
     "fear_greed": 1.0,
@@ -17,10 +17,132 @@
     "altfins": 1.0,
     "ob_imbalance": 1.0
   },
-  "consecutive_loss": 0,
-  "paused_until": 0,
-  "daily_count": 0,
-  "daily_date": "",
+  "coin_memory": {
+    "AVAX": {
+      "wins": 1,
+      "losses": 2,
+      "streak": -2
+    },
+    "ARB": {
+      "wins": 2,
+      "losses": 0,
+      "streak": 2
+    },
+    "APT": {
+      "wins": 1,
+      "losses": 1,
+      "streak": 1
+    },
+    "BNB": {
+      "wins": 0,
+      "losses": 1,
+      "streak": -1
+    },
+    "BTC": {
+      "wins": 0,
+      "losses": 1,
+      "streak": -1
+    },
+    "ADA": {
+      "wins": 1,
+      "losses": 2,
+      "streak": -1
+    },
+    "TIA": {
+      "wins": 1,
+      "losses": 3,
+      "streak": -2
+    },
+    "LINK": {
+      "wins": 1,
+      "losses": 2,
+      "streak": -1
+    },
+    "XRP": {
+      "wins": 1,
+      "losses": 2,
+      "streak": 1
+    },
+    "SOL": {
+      "wins": 0,
+      "losses": 1,
+      "streak": -1
+    },
+    "ETH": {
+      "wins": 0,
+      "losses": 1,
+      "streak": -1
+    },
+    "DOT": {
+      "wins": 2,
+      "losses": 1,
+      "streak": 1
+    },
+    "DOGE": {
+      "wins": 1,
+      "losses": 1,
+      "streak": -1
+    },
+    "INJ": {
+      "wins": 0,
+      "losses": 2,
+      "streak": -2
+    }
+  },
+  "hour_memory": {
+    "7": {
+      "wins": 1,
+      "losses": 0
+    },
+    "14": {
+      "wins": 1,
+      "losses": 1
+    },
+    "22": {
+      "wins": 0,
+      "losses": 1
+    },
+    "8": {
+      "wins": 0,
+      "losses": 9
+    },
+    "9": {
+      "wins": 1,
+      "losses": 0
+    },
+    "11": {
+      "wins": 0,
+      "losses": 4
+    },
+    "12": {
+      "wins": 1,
+      "losses": 0
+    },
+    "16": {
+      "wins": 0,
+      "losses": 2
+    },
+    "13": {
+      "wins": 4,
+      "losses": 0
+    },
+    "6": {
+      "wins": 0,
+      "losses": 3
+    },
+    "18": {
+      "wins": 1,
+      "losses": 0
+    },
+    "19": {
+      "wins": 2,
+      "losses": 0
+    }
+  },
+  "wins": 11,
+  "losses": 20,
+  "total_pnl": 13.664120266868183,
+  "signals": 38,
   "trade_history": [
     {
       "coin": "TIA",
@@ -752,132 +874,50 @@
         "bear_score": 75
       },
       "timestamp": "2026-06-27 19:30"
+    },
+    {
+      "coin": "LINK",
+      "action": "SELL",
+      "entry": 7.2514,
+      "exit": 7.3366,
+      "pnl": -1.17,
+      "result": "LOSS",
+      "hold_mins": 97,
+      "hour": 8,
+      "atr": 0.0400357142857143,
+      "tp_hit": 0,
+      "context": {
+        "st_1h": -1,
+        "st_4h": -1,
+        "adx": 26.315659869826817,
+        "dip": 11.37753056920262,
+        "dim": 29.860511697520025,
+        "ribbon": 1,
+        "cross_up": false,
+        "cross_dn": false,
+        "e50_4h": 7.52466541222058,
+        "e200_4h": 8.103184282862832,
+        "rsi_1h": 26.56190111153684,
+        "rsi_4h": 50.72773972602741,
+        "divergence": null,
+        "macd": -0.025290200126797835,
+        "at_support": true,
+        "at_resistance": true,
+        "bb_squeeze": true,
+        "vol_spike": true,
+        "fear_greed": 18,
+        "funding": -2.34488e-05,
+        "ob_imbalance": 0,
+        "news": -2,
+        "cg_bull": 0,
+        "cg_bear": 6,
+        "change_7d": -8.464261913554266,
+        "regime": "bear",
+        "bull_score": 41,
+        "bear_score": 79
+      },
+      "timestamp": "2026-06-28 08:38"
     }
   ],
-  "coin_memory": {
-    "AVAX": {
-      "wins": 1,
-      "losses": 2,
-      "streak": -2
-    },
-    "ARB": {
-      "wins": 2,
-      "losses": 0,
-      "streak": 2
-    },
-    "APT": {
-      "wins": 1,
-      "losses": 1,
-      "streak": 1
-    },
-    "BNB": {
-      "wins": 0,
-      "losses": 1,
-      "streak": -1
-    },
-    "BTC": {
-      "wins": 0,
-      "losses": 1,
-      "streak": -1
-    },
-    "ADA": {
-      "wins": 1,
-      "losses": 2,
-      "streak": -1
-    },
-    "TIA": {
-      "wins": 1,
-      "losses": 3,
-      "streak": -2
-    },
-    "LINK": {
-      "wins": 1,
-      "losses": 1,
-      "streak": 1
-    },
-    "XRP": {
-      "wins": 1,
-      "losses": 2,
-      "streak": 1
-    },
-    "SOL": {
-      "wins": 0,
-      "losses": 1,
-      "streak": -1
-    },
-    "ETH": {
-      "wins": 0,
-      "losses": 1,
-      "streak": -1
-    },
-    "DOT": {
-      "wins": 2,
-      "losses": 1,
-      "streak": 1
-    },
-    "DOGE": {
-      "wins": 1,
-      "losses": 1,
-      "streak": -1
-    },
-    "INJ": {
-      "wins": 0,
-      "losses": 2,
-      "streak": -2
-    }
-  },
-  "hour_memory": {
-    "7": {
-      "wins": 1,
-      "losses": 0
-    },
-    "14": {
-      "wins": 1,
-      "losses": 1
-    },
-    "22": {
-      "wins": 0,
-      "losses": 1
-    },
-    "8": {
-      "wins": 0,
-      "losses": 8
-    },
-    "9": {
-      "wins": 1,
-      "losses": 0
-    },
-    "11": {
-      "wins": 0,
-      "losses": 4
-    },
-    "12": {
-      "wins": 1,
-      "losses": 0
-    },
-    "16": {
-      "wins": 0,
-      "losses": 2
-    },
-    "13": {
-      "wins": 4,
-      "losses": 0
-    },
-    "6": {
-      "wins": 0,
-      "losses": 3
-    },
-    "18": {
-      "wins": 1,
-      "losses": 0
-    },
-    "19": {
-      "wins": 2,
-      "losses": 0
-    }
-  },
-  "wins": 11,
-  "losses": 19,
-  "total_pnl": 14.839065794628333,
-  "signals": 33
+  "updated": "2026-06-28 08:38 UTC"
 }
