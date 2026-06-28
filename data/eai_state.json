@@ -30,8 +30,8 @@
     },
     "APT": {
       "wins": 1,
-      "losses": 1,
-      "streak": 1
+      "losses": 2,
+      "streak": -1
     },
     "BNB": {
       "wins": 0,
@@ -104,7 +104,7 @@
     },
     "8": {
       "wins": 0,
-      "losses": 10
+      "losses": 11
     },
     "9": {
       "wins": 1,
@@ -140,8 +140,8 @@
     }
   },
   "wins": 11,
-  "losses": 21,
-  "total_pnl": 11.745462978756192,
+  "losses": 22,
+  "total_pnl": 9.93355616253532,
   "signals": 38,
   "trade_history": [
     {
@@ -960,7 +960,50 @@
         "bear_score": 77
       },
       "timestamp": "2026-06-28 08:39"
+    },
+    {
+      "coin": "APT",
+      "action": "SELL",
+      "entry": 0.5795,
+      "exit": 0.59,
+      "pnl": -1.81,
+      "result": "LOSS",
+      "hold_mins": 99,
+      "hour": 8,
+      "atr": 0.004814285714285723,
+      "tp_hit": 0,
+      "context": {
+        "st_1h": -1,
+        "st_4h": -1,
+        "adx": 38.31002560855548,
+        "dip": 10.375786180080969,
+        "dim": 27.599357512354086,
+        "ribbon": 0,
+        "cross_up": false,
+        "cross_dn": false,
+        "e50_4h": 0.6149920454126633,
+        "e200_4h": 0.7134172198434012,
+        "rsi_1h": 27.33333333333337,
+        "rsi_4h": 43.72759856630824,
+        "divergence": "bull",
+        "macd": -0.005127499989343476,
+        "at_support": true,
+        "at_resistance": false,
+        "bb_squeeze": false,
+        "vol_spike": true,
+        "fear_greed": 18,
+        "funding": -6.67106e-05,
+        "ob_imbalance": 0,
+        "news": -2,
+        "cg_bull": 0,
+        "cg_bear": 6,
+        "change_7d": -10.800286743238964,
+        "regime": "bear",
+        "bull_score": 56,
+        "bear_score": 72
+      },
+      "timestamp": "2026-06-28 08:40"
     }
   ],
-  "updated": "2026-06-28 08:39 UTC"
+  "updated": "2026-06-28 08:40 UTC"
 }
