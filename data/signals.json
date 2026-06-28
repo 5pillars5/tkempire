@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782630042,
+    "date": "Jun 28",
+    "time": "07:00",
+    "action": "SELL",
+    "coin": "APT",
+    "pair": "APT/USDC",
+    "entry": 0.5795,
+    "tp1": 0.5723,
+    "tp2": 0.5651,
+    "stop": 0.5891,
+    "confidence": 72,
+    "reason": "SuperTrend BEAR 1H \u00b7 SuperTrend BEAR 4H \u00b7 ADX 38 DI- dominant",
+    "regime": "bear",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782630041,
     "date": "Jun 28",
     "time": "07:00",
