@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782709352,
+    "date": "Jun 29",
+    "time": "05:02",
+    "action": "SELL",
+    "coin": "ADA",
+    "pair": "ADA/USDC",
+    "entry": 0.14378,
+    "tp1": 0.1412,
+    "tp2": 0.1387,
+    "stop": 0.1472,
+    "confidence": 86,
+    "reason": "SuperTrend BEAR 1H \u00b7 ADX 31 DI- dominant \u00b7 EMA Ribbon bear 4/5",
+    "regime": "bear",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782709340,
     "date": "Jun 29",
     "time": "05:02",
