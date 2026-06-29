@@ -80,8 +80,8 @@
     },
     "DOGE": {
       "wins": 1,
-      "losses": 1,
-      "streak": -1
+      "losses": 2,
+      "streak": -2
     },
     "INJ": {
       "wins": 0,
@@ -145,12 +145,12 @@
     },
     "17": {
       "wins": 0,
-      "losses": 3
+      "losses": 4
     }
   },
   "wins": 12,
-  "losses": 26,
-  "total_pnl": 4.364530884462736,
+  "losses": 27,
+  "total_pnl": 2.183716529735341,
   "signals": 43,
   "trade_history": [
     {
@@ -1227,7 +1227,50 @@
         "bear_score": 86
       },
       "timestamp": "2026-06-29 17:13"
+    },
+    {
+      "coin": "DOGE",
+      "action": "SELL",
+      "entry": 0.07245,
+      "exit": 0.07403,
+      "pnl": -2.18,
+      "result": "LOSS",
+      "hold_mins": 737,
+      "hour": 17,
+      "atr": 0.0007864285714285728,
+      "tp_hit": 0,
+      "context": {
+        "st_1h": -1,
+        "st_4h": -1,
+        "adx": 40.02822145034224,
+        "dip": 10.786701142947608,
+        "dim": 26.373870068361953,
+        "ribbon": 0,
+        "cross_up": false,
+        "cross_dn": false,
+        "e50_4h": 0.07685192701832919,
+        "e200_4h": 0.08535728858364827,
+        "rsi_1h": 38.36036825953528,
+        "rsi_4h": 23.672883787661405,
+        "divergence": "hidden_bear",
+        "macd": -0.00043212208274216735,
+        "at_support": true,
+        "at_resistance": false,
+        "bb_squeeze": true,
+        "vol_spike": false,
+        "fear_greed": 12,
+        "funding": -1.41475e-05,
+        "ob_imbalance": 0,
+        "news": -6,
+        "cg_bull": 0,
+        "cg_bear": 6,
+        "change_7d": -12.786261817607944,
+        "regime": "bear",
+        "bull_score": 34,
+        "bear_score": 86
+      },
+      "timestamp": "2026-06-29 17:19"
     }
   ],
-  "updated": "2026-06-29 17:13 UTC"
+  "updated": "2026-06-29 17:19 UTC"
 }
