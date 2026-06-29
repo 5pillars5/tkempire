@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782709353,
+    "date": "Jun 29",
+    "time": "05:02",
+    "action": "SELL",
+    "coin": "LINK",
+    "pair": "LINK/USDC",
+    "entry": 7.2707,
+    "tp1": 7.1602,
+    "tp2": 7.0497,
+    "stop": 7.4181,
+    "confidence": 84,
+    "reason": "SuperTrend BEAR 1H \u00b7 SuperTrend BEAR 4H \u00b7 ADX 26 DI- dominant",
+    "regime": "bear",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782709352,
     "date": "Jun 29",
     "time": "05:02",
