@@ -301,10 +301,10 @@
     "confidence": 51,
     "reason": "SuperTrend BEAR 1H \u00b7 ADX 35 DI- dominant \u00b7 4H master trend BEAR",
     "regime": "bear",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "OPEN",
+    "status": "closed",
+    "exit": 1605.25,
+    "pnl": -2.1,
+    "result": "loss",
     "hour_utc": 16,
     "features": {
       "version": "EAI_v2",
@@ -334,7 +334,9 @@
     },
     "duplicate_count": 6,
     "last_updated": "16:50",
-    "_duplicate_count": 1
+    "_duplicate_count": 1,
+    "holdMins": 730,
+    "tp_hit": 0
   },
   {
     "id": 1782709353,
