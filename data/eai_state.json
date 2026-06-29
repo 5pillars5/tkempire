@@ -1,12 +1,12 @@
 {
   "weights": {
     "supertrend_1h": 0.705,
-    "supertrend_4h": 0.934,
-    "adx": 1.52,
+    "supertrend_4h": 0.812,
+    "adx": 1.322,
     "ema_ribbon": 1.0,
     "ema_cross": 0.85,
     "ema_4h_master": 1.0,
-    "rsi": 0.722,
+    "rsi": 0.85,
     "rsi_divergence": 1.0,
     "macd": 0.85,
     "bb_sr": 1.0,
@@ -74,9 +74,9 @@
       "streak": 1
     },
     "DOT": {
-      "wins": 2,
+      "wins": 3,
       "losses": 1,
-      "streak": 1
+      "streak": 2
     },
     "DOGE": {
       "wins": 2,
@@ -147,11 +147,16 @@
       "wins": 1,
       "losses": 0,
       "breakeven": 0
+    },
+    "0": {
+      "wins": 1,
+      "losses": 0,
+      "breakeven": 0
     }
   },
-  "wins": 16,
+  "wins": 17,
   "losses": 20,
-  "total_pnl": 16.446507426600604,
+  "total_pnl": 17.11817482866954,
   "signals": 41,
   "trade_history": [
     {
@@ -1124,7 +1129,47 @@
         "bear_score": 58
       },
       "timestamp": "2026-06-28 23:30"
+    },
+    {
+      "coin": "DOT",
+      "action": "SELL",
+      "entry": 0.81588,
+      "exit": 0.81599,
+      "pnl": 0.67,
+      "result": "WIN",
+      "hold_mins": 1223,
+      "hour": 0,
+      "atr": 0.007380000000000013,
+      "tp_hit": 1,
+      "context": {
+        "st_1h": -1,
+        "st_4h": -1,
+        "adx": 35.77786880674953,
+        "dip": 17.312886960068656,
+        "dim": 37.15158357903393,
+        "ribbon": 0,
+        "cross_up": false,
+        "cross_dn": false,
+        "e50_4h": 0.8869040579326778,
+        "e200_4h": 1.0054304102699052,
+        "rsi_1h": 23.22834645669319,
+        "rsi_4h": 39.134184201448775,
+        "divergence": null,
+        "macd": -0.00923503726849284,
+        "at_support": false,
+        "at_resistance": false,
+        "bb_squeeze": false,
+        "vol_spike": false,
+        "fear_greed": 18,
+        "funding": -1.79222e-05,
+        "ob_imbalance": 0,
+        "news": 0,
+        "regime": "bear",
+        "bull_score": 31,
+        "bear_score": 53
+      },
+      "timestamp": "2026-06-29 00:13"
     }
   ],
-  "updated": "2026-06-29 00:05 UTC"
+  "updated": "2026-06-29 00:13 UTC"
 }
