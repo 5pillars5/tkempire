@@ -43,7 +43,8 @@
     "status": "open",
     "exit": null,
     "pnl": null,
-    "result": "open"
+    "result": "open",
+    "_duplicate_count": 1
   },
   {
     "id": 1782718881,
@@ -86,10 +87,13 @@
       "has_resistance": false,
       "has_orderbook": false
     },
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 4.79925,
+    "pnl": -2.47,
+    "result": "loss",
+    "_duplicate_count": 1,
+    "holdMins": 492,
+    "tp_hit": 0
   },
   {
     "id": 1782718735,
@@ -135,7 +139,8 @@
     "status": "open",
     "exit": null,
     "pnl": null,
-    "result": "open"
+    "result": "open",
+    "_duplicate_count": 1
   },
   {
     "id": 1782718446,
@@ -181,7 +186,8 @@
     "status": "open",
     "exit": null,
     "pnl": null,
-    "result": "open"
+    "result": "open",
+    "_duplicate_count": 1
   },
   {
     "id": 1782718298,
@@ -227,7 +233,8 @@
     "status": "open",
     "exit": null,
     "pnl": null,
-    "result": "open"
+    "result": "open",
+    "_duplicate_count": 1
   },
   {
     "id": 1782718296,
@@ -275,7 +282,8 @@
       "has_orderbook": false
     },
     "duplicate_count": 2,
-    "last_updated": "07:31"
+    "last_updated": "07:31",
+    "_duplicate_count": 1
   },
   {
     "id": 1782718444,
@@ -323,7 +331,8 @@
       "has_orderbook": false
     },
     "duplicate_count": 2,
-    "last_updated": "07:34"
+    "last_updated": "07:34",
+    "_duplicate_count": 1
   },
   {
     "id": 1782709353,
@@ -342,26 +351,28 @@
     "status": "open",
     "exit": null,
     "pnl": null,
-    "result": "open"
+    "result": "open",
+    "_duplicate_count": 1
   },
   {
-    "id": 1782709352,
-    "date": "Jun 29",
-    "time": "05:02",
+    "id": 1782344955,
+    "date": "Jun 24",
+    "time": "23:49",
     "action": "SELL",
     "coin": "ADA",
     "pair": "ADA/USDC",
-    "entry": 0.14378,
-    "tp1": 0.1412,
-    "tp2": 0.1387,
-    "stop": 0.1472,
-    "confidence": 86,
-    "reason": "SuperTrend BEAR 1H \u00b7 ADX 31 DI- dominant \u00b7 EMA Ribbon bear 4/5",
+    "entry": 0.14741,
+    "tp1": 0.1434,
+    "tp2": 0.1393,
+    "stop": 0.1528,
+    "confidence": 64,
+    "reason": "SuperTrend BEAR 1H \u00b7 SuperTrend BEAR 4H \u00b7 ADX 53 DI- dominant",
     "regime": "bear",
     "status": "open",
     "exit": null,
     "pnl": null,
-    "result": "open"
+    "result": "open",
+    "_duplicate_count": 1
   },
   {
     "id": 1782718299,
@@ -409,75 +420,7 @@
       "has_orderbook": false
     },
     "duplicate_count": 2,
-    "last_updated": "07:31"
-  },
-  {
-    "id": 1782618739,
-    "date": "Jun 28",
-    "time": "03:52",
-    "hour_utc": 3,
-    "action": "SELL",
-    "coin": "APT",
-    "pair": "APT/USDC",
-    "entry": 0.581,
-    "tp1": 0.5724,
-    "tp2": 0.5638,
-    "stop": 0.5924,
-    "confidence": 53,
-    "reason": "SuperTrend BEAR 1H \u00b7 SuperTrend BEAR 4H \u00b7 ADX 28 DI- dominant",
-    "regime": "bear",
-    "features": {
-      "version": "EAI_v2",
-      "hour_utc": 3,
-      "regime": "bear",
-      "score": 53,
-      "atr": 0.00572143,
-      "reason_text": "SuperTrend BEAR 1H \u00b7 SuperTrend BEAR 4H \u00b7 ADX 28 DI- dominant",
-      "supertrend_1h": true,
-      "supertrend_4h": true,
-      "rsi": null,
-      "rsi_divergence": false,
-      "macd": -0.004914550806668805,
-      "adx": 28.209261902344657,
-      "funding": -5.20356e-05,
-      "fear_greed": 18,
-      "ob_imbalance": 0,
-      "news": 0,
-      "has_supertrend": true,
-      "has_adx": true,
-      "has_rsi": false,
-      "has_macd": false,
-      "has_ema": false,
-      "has_support": false,
-      "has_resistance": false,
-      "has_orderbook": false
-    },
-    "status": "closed",
-    "exit": 0.5813,
-    "pnl": 0.71,
-    "result": "win",
-    "_duplicate_count": 1,
-    "holdMins": 1393,
-    "tp_hit": 1
-  },
-  {
-    "id": 1782344955,
-    "date": "Jun 24",
-    "time": "23:49",
-    "action": "SELL",
-    "coin": "ADA",
-    "pair": "ADA/USDC",
-    "entry": 0.14741,
-    "tp1": 0.1434,
-    "tp2": 0.1393,
-    "stop": 0.1528,
-    "confidence": 64,
-    "reason": "SuperTrend BEAR 1H \u00b7 SuperTrend BEAR 4H \u00b7 ADX 53 DI- dominant",
-    "regime": "bear",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open",
+    "last_updated": "07:31",
     "_duplicate_count": 1
   },
   {
@@ -792,6 +735,55 @@
     "pnl": null,
     "result": "open",
     "_duplicate_count": 1
+  },
+  {
+    "id": 1782618739,
+    "date": "Jun 28",
+    "time": "03:52",
+    "hour_utc": 3,
+    "action": "SELL",
+    "coin": "APT",
+    "pair": "APT/USDC",
+    "entry": 0.581,
+    "tp1": 0.5724,
+    "tp2": 0.5638,
+    "stop": 0.5924,
+    "confidence": 53,
+    "reason": "SuperTrend BEAR 1H \u00b7 SuperTrend BEAR 4H \u00b7 ADX 28 DI- dominant",
+    "regime": "bear",
+    "features": {
+      "version": "EAI_v2",
+      "hour_utc": 3,
+      "regime": "bear",
+      "score": 53,
+      "atr": 0.00572143,
+      "reason_text": "SuperTrend BEAR 1H \u00b7 SuperTrend BEAR 4H \u00b7 ADX 28 DI- dominant",
+      "supertrend_1h": true,
+      "supertrend_4h": true,
+      "rsi": null,
+      "rsi_divergence": false,
+      "macd": -0.004914550806668805,
+      "adx": 28.209261902344657,
+      "funding": -5.20356e-05,
+      "fear_greed": 18,
+      "ob_imbalance": 0,
+      "news": 0,
+      "has_supertrend": true,
+      "has_adx": true,
+      "has_rsi": false,
+      "has_macd": false,
+      "has_ema": false,
+      "has_support": false,
+      "has_resistance": false,
+      "has_orderbook": false
+    },
+    "status": "closed",
+    "exit": 0.5813,
+    "pnl": 0.71,
+    "result": "win",
+    "_duplicate_count": 1,
+    "holdMins": 1393,
+    "tp_hit": 1
   },
   {
     "id": 1782618594,
