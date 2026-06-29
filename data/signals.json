@@ -394,10 +394,10 @@
     "confidence": 60,
     "reason": "ADX 34 DI- dominant \u00b7 EMA Ribbon bear 5/5 \u00b7 4H master trend BEAR",
     "regime": "bear",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "OPEN",
+    "status": "closed",
+    "exit": 0.07403,
+    "pnl": -2.18,
+    "result": "loss",
     "hour_utc": 16,
     "features": {
       "version": "EAI_v2",
@@ -427,7 +427,9 @@
     },
     "duplicate_count": 6,
     "last_updated": "16:49",
-    "_duplicate_count": 1
+    "_duplicate_count": 1,
+    "holdMins": 737,
+    "tp_hit": 0
   },
   {
     "id": 1782345689,
