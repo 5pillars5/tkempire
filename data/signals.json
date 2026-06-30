@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782857051,
+    "date": "Jun 30",
+    "time": "22:04",
+    "action": "SELL",
+    "coin": "DOGE",
+    "pair": "DOGE/USDC",
+    "entry": 0.07227,
+    "tp1": 0.071,
+    "tp2": 0.0698,
+    "stop": 0.0739,
+    "confidence": 74,
+    "reason": "SuperTrend BEAR 4H \u00b7 ADX 26 DI- dominant \u00b7 EMA Ribbon bear 4/5",
+    "regime": "bear",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782824715,
     "date": "Jun 30",
     "time": "13:05",
