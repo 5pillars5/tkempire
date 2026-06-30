@@ -1,12 +1,12 @@
 {
   "weights": {
     "supertrend_1h": 0.954,
-    "supertrend_4h": 0.6,
-    "adx": 1.15,
+    "supertrend_4h": 0.522,
+    "adx": 1.0,
     "ema_ribbon": 1.0,
-    "ema_cross": 0.85,
+    "ema_cross": 1.0,
     "ema_4h_master": 1.0,
-    "rsi": 0.85,
+    "rsi": 1.0,
     "rsi_divergence": 1.0,
     "macd": 1.0,
     "bb_sr": 1.0,
@@ -39,9 +39,9 @@
       "streak": 1
     },
     "BTC": {
-      "wins": 0,
+      "wins": 1,
       "losses": 1,
-      "streak": -1
+      "streak": 1
     },
     "ADA": {
       "wins": 1,
@@ -146,12 +146,16 @@
     "17": {
       "wins": 0,
       "losses": 4
+    },
+    "5": {
+      "wins": 1,
+      "losses": 0
     }
   },
-  "wins": 12,
+  "wins": 13,
   "losses": 27,
-  "total_pnl": 2.183716529735341,
-  "signals": 43,
+  "total_pnl": 2.6414800994543226,
+  "signals": 44,
   "trade_history": [
     {
       "coin": "TIA",
@@ -1270,7 +1274,50 @@
         "bear_score": 86
       },
       "timestamp": "2026-06-29 17:19"
+    },
+    {
+      "coin": "BTC",
+      "action": "SELL",
+      "entry": 59747.0,
+      "exit": 59473.5,
+      "pnl": 0.46,
+      "result": "WIN",
+      "hold_mins": 1440,
+      "hour": 5,
+      "atr": 502.07142857142856,
+      "tp_hit": 0,
+      "context": {
+        "st_1h": -1,
+        "st_4h": -1,
+        "adx": 41.228301556425876,
+        "dip": 11.168205293835825,
+        "dim": 20.706167235455716,
+        "ribbon": 0,
+        "cross_up": false,
+        "cross_dn": false,
+        "e50_4h": 61285.59466383276,
+        "e200_4h": 65089.8723605481,
+        "rsi_1h": 48.19439757003037,
+        "rsi_4h": 45.843957164711874,
+        "divergence": null,
+        "macd": -128.7765147612954,
+        "at_support": true,
+        "at_resistance": true,
+        "bb_squeeze": true,
+        "vol_spike": false,
+        "fear_greed": 12,
+        "funding": -4.527e-06,
+        "ob_imbalance": 0,
+        "news": -6,
+        "cg_bull": 0,
+        "cg_bear": 6,
+        "change_7d": -6.754669047883762,
+        "regime": "bear",
+        "bull_score": 27,
+        "bear_score": 78
+      },
+      "timestamp": "2026-06-30 05:02"
     }
   ],
-  "updated": "2026-06-30 00:05 UTC"
+  "updated": "2026-06-30 05:02 UTC"
 }
