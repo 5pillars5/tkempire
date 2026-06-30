@@ -32,10 +32,12 @@
     "confidence": 81,
     "reason": "EMA Ribbon bear 5/5 \u00b7 EMA 9\u00d721 crossover DOWN \u00b7 4H master trend BEAR",
     "regime": "bear",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.5721,
+    "pnl": -0.07,
+    "result": "loss",
+    "holdMins": 761,
+    "tp_hit": 1
   },
   {
     "id": 1782742515,
