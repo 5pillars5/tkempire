@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782782451,
+    "date": "Jun 30",
+    "time": "01:20",
+    "action": "SELL",
+    "coin": "APT",
+    "pair": "APT/USDC",
+    "entry": 0.5717,
+    "tp1": 0.559,
+    "tp2": 0.5462,
+    "stop": 0.5887,
+    "confidence": 81,
+    "reason": "EMA Ribbon bear 5/5 \u00b7 EMA 9\u00d721 crossover DOWN \u00b7 4H master trend BEAR",
+    "regime": "bear",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782742515,
     "date": "Jun 29",
     "time": "14:15",
