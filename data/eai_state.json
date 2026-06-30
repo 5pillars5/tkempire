@@ -1,12 +1,12 @@
 {
   "weights": {
-    "supertrend_1h": 0.83,
-    "supertrend_4h": 0.706,
-    "adx": 1.15,
+    "supertrend_1h": 0.954,
+    "supertrend_4h": 0.522,
+    "adx": 1.0,
     "ema_ribbon": 1.0,
-    "ema_cross": 0.85,
+    "ema_cross": 1.0,
     "ema_4h_master": 1.0,
-    "rsi": 0.85,
+    "rsi": 1.0,
     "rsi_divergence": 1.0,
     "macd": 1.0,
     "bb_sr": 1.0,
