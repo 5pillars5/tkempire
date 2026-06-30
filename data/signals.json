@@ -271,10 +271,10 @@
     "confidence": 77,
     "reason": "SuperTrend BEAR 1H \u00b7 ADX 27 DI- dominant \u00b7 EMA Ribbon bear 5/5",
     "regime": "bear",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "OPEN",
+    "status": "closed",
+    "exit": 59473.5,
+    "pnl": 0.46,
+    "result": "win",
     "hour_utc": 16,
     "features": {
       "version": "EAI_v2",
@@ -304,7 +304,9 @@
     },
     "duplicate_count": 6,
     "last_updated": "16:47",
-    "_duplicate_count": 1
+    "_duplicate_count": 1,
+    "holdMins": 1440,
+    "tp_hit": 0
   },
   {
     "id": 1782751802,
