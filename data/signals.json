@@ -32,10 +32,12 @@
     "confidence": 72,
     "reason": "SuperTrend BEAR 1H \u00b7 ADX 29 DI- dominant \u00b7 EMA Ribbon bear 5/5",
     "regime": "bear",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 7.1988,
+    "pnl": -0.04,
+    "result": "loss",
+    "holdMins": 214,
+    "tp_hit": 1
   },
   {
     "id": 1782857053,
