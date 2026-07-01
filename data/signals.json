@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782913842,
+    "date": "Jul 01",
+    "time": "13:50",
+    "action": "SELL",
+    "coin": "BNB",
+    "pair": "BNB/USDC",
+    "entry": 548.77,
+    "tp1": 542.3661,
+    "tp2": 535.9621,
+    "stop": 557.3086,
+    "confidence": 79,
+    "reason": "SuperTrend BEAR 1H \u00b7 ADX 31 DI- dominant \u00b7 EMA Ribbon bear 5/5",
+    "regime": "bear",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782906146,
     "date": "Jul 01",
     "time": "11:42",
