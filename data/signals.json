@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782864006,
+    "date": "Jul 01",
+    "time": "00:00",
+    "action": "SELL",
+    "coin": "APT",
+    "pair": "APT/USDC",
+    "entry": 0.5717,
+    "tp1": 0.5614,
+    "tp2": 0.5511,
+    "stop": 0.5854,
+    "confidence": 84,
+    "reason": "SuperTrend BEAR 1H \u00b7 ADX 26 DI- dominant \u00b7 EMA Ribbon bear 4/5",
+    "regime": "bear",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782857055,
     "date": "Jun 30",
     "time": "22:04",
