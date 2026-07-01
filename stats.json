@@ -5,9 +5,9 @@
   "min_score": 72,
   "stats": {
     "wins": 13,
-    "losses": 32,
-    "total_pnl": 0.5,
+    "losses": 33,
+    "total_pnl": 0.41,
     "signals": 49,
-    "win_rate": 28.9
+    "win_rate": 28.3
   }
 }
