@@ -40,8 +40,8 @@
     },
     "BTC": {
       "wins": 1,
-      "losses": 1,
-      "streak": 1
+      "losses": 2,
+      "streak": -1
     },
     "ADA": {
       "wins": 1,
@@ -101,7 +101,7 @@
     },
     "14": {
       "wins": 1,
-      "losses": 4
+      "losses": 5
     },
     "22": {
       "wins": 0,
@@ -161,9 +161,9 @@
     }
   },
   "wins": 13,
-  "losses": 33,
-  "total_pnl": 0.4102265403082654,
-  "signals": 49,
+  "losses": 34,
+  "total_pnl": -1.0406434699271492,
+  "signals": 52,
   "trade_history": [
     {
       "coin": "TIA",
@@ -1583,7 +1583,50 @@
         "bear_score": 74
       },
       "timestamp": "2026-07-01 03:37"
+    },
+    {
+      "coin": "BTC",
+      "action": "SELL",
+      "entry": 58620.0,
+      "exit": 59470.5,
+      "pnl": -1.45,
+      "result": "LOSS",
+      "hold_mins": 147,
+      "hour": 14,
+      "atr": 417.57142857142856,
+      "tp_hit": 0,
+      "context": {
+        "st_1h": -1,
+        "st_4h": -1,
+        "adx": 27.75550882786518,
+        "dip": 14.275843980876205,
+        "dim": 26.66670129657211,
+        "ribbon": 0,
+        "cross_up": false,
+        "cross_dn": false,
+        "e50_4h": 60257.02957374186,
+        "e200_4h": 64055.150579970876,
+        "rsi_1h": 50.25278058645095,
+        "rsi_4h": 34.95145631067962,
+        "divergence": null,
+        "macd": -126.78348643044592,
+        "at_support": true,
+        "at_resistance": true,
+        "bb_squeeze": true,
+        "vol_spike": false,
+        "fear_greed": 11,
+        "funding": 1.25e-05,
+        "ob_imbalance": 0,
+        "news": -1,
+        "cg_bull": 0,
+        "cg_bear": 6,
+        "change_7d": -5.9969013789885075,
+        "regime": "bear",
+        "bull_score": 22,
+        "bear_score": 73
+      },
+      "timestamp": "2026-07-01 14:09"
     }
   ],
-  "updated": "2026-07-01 03:37 UTC"
+  "updated": "2026-07-01 14:09 UTC"
 }
