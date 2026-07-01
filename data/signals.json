@@ -592,11 +592,13 @@
     "confidence": 43,
     "reason": "SuperTrend BULL 1H \u00b7 EMA Ribbon bull 4/5 \u00b7 RSI Bullish Divergence",
     "regime": "bull",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open",
-    "_duplicate_count": 1
+    "status": "closed",
+    "exit": 0.072335,
+    "pnl": -0.09,
+    "result": "loss",
+    "_duplicate_count": 1,
+    "holdMins": 333,
+    "tp_hit": 1
   },
   {
     "id": 1782005440,
