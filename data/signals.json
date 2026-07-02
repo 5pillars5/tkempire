@@ -1,5 +1,24 @@
 [
   {
+    "id": 1783027539,
+    "date": "Jul 02",
+    "time": "21:25",
+    "action": "BUY",
+    "coin": "ADA",
+    "pair": "ADA/USDC",
+    "entry": 0.16182,
+    "tp1": 0.1649,
+    "tp2": 0.1681,
+    "stop": 0.1577,
+    "confidence": 73,
+    "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 ADX 51 DI+ dominant",
+    "regime": "bull",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1783027537,
     "date": "Jul 02",
     "time": "21:25",
