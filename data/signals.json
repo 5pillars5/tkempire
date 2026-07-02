@@ -59,10 +59,12 @@
     "confidence": 73,
     "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 EMA Ribbon bull 4/5",
     "regime": "bull",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 6.8557,
+    "pnl": 2.36,
+    "result": "win",
+    "holdMins": 263,
+    "tp_hit": 2
   },
   {
     "id": 1782973574,
