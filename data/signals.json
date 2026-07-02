@@ -1,5 +1,24 @@
 [
   {
+    "id": 1782973574,
+    "date": "Jul 02",
+    "time": "06:26",
+    "action": "BUY",
+    "coin": "SOL",
+    "pair": "SOL/USDC",
+    "entry": 78.409,
+    "tp1": 79.6944,
+    "tp2": 80.9798,
+    "stop": 76.6951,
+    "confidence": 78,
+    "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 ADX 27 DI+ dominant",
+    "regime": "bull",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1782972329,
     "date": "Jul 02",
     "time": "06:05",
