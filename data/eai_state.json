@@ -24,9 +24,9 @@
       "streak": -2
     },
     "ARB": {
-      "wins": 2,
+      "wins": 3,
       "losses": 0,
-      "streak": 2
+      "streak": 3
     },
     "APT": {
       "wins": 1,
@@ -100,7 +100,7 @@
       "losses": 0
     },
     "14": {
-      "wins": 1,
+      "wins": 2,
       "losses": 2
     },
     "22": {
@@ -148,9 +148,9 @@
       "losses": 4
     }
   },
-  "wins": 13,
+  "wins": 14,
   "losses": 27,
-  "total_pnl": 4.12975876874633,
+  "total_pnl": 5.111579792727502,
   "signals": 47,
   "trade_history": [
     {
@@ -1310,7 +1310,47 @@
         "bear_score": 28
       },
       "timestamp": "2026-07-02 13:35"
+    },
+    {
+      "coin": "ARB",
+      "action": "BUY",
+      "entry": 0.07768,
+      "exit": 0.07764,
+      "pnl": 0.98,
+      "result": "WIN",
+      "hold_mins": 502,
+      "hour": 14,
+      "atr": 0.0010435714285714295,
+      "tp_hit": 1,
+      "context": {
+        "st_1h": 1,
+        "st_4h": 1,
+        "adx": 19.028461584041278,
+        "dip": 30.853149590440054,
+        "dim": 19.440492238863584,
+        "ribbon": 4,
+        "cross_up": false,
+        "cross_dn": false,
+        "e50_4h": 0.07610596544488242,
+        "e200_4h": 0.08373018712759284,
+        "rsi_1h": 52.82738095238099,
+        "rsi_4h": 54.34173669467788,
+        "divergence": "bear",
+        "macd": 0.0002602650771037912,
+        "at_support": true,
+        "at_resistance": false,
+        "bb_squeeze": true,
+        "vol_spike": false,
+        "fear_greed": 19,
+        "funding": 1.11335e-05,
+        "ob_imbalance": 0,
+        "news": 0,
+        "regime": "bull",
+        "bull_score": 60,
+        "bear_score": 15
+      },
+      "timestamp": "2026-07-02 14:28"
     }
   ],
-  "updated": "2026-07-02 13:35 UTC"
+  "updated": "2026-07-02 14:28 UTC"
 }
