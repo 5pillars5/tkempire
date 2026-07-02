@@ -74,9 +74,9 @@
       "streak": 1
     },
     "DOT": {
-      "wins": 2,
+      "wins": 3,
       "losses": 1,
-      "streak": 1
+      "streak": 2
     },
     "DOGE": {
       "wins": 1,
@@ -144,13 +144,13 @@
       "losses": 0
     },
     "17": {
-      "wins": 0,
+      "wins": 1,
       "losses": 4
     }
   },
-  "wins": 14,
+  "wins": 15,
   "losses": 27,
-  "total_pnl": 5.111579792727502,
+  "total_pnl": 5.823914484863828,
   "signals": 47,
   "trade_history": [
     {
@@ -1350,7 +1350,47 @@
         "bear_score": 15
       },
       "timestamp": "2026-07-02 14:28"
+    },
+    {
+      "coin": "DOT",
+      "action": "BUY",
+      "entry": 0.84388,
+      "exit": 0.8437,
+      "pnl": 0.71,
+      "result": "WIN",
+      "hold_mins": 731,
+      "hour": 17,
+      "atr": 0.008135000000000012,
+      "tp_hit": 1,
+      "context": {
+        "st_1h": 1,
+        "st_4h": 1,
+        "adx": 12.916621817583403,
+        "dip": 28.92260782440799,
+        "dim": 17.330148511239976,
+        "ribbon": 4,
+        "cross_up": false,
+        "cross_dn": false,
+        "e50_4h": 0.8426480074811212,
+        "e200_4h": 0.955536108309862,
+        "rsi_1h": 49.168853893263325,
+        "rsi_4h": 59.87909319899246,
+        "divergence": "bear",
+        "macd": 0.003475868321669795,
+        "at_support": true,
+        "at_resistance": true,
+        "bb_squeeze": true,
+        "vol_spike": false,
+        "fear_greed": 19,
+        "funding": -1.8433e-06,
+        "ob_imbalance": 0,
+        "news": 0,
+        "regime": "bull",
+        "bull_score": 60,
+        "bear_score": 25
+      },
+      "timestamp": "2026-07-02 17:36"
     }
   ],
-  "updated": "2026-07-02 14:28 UTC"
+  "updated": "2026-07-02 17:36 UTC"
 }
