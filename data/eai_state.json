@@ -64,9 +64,9 @@
       "streak": 1
     },
     "SOL": {
-      "wins": 1,
+      "wins": 2,
       "losses": 1,
-      "streak": 1
+      "streak": 2
     },
     "ETH": {
       "wins": 0,
@@ -174,11 +174,15 @@
     "20": {
       "wins": 1,
       "losses": 0
+    },
+    "21": {
+      "wins": 1,
+      "losses": 0
     }
   },
-  "wins": 20,
+  "wins": 21,
   "losses": 37,
-  "total_pnl": 14.483448707964168,
+  "total_pnl": 16.181175616288158,
   "signals": 61,
   "trade_history": [
     {
@@ -2072,7 +2076,50 @@
         "bear_score": 7
       },
       "timestamp": "2026-07-03 20:19"
+    },
+    {
+      "coin": "SOL",
+      "action": "BUY",
+      "entry": 81.079,
+      "exit": 82.4555,
+      "pnl": 1.7,
+      "result": "WIN",
+      "hold_mins": 1440,
+      "hour": 21,
+      "atr": 1.017785714285716,
+      "tp_hit": 1,
+      "context": {
+        "st_1h": 1,
+        "st_4h": 1,
+        "adx": 42.99371216213638,
+        "dip": 28.668634285222474,
+        "dim": 13.777461160570045,
+        "ribbon": 4,
+        "cross_up": false,
+        "cross_dn": false,
+        "e50_4h": 73.76034388777332,
+        "e200_4h": 73.21928921556749,
+        "rsi_1h": 69.00621118012415,
+        "rsi_4h": 76.51988825329254,
+        "divergence": "hidden_bear",
+        "macd": 0.9824543113943918,
+        "at_support": false,
+        "at_resistance": false,
+        "bb_squeeze": false,
+        "vol_spike": false,
+        "fear_greed": 19,
+        "funding": 1.25e-05,
+        "ob_imbalance": 0,
+        "news": 3,
+        "cg_bull": 6,
+        "cg_bear": 0,
+        "change_7d": 22.433960051806327,
+        "regime": "bull",
+        "bull_score": 83,
+        "bear_score": 17
+      },
+      "timestamp": "2026-07-03 21:26"
     }
   ],
-  "updated": "2026-07-03 20:19 UTC"
+  "updated": "2026-07-03 21:26 UTC"
 }
