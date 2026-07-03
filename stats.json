@@ -4,10 +4,10 @@
   "pairs": 15,
   "min_score": 72,
   "stats": {
-    "wins": 17,
+    "wins": 18,
     "losses": 37,
-    "total_pnl": 6.53,
+    "total_pnl": 9.9,
     "signals": 61,
-    "win_rate": 31.5
+    "win_rate": 32.7
   }
 }
