@@ -1,12 +1,12 @@
 {
   "weights": {
-    "supertrend_1h": 1.262,
-    "supertrend_4h": 0.511,
-    "adx": 1.15,
+    "supertrend_1h": 1.097,
+    "supertrend_4h": 0.444,
+    "adx": 1.0,
     "ema_ribbon": 1.0,
-    "ema_cross": 0.85,
+    "ema_cross": 1.0,
     "ema_4h_master": 1.0,
-    "rsi": 0.85,
+    "rsi": 1.0,
     "rsi_divergence": 1.0,
     "macd": 1.0,
     "bb_sr": 1.0,
@@ -44,9 +44,9 @@
       "streak": -1
     },
     "ADA": {
-      "wins": 1,
+      "wins": 2,
       "losses": 4,
-      "streak": -3
+      "streak": 1
     },
     "TIA": {
       "wins": 1,
@@ -162,12 +162,16 @@
     "10": {
       "wins": 1,
       "losses": 0
+    },
+    "2": {
+      "wins": 1,
+      "losses": 0
     }
   },
-  "wins": 15,
+  "wins": 16,
   "losses": 36,
-  "total_pnl": 0.7385304911827082,
-  "signals": 57,
+  "total_pnl": 4.712081350161833,
+  "signals": 61,
   "trade_history": [
     {
       "coin": "TIA",
@@ -1802,7 +1806,50 @@
         "bear_score": 15
       },
       "timestamp": "2026-07-02 13:25"
+    },
+    {
+      "coin": "ADA",
+      "action": "BUY",
+      "entry": 0.16182,
+      "exit": 0.16825,
+      "pnl": 3.97,
+      "result": "WIN",
+      "hold_mins": 296,
+      "hour": 2,
+      "atr": 0.0020800000000000024,
+      "tp_hit": 2,
+      "context": {
+        "st_1h": 1,
+        "st_4h": 1,
+        "adx": 50.66305101834808,
+        "dip": 32.126620796778845,
+        "dim": 9.15559527203792,
+        "ribbon": 4,
+        "cross_up": false,
+        "cross_dn": false,
+        "e50_4h": 0.14878938010963544,
+        "e200_4h": 0.17038277884510236,
+        "rsi_1h": 74.17266187050357,
+        "rsi_4h": 82.54612546125458,
+        "divergence": null,
+        "macd": 0.0017955270360424103,
+        "at_support": false,
+        "at_resistance": false,
+        "bb_squeeze": false,
+        "vol_spike": false,
+        "fear_greed": 19,
+        "funding": 1.25e-05,
+        "ob_imbalance": 0,
+        "news": 3,
+        "cg_bull": 6,
+        "cg_bear": 0,
+        "change_7d": 14.56849547248443,
+        "regime": "bull",
+        "bull_score": 73,
+        "bear_score": 19
+      },
+      "timestamp": "2026-07-03 02:22"
     }
   ],
-  "updated": "2026-07-03 00:05 UTC"
+  "updated": "2026-07-03 02:22 UTC"
 }
