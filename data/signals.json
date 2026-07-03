@@ -1,12 +1,12 @@
 [
   {
-    "id": 1783044150,
+    "id": 1783044353,
     "date": "Jul 03",
-    "time": "02:02",
+    "time": "02:05",
     "action": "BUY",
     "coin": "OP",
     "pair": "OP/USDC",
-    "entry": 0.10116,
+    "entry": 0.10117,
     "tp1": 0.1027,
     "tp2": 0.1042,
     "stop": 0.0991,
@@ -23,13 +23,13 @@
       "hour_utc": 2,
       "regime": "bull",
       "score": 80,
-      "atr": 0.001025,
+      "atr": 0.00102571,
       "reason_text": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 ADX 26 DI+ dominant",
       "supertrend_1h": true,
       "supertrend_4h": true,
       "rsi": null,
       "rsi_divergence": true,
-      "macd": 0.000790491202269844,
+      "macd": 0.0007912889230675679,
       "adx": 25.710582183002874,
       "funding": 1.25e-05,
       "fear_greed": 21,
@@ -44,8 +44,8 @@
       "has_resistance": false,
       "has_orderbook": false
     },
-    "duplicate_count": 2,
-    "last_updated": "02:02"
+    "duplicate_count": 3,
+    "last_updated": "02:05"
   },
   {
     "id": 1783044084,
