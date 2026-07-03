@@ -134,27 +134,6 @@
     "_duplicate_count": 1
   },
   {
-    "id": 1781811856,
-    "date": "Jun 18",
-    "time": "19:44",
-    "mode": "\u26a1 SCALP",
-    "action": "BUY",
-    "coin": "APT",
-    "pair": "APT/USDC",
-    "entry": 0.6337,
-    "target": 0.6464,
-    "stop": 0.6274,
-    "confidence": 62,
-    "reason": "Oversold (below -80) Williams Percentage Range (14)\u00b7 momentum confirmed",
-    "status": "closed",
-    "exit": 0.614,
-    "pnl": 0.4,
-    "result": "win",
-    "_duplicate_count": 1,
-    "holdMins": 814,
-    "tp_hit": 1
-  },
-  {
     "id": 1782000091,
     "date": "Jun 21",
     "time": "00:01",
@@ -376,13 +355,15 @@
       "has_resistance": false,
       "has_orderbook": false
     },
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "OPEN",
+    "status": "closed",
+    "exit": 570.125,
+    "pnl": 1.23,
+    "result": "win",
     "_duplicate_count": 1,
     "duplicate_count": 5,
-    "last_updated": "16:48"
+    "last_updated": "16:48",
+    "holdMins": 1047,
+    "tp_hit": 2
   },
   {
     "id": 1782709353,
@@ -578,6 +559,27 @@
     "pnl": null,
     "result": "open",
     "_duplicate_count": 1
+  },
+  {
+    "id": 1781811856,
+    "date": "Jun 18",
+    "time": "19:44",
+    "mode": "\u26a1 SCALP",
+    "action": "BUY",
+    "coin": "APT",
+    "pair": "APT/USDC",
+    "entry": 0.6337,
+    "target": 0.6464,
+    "stop": 0.6274,
+    "confidence": 62,
+    "reason": "Oversold (below -80) Williams Percentage Range (14)\u00b7 momentum confirmed",
+    "status": "closed",
+    "exit": 0.614,
+    "pnl": 0.4,
+    "result": "win",
+    "_duplicate_count": 1,
+    "holdMins": 814,
+    "tp_hit": 1
   },
   {
     "id": 1783044642,
