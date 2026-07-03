@@ -129,11 +129,13 @@
     "confidence": 64,
     "reason": "SuperTrend BULL 1H \u00b7 ADX 29 DI+ dominant \u00b7 EMA Ribbon bull 4/5",
     "regime": "bull",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open",
-    "_duplicate_count": 1
+    "status": "closed",
+    "exit": 62615.5,
+    "pnl": 1.76,
+    "result": "win",
+    "_duplicate_count": 1,
+    "holdMins": 1217,
+    "tp_hit": 2
   },
   {
     "id": 1782000091,
