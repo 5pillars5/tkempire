@@ -195,11 +195,13 @@
     "stop": 0.6274,
     "confidence": 62,
     "reason": "Oversold (below -80) Williams Percentage Range (14)\u00b7 momentum confirmed",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open",
-    "_duplicate_count": 1
+    "status": "closed",
+    "exit": 0.626,
+    "pnl": 2.83,
+    "result": "win",
+    "_duplicate_count": 1,
+    "holdMins": 1064,
+    "tp_hit": 2
   },
   {
     "id": 1782000091,
