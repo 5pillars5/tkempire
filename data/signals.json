@@ -1,5 +1,24 @@
 [
   {
+    "id": 1783038593,
+    "date": "Jul 03",
+    "time": "00:29",
+    "action": "BUY",
+    "coin": "INJ",
+    "pair": "INJ/USDC",
+    "entry": 4.6922,
+    "tp1": 4.7962,
+    "tp2": 4.9003,
+    "stop": 4.5535,
+    "confidence": 73,
+    "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 MACD Golden Cross",
+    "regime": "bull",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1783036917,
     "date": "Jul 03",
     "time": "00:01",
