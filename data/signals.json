@@ -40,10 +40,12 @@
       "has_resistance": false,
       "has_orderbook": false
     },
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.10488,
+    "pnl": 3.37,
+    "result": "win",
+    "holdMins": 620,
+    "tp_hit": 2
   },
   {
     "id": 1783077060,
