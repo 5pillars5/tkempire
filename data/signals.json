@@ -247,10 +247,12 @@
     "confidence": 73,
     "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 MACD Golden Cross",
     "regime": "bull",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 4.6921,
+    "pnl": -0.0,
+    "result": "loss",
+    "holdMins": 164,
+    "tp_hit": 1
   },
   {
     "id": 1783036917,
