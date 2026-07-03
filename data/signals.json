@@ -193,10 +193,12 @@
     "confidence": 73,
     "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 ADX 51 DI+ dominant",
     "regime": "bull",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "open"
+    "status": "closed",
+    "exit": 0.16825,
+    "pnl": 3.97,
+    "result": "win",
+    "holdMins": 296,
+    "tp_hit": 2
   },
   {
     "id": 1783044355,
