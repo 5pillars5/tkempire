@@ -1,5 +1,24 @@
 [
   {
+    "id": 1783036917,
+    "date": "Jul 03",
+    "time": "00:01",
+    "action": "BUY",
+    "coin": "BTC",
+    "pair": "BTC/USDC",
+    "entry": 61533.0,
+    "tp1": 62070.75,
+    "tp2": 62608.5,
+    "stop": 60816.0,
+    "confidence": 75,
+    "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 ADX 36 DI+ dominant",
+    "regime": "bull",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1783027539,
     "date": "Jul 02",
     "time": "21:25",
