@@ -39,9 +39,9 @@
       "streak": 1
     },
     "BTC": {
-      "wins": 1,
+      "wins": 2,
       "losses": 2,
-      "streak": -1
+      "streak": 1
     },
     "ADA": {
       "wins": 2,
@@ -170,11 +170,15 @@
     "15": {
       "wins": 1,
       "losses": 0
+    },
+    "20": {
+      "wins": 1,
+      "losses": 0
     }
   },
-  "wins": 19,
+  "wins": 20,
   "losses": 37,
-  "total_pnl": 12.724230077310697,
+  "total_pnl": 14.483448707964168,
   "signals": 61,
   "trade_history": [
     {
@@ -2025,7 +2029,50 @@
         "bear_score": 5
       },
       "timestamp": "2026-07-03 15:10"
+    },
+    {
+      "coin": "BTC",
+      "action": "BUY",
+      "entry": 61533.0,
+      "exit": 62615.5,
+      "pnl": 1.76,
+      "result": "WIN",
+      "hold_mins": 1217,
+      "hour": 20,
+      "atr": 358.5,
+      "tp_hit": 2,
+      "context": {
+        "st_1h": 1,
+        "st_4h": 1,
+        "adx": 36.094829633442075,
+        "dip": 27.53828169036712,
+        "dim": 17.739621294341646,
+        "ribbon": 4,
+        "cross_up": false,
+        "cross_dn": false,
+        "e50_4h": 60279.116793755646,
+        "e200_4h": 63848.17351085943,
+        "rsi_1h": 57.007376185458384,
+        "rsi_4h": 70.4223250261155,
+        "divergence": null,
+        "macd": 392.3201143079568,
+        "at_support": true,
+        "at_resistance": false,
+        "bb_squeeze": true,
+        "vol_spike": false,
+        "fear_greed": 19,
+        "funding": 1.25e-05,
+        "ob_imbalance": 0,
+        "news": 3,
+        "cg_bull": 0,
+        "cg_bear": 0,
+        "change_7d": 2.8781403768350464,
+        "regime": "bull",
+        "bull_score": 75,
+        "bear_score": 7
+      },
+      "timestamp": "2026-07-03 20:19"
     }
   ],
-  "updated": "2026-07-03 15:10 UTC"
+  "updated": "2026-07-03 20:19 UTC"
 }
