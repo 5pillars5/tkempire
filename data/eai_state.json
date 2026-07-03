@@ -1,12 +1,12 @@
 {
   "weights": {
-    "supertrend_1h": 0.954,
-    "supertrend_4h": 0.793,
-    "adx": 1.52,
+    "supertrend_1h": 1.097,
+    "supertrend_4h": 0.912,
+    "adx": 1.748,
     "ema_ribbon": 1.0,
-    "ema_cross": 0.614,
+    "ema_cross": 0.522,
     "ema_4h_master": 1.0,
-    "rsi": 0.614,
+    "rsi": 0.522,
     "rsi_divergence": 1.0,
     "macd": 1.0,
     "bb_sr": 1.0,
@@ -1392,5 +1392,5 @@
       "timestamp": "2026-07-02 17:36"
     }
   ],
-  "updated": "2026-07-02 17:36 UTC"
+  "updated": "2026-07-03 00:00 UTC"
 }
