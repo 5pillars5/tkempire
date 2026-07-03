@@ -1,5 +1,24 @@
 [
   {
+    "id": 1783038878,
+    "date": "Jul 03",
+    "time": "00:34",
+    "action": "BUY",
+    "coin": "BNB",
+    "pair": "BNB/USDC",
+    "entry": 556.85,
+    "tp1": 561.8686,
+    "tp2": 566.8871,
+    "stop": 550.1586,
+    "confidence": 75,
+    "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 ADX 26 DI+ dominant",
+    "regime": "bull",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1783038593,
     "date": "Jul 03",
     "time": "00:29",
