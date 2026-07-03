@@ -1,5 +1,24 @@
 [
   {
+    "id": 1783043510,
+    "date": "Jul 03",
+    "time": "01:51",
+    "action": "BUY",
+    "coin": "OP",
+    "pair": "OP/USDC",
+    "entry": 0.10146,
+    "tp1": 0.1032,
+    "tp2": 0.1049,
+    "stop": 0.0992,
+    "confidence": 73,
+    "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 EMA Ribbon bull 4/5",
+    "regime": "bull",
+    "status": "open",
+    "exit": null,
+    "pnl": null,
+    "result": "open"
+  },
+  {
     "id": 1783038878,
     "date": "Jul 03",
     "time": "00:34",
