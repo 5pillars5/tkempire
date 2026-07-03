@@ -207,10 +207,10 @@
     "confidence": 70,
     "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 ADX 27 DI+ dominant",
     "regime": "bull",
-    "status": "open",
-    "exit": null,
-    "pnl": null,
-    "result": "OPEN",
+    "status": "closed",
+    "exit": 566.975,
+    "pnl": 1.82,
+    "result": "win",
     "hour_utc": 2,
     "features": {
       "version": "EAI_v2",
@@ -240,7 +240,9 @@
     },
     "duplicate_count": 3,
     "last_updated": "02:05",
-    "_duplicate_count": 1
+    "_duplicate_count": 1,
+    "holdMins": 635,
+    "tp_hit": 2
   },
   {
     "id": 1782003430,
