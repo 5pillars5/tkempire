@@ -46,17 +46,17 @@
     "result": "open"
   },
   {
-    "id": 1783188514,
+    "id": 1783188881,
     "date": "Jul 04",
-    "time": "18:08",
+    "time": "18:14",
     "hour_utc": 18,
     "action": "BUY",
     "coin": "ETH",
     "pair": "ETH/USDC",
-    "entry": 1801.0,
-    "tp1": 1817.6071,
-    "tp2": 1834.2143,
-    "stop": 1778.8571,
+    "entry": 1804.8,
+    "tp1": 1821.4071,
+    "tp2": 1838.0143,
+    "stop": 1782.6571,
     "confidence": 85,
     "reason": "SuperTrend BULL 1H \u00b7 SuperTrend BULL 4H \u00b7 ADX 57 DI+ dominant",
     "regime": "bull",
@@ -71,7 +71,7 @@
       "supertrend_4h": true,
       "rsi": null,
       "rsi_divergence": true,
-      "macd": 13.544088690866147,
+      "macd": 13.847222594000186,
       "adx": 57.32660417298252,
       "funding": 1.25e-05,
       "fear_greed": 22,
@@ -90,8 +90,8 @@
     "exit": null,
     "pnl": null,
     "result": "OPEN",
-    "duplicate_count": 2,
-    "last_updated": "18:08"
+    "duplicate_count": 3,
+    "last_updated": "18:14"
   },
   {
     "id": 1783159660,
