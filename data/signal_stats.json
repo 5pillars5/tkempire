@@ -5,9 +5,9 @@
   "pairs": 15,
   "min_score": 45,
   "min_gap": 5,
-  "wins": 60,
+  "wins": 61,
   "losses": 51,
   "signals": 112,
-  "total_pnl": 29.11,
-  "win_rate": 54.1
+  "total_pnl": 29.54,
+  "win_rate": 54.5
 }
