@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-07-08 04:01 UTC",
+  "updated_at": "2026-07-08 04:03 UTC",
   "type": "signals",
-  "market_mode": "bull",
+  "market_mode": "sideways",
   "pairs": 15,
   "min_score": 45,
   "min_gap": 5,
