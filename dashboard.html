@@ -1535,5 +1535,73 @@ setInterval(loadDecisionTimeline, 30000);
 })();
 </script>
 
+
+<script id="GENESIS_FINAL_AUTHORITY">
+(function () {
+  function setText(id, value) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+  }
+
+  async function syncGenesisAuthority() {
+    try {
+      const response = await fetch('/api/health?authority=' + Date.now(), {
+        cache: 'no-store'
+      });
+
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+
+      const data = await response.json();
+      const engine = data.engine || {};
+      const regime = String(engine.regime || 'UNKNOWN').toUpperCase();
+      const time = new Date().toLocaleTimeString();
+
+      setText('ops-regime', regime);
+      setText('eaiRegime2', regime);
+      setText('v3RegimeBadge', 'REGIME: ' + regime);
+      setText('v3Updated', 'UPDATED: ' + time);
+      setText('lastUpdated', 'Updated ' + time);
+
+      const modePill = document.getElementById('modePill');
+      if (modePill) {
+        const bull = regime === 'BULL';
+        const bear = regime === 'BEAR';
+
+        modePill.textContent =
+          (bull ? '📈 ' : bear ? '📉 ' : '↔ ') + regime + ' MODE';
+
+        modePill.style.color =
+          bull ? '#00e5a0' : bear ? '#ff4b6e' : '#f59e0b';
+
+        modePill.style.borderColor =
+          bull ? '#00e5a066' : bear ? '#ff4b6e66' : '#f59e0b66';
+      }
+
+      const brain = document.getElementById('v3BrainFeed');
+      if (brain) {
+        let line = Array.from(
+          brain.querySelectorAll('.v3-brain-line')
+        ).find(el => /regime detected:/i.test(el.textContent || ''));
+
+        if (!line) {
+          line = document.createElement('div');
+          line.className = 'v3-brain-line';
+          brain.prepend(line);
+        }
+
+        line.textContent = 'Market regime detected: ' + regime;
+      }
+    } catch (error) {
+      console.error('Genesis authority sync failed:', error);
+    }
+  }
+
+  window.addEventListener('load', function () {
+    syncGenesisAuthority();
+    setInterval(syncGenesisAuthority, 5000);
+  });
+})();
+</script>
+
 </body>
 </html>
