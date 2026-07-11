@@ -1011,7 +1011,7 @@ async function fetchMarketMode(){
     const d = await r.json();
     const mode = (d.market_mode||'bull').toUpperCase();
     const pairs = d.pairs||20;
-    const el = document.getElementById('modePill');
+    const el = null; // LIVE_HEALTH_REGIME_SYNC
     if(el){
       const color = mode==='BULL'?'#00e5a0':mode==='BEAR'?'#ff4b6e':'#F59E0B';
       const emoji = mode==='BULL'?'📈':mode==='BEAR'?'📉':'↔️';
@@ -1058,7 +1058,7 @@ async function loadDashboardJson(){
     };
 
     set('eaiEngine', d.engine || 'ONLINE');
-    set('eaiRegime2', String(d.regime || 'learning').toUpperCase());
+      // LIVE_HEALTH_REGIME_SYNC: managed by loadEmpireOperations()
     set('eaiSignals2', d.signals ?? '--');
     set('eaiWinRate2', d.win_rate !== undefined ? d.win_rate + '%' : '--');
     set('eaiPnl2', d.total_pnl !== undefined ? ((d.total_pnl >= 0 ? '+' : '') + d.total_pnl) : '--');
@@ -1100,9 +1100,8 @@ async function loadEaiV3(){
     set('v3Signals', d.signals ?? '--');
     set('v3WinRate', d.win_rate !== undefined ? d.win_rate + '%' : '--');
     set('v3Pnl', d.total_pnl !== undefined ? ((d.total_pnl >= 0 ? '+' : '') + d.total_pnl) : '--');
-    set('v3RegimeBadge', 'REGIME: ' + String(d.regime || 'learning').toUpperCase());
-    set('v3Updated', 'UPDATED: ' + (d.updated_at || '--'));
-
+      // LIVE_HEALTH_REGIME_SYNC: managed by loadEmpireOperations()
+      // LIVE_HEALTH_REGIME_SYNC: managed by loadEmpireOperations()
     const brain=document.getElementById('v3BrainFeed');
     if(brain){
       const lines = Array.isArray(d.brain) ? d.brain : [];
@@ -1453,6 +1452,61 @@ setInterval(loadDecisionTimeline, 30000);
 
       document.getElementById('ops-regime').textContent =
         String(engine.regime || '--').toUpperCase();
+
+      // LIVE_HEALTH_REGIME_SYNC
+      const liveRegime = String(engine.regime || 'unknown').toUpperCase();
+      const liveMode = String(engine.mode || 'unknown').toUpperCase();
+      const liveTime = new Date().toLocaleTimeString();
+
+      const setLiveText = (id, value) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value;
+      };
+
+      setLiveText('eaiRegime2', liveRegime);
+      setLiveText('v3RegimeBadge', 'REGIME: ' + liveRegime);
+      setLiveText('v3Updated', 'UPDATED: ' + liveTime);
+      setLiveText('lastUpdated', 'Updated ' + liveTime);
+
+      const modePill = document.getElementById('modePill');
+      if (modePill) {
+        const bullish = liveRegime === 'BULL';
+        const bearish = liveRegime === 'BEAR';
+
+        modePill.textContent =
+          (bullish ? '📈 ' : bearish ? '📉 ' : '↔ ') +
+          liveRegime +
+          ' MODE';
+
+        modePill.style.color =
+          bullish ? '#00e5a0' :
+          bearish ? '#ff4b6e' :
+          '#f59e0b';
+
+        modePill.style.borderColor =
+          bullish ? '#00e5a066' :
+          bearish ? '#ff4b6e66' :
+          '#f59e0b66';
+      }
+
+      const brain = document.getElementById('v3BrainFeed');
+      if (brain) {
+        const lines = Array.from(brain.querySelectorAll('.v3-brain-line'));
+        const regimeLine = lines.find(el =>
+          /regime detected:/i.test(el.textContent || '')
+        );
+
+        if (regimeLine) {
+          regimeLine.textContent = 'Market regime detected: ' + liveRegime;
+        } else {
+          brain.insertAdjacentHTML(
+            'afterbegin',
+            '<div class="v3-brain-line">Market regime detected: ' +
+            liveRegime +
+            '</div>'
+          );
+        }
+      }
 
       document.getElementById('ops-telegram').textContent =
         c.telegram_listener ? 'CONNECTED' : 'OFFLINE';
