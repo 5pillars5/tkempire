@@ -190,6 +190,107 @@ body.private-mode .view-private{display:block;}
 @media(max-width:800px){.v3-hero,.v3-grid2{grid-template-columns:1fr}.v3-title{font-size:28px}}
 </style>
 
+
+<style id="empire-operations-ribbon-css">
+.empire-status-ribbon{
+  max-width:1180px;
+  margin:20px auto 28px;
+  padding:22px;
+  border:1px solid rgba(212,175,55,.28);
+  border-radius:18px;
+  background:
+    radial-gradient(circle at top right,rgba(79,70,229,.15),transparent 34%),
+    linear-gradient(145deg,rgba(15,23,42,.96),rgba(8,12,24,.98));
+  box-shadow:0 18px 55px rgba(0,0,0,.34),inset 0 1px rgba(255,255,255,.04);
+}
+.ops-ribbon-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:18px;
+  margin-bottom:20px;
+}
+.ops-eyebrow{
+  color:#9ca3af;
+  font-size:11px;
+  letter-spacing:.22em;
+  font-weight:700;
+}
+.ops-title{
+  margin-top:4px;
+  font-size:clamp(22px,4vw,34px);
+  font-weight:800;
+  background:linear-gradient(135deg,#f8e7a1,#d4af37,#a78bfa);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.ops-health-block{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-align:right;
+}
+.ops-health-score{
+  font-size:24px;
+  font-weight:800;
+  color:#f8e7a1;
+}
+.ops-health-label{
+  font-size:11px;
+  color:#9ca3af;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+}
+.ops-status-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+}
+.ops-status-card{
+  min-height:64px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px;
+  border:1px solid rgba(148,163,184,.14);
+  border-radius:12px;
+  background:rgba(15,23,42,.68);
+}
+.ops-status-card strong{
+  display:block;
+  color:#f8fafc;
+  font-size:13px;
+}
+.ops-status-card small{
+  display:block;
+  margin-top:3px;
+  color:#94a3b8;
+  font-size:11px;
+}
+.ops-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  flex:0 0 10px;
+  box-shadow:0 0 12px currentColor;
+}
+.ops-good{background:#22c55e;color:#22c55e}
+.ops-bad{background:#ef4444;color:#ef4444}
+.ops-warn{background:#f59e0b;color:#f59e0b}
+.ops-wait{background:#64748b;color:#64748b}
+.ops-last-check{
+  margin-top:14px;
+  color:#64748b;
+  font-size:10px;
+  text-align:right;
+}
+@media(max-width:760px){
+  .empire-status-ribbon{margin:14px 12px 22px;padding:16px}
+  .ops-ribbon-head{align-items:flex-start}
+  .ops-status-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+</style>
+
 </head>
 <body>
 
@@ -320,6 +421,89 @@ const TK_API_DASHBOARD = 'data/dashboard.json';
 </nav>
 
 <div class="dashboard">
+
+<!-- EMPIRE OPERATIONS STATUS RIBBON -->
+<section id="empire-status-ribbon" class="empire-status-ribbon">
+  <div class="ops-ribbon-head">
+    <div>
+      <div class="ops-eyebrow">EMPIRE INTELLIGENCE PLATFORM</div>
+      <div class="ops-title">Operations Center</div>
+    </div>
+
+    <div class="ops-health-block">
+      <span id="ops-health-dot" class="ops-dot ops-wait"></span>
+      <div>
+        <div id="ops-health-score" class="ops-health-score">--%</div>
+        <div id="ops-health-label" class="ops-health-label">Connecting</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ops-status-grid">
+    <div class="ops-status-card">
+      <span id="ops-engine-dot" class="ops-dot ops-wait"></span>
+      <div><strong>Genesis</strong><small id="ops-engine">Checking</small></div>
+    </div>
+
+    <div class="ops-status-card">
+      <span id="ops-runtime-dot" class="ops-dot ops-wait"></span>
+      <div><strong>Runtime</strong><small id="ops-runtime">Checking</small></div>
+    </div>
+
+    <div class="ops-status-card">
+      <span id="ops-altfins-dot" class="ops-dot ops-wait"></span>
+      <div><strong>altFINS</strong><small id="ops-altfins">Checking</small></div>
+    </div>
+
+    <div class="ops-status-card">
+      <span id="ops-coingecko-dot" class="ops-dot ops-wait"></span>
+      <div><strong>CoinGecko</strong><small id="ops-coingecko">Checking</small></div>
+    </div>
+
+    <div class="ops-status-card">
+      <span id="ops-memory-dot" class="ops-dot ops-wait"></span>
+      <div><strong>Learning</strong><small id="ops-memory">Checking</small></div>
+    </div>
+
+    <div class="ops-status-card">
+      <span id="ops-trade-dot" class="ops-dot ops-wait"></span>
+      <div><strong>Open Trades</strong><small id="ops-trades">Checking</small></div>
+    </div>
+
+    <div class="ops-status-card">
+      <span class="ops-dot ops-good"></span>
+      <div><strong>Mode</strong><small id="ops-mode">--</small></div>
+    </div>
+
+    <div class="ops-status-card">
+      <span class="ops-dot ops-good"></span>
+      <div><strong>Regime</strong><small id="ops-regime">--</small></div>
+    </div>
+
+    <div class="ops-status-card">
+      <span id="ops-telegram-dot" class="ops-dot ops-wait"></span>
+      <div><strong>Telegram</strong><small id="ops-telegram">Checking</small></div>
+    </div>
+
+    <div class="ops-status-card">
+      <span id="ops-api-dot" class="ops-dot ops-wait"></span>
+      <div><strong>API</strong><small id="ops-api">Checking</small></div>
+    </div>
+
+    <div class="ops-status-card">
+      <span id="ops-nginx-dot" class="ops-dot ops-wait"></span>
+      <div><strong>Nginx</strong><small id="ops-nginx">Checking</small></div>
+    </div>
+
+    <div class="ops-status-card">
+      <span id="ops-genesis-service-dot" class="ops-dot ops-wait"></span>
+      <div><strong>Genesis Service</strong><small id="ops-genesis-service">Checking</small></div>
+    </div>
+  </div>
+
+  <div id="ops-last-check" class="ops-last-check">Awaiting first health report...</div>
+</section>
+
 
   <!-- ══════════════════════════════════════ -->
   <!-- PUBLIC VIEW -->
@@ -1194,6 +1378,107 @@ async function loadDecisionTimeline(){
 
 loadDecisionTimeline();
 setInterval(loadDecisionTimeline, 30000);
+</script>
+
+
+<script id="empire-operations-ribbon-js">
+(function(){
+  function setDot(id, state){
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.className = 'ops-dot ' + (state ? 'ops-good' : 'ops-bad');
+  }
+
+  function ageText(seconds){
+    seconds = Number(seconds || 0);
+    if(seconds < 60) return Math.round(seconds) + ' sec ago';
+    if(seconds < 3600) return Math.round(seconds / 60) + ' min ago';
+    return (seconds / 3600).toFixed(1) + ' hr ago';
+  }
+
+  async function loadEmpireOperations(){
+    try{
+      const res = await fetch('/api/health?cache=' + Date.now());
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+
+      const d = await res.json();
+      const c = d.checks || {};
+      const engine = d.engine || {};
+      const feeds = d.feeds || {};
+      const trades = d.open_trades || {};
+
+      document.getElementById('ops-health-score').textContent =
+        Number(d.health_score || 0).toFixed(0) + '%';
+      document.getElementById('ops-health-label').textContent =
+        String(d.status || 'unknown').toUpperCase();
+
+      const healthy = d.status === 'healthy';
+      const healthDot = document.getElementById('ops-health-dot');
+      healthDot.className = 'ops-dot ' + (healthy ? 'ops-good' : 'ops-warn');
+
+      setDot('ops-engine-dot', !!c.engine);
+      setDot('ops-runtime-dot', !!c.runtime_fresh);
+      setDot('ops-altfins-dot', !!c.altfins_parser_fresh);
+      setDot('ops-coingecko-dot', !!c.coingecko_fresh);
+      setDot('ops-memory-dot', !!c.memory_loaded);
+      setDot('ops-trade-dot', true);
+      setDot('ops-telegram-dot', !!c.telegram_listener);
+      setDot('ops-api-dot', !!c.api_service);
+      setDot('ops-nginx-dot', !!c.nginx_service);
+      setDot('ops-genesis-service-dot', !!c.genesis_service);
+
+      document.getElementById('ops-engine').textContent =
+        c.engine ? 'ONLINE' : 'OFFLINE';
+      document.getElementById('ops-runtime').textContent =
+        c.runtime_fresh ? 'LIVE' : 'STALE';
+
+      document.getElementById('ops-altfins').textContent =
+        feeds.altfins_parsed
+          ? ageText(feeds.altfins_parsed.age_seconds)
+          : 'Unavailable';
+
+      document.getElementById('ops-coingecko').textContent =
+        feeds.coingecko
+          ? ageText(feeds.coingecko.age_seconds)
+          : 'Unavailable';
+
+      document.getElementById('ops-memory').textContent =
+        c.memory_loaded ? 'ACTIVE' : 'UNAVAILABLE';
+
+      document.getElementById('ops-trades').textContent =
+        String(trades.count || 0) + ' ACTIVE';
+
+      document.getElementById('ops-mode').textContent =
+        String(engine.mode || '--').toUpperCase();
+
+      document.getElementById('ops-regime').textContent =
+        String(engine.regime || '--').toUpperCase();
+
+      document.getElementById('ops-telegram').textContent =
+        c.telegram_listener ? 'CONNECTED' : 'OFFLINE';
+
+      document.getElementById('ops-api').textContent =
+        c.api_service ? 'HEALTHY' : 'OFFLINE';
+
+      document.getElementById('ops-nginx').textContent =
+        c.nginx_service ? 'ONLINE' : 'OFFLINE';
+
+      document.getElementById('ops-genesis-service').textContent =
+        c.genesis_service ? 'RUNNING' : 'OFFLINE';
+
+      document.getElementById('ops-last-check').textContent =
+        'Last health check: ' + new Date().toLocaleTimeString();
+    }catch(err){
+      document.getElementById('ops-health-label').textContent = 'UNAVAILABLE';
+      document.getElementById('ops-health-dot').className = 'ops-dot ops-bad';
+      document.getElementById('ops-last-check').textContent =
+        'Health connection error: ' + err.message;
+    }
+  }
+
+  loadEmpireOperations();
+  setInterval(loadEmpireOperations, 30000);
+})();
 </script>
 
 </body>
