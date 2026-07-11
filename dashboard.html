@@ -1603,5 +1603,157 @@ setInterval(loadDecisionTimeline, 30000);
 })();
 </script>
 
+
+<script id="GENESIS_CANONICAL_PERFORMANCE_AUTHORITY">
+(function () {
+  function setText(id, value) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+  }
+
+  function formatPnl(value) {
+    const number = Number(value || 0);
+    return (number >= 0 ? '+' : '') + number.toFixed(2);
+  }
+
+  function replaceBrainLine(brain, matcher, text) {
+    if (!brain) return;
+
+    let line = Array.from(
+      brain.querySelectorAll('.v3-brain-line, div')
+    ).find(el => matcher.test((el.textContent || '').trim()));
+
+    if (line) {
+      line.textContent = text;
+    } else {
+      line = document.createElement('div');
+      line.className = 'v3-brain-line';
+      line.textContent = text;
+      brain.appendChild(line);
+    }
+  }
+
+  async function syncCanonicalPerformance() {
+    try {
+      const response = await fetch(
+        '/api/genesis/status?canonical=' + Date.now(),
+        { cache: 'no-store' }
+      );
+
+      if (!response.ok) {
+        throw new Error('HTTP ' + response.status);
+      }
+
+      const data = await response.json();
+      const performance = data.performance || {};
+      const positions = data.positions || {};
+
+      const trades = Number(performance.trades || 0);
+      const wins = Number(performance.wins || 0);
+      const losses = Number(performance.losses || 0);
+      const winRate = Number(performance.win_rate || 0);
+      const totalPnl = Number(performance.total_pnl || 0);
+      const openTrades = Number(positions.open || 0);
+
+      const winRateText = winRate.toFixed(2) + '%';
+      const pnlText = formatPnl(totalPnl);
+
+      // Main EAI cards
+      setText('v3Signals', String(trades));
+      setText('v3WinRate', winRateText);
+      setText('v3Pnl', pnlText);
+
+      // Secondary EAI cards
+      setText('eaiSignals2', String(trades));
+      setText('eaiWinRate2', winRateText);
+      setText('eaiPnl2', pnlText);
+
+      // Public performance cards
+      setText('pub-signals', String(trades));
+      setText('pub-winrate', winRateText);
+      setText('pub-wins', String(wins));
+      setText('pub-losses', String(losses));
+
+      // Operations Center
+      setText('ops-trades', String(openTrades) + ' ACTIVE');
+
+      // Brain Activity
+      const brain = document.getElementById('v3BrainFeed');
+
+      replaceBrainLine(
+        brain,
+        /^Signals tracked:/i,
+        'Trades tracked: ' + trades
+      );
+
+      replaceBrainLine(
+        brain,
+        /^Trades tracked:/i,
+        'Trades tracked: ' + trades
+      );
+
+      replaceBrainLine(
+        brain,
+        /^Win rate:/i,
+        'Win rate: ' + winRateText
+      );
+
+      replaceBrainLine(
+        brain,
+        /^Total PnL:/i,
+        'Total PnL: ' + pnlText
+      );
+
+      // Engine health grid generated dynamically
+      const healthGrid = document.getElementById('engineHealthGrid');
+
+      if (healthGrid) {
+        const rows = Array.from(healthGrid.querySelectorAll('div'));
+
+        function updateGridValue(label, value) {
+          for (const row of rows) {
+            const text = (row.textContent || '').trim();
+
+            if (text === label) {
+              const card = row.parentElement;
+              if (!card) continue;
+
+              const valueNode = Array.from(card.children).find(
+                child => child !== row
+              );
+
+              if (valueNode) valueNode.textContent = value;
+              break;
+            }
+          }
+        }
+
+        updateGridValue('Signals', String(trades));
+        updateGridValue('Win Rate', winRateText);
+        updateGridValue('Open Trades', String(openTrades));
+      }
+
+      window.GENESIS_CANONICAL_PERFORMANCE = {
+        trades,
+        wins,
+        losses,
+        winRate,
+        totalPnl,
+        openTrades,
+        updatedAt: data.updated_at || null
+      };
+
+    } catch (error) {
+      console.error('Canonical performance sync failed:', error);
+    }
+  }
+
+  window.addEventListener('load', function () {
+    setTimeout(syncCanonicalPerformance, 500);
+    setInterval(syncCanonicalPerformance, 5000);
+  });
+})();
+</script>
+
 </body>
 </html>
