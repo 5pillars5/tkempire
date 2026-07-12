@@ -283,7 +283,14 @@ async function fetchMarketMode(){
 async function loadSignals(){
   try {
     const r = await fetch(SIGNALS_URL + '?t=' + Date.now());
-    SIGNALS = await r.json();
+    const rawSignals = await r.json();
+    SIGNALS = Array.isArray(rawSignals)
+      ? rawSignals.filter(s =>
+          ['win', 'loss', 'open'].includes(
+            String(s.result || '').toLowerCase()
+          )
+        )
+      : [];
     applyFilters();
     updateStats();
     console.log(`Loaded ${SIGNALS.length} signals from GitHub`);
