@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-07-12 02:50 UTC",
+  "updated_at": "2026-07-12 02:51 UTC",
   "market_mode": "bull",
   "pairs": 15,
   "min_score": 45,
   "stats": {
-    "wins": 62,
+    "wins": 63,
     "losses": 55,
-    "total_pnl": 24.26,
-    "signals": 117,
-    "win_rate": 53.0
+    "total_pnl": 24.56,
+    "signals": 118,
+    "win_rate": 53.4
   }
 }
