@@ -1528,7 +1528,7 @@ async function loadEaiV3(){
 
     const open=document.getElementById('v3OpenSignals');
     if(open){
-      const sigs = Array.isArray(d.open_signals) ? d.open_signals.slice(0,8) : [];
+      const sigs = (await fetchLiveEmpireTrades()).slice(0, 8);
       open.innerHTML = sigs.length ? sigs.map(s=>{
         const action = String(s.action || '--').toUpperCase();
         const conf = s.confidence || s.score || '--';
@@ -1582,6 +1582,36 @@ setInterval(loadEaiV3,30000);
 
 
 <script>
+
+async function fetchLiveEmpireTrades(){
+  const response = await fetch('/api/health?cache=' + Date.now(), {
+    cache: 'no-store'
+  });
+
+  if(!response.ok){
+    throw new Error('Live runtime unavailable: ' + response.status);
+  }
+
+  const health = await response.json();
+
+  const rows = Array.isArray(health.open_trades?.trades)
+    ? health.open_trades.trades
+    : [];
+
+  return rows.filter(trade => {
+    const status = String(trade?.status || 'open').toLowerCase();
+
+    return ![
+      'closed',
+      'complete',
+      'completed',
+      'win',
+      'loss',
+      'stopped'
+    ].includes(status);
+  });
+}
+
 async function loadOpenTradeStatus(){
   try{
     const res = await fetch('/api/health?cache=' + Date.now());
@@ -1666,7 +1696,7 @@ async function loadEngineHealth(){
     const res = await fetch(TK_API_DASHBOARD + '?cache=' + Date.now());
     const d = await res.json();
 
-    const openCount = Array.isArray(d.open_signals) ? d.open_signals.length : 0;
+    const openCount = (await fetchLiveEmpireTrades()).length;
     const regime = String(d.regime || 'learning').toUpperCase();
     const engine = d.engine || 'ONLINE';
     const learning = d.learning || 'ACTIVE';
@@ -1674,7 +1704,6 @@ async function loadEngineHealth(){
 
     let health = 92;
     if(engine !== 'ONLINE') health -= 40;
-    if(!Array.isArray(d.open_signals)) health -= 10;
     if(!d.updated_at) health -= 10;
     health = Math.max(0, Math.min(100, health));
 
@@ -1742,7 +1771,7 @@ async function loadDecisionTimeline(){
 
     const events = [];
 
-    const open = Array.isArray(d.open_signals) ? d.open_signals : [];
+    const open = await fetchLiveEmpireTrades();
     open.slice(0,10).forEach(t=>{
       events.push({
         time: t.time || '--',
