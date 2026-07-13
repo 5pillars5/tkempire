@@ -58,7 +58,13 @@
     const lastDecision = [...(thoughts || [])].reverse()
       .find(t => ['fired','decision','rejected','mission'].includes(t.type));
 
-    const score = Number(trade?.score ?? lastDecision?.score ?? engine.score_min ?? 0);
+    const rawScore = Number(
+      trade?.score ?? lastDecision?.score ?? engine.score_min ?? 0
+    );
+    const score = Math.max(
+      0,
+      Math.min(100, Number.isFinite(rawScore) ? rawScore : 0)
+    );
     const decision = String(trade?.action ?? (trade ? 'ACTIVE' : 'WAIT')).toUpperCase();
     const coin = trade?.coin ?? lastDecision?.coin ?? '';
 
