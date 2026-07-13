@@ -448,33 +448,6 @@ function buildGridLevels(price, bottom=1652.89, top=1889.01){
   }
   container.innerHTML = html.join('');
 }
-  const html = [];
-
-  for(let i=3;i>0;i--){
-    const p = price + (step * i);
-    const w = 40 + (i*10);
-    html.push(`<div class="grid-level gl-sell">
-      <span class="gl-price">$${p.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</span>
-      <div class="gl-bar" style="width:${w}%"></div>
-      <span class="gl-tag">SELL</span>
-    </div>`);
-  }
-  html.push(`<div class="grid-level gl-current">
-    <span class="gl-price" style="color:var(--purple-light)">$${price.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</span>
-    <div class="gl-bar"></div>
-    <span class="gl-tag" style="color:var(--purple-light)">NOW ⚡</span>
-  </div>`);
-  for(let i=1;i<=3;i++){
-    const p = price - (step * i);
-    const w = 40 + (i*10);
-    html.push(`<div class="grid-level gl-buy">
-      <span class="gl-price">$${p.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</span>
-      <div class="gl-bar" style="width:${w}%"></div>
-      <span class="gl-tag">BUY</span>
-    </div>`);
-  }
-  container.innerHTML = html.join('');
-}
 
 // ── DAILY CYCLE BARS ──
 function buildCycleBars(){
