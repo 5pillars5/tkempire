@@ -1,0 +1,166 @@
+/* Genesis Brain Centerpiece */
+.genesis-brain {
+  margin: 24px 0;
+  padding: 24px;
+  border: 1px solid rgba(139,92,246,.3);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 50% 45%,rgba(124,58,237,.2),transparent 32%),
+    linear-gradient(145deg,#070b17,#111827);
+  box-shadow: 0 20px 55px rgba(76,29,149,.18);
+}
+
+.genesis-brain__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.genesis-brain__title {
+  color: #ddd6fe;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.genesis-brain__status {
+  padding: 6px 11px;
+  border-radius: 999px;
+  color: #4ade80;
+  background: rgba(34,197,94,.12);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.genesis-brain__stage {
+  position: relative;
+  min-height: 520px;
+  overflow: hidden;
+  border: 1px solid rgba(148,163,184,.1);
+  border-radius: 18px;
+  background:
+    linear-gradient(rgba(148,163,184,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(148,163,184,.035) 1px,transparent 1px);
+  background-size: 32px 32px;
+}
+
+.genesis-brain__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.genesis-link {
+  stroke: rgba(139,92,246,.28);
+  stroke-linecap: round;
+  transition: stroke .4s,stroke-width .4s;
+}
+
+.genesis-node {
+  cursor: default;
+}
+
+.genesis-node circle {
+  fill: #111827;
+  stroke: #64748b;
+  stroke-width: 2;
+  transition: fill .4s,stroke .4s,filter .4s,r .4s;
+}
+
+.genesis-node text {
+  fill: #e2e8f0;
+  font-size: 11px;
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+.genesis-node text.node-weight {
+  fill: #94a3b8;
+  font-size: 9px;
+}
+
+.genesis-node--strong circle {
+  fill: rgba(34,197,94,.13);
+  stroke: #4ade80;
+  filter: drop-shadow(0 0 9px rgba(34,197,94,.65));
+}
+
+.genesis-node--weak circle {
+  fill: rgba(239,68,68,.12);
+  stroke: #f87171;
+  filter: drop-shadow(0 0 7px rgba(239,68,68,.45));
+}
+
+.genesis-node--neutral circle {
+  fill: rgba(245,158,11,.08);
+  stroke: #f59e0b;
+}
+
+.genesis-core circle {
+  fill: rgba(91,33,182,.3);
+  stroke: #c4b5fd;
+  stroke-width: 3;
+  filter: drop-shadow(0 0 18px rgba(139,92,246,.8));
+  animation: genesis-pulse 2.4s ease-in-out infinite;
+}
+
+.genesis-core .core-title {
+  font-size: 14px;
+  font-weight: 900;
+  fill: #fff;
+}
+
+.genesis-core .core-decision {
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.genesis-core .core-score {
+  font-size: 22px;
+  font-weight: 900;
+  fill: #fff;
+}
+
+.genesis-brain__footer {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.genesis-brain__metric {
+  padding: 12px;
+  border: 1px solid rgba(148,163,184,.1);
+  border-radius: 12px;
+  background: rgba(15,23,42,.58);
+}
+
+.genesis-brain__metric span {
+  display: block;
+  color: #94a3b8;
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.genesis-brain__metric strong {
+  display: block;
+  margin-top: 6px;
+  color: #f8fafc;
+  font-size: 16px;
+}
+
+@keyframes genesis-pulse {
+  0%,100% { opacity:.88; }
+  50% { opacity:1; }
+}
+
+@media(max-width:760px) {
+  .genesis-brain { padding: 15px; }
+  .genesis-brain__stage { min-height: 430px; }
+  .genesis-brain__footer { grid-template-columns: repeat(2,1fr); }
+}

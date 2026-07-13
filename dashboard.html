@@ -156,6 +156,251 @@ body.private-mode .view-private{display:block;}
   .sig-row{grid-template-columns:50px 70px 1fr 60px;}
   .sig-row div:nth-child(5),.sig-row div:nth-child(6){display:none;}
 }
+
+/* EMPIRE COMMAND CENTER V1 */
+.empire-command-grid{
+  display:grid;
+  grid-template-columns:1.35fr 1fr 1fr;
+  gap:16px;
+  margin:18px 0 8px;
+}
+.empire-command-card{
+  background:linear-gradient(145deg,rgba(15,23,42,.96),rgba(8,15,30,.94));
+  border:1px solid rgba(148,163,184,.16);
+  border-radius:16px;
+  padding:18px;
+  box-shadow:0 14px 38px rgba(0,0,0,.24);
+  min-height:190px;
+}
+.empire-command-card h3{
+  margin:0 0 14px;
+  font-size:12px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:#c4b5fd;
+}
+.empire-command-primary{
+  border-color:rgba(139,92,246,.38);
+  box-shadow:0 14px 42px rgba(91,33,182,.14);
+}
+.empire-trade-symbol{
+  font-size:30px;
+  font-weight:800;
+  letter-spacing:.02em;
+}
+.empire-trade-side{
+  display:inline-block;
+  margin-left:8px;
+  padding:4px 9px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:800;
+}
+.empire-buy{background:rgba(34,197,94,.14);color:#4ade80}
+.empire-sell{background:rgba(239,68,68,.14);color:#f87171}
+.empire-command-row{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  padding:8px 0;
+  border-bottom:1px solid rgba(148,163,184,.09);
+  font-size:12px;
+}
+.empire-command-row:last-child{border-bottom:0}
+.empire-command-label{color:#94a3b8}
+.empire-command-value{color:#f8fafc;font-weight:700;text-align:right}
+.empire-command-reason{
+  margin-top:12px;
+  color:#94a3b8;
+  font-size:11px;
+  line-height:1.55;
+}
+.empire-command-state{
+  font-size:24px;
+  font-weight:900;
+  margin:8px 0 4px;
+}
+.empire-command-sub{
+  color:#94a3b8;
+  font-size:11px;
+  line-height:1.55;
+}
+.empire-feed-line{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:12px;
+  padding:9px 0;
+  border-bottom:1px solid rgba(148,163,184,.09);
+  font-size:12px;
+}
+.empire-feed-line:last-child{border-bottom:0}
+.empire-feed-name{color:#cbd5e1}
+.empire-feed-age{font-weight:700;color:#4ade80}
+.empire-empty{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:120px;
+  color:#64748b;
+  text-align:center;
+  font-size:12px;
+}
+@media(max-width:980px){
+  .empire-command-grid{grid-template-columns:1fr}
+}
+
+
+/* GENESIS DECISION ENGINE V1 */
+.genesis-decision-panel{
+  margin:16px 0 8px;
+  padding:20px;
+  border-radius:18px;
+  border:1px solid rgba(168,85,247,.34);
+  background:
+    radial-gradient(circle at top right,rgba(139,92,246,.17),transparent 42%),
+    linear-gradient(145deg,rgba(15,23,42,.97),rgba(5,10,22,.97));
+  box-shadow:0 18px 48px rgba(76,29,149,.18);
+}
+.genesis-decision-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:18px;
+}
+.genesis-decision-title{
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:#ddd6fe;
+}
+.genesis-decision-badge{
+  padding:6px 11px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:800;
+  background:rgba(34,197,94,.12);
+  color:#4ade80;
+}
+.genesis-decision-grid{
+  display:grid;
+  grid-template-columns:.75fr 1.25fr 1fr;
+  gap:18px;
+}
+.genesis-decision-block{
+  padding:16px;
+  border-radius:14px;
+  background:rgba(15,23,42,.58);
+  border:1px solid rgba(148,163,184,.12);
+}
+.genesis-decision-label{
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.13em;
+  color:#94a3b8;
+}
+.genesis-decision-value{
+  margin-top:8px;
+  font-size:28px;
+  font-weight:900;
+  color:#f8fafc;
+}
+.genesis-confidence-track{
+  height:10px;
+  margin-top:14px;
+  overflow:hidden;
+  border-radius:999px;
+  background:rgba(100,116,139,.18);
+}
+.genesis-confidence-fill{
+  height:100%;
+  width:0%;
+  border-radius:999px;
+  background:linear-gradient(90deg,#7c3aed,#22c55e);
+  transition:width .6s ease;
+}
+.genesis-reason-list{
+  margin:10px 0 0;
+  padding:0;
+  list-style:none;
+}
+.genesis-reason-list li{
+  padding:7px 0;
+  font-size:12px;
+  color:#cbd5e1;
+  border-bottom:1px solid rgba(148,163,184,.08);
+}
+.genesis-reason-list li:last-child{border-bottom:0}
+.genesis-reason-list li::before{
+  content:"✓";
+  color:#4ade80;
+  font-weight:900;
+  margin-right:8px;
+}
+.genesis-decision-status{
+  font-size:24px;
+  font-weight:900;
+  margin-top:8px;
+}
+.genesis-decision-note{
+  margin-top:10px;
+  font-size:11px;
+  line-height:1.55;
+  color:#94a3b8;
+}
+@media(max-width:980px){
+  .genesis-decision-grid{grid-template-columns:1fr}
+}
+
+
+/* GENESIS NEURAL MAP V1 */
+.neural-map{
+  margin-top:24px;
+  padding:22px;
+  border-radius:18px;
+  background:linear-gradient(145deg,#0b1220,#111827);
+  border:1px solid rgba(255,255,255,.05);
+}
+.neural-header{margin-bottom:18px}
+.neural-title{
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:#c4b5fd;
+}
+.neural-sub{
+  font-size:12px;
+  color:#94a3b8;
+  margin-top:6px;
+}
+.neural-row{margin-bottom:14px}
+.neural-name{
+  font-size:12px;
+  margin-bottom:6px;
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  color:#e2e8f0;
+}
+.neural-bar{
+  height:10px;
+  background:#1f2937;
+  border-radius:20px;
+  overflow:hidden;
+}
+.neural-fill{
+  height:100%;
+  background:linear-gradient(90deg,#7c3aed,#22c55e);
+  transition:width .6s ease;
+}
+.neural-empty{
+  color:#94a3b8;
+  font-size:12px;
+  padding:14px 0;
+}
+
 </style>
 
 <style>
@@ -291,6 +536,7 @@ body.private-mode .view-private{display:block;}
 }
 </style>
 
+<link rel="stylesheet" href="assets/css/genesis-brain.css"/>
 </head>
 <body>
 
@@ -500,6 +746,177 @@ const TK_API_DASHBOARD = 'data/dashboard.json';
       <div><strong>Genesis Service</strong><small id="ops-genesis-service">Checking</small></div>
     </div>
   </div>
+
+
+  <!-- EMPIRE COMMAND CENTER V1 -->
+  <div class="empire-command-grid">
+    <div class="empire-command-card empire-command-primary">
+      <h3>Active Trade Mission</h3>
+      <div id="empire-active-trade">
+        <div class="empire-empty">Checking active trade state...</div>
+      </div>
+    </div>
+
+    <div class="empire-command-card">
+      <h3>Genesis Mission Status</h3>
+      <div id="empire-mission-state" class="empire-command-state">CONNECTING</div>
+      <div id="empire-mission-sub" class="empire-command-sub">
+        Awaiting live Genesis health report.
+      </div>
+
+      <div class="empire-command-row" style="margin-top:14px;">
+        <span class="empire-command-label">Mode</span>
+        <span id="empire-mission-mode" class="empire-command-value">--</span>
+      </div>
+      <div class="empire-command-row">
+        <span class="empire-command-label">Regime</span>
+        <span id="empire-mission-regime" class="empire-command-value">--</span>
+      </div>
+      <div class="empire-command-row">
+        <span class="empire-command-label">Minimum Score</span>
+        <span id="empire-mission-score" class="empire-command-value">--</span>
+      </div>
+    </div>
+
+    <div class="empire-command-card">
+      <h3>Intelligence Freshness</h3>
+
+      <div class="empire-feed-line">
+        <span class="empire-feed-name">altFINS Parsed</span>
+        <span id="empire-feed-altfins" class="empire-feed-age">--</span>
+      </div>
+
+      <div class="empire-feed-line">
+        <span class="empire-feed-name">altFINS Raw</span>
+        <span id="empire-feed-raw" class="empire-feed-age">--</span>
+      </div>
+
+      <div class="empire-feed-line">
+        <span class="empire-feed-name">CoinGecko</span>
+        <span id="empire-feed-coingecko" class="empire-feed-age">--</span>
+      </div>
+
+      <div class="empire-feed-line">
+        <span class="empire-feed-name">Genesis Memory</span>
+        <span id="empire-feed-memory" class="empire-feed-age">--</span>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+<!-- GENESIS BRAIN CENTERPIECE V1 -->
+<section class="genesis-brain">
+  <div class="genesis-brain__header">
+    <div>
+      <div class="genesis-brain__title">Genesis Neural Core</div>
+      <div class="neural-sub">Live adaptive intelligence network</div>
+    </div>
+    <div id="genesis-brain-status" class="genesis-brain__status">CONNECTING</div>
+  </div>
+
+  <div class="genesis-brain__stage">
+    <svg id="genesis-brain-svg"
+         class="genesis-brain__svg"
+         viewBox="0 0 1000 600"
+         preserveAspectRatio="xMidYMid meet"
+         aria-label="Genesis adaptive intelligence network"></svg>
+  </div>
+
+  <div class="genesis-brain__footer">
+    <div class="genesis-brain__metric">
+      <span>Regime</span>
+      <strong id="genesis-brain-regime">--</strong>
+    </div>
+    <div class="genesis-brain__metric">
+      <span>Mode</span>
+      <strong id="genesis-brain-mode">--</strong>
+    </div>
+    <div class="genesis-brain__metric">
+      <span>Empire Health</span>
+      <strong id="genesis-brain-health">--</strong>
+    </div>
+    <div class="genesis-brain__metric">
+      <span>Mission</span>
+      <strong id="genesis-brain-mission">--</strong>
+    </div>
+  </div>
+</section>
+
+<!-- GENESIS NEURAL MAP V1 -->
+  <section class="neural-map">
+    <div class="neural-header">
+      <div class="neural-title">Genesis Neural Map</div>
+      <div class="neural-sub">Live adaptive indicator weights</div>
+    </div>
+    <div id="neuralWeights">
+      <div class="neural-empty">Loading Genesis weights...</div>
+    </div>
+  </section>
+
+
+  <!-- GENESIS DECISION ENGINE V1 -->
+  <div class="genesis-decision-panel">
+    <div class="genesis-decision-head">
+      <div class="genesis-decision-title">Genesis Decision Engine</div>
+      <div id="genesis-decision-badge" class="genesis-decision-badge">CONNECTING</div>
+    </div>
+
+    <div class="genesis-decision-grid">
+      <div class="genesis-decision-block">
+        <div class="genesis-decision-label">Confidence</div>
+        <div id="genesis-confidence-value" class="genesis-decision-value">--</div>
+        <div class="genesis-confidence-track">
+          <div id="genesis-confidence-fill" class="genesis-confidence-fill"></div>
+        </div>
+
+        <div class="empire-command-row" style="margin-top:14px;">
+          <span class="empire-command-label">Regime</span>
+          <span id="genesis-decision-regime" class="empire-command-value">--</span>
+        </div>
+        <div class="empire-command-row">
+          <span class="empire-command-label">Threshold</span>
+          <span id="genesis-decision-threshold" class="empire-command-value">--</span>
+        </div>
+      </div>
+
+      <div class="genesis-decision-block">
+        <div class="genesis-decision-label">Decision Evidence</div>
+        <ul id="genesis-reason-list" class="genesis-reason-list">
+          <li>Awaiting Genesis decision data</li>
+        </ul>
+      </div>
+
+      <div class="genesis-decision-block">
+        <div class="genesis-decision-label">Current Decision</div>
+        <div id="genesis-decision-status" class="genesis-decision-status">WAIT</div>
+        <div id="genesis-decision-note" class="genesis-decision-note">
+          Genesis is evaluating market conditions.
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+<div class="genesis-thought-stream" style="margin:24px 0;padding:20px;border-radius:16px;background:#0f172a;border:1px solid rgba(168,85,247,.25);">
+<h3 style="margin:0 0 14px;color:#fff;">Genesis Live Thought Stream</h3>
+
+<div id="genesis-thoughts"
+style="
+height:320px;
+overflow-y:auto;
+font-family:monospace;
+font-size:13px;
+line-height:1.7;
+color:#cbd5e1;
+">
+Waiting for Genesis...
+</div>
+
+</div>
 
   <div id="ops-last-check" class="ops-last-check">Awaiting first health report...</div>
 </section>
@@ -1520,6 +1937,145 @@ setInterval(loadDecisionTimeline, 30000);
       document.getElementById('ops-genesis-service').textContent =
         c.genesis_service ? 'RUNNING' : 'OFFLINE';
 
+
+      // EMPIRE COMMAND CENTER V1
+      const tradeList = Array.isArray(trades.trades) ? trades.trades : [];
+      const tradePanel = document.getElementById('empire-active-trade');
+
+      if(tradeList.length){
+        const t = tradeList[0];
+        const side = String(t.action || '--').toUpperCase();
+        const sideClass = side === 'BUY' ? 'empire-buy' : 'empire-sell';
+
+        tradePanel.innerHTML = `
+          <div>
+            <span class="empire-trade-symbol">${t.coin || '--'}</span>
+            <span class="empire-trade-side ${sideClass}">${side}</span>
+          </div>
+
+          <div class="empire-command-row" style="margin-top:10px;">
+            <span class="empire-command-label">Entry</span>
+            <span class="empire-command-value">${t.entry ?? '--'}</span>
+          </div>
+          <div class="empire-command-row">
+            <span class="empire-command-label">TP1</span>
+            <span class="empire-command-value">${t.tp1 ?? '--'}</span>
+          </div>
+          <div class="empire-command-row">
+            <span class="empire-command-label">TP2</span>
+            <span class="empire-command-value">${t.tp2 ?? '--'}</span>
+          </div>
+          <div class="empire-command-row">
+            <span class="empire-command-label">Stop</span>
+            <span class="empire-command-value">${t.stop ?? '--'}</span>
+          </div>
+          <div class="empire-command-row">
+            <span class="empire-command-label">Genesis Score</span>
+            <span class="empire-command-value">${t.score ?? '--'}</span>
+          </div>
+
+          <div class="empire-command-reason">${t.reason || 'No trade reasoning supplied.'}</div>
+        `;
+      }else{
+        tradePanel.innerHTML =
+          '<div class="empire-empty">No active mission.<br>Genesis is scanning for the next qualified setup.</div>';
+      }
+
+      const missionState = document.getElementById('empire-mission-state');
+      missionState.textContent = c.engine ? 'SCANNING' : 'OFFLINE';
+      missionState.style.color = c.engine ? '#4ade80' : '#f87171';
+
+      document.getElementById('empire-mission-sub').textContent =
+        c.engine
+          ? `Genesis is online with ${trades.count || 0} active trade${Number(trades.count || 0) === 1 ? '' : 's'}.`
+          : 'Genesis engine is unavailable.';
+
+      document.getElementById('empire-mission-mode').textContent =
+        String(engine.mode || '--').toUpperCase();
+
+      document.getElementById('empire-mission-regime').textContent =
+        String(engine.regime || '--').toUpperCase();
+
+      document.getElementById('empire-mission-score').textContent =
+        engine.score_min ?? '--';
+
+      document.getElementById('empire-feed-altfins').textContent =
+        feeds.altfins_parsed ? ageText(feeds.altfins_parsed.age_seconds) : 'Unavailable';
+
+      document.getElementById('empire-feed-raw').textContent =
+        feeds.altfins_raw ? ageText(feeds.altfins_raw.age_seconds) : 'Unavailable';
+
+      document.getElementById('empire-feed-coingecko').textContent =
+        feeds.coingecko ? ageText(feeds.coingecko.age_seconds) : 'Unavailable';
+
+      document.getElementById('empire-feed-memory').textContent =
+        d.memory && d.memory.brain_state
+          ? ageText(d.memory.brain_state.age_seconds)
+          : 'Unavailable';
+
+
+      // GENESIS DECISION ENGINE V1
+      const decisionBadge = document.getElementById('genesis-decision-badge');
+      const decisionStatus = document.getElementById('genesis-decision-status');
+      const decisionNote = document.getElementById('genesis-decision-note');
+      const reasonList = document.getElementById('genesis-reason-list');
+
+      let confidence = 0;
+      let decision = 'WAIT';
+      let decisionColor = '#f59e0b';
+      let reasons = [];
+
+      if(tradeList.length){
+        const t = tradeList[0];
+        confidence = Number(t.score || 0);
+        decision = String(t.action || 'WAIT').toUpperCase();
+        decisionColor = decision === 'BUY' ? '#4ade80' : '#f87171';
+
+        reasons = String(t.reason || '')
+          .split('·')
+          .map(x => x.trim())
+          .filter(Boolean);
+
+        decisionNote.textContent =
+          `${t.coin || 'Asset'} mission active. Genesis is monitoring TP1, TP2 and stop conditions.`;
+      }else{
+        confidence = Number(engine.score_min || 0);
+        decision = 'WAIT';
+        decisionColor = '#f59e0b';
+
+        reasons = [
+          'Genesis engine online',
+          `Market regime: ${String(engine.regime || 'unknown').toUpperCase()}`,
+          `Minimum required score: ${engine.score_min ?? '--'}`,
+          'No qualified active trade'
+        ];
+
+        decisionNote.textContent =
+          'No active mission. Genesis is scanning and preserving capital until conditions qualify.';
+      }
+
+      document.getElementById('genesis-confidence-value').textContent =
+        Math.round(confidence) + '%';
+
+      document.getElementById('genesis-confidence-fill').style.width =
+        Math.max(0, Math.min(100, confidence)) + '%';
+
+      document.getElementById('genesis-decision-regime').textContent =
+        String(engine.regime || '--').toUpperCase();
+
+      document.getElementById('genesis-decision-threshold').textContent =
+        engine.score_min ?? '--';
+
+      decisionStatus.textContent = decision;
+      decisionStatus.style.color = decisionColor;
+
+      decisionBadge.textContent = c.engine ? 'LIVE' : 'OFFLINE';
+      decisionBadge.style.color = c.engine ? '#4ade80' : '#f87171';
+
+      reasonList.innerHTML = reasons.length
+        ? reasons.map(r => `<li>${r}</li>`).join('')
+        : '<li>No decision evidence available</li>';
+
       document.getElementById('ops-last-check').textContent =
         'Last health check: ' + new Date().toLocaleTimeString();
     }catch(err){
@@ -1529,6 +2085,107 @@ setInterval(loadDecisionTimeline, 30000);
         'Health connection error: ' + err.message;
     }
   }
+
+async function loadGenesisThoughts(){
+
+  try{
+
+    const r = await fetch('/api/genesis-thoughts?cache=' + Date.now());
+
+    const d = await r.json();
+
+    const box = document.getElementById('genesis-thoughts');
+
+    if(!box) return;
+
+    const thoughts = Array.isArray(d.thoughts)
+      ? d.thoughts.slice().reverse()
+      : [];
+
+    if(thoughts.length===0){
+      box.innerHTML='<div style="color:#94a3b8;">Genesis is waiting for the next scan...</div>';
+      return;
+    }
+
+    box.innerHTML = thoughts.map(t=>`
+
+<div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);">
+
+<div style="color:#22c55e;font-size:11px;">
+${t.timestamp || ""}
+</div>
+
+<div style="color:#fff;font-weight:600;">
+${t.message || ""}
+</div>
+
+<div style="color:#94a3b8;font-size:11px;">
+${t.coin || ""} ${t.action || ""} ${t.score!==null && t.score!==undefined ? "Score: "+t.score : ""}
+</div>
+
+</div>
+
+`).join("");
+
+  }catch(e){
+
+    const box=document.getElementById('genesis-thoughts');
+
+    if(box){
+      box.innerHTML='<div style="color:#ef4444;">Unable to reach Genesis.</div>';
+    }
+
+  }
+
+}
+
+loadGenesisThoughts();
+setInterval(loadGenesisThoughts,5000);
+
+
+  async function loadNeuralMap(){
+    const box = document.getElementById('neuralWeights');
+    if(!box) return;
+
+    try{
+      const r = await fetch('/api/genesis-weights?cache=' + Date.now());
+      const d = await r.json();
+      const weights = Array.isArray(d.weights) ? d.weights : [];
+
+      if(!weights.length){
+        box.innerHTML = '<div class="neural-empty">No live weight data available.</div>';
+        return;
+      }
+
+      box.innerHTML = weights.map(w => {
+        const weight = Number(w.weight || 0);
+        const pct = Math.max(4, Math.min(100, weight * 50));
+        const name = String(w.name || '')
+          .replaceAll('_', ' ')
+          .replace(/\b\w/g, c => c.toUpperCase());
+
+        return `
+          <div class="neural-row">
+            <div class="neural-name">
+              <span>${name}</span>
+              <span>${weight.toFixed(3)}</span>
+            </div>
+            <div class="neural-bar">
+              <div class="neural-fill" style="width:${pct}%"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+    }catch(err){
+      box.innerHTML =
+        '<div class="neural-empty" style="color:#f87171;">Unable to load Genesis weights.</div>';
+    }
+  }
+
+
+  loadNeuralMap();
+  setInterval(loadNeuralMap, 30000);
 
   loadEmpireOperations();
   setInterval(loadEmpireOperations, 30000);
@@ -1755,5 +2412,6 @@ setInterval(loadDecisionTimeline, 30000);
 })();
 </script>
 
+<script src="assets/js/genesis-brain.js" defer></script>
 </body>
 </html>

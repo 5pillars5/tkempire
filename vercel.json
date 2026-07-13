@@ -11,6 +11,14 @@
     {
       "source": "/api/genesis/status",
       "destination": "http://143.244.155.109:5000/api/genesis/status"
+    },
+    {
+      "source": "/api/genesis-weights",
+      "destination": "http://143.244.155.109:5000/api/genesis-weights"
+    },
+    {
+      "source": "/api/genesis-thoughts",
+      "destination": "http://143.244.155.109:5000/api/genesis-thoughts"
     }
   ],
   "headers": [
