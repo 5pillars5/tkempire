@@ -1584,9 +1584,9 @@ setInterval(loadEaiV3,30000);
 <script>
 async function loadOpenTradeStatus(){
   try{
-    const res = await fetch(TK_API_DASHBOARD + '?cache=' + Date.now());
+    const res = await fetch('/api/health?cache=' + Date.now());
     const d = await res.json();
-    const trades = Array.isArray(d.open_signals) ? d.open_signals : [];
+    const trades = Array.isArray(d.open_trades?.trades) ? d.open_trades.trades : [];
 
     const count = document.getElementById('openTradeCount');
     if(count) count.textContent = trades.length;
