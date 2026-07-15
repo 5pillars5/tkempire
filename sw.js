@@ -1,6 +1,7 @@
-// TK Empire Service Worker v1
-const CACHE = 'tkempire-v1';
-const ASSETS = [
+// TK Empire Service Worker v2
+const CACHE = 'tkempire-v2';
+
+const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/about.html',
@@ -13,44 +14,89 @@ const ASSETS = [
   '/manifest.json'
 ];
 
-// Install — cache all assets
-self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(CACHE).then(cache => cache.addAll(ASSETS))
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE).then(cache => cache.addAll(STATIC_ASSETS))
   );
   self.skipWaiting();
 });
 
-// Activate — clean old caches
-self.addEventListener('activate', e => {
-  e.waitUntil(
+self.addEventListener('activate', event => {
+  event.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+      Promise.all(
+        keys
+          .filter(key => key !== CACHE)
+          .map(key => caches.delete(key))
+      )
     )
   );
   self.clients.claim();
 });
 
-// Fetch — serve from cache, fallback to network
-self.addEventListener('fetch', e => {
-  e.respondWith(
-    caches.match(e.request).then(cached => {
-      if (cached) return cached;
-      return fetch(e.request).then(response => {
-        if (response && response.status === 200) {
-          const clone = response.clone();
-          caches.open(CACHE).then(cache => cache.put(e.request, clone));
+self.addEventListener('fetch', event => {
+  const request = event.request;
+  const url = new URL(request.url);
+
+  if (request.method !== 'GET') {
+    return;
+  }
+
+  const isHtml =
+    request.mode === 'navigate' ||
+    request.destination === 'document';
+
+  const isLiveData =
+    url.pathname.startsWith('/api/') ||
+    url.pathname.includes('/data/') ||
+    url.pathname.endsWith('.json');
+
+  if (isHtml || isLiveData) {
+    event.respondWith(
+      fetch(request, { cache: 'no-store' })
+        .then(response => response)
+        .catch(() =>
+          isHtml
+            ? caches.match('/index.html')
+            : new Response(
+                JSON.stringify({ error: 'offline' }),
+                {
+                  status: 503,
+                  headers: { 'Content-Type': 'application/json' }
+                }
+              )
+        )
+    );
+    return;
+  }
+
+  event.respondWith(
+    caches.match(request).then(cached => {
+      if (cached) {
+        return cached;
+      }
+
+      return fetch(request).then(response => {
+        if (!response || response.status !== 200) {
+          return response;
         }
+
+        const copy = response.clone();
+
+        caches.open(CACHE).then(cache => {
+          cache.put(request, copy);
+        });
+
         return response;
-      }).catch(() => caches.match('/index.html'));
+      });
     })
   );
 });
 
-// Push notifications
-self.addEventListener('push', e => {
-  const data = e.data ? e.data.json() : {};
+self.addEventListener('push', event => {
+  const data = event.data ? event.data.json() : {};
   const title = data.title || '⚡ TK Empire Signal';
+
   const options = {
     body: data.body || 'New signal fired. Check the app.',
     icon: 'https://i.imgur.com/Kf99eJt.jpeg',
@@ -62,13 +108,18 @@ self.addEventListener('push', e => {
       { action: 'dismiss', title: 'Dismiss' }
     ]
   };
-  e.waitUntil(self.registration.showNotification(title, options));
+
+  event.waitUntil(
+    self.registration.showNotification(title, options)
+  );
 });
 
-// Notification click
-self.addEventListener('notificationclick', e => {
-  e.notification.close();
-  if (e.action === 'view') {
-    e.waitUntil(clients.openWindow(e.notification.data.url || '/'));
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+
+  if (event.action === 'view') {
+    event.waitUntil(
+      clients.openWindow(event.notification.data.url || '/')
+    );
   }
 });
