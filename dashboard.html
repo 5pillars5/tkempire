@@ -538,6 +538,114 @@ body.private-mode .view-private{display:block;}
 
 <link rel="stylesheet" href="assets/css/genesis-brain.css?v=2"/>
 <link rel="stylesheet" href="/assets/css/site-tabs.css?v=1"/>
+
+<style id="genesis-intelligence-styles">
+.genesis-intelligence-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.genesis-intelligence-status {
+  padding: 7px 12px;
+  border: 1px solid #3b3266;
+  border-radius: 999px;
+  color: #f5c542;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.genesis-intelligence-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(130px, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.genesis-intelligence-metric,
+.genesis-intelligence-column {
+  padding: 15px;
+  border: 1px solid #2a2347;
+  border-radius: 14px;
+  background: rgba(7, 7, 18, .72);
+}
+
+.genesis-intelligence-metric span {
+  display: block;
+  color: #8f8aa8;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+}
+
+.genesis-intelligence-metric strong {
+  display: block;
+  margin-top: 7px;
+  color: #f5c542;
+  font-size: 23px;
+}
+
+.genesis-intelligence-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.genesis-intelligence-column h3 {
+  margin: 0 0 12px;
+  color: #e9e5ff;
+  font-size: 14px;
+}
+
+.genesis-pattern-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #211c38;
+}
+
+.genesis-pattern-row:last-child {
+  border-bottom: 0;
+}
+
+.genesis-pattern-name {
+  color: #eeeaff;
+  font-size: 12px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.genesis-pattern-stats {
+  color: #a8a1c3;
+  font-size: 11px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.genesis-pattern-positive { color: #4ade80; }
+.genesis-pattern-negative { color: #fb7185; }
+.genesis-pattern-neutral  { color: #f5c542; }
+
+@media (max-width: 760px) {
+  .genesis-intelligence-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .genesis-intelligence-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .genesis-intelligence-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
 </head>
 <body>
 
@@ -593,6 +701,68 @@ const TK_API_DASHBOARD = 'data/dashboard.json';
       </div>
     </div>
   </div>
+
+    <div class="v3-panel genesis-intelligence-panel" style="margin-top:18px;">
+      <div class="genesis-intelligence-header">
+        <div>
+          <div class="v3-kicker">Genesis Intelligence</div>
+          <div class="v3-sub">
+            Historical performance, adaptive weights, and learned patterns.
+          </div>
+        </div>
+
+        <div id="genesisIntelligenceStatus"
+             class="genesis-intelligence-status">
+          LOADING
+        </div>
+      </div>
+
+      <div class="genesis-intelligence-metrics">
+        <div class="genesis-intelligence-metric">
+          <span>Completed Trades</span>
+          <strong id="genesisCompletedTrades">--</strong>
+        </div>
+
+        <div class="genesis-intelligence-metric">
+          <span>Avg Confidence</span>
+          <strong id="genesisAverageConfidence">--</strong>
+        </div>
+
+        <div class="genesis-intelligence-metric">
+          <span>Avg Hold</span>
+          <strong id="genesisAverageHold">--</strong>
+        </div>
+
+        <div class="genesis-intelligence-metric">
+          <span>Learning Mode</span>
+          <strong id="genesisLearningMode">--</strong>
+        </div>
+      </div>
+
+      <div class="genesis-intelligence-grid">
+        <div class="genesis-intelligence-column">
+          <h3>Best Patterns</h3>
+          <div id="genesisBestPatterns">Loading patterns...</div>
+        </div>
+
+        <div class="genesis-intelligence-column">
+          <h3>Weakest Patterns</h3>
+          <div id="genesisWorstPatterns">Loading patterns...</div>
+        </div>
+      </div>
+
+      <div class="genesis-intelligence-grid">
+        <div class="genesis-intelligence-column">
+          <h3>Coin Performance</h3>
+          <div id="genesisCoinPerformance">Loading coins...</div>
+        </div>
+
+        <div class="genesis-intelligence-column">
+          <h3>Regime Performance</h3>
+          <div id="genesisRegimePerformance">Loading regimes...</div>
+        </div>
+      </div>
+    </div>
 
   <div class="v3-panel" style="margin-top:18px;">
     <div class="v3-kicker">Live Open Signals</div>
@@ -2512,6 +2682,150 @@ document.addEventListener('DOMContentLoaded', function () {
       button.textContent = '☰';
     });
   });
+});
+</script>
+
+
+<script>
+async function loadGenesisIntelligence() {
+  const setText = (id, value) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+  };
+
+  const renderRows = (id, rows, emptyText) => {
+    const container = document.getElementById(id);
+    if (!container) return;
+
+    if (!Array.isArray(rows) || rows.length === 0) {
+      container.innerHTML =
+        `<div class="genesis-pattern-row">
+           <div class="genesis-pattern-name">${emptyText}</div>
+         </div>`;
+      return;
+    }
+
+    container.innerHTML = rows.slice(0, 8).map(row => {
+      const winRate =
+        row.win_rate == null ? "--" : `${Number(row.win_rate).toFixed(1)}%`;
+
+      const pnl = Number(row.average_pnl || 0);
+      const pnlClass =
+        pnl > 0
+          ? "genesis-pattern-positive"
+          : pnl < 0
+          ? "genesis-pattern-negative"
+          : "genesis-pattern-neutral";
+
+      return `
+        <div class="genesis-pattern-row">
+          <div class="genesis-pattern-name">
+            ${row.name || "Unknown"}
+          </div>
+
+          <div class="genesis-pattern-stats">
+            <div>${winRate} · ${row.seen || 0} samples</div>
+            <div class="${pnlClass}">
+              ${pnl >= 0 ? "+" : ""}${pnl.toFixed(2)}% avg
+            </div>
+          </div>
+        </div>
+      `;
+    }).join("");
+  };
+
+  try {
+    const response = await fetch(
+      `/api/genesis-intelligence?cache=${Date.now()}`,
+      { cache: "no-store" }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    setText("genesisCompletedTrades", data.completed_trades ?? 0);
+
+    setText(
+      "genesisAverageConfidence",
+      data.average_confidence == null
+        ? "--"
+        : `${Number(data.average_confidence).toFixed(1)}%`
+    );
+
+    setText(
+      "genesisAverageHold",
+      data.average_holding_minutes == null
+        ? "--"
+        : `${Math.round(Number(data.average_holding_minutes))}m`
+    );
+
+    const mode =
+      data.learning_status?.mode ||
+      "observation_only";
+
+    setText(
+      "genesisLearningMode",
+      String(mode).replaceAll("_", " ").toUpperCase()
+    );
+
+    const status = document.getElementById(
+      "genesisIntelligenceStatus"
+    );
+
+    if (status) {
+      status.textContent = "LIVE";
+      status.style.color = "#4ade80";
+      status.style.borderColor = "rgba(74,222,128,.45)";
+    }
+
+    renderRows(
+      "genesisBestPatterns",
+      data.best_patterns,
+      "No completed pattern history yet."
+    );
+
+    renderRows(
+      "genesisWorstPatterns",
+      data.worst_patterns,
+      "No weak patterns identified yet."
+    );
+
+    renderRows(
+      "genesisCoinPerformance",
+      data.coins,
+      "No coin history yet."
+    );
+
+    renderRows(
+      "genesisRegimePerformance",
+      data.regimes,
+      "No regime history yet."
+    );
+
+  } catch (error) {
+    console.error(
+      "Genesis intelligence dashboard error:",
+      error
+    );
+
+    const status = document.getElementById(
+      "genesisIntelligenceStatus"
+    );
+
+    if (status) {
+      status.textContent = "DEGRADED";
+      status.style.color = "#fb7185";
+      status.style.borderColor = "rgba(251,113,133,.45)";
+    }
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadGenesisIntelligence();
+  setInterval(loadGenesisIntelligence, 30000);
 });
 </script>
 
