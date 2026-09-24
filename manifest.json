@@ -1,12 +1,13 @@
 {
-  "name": "TK Empire",
+  "name": "TK Empire Genesis",
   "short_name": "TK Empire",
   "description": "Genesis adaptive market intelligence, research, and controlled validation. Built for legacy.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#06060f",
+  "background_color": "#070711",
   "theme_color": "#7C3AED",
-  "orientation": "portrait",
+  "orientation": "portrait-primary",
   "icons": [
     {
       "src": "https://i.imgur.com/Kf99eJt.jpeg",
@@ -23,32 +24,33 @@
   ],
   "shortcuts": [
     {
-      "name": "Live Signals",
+      "name": "Genesis Dashboard",
+      "short_name": "Dashboard",
+      "url": "/dashboard.html",
+      "description": "Open the Genesis command center"
+    },
+    {
+      "name": "Validation Results",
+      "short_name": "Results",
       "url": "/results.html",
-      "description": "View live trading signals"
+      "description": "Review documented validation outcomes"
     },
     {
-      "name": "Community",
-      "url": "/community.html",
-      "description": "Imperians community"
+      "name": "Research Feed",
+      "short_name": "Research",
+      "url": "/research.html",
+      "description": "Review experimental research observations"
     },
     {
-      "name": "Recovery Protocol",
-      "url": "/recovery.html",
-      "description": "Never Give Up Protocol"
-    },
-    {
-      "name": "Join Imperians",
+      "name": "Private Beta",
+      "short_name": "Beta",
       "url": "/join.html",
-      "description": "Join TK Empire"
+      "description": "View current Imperian private beta status"
     }
   ],
-  "categories": ["finance", "business"],
-  "screenshots": [
-    {
-      "src": "https://i.imgur.com/Kf99eJt.jpeg",
-      "sizes": "512x512",
-      "type": "image/jpeg"
-    }
+  "categories": [
+    "finance",
+    "business",
+    "education"
   ]
 }
