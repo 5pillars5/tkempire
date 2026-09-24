@@ -46,6 +46,7 @@ footer{padding:36px 0;background:#05050b;border-top:1px solid #151524}.footer{di
 @media(max-width:600px){.shell{width:min(92vw,1180px)}.cards,.proof-grid,.links-grid,.command-grid{grid-template-columns:1fr}.hero-actions .btn{width:100%}.step{grid-template-columns:42px 1fr}.tag{grid-column:2}.footer{flex-direction:column}.footer-right{text-align:left}h1{font-size:48px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 </style>
+<link rel="stylesheet" href="/assets/css/site-tabs.css?v=2"/>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -192,21 +193,25 @@ footer{padding:36px 0;background:#05050b;border-top:1px solid #151524}.footer{di
 
 <script>
 document.getElementById('year').textContent=new Date().getFullYear();
-(async()=>{
+async function syncHomepageCanonical(){
   try{
-    const r=await fetch('/data/signal_stats.json?ts='+Date.now(),{cache:'no-store'});
-    if(!r.ok) throw new Error('stats unavailable');
+    const r=await fetch('/api/genesis/status?ts='+Date.now(),{cache:'no-store'});
+    if(!r.ok) throw new Error('canonical status unavailable');
     const d=await r.json();
-    const signals=Number(d.signals||0),wins=Number(d.wins||0),losses=Number(d.losses||0);
-    const wr=Number.isFinite(Number(d.win_rate))?Number(d.win_rate):null;
+    const p=d.performance||{};
+    const signals=Number(p.trades||0),wins=Number(p.wins||0),losses=Number(p.losses||0);
+    const wr=Number.isFinite(Number(p.win_rate))?Number(p.win_rate):null;
     const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v};
     set('metricSignals',signals||'—'); set('proofSignals',signals||'—'); set('proofWins',wins||'—'); set('proofLosses',losses||'—');
-    set('metricWinRate',wr!==null?wr.toFixed(1)+'%':'—'); set('proofWinRate',wr!==null?wr.toFixed(1)+'%':'—');
+    set('metricWinRate',wr!==null?wr.toFixed(2)+'%':'—'); set('proofWinRate',wr!==null?wr.toFixed(2)+'%':'—');
   }catch(e){
     ['metricSignals','metricWinRate','proofSignals','proofWins','proofLosses','proofWinRate'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='Validation'});
   }
-})();
+}
+syncHomepageCanonical();
+setInterval(syncHomepageCanonical,5000);
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));}
 </script>
+<script src="/assets/js/site-tabs.js?v=2" defer></script>
 </body>
 </html>
