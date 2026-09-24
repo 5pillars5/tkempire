@@ -4,7 +4,7 @@ TK Empire Telegram AI Bridge
 Private, read-only Telegram assistant for Genesis / EIP.
 
 Security boundaries:
-- Only TELEGRAM_ALLOWED_CHAT_ID (or TELEGRAM_PRIVATE_ID fallback) may use the bot.
+- Only TELEGRAM_AI_PRIVATE_ID may use the bot.
 - No trading/exchange write actions are implemented.
 - No Telegram or OpenAI secrets are stored in this file.
 - Secrets are read from /root/tkempire/.env.
@@ -19,15 +19,11 @@ from pathlib import Path
 import requests
 from dotenv import load_dotenv
 
-ENV_PATH = os.getenv("TK_EMPIRE_ENV", "/root/tkempire/.env")
+ENV_PATH = os.getenv("TK_EMPIRE_TELEGRAM_AI_ENV", "/root/tkempire/.telegram_ai_env")
 load_dotenv(ENV_PATH)
 
-TG_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
-ALLOWED_CHAT_ID = (
-    os.getenv("TELEGRAM_ALLOWED_CHAT_ID")
-    or os.getenv("TELEGRAM_PRIVATE_ID")
-    or ""
-).strip()
+TG_TOKEN = os.getenv("TELEGRAM_AI_BOT_TOKEN", "").strip()
+ALLOWED_CHAT_ID = os.getenv("TELEGRAM_AI_PRIVATE_ID", "").strip()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "").strip()
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-5.6-sol").strip()
 
@@ -68,9 +64,9 @@ Operating rules:
 def require_config():
     missing = []
     if not TG_TOKEN:
-        missing.append("TELEGRAM_BOT_TOKEN")
+        missing.append("TELEGRAM_AI_BOT_TOKEN")
     if not ALLOWED_CHAT_ID:
-        missing.append("TELEGRAM_ALLOWED_CHAT_ID or TELEGRAM_PRIVATE_ID")
+        missing.append("TELEGRAM_AI_PRIVATE_ID")
     if missing:
         raise SystemExit("Missing required environment values: " + ", ".join(missing))
 
