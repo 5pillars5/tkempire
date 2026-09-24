@@ -1,11 +1,15 @@
-// TK Empire Service Worker v2
-const CACHE = 'tkempire-v2';
+// TK Empire Service Worker v3
+const CACHE = 'tkempire-v3';
 
 const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/about.html',
   '/results.html',
+  '/research.html',
+  '/learn.html',
+  '/dashboard.html',
+  '/portfolio.html',
   '/community.html',
   '/recovery.html',
   '/join.html',
@@ -95,16 +99,16 @@ self.addEventListener('fetch', event => {
 
 self.addEventListener('push', event => {
   const data = event.data ? event.data.json() : {};
-  const title = data.title || '⚡ TK Empire Signal';
+  const title = data.title || '⚡ TK Empire Genesis';
 
   const options = {
-    body: data.body || 'New signal fired. Check the app.',
+    body: data.body || 'New Genesis update available. Open the app to review it.',
     icon: 'https://i.imgur.com/Kf99eJt.jpeg',
     badge: 'https://i.imgur.com/Kf99eJt.jpeg',
     vibrate: [200, 100, 200],
     data: { url: data.url || '/' },
     actions: [
-      { action: 'view', title: 'View Signal' },
+      { action: 'view', title: 'Open Genesis' },
       { action: 'dismiss', title: 'Dismiss' }
     ]
   };

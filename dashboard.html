@@ -537,7 +537,7 @@ body.private-mode .view-private{display:block;}
 </style>
 
 <link rel="stylesheet" href="assets/css/genesis-brain.css?v=2"/>
-<link rel="stylesheet" href="/assets/css/site-tabs.css?v=1"/>
+<link rel="stylesheet" href="/assets/css/site-tabs.css?v=2"/>
 </head>
 <body>
 
@@ -553,7 +553,7 @@ const TK_API_DASHBOARD = 'data/dashboard.json';
       <div class="v3-title">TK Empire Command Center</div>
       <div class="v3-sub">A live operating window into the EAI engine: market regime, performance, open signals, learning state, and AI reasoning.</div>
       <div class="v3-badges">
-        <div class="v3-badge live">● LIVE</div>
+        <div class="v3-badge live">● OBSERVING</div>
         <div class="v3-badge beta">PRIVATE BETA</div>
         <div class="v3-badge" id="v3RegimeBadge">REGIME: --</div>
         <div class="v3-badge" id="v3Updated">UPDATED: --</div>
@@ -932,7 +932,7 @@ Waiting for Genesis...
       <div style="font-size:10px;color:var(--purple-light);letter-spacing:0.2em;font-weight:600;margin-bottom:10px;">EMPIRE SIGNALS · LIVE PERFORMANCE</div>
       <h1>TK Empire <span style="background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Command Center</span></h1>
       <p>Real-time performance data. Every win and loss documented. This is what systematic trading looks like.</p>
-      <a href="join.html" style="display:inline-block;background:linear-gradient(135deg,var(--purple),#4f46e5);color:#fff;padding:12px 28px;border-radius:9px;font-size:13px;font-weight:700;">Join Imperians — $297/mo</a>
+      <a href="join.html" style="display:inline-block;background:linear-gradient(135deg,var(--purple),#4f46e5);color:#fff;padding:12px 28px;border-radius:9px;font-size:13px;font-weight:700;">Private Beta Status</a>
     </div>
 
     <!-- PUBLIC STATS -->
@@ -973,7 +973,7 @@ Waiting for Genesis...
     <div class="grid-7-5">
       <div class="card equity-section">
         <div class="card-header">
-          <div class="card-title">📈 Grid Bot Equity Curve</div>
+          <div class="card-title">📈 Strategy Equity Telemetry</div>
           <div style="font-size:10px;color:var(--green)" id="pub-runtime">—</div>
         </div>
         <div class="card-body">
@@ -1028,7 +1028,7 @@ Waiting for Genesis...
         <div class="card-header"><div class="card-title">📊 Signal Performance</div></div>
         <div class="card-body">
           <div style="display:flex;justify-content:center;margin-bottom:16px;">
-            <div style="width:120px;height:120px;border-radius:50%;background:conic-gradient(var(--gold) 0% var(--wr,73%),#1e1e3a var(--wr,73%) 100%);display:flex;align-items:center;justify-content:center;box-shadow:0 0 30px #f59e0b22;" id="winDonut">
+            <div style="width:120px;height:120px;border-radius:50%;background:conic-gradient(var(--gold) 0% var(--wr,0%),#1e1e3a var(--wr,0%) 100%);display:flex;align-items:center;justify-content:center;box-shadow:0 0 30px #f59e0b22;" id="winDonut">
               <div style="width:86px;height:86px;border-radius:50%;background:var(--dark2);display:flex;flex-direction:column;align-items:center;justify-content:center;">
                 <div style="font-size:22px;font-weight:800;color:var(--gold)" id="pub-wr2">—</div>
                 <div style="font-size:8px;color:var(--muted);letter-spacing:0.08em;">WIN RATE</div>
@@ -1042,13 +1042,13 @@ Waiting for Genesis...
         </div>
       </div>
       <div class="card">
-        <div class="card-header"><div class="card-title">👑 Join Imperians</div></div>
+        <div class="card-header"><div class="card-title">👑 Imperian Private Beta</div></div>
         <div class="card-body" style="text-align:center;">
-          <div style="font-size:36px;font-weight:800;color:#fff;letter-spacing:-0.03em;margin-bottom:4px;">$297<span style="font-size:14px;color:var(--muted);font-weight:400;">/mo</span></div>
-          <div style="font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.6;">20 pairs · Scalp + Swing · Grid bot · Risk framework</div>
-          <a href="join.html" style="display:block;background:linear-gradient(135deg,var(--purple),#4f46e5);color:#fff;padding:11px;border-radius:8px;font-size:13px;font-weight:700;margin-bottom:8px;">Join Now</a>
-          <div style="font-size:10px;color:var(--green);">First 3 signals free</div>
-          <div style="font-size:10px;color:var(--red);margin-top:4px;">⚡ Limited spots</div>
+          <div style="font-size:28px;font-weight:800;color:var(--gold);letter-spacing:-0.03em;margin-bottom:6px;">VALIDATION ACCESS</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.6;">Research telemetry · Signal evaluation · Risk gates · Learning state</div>
+          <a href="join.html" style="display:block;background:linear-gradient(135deg,var(--purple),#4f46e5);color:#fff;padding:11px;border-radius:8px;font-size:13px;font-weight:700;margin-bottom:8px;">View Private Beta</a>
+          <div style="font-size:10px;color:var(--green);">No payment required during validation</div>
+          <div style="font-size:10px;color:var(--muted);margin-top:4px;">Execution remains gated</div>
         </div>
       </div>
     </div>
@@ -1748,10 +1748,10 @@ setInterval(loadEngineHealth, 30000);
     <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center;">
       <div>
         <div style="color:#f5c542;font-size:12px;font-weight:900;letter-spacing:2px;text-transform:uppercase;">EAI Decision Feed</div>
-        <h2 style="color:#fff;margin:8px 0 6px;font-size:28px;">Live AI Decision Timeline</h2>
-        <p style="color:#9ca3af;margin:0;">Chronological view of active trades, regime state, and engine reasoning.</p>
+        <h2 style="color:#fff;margin:8px 0 6px;font-size:28px;">Genesis Decision Timeline</h2>
+        <p style="color:#9ca3af;margin:0;">Chronological view of observed trade state, regime context, and engine reasoning during validation.</p>
       </div>
-      <div style="color:#00ffc8;font-weight:900;">● LIVE</div>
+      <div style="color:#f5c542;font-weight:900;">● VALIDATION</div>
     </div>
 
     <div id="decisionTimelineFeed" style="margin-top:22px;">
@@ -2443,6 +2443,6 @@ setInterval(loadGenesisThoughts,5000);
 </script>
 
 <script src="assets/js/genesis-brain.js?v=2" defer></script>
-<script src="/assets/js/site-tabs.js?v=1" defer></script>
+<script src="/assets/js/site-tabs.js?v=2" defer></script>
 </body>
 </html>
