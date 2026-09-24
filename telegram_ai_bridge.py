@@ -81,8 +81,20 @@ def tg_call(method, payload=None, timeout=HTTP_TIMEOUT):
         json=payload or {},
         timeout=timeout,
     )
+    try:
+        data = r.json()
+    except Exception:
+        data = {}
+
+    if r.status_code == 409 and method == "getUpdates":
+        raise SystemExit(
+            "TELEGRAM_GETUPDATES_CONFLICT: another process is already polling "
+            "this bot. Stop or migrate the existing Telegram listener before "
+            "starting this bridge."
+        )
+
     r.raise_for_status()
-    data = r.json()
+
     if not data.get("ok"):
         raise RuntimeError(f"Telegram {method} failed: {data}")
     return data.get("result")
@@ -398,6 +410,8 @@ def main():
         except KeyboardInterrupt:
             print("Stopped.")
             return
+        except SystemExit:
+            raise
         except Exception as exc:
             print(f"Bridge error: {exc}")
             time.sleep(3)
