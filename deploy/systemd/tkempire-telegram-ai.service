@@ -1,0 +1,18 @@
+[Unit]
+Description=TK Empire Telegram AI Bridge
+After=network-online.target tkempire.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/tkempire
+EnvironmentFile=/root/tkempire/.env
+ExecStart=/usr/bin/python3 /root/tkempire/telegram_ai_bridge.py
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
