@@ -190,8 +190,8 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:32px 6%;display:f
 <!-- MONTHLY BAR CHART -->
 <div class="chart-section">
   <div class="chart-wrap">
-    <div class="chart-title">Monthly P&L Performance</div>
-    <div class="bar-chart" id="barChart"></div>
+    <div class="chart-title">Canonical Performance Authority</div>
+    <div style="padding:18px;color:var(--muted);font-size:12px;line-height:1.7;">Current totals and open missions above are loaded from <strong style="color:var(--text)">/api/genesis/status</strong> and <strong style="color:var(--text)">/api/health</strong>. Historical closed rows remain in the result log; open rows come only from the live Genesis state.</div>
   </div>
 </div>
 
@@ -260,7 +260,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:32px 6%;display:f
 
 <script>
 // ── LIVE SIGNALS FROM GITHUB ──
-const SIGNALS_URL = 'https://raw.githubusercontent.com/5pillars5/tkempire/main/data/signals.json';
+const SIGNALS_URL = '/data/signals.json';
 let SIGNALS = [];
 
 async function fetchMarketMode(){
@@ -281,43 +281,76 @@ async function fetchMarketMode(){
   } catch(e){ console.log('Mode fetch error:',e); }
 }
 
-async function loadSignals(){
-  try {
-    const r = await fetch(SIGNALS_URL + '?t=' + Date.now());
-    const rawSignals = await r.json();
-    SIGNALS = Array.isArray(rawSignals)
-      ? rawSignals.filter(s =>
-          ['win', 'loss', 'open'].includes(
-            String(s.result || '').toLowerCase()
-          )
-        )
+let CLOSED_SIGNALS = [];
+
+async function fetchJSON(url){
+  const r = await fetch(url + (url.includes('?') ? '&' : '?') + 't=' + Date.now(), {cache:'no-store'});
+  if(!r.ok) throw new Error('HTTP ' + r.status + ' for ' + url);
+  return r.json();
+}
+
+function normalizeLiveTrades(health){
+  const open = health && health.open_trades ? health.open_trades : {};
+  const trades = Array.isArray(open.trades) ? open.trades : [];
+  return trades.map(t => ({
+    id: t.id || ('live-' + (t.coin || 'asset')),
+    action: String(t.action || '').toUpperCase(),
+    coin: String(t.coin || '').toUpperCase(),
+    pair: t.pair || ((t.coin || 'ASSET') + '/USDC'),
+    entry: Number(t.entry || 0),
+    exit: null,
+    pnl: null,
+    result: 'open',
+    reason: t.reason || 'Canonical Genesis active mission',
+    date: 'LIVE',
+    time: '',
+    tp1: t.tp1,
+    tp2: t.tp2,
+    stop: t.stop,
+    score: t.score
+  }));
+}
+
+async function syncCanonicalResults(){
+  try{
+    const [rawSignals, health, status] = await Promise.all([
+      fetchJSON(SIGNALS_URL),
+      fetchJSON('/api/health'),
+      fetchJSON('/api/genesis/status')
+    ]);
+
+    CLOSED_SIGNALS = Array.isArray(rawSignals)
+      ? rawSignals.filter(s => ['win','loss'].includes(String(s.result || '').toLowerCase()))
       : [];
+
+    const liveOpen = normalizeLiveTrades(health);
+    SIGNALS = [...liveOpen, ...CLOSED_SIGNALS];
     applyFilters();
-    updateStats();
-    console.log(`Loaded ${SIGNALS.length} signals from GitHub`);
-  } catch(e){
-    console.log('Using cached signals:', e.message);
-    // Fallback to empty
-    SIGNALS = [];
-    applyFilters();
+
+    const p = status.performance || {};
+    const positions = status.positions || {};
+    const wr = Number(p.win_rate || 0);
+    const totalPnl = Number(p.total_pnl || 0);
+    document.getElementById('statWR').textContent = wr.toFixed(2) + '%';
+    document.getElementById('statWins').textContent = Number(p.wins || 0);
+    document.getElementById('statLoss').textContent = Number(p.losses || 0);
+    document.getElementById('statTotal').textContent = Number(p.trades || 0);
+    document.getElementById('statPnl').textContent = (totalPnl >= 0 ? '+' : '') + totalPnl.toFixed(2);
+    document.getElementById('statOpen').textContent = Number(positions.open ?? liveOpen.length);
+
+    const badge = document.getElementById('marketModeBadge');
+    const engine = health.engine || {};
+    if(badge){
+      const mode = String(engine.regime || 'UNKNOWN').toUpperCase();
+      badge.textContent = '⚙️ ' + mode + ' · ' + liveOpen.length + ' ACTIVE';
+    }
+  }catch(e){
+    console.error('Canonical results sync failed:', e);
   }
 }
 
-function updateStats(){
-  const wins   = SIGNALS.filter(s => s.result === 'win').length;
-  const losses = SIGNALS.filter(s => s.result === 'loss').length;
-  const open   = SIGNALS.filter(s => s.result === 'open').length;
-  const total  = wins + losses;
-  const wr     = total > 0 ? Math.round(wins/total*100) : 0;
-  const pnl    = SIGNALS.filter(s => s.pnl !== null).reduce((a,s) => a + (s.pnl||0), 0);
-
-  document.getElementById('statWR').textContent    = wr + '%';
-  document.getElementById('statWins').textContent  = wins;
-  document.getElementById('statLoss').textContent  = losses;
-  document.getElementById('statTotal').textContent = total + open;
-  document.getElementById('statPnl').textContent   = (pnl >= 0 ? '+$' : '-$') + Math.abs(pnl * 10).toFixed(0);
-  document.getElementById('statOpen').textContent  = open;
-}
+async function loadSignals(){ await syncCanonicalResults(); }
+function updateStats(){ return; }
 
 
 let currentFilter = 'all';
@@ -372,25 +405,7 @@ function applyFilters(){
   renderTable(data);
 }
 
-// Bar chart
-const months = [
-  {m:'Jan',pnl:820},{m:'Feb',pnl:1240},{m:'Mar',pnl:-380},{m:'Apr',pnl:1680},
-  {m:'May',pnl:2140},{m:'Jun',pnl:1847}
-];
-const maxVal = Math.max(...months.map(m=>Math.abs(m.pnl)));
-const chart = document.getElementById('barChart');
-months.forEach(m=>{
-  const h = Math.max(8, (Math.abs(m.pnl)/maxVal)*110);
-  const col = document.createElement('div');
-  col.className = 'bar-col';
-  col.innerHTML = `
-    <div class="bar-val" style="color:${m.pnl>0?'var(--green)':'var(--red)'}">${m.pnl>0?'+':'-'}$${Math.abs(m.pnl)}</div>
-    <div class="bar" style="height:${h}px;background:${m.pnl>0?'var(--green)':'var(--red)'};opacity:0.7"></div>
-    <div class="bar-label">${m.m}</div>
-  `;
-  chart.appendChild(col);
-});
-
+// Monthly chart removed: canonical API is the authority for current performance.
 // ── LIVE GRID BOT DATA FROM GITHUB ──
 const PORTFOLIO_URL = 'https://raw.githubusercontent.com/5pillars5/tkempire/main/data/portfolio.json';
 
