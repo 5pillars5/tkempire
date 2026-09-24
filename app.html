@@ -115,6 +115,7 @@ body{display:flex;flex-direction:column;font-family:'Inter',system-ui,sans-serif
 .nav-label{font-size:8px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600;}
 </style>
 <link rel="stylesheet" href="/assets/css/site-tabs.css?v=1"/>
+<script src="/assets/js/genesis-live.js?v=1" defer></script>
 </head>
 <body>
 
@@ -148,7 +149,7 @@ body{display:flex;flex-direction:column;font-family:'Inter',system-ui,sans-serif
   <div class="hero-strip">
     <img src="https://i.imgur.com/Kf99eJt.jpeg" alt="TK Empire"/>
     <h1>TK <span>Empire</span></h1>
-    <p>Premium signals · Grid bot · Built for Legacy</p>
+    <p>Genesis market intelligence · Private validation · Built for Legacy</p>
   </div>
 
   <!-- STATS -->
@@ -162,23 +163,11 @@ body{display:flex;flex-direction:column;font-family:'Inter',system-ui,sans-serif
   <!-- SIGNALS -->
   <div class="section">
     <div class="section-hdr">
-      <div class="section-title">⚡ Latest Signals</div>
+      <div class="section-title">⚡ Canonical Genesis Missions</div>
       <a href="results.html" class="section-link">View all →</a>
     </div>
-    <div class="signal-card">
-      <span class="sig-badge buy">BUY</span>
-      <div class="sig-info"><div class="sig-pair">BTC/USDC</div><div class="sig-reason">Volume spike + weekly breakout</div></div>
-      <div class="sig-result"><div class="sig-pnl" style="color:var(--gold)">OPEN ⚡</div><div class="sig-time">6:14 AM</div></div>
-    </div>
-    <div class="signal-card">
-      <span class="sig-badge buy">BUY</span>
-      <div class="sig-info"><div class="sig-pair">ETH/USDC</div><div class="sig-reason">EMA9 × EMA21 + RSI 31</div></div>
-      <div class="sig-result"><div class="sig-pnl" style="color:var(--green)">+6.72%</div><div class="sig-time">Yesterday</div></div>
-    </div>
-    <div class="signal-card">
-      <span class="sig-badge sell">SELL</span>
-      <div class="sig-info"><div class="sig-pair">XRP/USDC</div><div class="sig-reason">RSI > 72 + resistance rejection</div></div>
-      <div class="sig-result"><div class="sig-pnl" style="color:var(--green)">+4.35%</div><div class="sig-time">Jun 12</div></div>
+    <div id="appSignalFeed">
+      <div class="signal-card"><div class="sig-info"><div class="sig-pair">Connecting…</div><div class="sig-reason">Loading canonical live trade state.</div></div></div>
     </div>
   </div>
 
@@ -186,18 +175,12 @@ body{display:flex;flex-direction:column;font-family:'Inter',system-ui,sans-serif
   <div class="section" style="padding-top:0;">
     <div class="section-hdr">
       <div class="section-title">🤖 Strategy Telemetry</div>
-      <span style="font-size:9px;color:var(--gold);">● RESEARCH</span>
+      <span style="font-size:9px;color:var(--gold);">● CANONICAL</span>
     </div>
-    <div class="bot-card">
+    <div class="bot-card" id="appStrategyTelemetry">
       <div class="bot-card-hdr">
         <div class="bot-status-dot"></div>
-        <div><div class="bot-pair">ETH/USDC Trailing Grid</div><div class="bot-meta">7x · 12 levels · 5% range</div></div>
-        <div class="bot-pnl">+$847</div>
-      </div>
-      <div class="bot-grid">
-        <div class="bot-stat"><div class="bot-stat-val">1,247</div><div class="bot-stat-lbl">Cycles</div></div>
-        <div class="bot-stat"><div class="bot-stat-val">89</div><div class="bot-stat-lbl">Shifts</div></div>
-        <div class="bot-stat"><div class="bot-stat-val">14d</div><div class="bot-stat-lbl">Running</div></div>
+        <div><div class="bot-pair">Loading strategy state…</div><div class="bot-meta">Connecting to Empire API</div></div>
       </div>
     </div>
   </div>
@@ -276,6 +259,43 @@ body{display:flex;flex-direction:column;font-family:'Inter',system-ui,sans-serif
 </div>
 
 <script>
+// Canonical app data: /api/health is the sole authority for active missions.
+function renderAppLive(state){
+  const feed=document.getElementById('appSignalFeed');
+  if(feed){
+    const trades=state.openTrades||[];
+    if(!trades.length){
+      feed.innerHTML='<div class="signal-card"><div class="sig-info"><div class="sig-pair">NO ACTIVE MISSION</div><div class="sig-reason">Genesis is scanning for the next qualified setup.</div></div><div class="sig-result"><div class="sig-pnl" style="color:var(--gold)">WAIT</div></div></div>';
+    }else{
+      feed.innerHTML=trades.map(t=>{
+        const side=String(t.action||'').toUpperCase();
+        return '<div class="signal-card"><span class="sig-badge '+(side==='BUY'?'buy':'sell')+'">'+side+'</span><div class="sig-info"><div class="sig-pair">'+String(t.coin||'ASSET').toUpperCase()+'/USDC</div><div class="sig-reason">'+(t.reason||'Canonical Genesis mission')+'</div></div><div class="sig-result"><div class="sig-pnl" style="color:var(--gold)">OPEN ⚡</div><div class="sig-time">Score '+(t.score??'—')+'</div></div></div>';
+      }).join('');
+    }
+  }
+}
+async function renderAppPortfolio(){
+  const box=document.getElementById('appStrategyTelemetry');
+  if(!box)return;
+  try{
+    const r=await fetch('/api/portfolio?ts='+Date.now(),{cache:'no-store'});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const p=await r.json();
+    const pair=p.pair||p.symbol||'Strategy';
+    const status=String(p.status||'research').toUpperCase();
+    const cycles=p.cycles??p.total_cycles??'—';
+    const profit=Number(p.gridProfit??p.grid_profit??p.totalProfit??p.total_profit??0);
+    box.innerHTML='<div class="bot-card-hdr"><div class="bot-status-dot"></div><div><div class="bot-pair">'+pair+'</div><div class="bot-meta">'+status+' · live portfolio telemetry</div></div><div class="bot-pnl">'+(profit>=0?'+':'')+profit.toFixed(2)+'</div></div><div class="bot-grid"><div class="bot-stat"><div class="bot-stat-val">'+cycles+'</div><div class="bot-stat-lbl">Cycles</div></div><div class="bot-stat"><div class="bot-stat-val">'+status+'</div><div class="bot-stat-lbl">Status</div></div><div class="bot-stat"><div class="bot-stat-val">API</div><div class="bot-stat-lbl">Source</div></div></div>';
+  }catch(e){box.innerHTML='<div class="bot-meta">Strategy telemetry unavailable. No cached performance claim is shown.</div>'}
+}
+function attachGenesisLive(){
+  if(window.GenesisLive){window.GenesisLive.subscribe(renderAppLive);renderAppLive(window.GenesisLive.getState());}
+  else setTimeout(attachGenesisLive,100);
+}
+attachGenesisLive();
+renderAppPortfolio();
+setInterval(renderAppPortfolio,30000);
+
 // Register service worker
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('/sw.js').then(reg => {
