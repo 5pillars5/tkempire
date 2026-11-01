@@ -553,7 +553,7 @@ const TK_API_DASHBOARD = 'data/dashboard.json';
       <div class="v3-title">TK Empire Command Center</div>
       <div class="v3-sub">A live operating window into the EAI engine: market regime, performance, open signals, learning state, and AI reasoning.</div>
       <div class="v3-badges">
-        <div class="v3-badge live">● OBSERVING</div>
+        <div class="v3-badge" id="genesis-connection-badge" aria-live="polite">GENESIS: CHECKING</div>
         <div class="v3-badge beta">PRIVATE BETA</div>
         <div class="v3-badge" id="v3RegimeBadge">REGIME: --</div>
         <div class="v3-badge" id="v3Updated">UPDATED: --</div>
@@ -661,7 +661,7 @@ const TK_API_DASHBOARD = 'data/dashboard.json';
     <button class="nav-tab" onclick="setView('private',this)">🔒 Private View</button>
   </div>
   <div class="nav-right">
-    <div class="live-pill"><span class="live-dot"></span>LIVE</div>
+    <div class="live-pill" id="genesis-nav-status" aria-live="polite" style="background:#17172c;border-color:#854d0e;color:#f5c542;">GENESIS: CHECKING</div>
     <div id="modePill" style="display:flex;align-items:center;gap:5px;border-radius:20px;padding:4px 10px;font-size:10px;font-weight:700;background:#150a2a;border:1px solid #2a1a4a;color:#A78BFA;">⚙️ —</div>
     <div style="font-size:11px;color:var(--muted)" id="lastUpdated">Updating...</div>
   </div>
@@ -2443,6 +2443,7 @@ setInterval(loadGenesisThoughts,5000);
 </script>
 
 <script src="assets/js/genesis-brain.js?v=2" defer></script>
+<script src="/assets/js/genesis-connection.js?v=1" defer></script>
 <script src="/assets/js/site-tabs.js?v=2" defer></script>
 </body>
 </html>
