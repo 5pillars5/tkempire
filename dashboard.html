@@ -568,12 +568,12 @@ const TK_API_DASHBOARD = '/api/genesis/status';
   </div>
 
   <div class="v3-metrics">
-    <div class="v3-metric"><span>Engine</span><strong id="v3Engine">ONLINE</strong></div>
-    <div class="v3-metric"><span>Mode</span><strong>Beta</strong></div>
+    <div class="v3-metric"><span>Engine</span><strong id="v3Engine">—</strong></div>
+    <div class="v3-metric"><span>Trading Mode</span><strong id="v3Mode">—</strong></div>
     <div class="v3-metric"><span>Signals</span><strong id="v3Signals">--</strong></div>
     <div class="v3-metric"><span>Win Rate</span><strong id="v3WinRate">--</strong></div>
     <div class="v3-metric"><span>Paper PnL*</span><strong id="v3Pnl">--</strong></div>
-    <div class="v3-metric"><span>Learning</span><strong>Active</strong></div>
+    <div class="v3-metric"><span>Learning Data</span><strong>Private</strong></div>
   </div>
 
   <div class="v3-grid2">
@@ -584,12 +584,8 @@ const TK_API_DASHBOARD = '/api/genesis/status';
 
     <div class="v3-panel">
       <div class="v3-kicker">Strategy Radar</div>
-      <div id="v3Radar" style="margin-top:14px;">
-        <div class="v3-radar-row"><span>Trend</span><div class="v3-bar"><div class="v3-fill" style="width:80%"></div></div><b>80</b></div>
-        <div class="v3-radar-row"><span>Momentum</span><div class="v3-bar"><div class="v3-fill" style="width:65%"></div></div><b>65</b></div>
-        <div class="v3-radar-row"><span>Funding</span><div class="v3-bar"><div class="v3-fill" style="width:55%"></div></div><b>55</b></div>
-        <div class="v3-radar-row"><span>Fear/Greed</span><div class="v3-bar"><div class="v3-fill" style="width:70%"></div></div><b>70</b></div>
-        <div class="v3-radar-row"><span>Memory</span><div class="v3-bar"><div class="v3-fill" style="width:60%"></div></div><b>60</b></div>
+      <div id="v3Radar" style="margin-top:14px;color:#c0b8d1;line-height:1.7;">
+        Indicator weights and scores are private during paper validation. No live strategy radar is publicly published.
       </div>
     </div>
   </div>
@@ -607,14 +603,14 @@ const TK_API_DASHBOARD = '/api/genesis/status';
     <p style="color:#9ca3af;text-align:center;margin-bottom:32px;">Public paper-research metrics are separate from account profitability and execution authority.</p>
 
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;">
-      <div class="dash-card"><span>Engine</span><strong id="eaiEngine">ONLINE</strong></div>
+      <div class="dash-card"><span>Engine</span><strong id="eaiEngine">—</strong></div>
       <div class="dash-card"><span>Regime</span><strong id="eaiRegime2">--</strong></div>
       <div class="dash-card"><span>Signals</span><strong id="eaiSignals2">--</strong></div>
       <div class="dash-card"><span>Win Rate</span><strong id="eaiWinRate2">--</strong></div>
       <div class="dash-card"><span>Paper PnL*</span><strong id="eaiPnl2">--</strong></div>
       <div class="dash-card"><span>Min Score</span><strong id="eaiMinScore">--</strong></div>
       <div class="dash-card"><span>Min Gap</span><strong id="eaiMinGap">--</strong></div>
-      <div class="dash-card"><span>Learning</span><strong>ACTIVE</strong></div>
+      <div class="dash-card"><span>Learning Data</span><strong>PRIVATE</strong></div>
     </div>
 
     <div style="margin-top:28px;background:#080816;border:1px solid #2a2347;border-radius:22px;padding:24px;">
@@ -1358,21 +1354,21 @@ setInterval(v3Tick,1000);
 
 async function loadEaiV3(){
   try{
-    const res = await fetch(TK_API_DASHBOARD + '?cache=' + Date.now());
+    const res = await fetch(TK_API_DASHBOARD + '?cache=' + Date.now(), {cache:'no-store'});
+    if(!res.ok) throw new Error('Paper performance unavailable');
     const d = await res.json();
+    if(d.engine?.mode !== 'paper' || d.source !== 'GENESIS_PAPER_AGGREGATE') throw new Error('Unexpected source');
     const set=(id,v)=>{const el=document.getElementById(id); if(el) el.textContent=v;};
 
-    set('v3Engine', d.engine?.running ? 'PAPER ACTIVE' : 'UNAVAILABLE');
+    set('v3Mode', 'PAPER');
+    set('v3Engine', d.engine?.running ? 'PAPER ACTIVE' : 'PAPER STOPPED');
     set('v3Signals', d.performance?.trades ?? '--');
     set('v3WinRate', d.performance?.win_rate != null ? d.performance.win_rate + '%' : '--');
     set('v3Pnl', d.performance?.total_pnl != null ? ((d.performance.total_pnl >= 0 ? '+' : '') + d.performance.total_pnl) + ' paper units' : '--');
       // LIVE_HEALTH_REGIME_SYNC: managed by loadEmpireOperations()
       // LIVE_HEALTH_REGIME_SYNC: managed by loadEmpireOperations()
     const brain=document.getElementById('v3BrainFeed');
-    if(brain){
-      const lines = Array.isArray(d.brain) ? d.brain : [];
-      brain.innerHTML = lines.map(x=>`<div class="v3-brain-line">${x}</div>`).join('') || '<div class="v3-brain-line">EAI learning active.</div>';
-    }
+    if(brain) brain.textContent='Private research reasoning is not published. The figures shown are aggregate paper-validation data.';
 
     const open=document.getElementById('v3OpenSignals');
     if(open){
@@ -1391,8 +1387,12 @@ async function loadEaiV3(){
       }).join('') : '<div class="v3-brain-line">Private paper trade details are not displayed.</div>';
     }
   }catch(e){
+    for(const id of ['v3Mode','v3Engine','v3Signals','v3WinRate','v3Pnl']){
+      const el=document.getElementById(id);
+      if(el) el.textContent='—';
+    }
     const brain=document.getElementById('v3BrainFeed');
-    if(brain) brain.innerHTML='<div class="v3-brain-line">Dashboard data unavailable.</div>';
+    if(brain) brain.textContent='Paper validation summary unavailable.';
   }
 }
 loadEaiV3();
