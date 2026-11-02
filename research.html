@@ -112,7 +112,7 @@ async function loadThoughts(){
     const d=await getJSON('/api/genesis-thoughts');
     const thoughts=Array.isArray(d.thoughts)?d.thoughts.slice().reverse():[];
     box.innerHTML=thoughts.length?thoughts.map(t=>'<div class="thought"><div class="thought-time">'+esc(t.timestamp||'')+'</div><div class="thought-msg">'+esc(t.message||'Genesis observation')+'</div><div class="thought-meta">'+esc(t.coin||'')+' '+esc(t.action||'')+(t.score!==undefined&&t.score!==null?' · Score '+esc(t.score):'')+'</div></div>').join(''):'<div class="empty">Genesis is waiting for the next research event.</div>';
-  }catch(e){box.innerHTML='<div class="empty">Genesis thought endpoint is temporarily unavailable.</div>'}
+  }catch(e){box.innerHTML='<div class="empty">Private Genesis reasoning is not publicly available.</div>'}
 }
 async function loadWeights(){
   const box=document.getElementById('weightList');
@@ -120,7 +120,7 @@ async function loadWeights(){
     const d=await getJSON('/api/genesis-weights');
     const ws=Array.isArray(d.weights)?d.weights:[];
     box.innerHTML=ws.length?ws.map(w=>{const val=Number(w.weight||0),pct=Math.max(4,Math.min(100,val*50)),name=String(w.name||'').replaceAll('_',' ').replace(/\b\w/g,x=>x.toUpperCase());return '<div><div class="weight-top"><span class="weight-name">'+esc(name)+'</span><span class="weight-val">'+val.toFixed(3)+'</span></div><div class="track"><div class="fill" style="width:'+pct+'%"></div></div></div>'}).join(''):'<div class="empty">No live weight data available.</div>';
-  }catch(e){box.innerHTML='<div class="empty">Genesis weight endpoint is temporarily unavailable.</div>'}
+  }catch(e){box.innerHTML='<div class="empty">Private strategy weights are not publicly available.</div>'}
 }
 async function loadExternal(){
   try{
