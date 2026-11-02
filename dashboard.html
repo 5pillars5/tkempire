@@ -542,7 +542,7 @@ body.private-mode .view-private{display:block;}
 <body>
 
 <script>
-const TK_API_DASHBOARD = 'data/dashboard.json';
+const TK_API_DASHBOARD = '/api/genesis/status';
 </script>
 
 
@@ -551,7 +551,7 @@ const TK_API_DASHBOARD = 'data/dashboard.json';
     <div class="v3-panel">
       <div class="v3-kicker">Empire Adaptive Intelligence</div>
       <div class="v3-title">TK Empire Command Center</div>
-      <div class="v3-sub">A live operating window into the EAI engine: market regime, performance, open signals, learning state, and AI reasoning.</div>
+      <div class="v3-sub">Read-only paper-validation summary. API availability does not verify execution, and private trade details are withheld.</div>
       <div class="v3-badges">
         <div class="v3-badge" id="genesis-connection-badge" aria-live="polite">GENESIS: CHECKING</div>
         <div class="v3-badge beta">PRIVATE BETA</div>
@@ -572,7 +572,7 @@ const TK_API_DASHBOARD = 'data/dashboard.json';
     <div class="v3-metric"><span>Mode</span><strong>Beta</strong></div>
     <div class="v3-metric"><span>Signals</span><strong id="v3Signals">--</strong></div>
     <div class="v3-metric"><span>Win Rate</span><strong id="v3WinRate">--</strong></div>
-    <div class="v3-metric"><span>Total PnL</span><strong id="v3Pnl">--</strong></div>
+    <div class="v3-metric"><span>Paper PnL*</span><strong id="v3Pnl">--</strong></div>
     <div class="v3-metric"><span>Learning</span><strong>Active</strong></div>
   </div>
 
@@ -603,15 +603,15 @@ const TK_API_DASHBOARD = 'data/dashboard.json';
 
 <section class="eai-command-center" style="padding:60px 20px;background:#05050d;border-top:1px solid #2a2347;border-bottom:1px solid #2a2347;">
   <div style="max-width:1200px;margin:0 auto;">
-    <h2 style="color:#f5c542;text-align:center;font-size:34px;margin-bottom:10px;">LIVE EAI COMMAND CENTER</h2>
-    <p style="color:#9ca3af;text-align:center;margin-bottom:32px;">Real-time intelligence from the TK Empire adaptive signal engine.</p>
+    <h2 style="color:#f5c542;text-align:center;font-size:34px;margin-bottom:10px;">EAI PAPER VALIDATION</h2>
+    <p style="color:#9ca3af;text-align:center;margin-bottom:32px;">Public paper-research metrics are separate from account profitability and execution authority.</p>
 
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;">
       <div class="dash-card"><span>Engine</span><strong id="eaiEngine">ONLINE</strong></div>
       <div class="dash-card"><span>Regime</span><strong id="eaiRegime2">--</strong></div>
       <div class="dash-card"><span>Signals</span><strong id="eaiSignals2">--</strong></div>
       <div class="dash-card"><span>Win Rate</span><strong id="eaiWinRate2">--</strong></div>
-      <div class="dash-card"><span>Total PnL</span><strong id="eaiPnl2">--</strong></div>
+      <div class="dash-card"><span>Paper PnL*</span><strong id="eaiPnl2">--</strong></div>
       <div class="dash-card"><span>Min Score</span><strong id="eaiMinScore">--</strong></div>
       <div class="dash-card"><span>Min Gap</span><strong id="eaiMinGap">--</strong></div>
       <div class="dash-card"><span>Learning</span><strong>ACTIVE</strong></div>
@@ -1475,13 +1475,13 @@ async function loadDashboardJson(){
       if(el) el.textContent = val;
     };
 
-    set('eaiEngine', d.engine || 'ONLINE');
+    set('eaiEngine', d.engine?.running ? 'PAPER ACTIVE' : 'UNAVAILABLE');
       // LIVE_HEALTH_REGIME_SYNC: managed by loadEmpireOperations()
-    set('eaiSignals2', d.signals ?? '--');
-    set('eaiWinRate2', d.win_rate !== undefined ? d.win_rate + '%' : '--');
-    set('eaiPnl2', d.total_pnl !== undefined ? ((d.total_pnl >= 0 ? '+' : '') + d.total_pnl) : '--');
-    set('eaiMinScore', d.min_score ?? '--');
-    set('eaiMinGap', d.min_gap ?? '--');
+    set('eaiSignals2', d.performance?.trades ?? '--');
+    set('eaiWinRate2', d.performance?.win_rate != null ? d.performance.win_rate + '%' : '--');
+    set('eaiPnl2', d.performance?.total_pnl != null ? ((d.performance.total_pnl >= 0 ? '+' : '') + d.performance.total_pnl) + ' paper units' : '--');
+    set('eaiMinScore', 'Private');
+    set('eaiMinGap', 'Private');
 
     const feed = document.getElementById('eaiBrainFeed');
     if(feed && Array.isArray(d.brain)){
@@ -1514,10 +1514,10 @@ async function loadEaiV3(){
     const d = await res.json();
     const set=(id,v)=>{const el=document.getElementById(id); if(el) el.textContent=v;};
 
-    set('v3Engine', d.engine || 'ONLINE');
-    set('v3Signals', d.signals ?? '--');
-    set('v3WinRate', d.win_rate !== undefined ? d.win_rate + '%' : '--');
-    set('v3Pnl', d.total_pnl !== undefined ? ((d.total_pnl >= 0 ? '+' : '') + d.total_pnl) : '--');
+    set('v3Engine', d.engine?.running ? 'PAPER ACTIVE' : 'UNAVAILABLE');
+    set('v3Signals', d.performance?.trades ?? '--');
+    set('v3WinRate', d.performance?.win_rate != null ? d.performance.win_rate + '%' : '--');
+    set('v3Pnl', d.performance?.total_pnl != null ? ((d.performance.total_pnl >= 0 ? '+' : '') + d.performance.total_pnl) + ' paper units' : '--');
       // LIVE_HEALTH_REGIME_SYNC: managed by loadEmpireOperations()
       // LIVE_HEALTH_REGIME_SYNC: managed by loadEmpireOperations()
     const brain=document.getElementById('v3BrainFeed');
@@ -1528,7 +1528,7 @@ async function loadEaiV3(){
 
     const open=document.getElementById('v3OpenSignals');
     if(open){
-      const sigs = (await fetchLiveEmpireTrades()).slice(0, 8);
+      const sigs = [];
       open.innerHTML = sigs.length ? sigs.map(s=>{
         const action = String(s.action || '--').toUpperCase();
         const conf = s.confidence || s.score || '--';
@@ -1540,7 +1540,7 @@ async function loadEaiV3(){
           <div><div class="v3-coin">${s.coin || '--'} / USDC · ${entryFmt}</div><div class="v3-reason">${reason}</div></div>
           <div class="v3-conf">${conf}/100</div>
         </div>`;
-      }).join('') : '<div class="v3-brain-line">No open signals right now. EAI is waiting.</div>';
+      }).join('') : '<div class="v3-brain-line">Private paper trade details are not displayed.</div>';
     }
   }catch(e){
     const brain=document.getElementById('v3BrainFeed');
@@ -1619,7 +1619,7 @@ async function loadOpenTradeStatus(){
     const trades = Array.isArray(d.open_trades?.trades) ? d.open_trades.trades : [];
 
     const count = document.getElementById('openTradeCount');
-    if(count) count.textContent = trades.length;
+    if(count) count.textContent = Number.isSafeInteger(d.open_trades?.count) ? d.open_trades.count : '—';
 
     const box = document.getElementById('openTradeCards');
     if(!box) return;
@@ -1696,16 +1696,16 @@ async function loadEngineHealth(){
     const res = await fetch(TK_API_DASHBOARD + '?cache=' + Date.now());
     const d = await res.json();
 
-    const openCount = (await fetchLiveEmpireTrades()).length;
-    const regime = String(d.regime || 'learning').toUpperCase();
-    const engine = d.engine || 'ONLINE';
-    const learning = d.learning || 'ACTIVE';
-    const updated = d.updated_at || '--';
+    const healthRes = await fetch('/api/health?cache=' + Date.now(), {cache:'no-store'});
+    if(!healthRes.ok) throw new Error('Health unavailable');
+    const healthData = await healthRes.json();
+    const openCount = Number.isSafeInteger(healthData.open_trades?.count) ? healthData.open_trades.count : '—';
+    const regime = String(healthData.engine?.regime || 'UNKNOWN').toUpperCase();
+    const engine = healthData.engine?.running ? 'PAPER ACTIVE' : 'UNAVAILABLE';
+    const learning = 'NOT PUBLIC';
+    const updated = healthData.served_at || '--';
 
-    let health = 92;
-    if(engine !== 'ONLINE') health -= 40;
-    if(!d.updated_at) health -= 10;
-    health = Math.max(0, Math.min(100, health));
+    const health = typeof healthData.health_score === 'number' ? healthData.health_score : 0;
 
     const score = document.getElementById('engineHealthScore');
     const bar = document.getElementById('engineHealthBar');
@@ -1720,9 +1720,9 @@ async function loadEngineHealth(){
         ['Learning', learning, '#f5c542'],
         ['Regime', regime, '#f5c542'],
         ['Open Trades', openCount, '#fff'],
-        ['Signals', d.signals ?? '--', '#fff'],
-        ['Win Rate', d.win_rate !== undefined ? d.win_rate + '%' : 'Validation', '#fff'],
-        ['Min Score', d.min_score ?? '--', '#fff'],
+        ['Paper Trades', d.performance?.trades ?? '--', '#fff'],
+        ['Paper Win Rate', d.performance?.win_rate != null ? d.performance.win_rate + '%' : 'Unavailable', '#fff'],
+        ['Strategy Threshold', 'Private', '#fff'],
         ['Last Update', updated, '#9ca3af']
       ];
 
@@ -1769,37 +1769,7 @@ async function loadDecisionTimeline(){
     const feed = document.getElementById('decisionTimelineFeed');
     if(!feed) return;
 
-    const events = [];
-
-    const open = await fetchLiveEmpireTrades();
-    open.slice(0,10).forEach(t=>{
-      events.push({
-        time: t.time || '--',
-        icon: t.action === 'SELL' ? '🔴' : '🟢',
-        title: `${t.coin || '--'} ${String(t.action || '').toUpperCase()} opened`,
-        detail: `Confidence ${t.confidence || '--'}/100 · ${t.reason || 'EAI setup detected'}`
-      });
-    });
-
-    if(d.regime){
-      events.push({
-        time: d.updated_at ? String(d.updated_at).split(' ')[1] || '--' : '--',
-        icon: '📈',
-        title: `Market regime detected: ${String(d.regime).toUpperCase()}`,
-        detail: `Minimum score ${d.min_score || '--'} · Minimum gap ${d.min_gap || '--'}`
-      });
-    }
-
-    if(Array.isArray(d.brain)){
-      d.brain.slice(0,6).forEach(line=>{
-        events.push({
-          time: '--',
-          icon: '🧠',
-          title: line,
-          detail: 'EAI brain activity'
-        });
-      });
-    }
+    const events = [{time:'—',icon:'📋',title:'Private paper research',detail:'Individual strategy decisions, trade reasons and timeline events are not publicly published. Aggregate results are shown above.'}];
 
     if(!events.length){
       feed.innerHTML = '<div style="color:#9ca3af;">No decision events available.</div>';
