@@ -65,8 +65,7 @@ module.exports = async function publicPerformance(req, res) {
     const losses = count(p.losses);
     const winRate = bounded(p.win_rate, 0, 100);
     const pnl = bounded(p.total_pnl, -1e9, 1e9);
-    const open = count(data.positions?.open);
-    if ([trades, wins, losses, winRate, pnl, open].some(v => v === null) ||
+    if ([trades, wins, losses, winRate, pnl].some(v => v === null) ||
         wins + losses > trades) {
       return send(res, 502, { status: 'invalid_response' });
     }
@@ -84,8 +83,11 @@ module.exports = async function publicPerformance(req, res) {
       performance: {
         trades, wins, losses, win_rate: winRate, total_pnl: pnl,
       },
-      positions: { open },
-      disclosure: 'PAPER_RESEARCH_ONLY',
+      // /api/genesis/status and /health represent different underlying datasets;
+      // the old API's positions.open is not an execution-position count.
+      positions: { open: null, comparable_with_health: false },
+      performance_source: data.source === 'signals.json' ? 'signals.json' : 'unverified_aggregate',
+      disclosure: 'PAPER_RESEARCH_ONLY_NOT_LIVE_EXECUTION',
     });
   } catch {
     return send(res, 502, { status: 'upstream_unavailable' });
