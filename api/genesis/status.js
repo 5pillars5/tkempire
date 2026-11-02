@@ -32,8 +32,13 @@ module.exports = async function publicPerformance(req, res) {
     return send(res, 503, { status: 'not_configured' });
   }
 
+  const username = process.env.GENESIS_STATUS_USERNAME || 'tkempire-site';
+  if (username !== 'tkempire-site' && username !== 'tkempire-prod') {
+    return send(res, 503, { status: 'not_configured' });
+  }
+
   try {
-    const auth = 'Basic ' + Buffer.from('tkempire-site:' + secret, 'utf8').toString('base64');
+    const auth = 'Basic ' + Buffer.from(username + ':' + secret, 'utf8').toString('base64');
     const response = await fetch('https://api.tkempire.io/internal/genesis/status', {
       method: 'GET',
       redirect: 'error',
