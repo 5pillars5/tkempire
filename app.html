@@ -264,7 +264,10 @@ function renderAppLive(state){
   const feed=document.getElementById('appSignalFeed');
   if(feed){
     const trades=state.openTrades||[];
-    if(!trades.length){
+    if(state.health?.open_trades?.details_public===false){
+      const count=state.health.open_trades.count;
+      feed.textContent='Genesis PAPER mode. '+(Number.isSafeInteger(count)?count+' paper trade(s) reported. ':'')+'Individual trade details are private.';
+    }else if(!trades.length){
       feed.innerHTML='<div class="signal-card"><div class="sig-info"><div class="sig-pair">NO ACTIVE MISSION</div><div class="sig-reason">Genesis is scanning for the next qualified setup.</div></div><div class="sig-result"><div class="sig-pnl" style="color:var(--gold)">WAIT</div></div></div>';
     }else{
       feed.innerHTML=trades.map(t=>{
