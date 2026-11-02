@@ -22,7 +22,7 @@
       }
       const mode = String(data.mode || 'UNKNOWN');
       show('GENESIS: CONNECTED (' + mode + ')', true,
-        'Engine ' + data.engine_state + '. Verified: ' + data.observed_at + '. No execution controls.');
+        'Genesis health API reports ' + data.engine_state + ' at ' + data.observed_at + '. This is an API check, not independent trade-execution verification.');
     } catch {
       show('GENESIS: NOT VERIFIED', false, 'Read-only connection could not be reached.');
     }
