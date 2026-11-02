@@ -1615,6 +1615,7 @@ async function fetchLiveEmpireTrades(){
 async function loadOpenTradeStatus(){
   try{
     const res = await fetch('/api/health?cache=' + Date.now());
+    if(!res.ok) throw new Error('Paper health unavailable');
     const d = await res.json();
     const trades = Array.isArray(d.open_trades?.trades) ? d.open_trades.trades : [];
 
@@ -1694,6 +1695,7 @@ setInterval(loadOpenTradeStatus, 30000);
 async function loadEngineHealth(){
   try{
     const res = await fetch(TK_API_DASHBOARD + '?cache=' + Date.now());
+    if(!res.ok) throw new Error('Paper performance unavailable');
     const d = await res.json();
 
     const healthRes = await fetch('/api/health?cache=' + Date.now(), {cache:'no-store'});
@@ -1719,7 +1721,7 @@ async function loadEngineHealth(){
         ['Engine', engine, '#00ffc8'],
         ['Learning', learning, '#f5c542'],
         ['Regime', regime, '#f5c542'],
-        ['Open Trades', openCount, '#fff'],
+        ['Reported Paper Open', openCount, '#fff'],
         ['Paper Trades', d.performance?.trades ?? '--', '#fff'],
         ['Paper Win Rate', d.performance?.win_rate != null ? d.performance.win_rate + '%' : 'Unavailable', '#fff'],
         ['Strategy Threshold', 'Private', '#fff'],
@@ -1765,6 +1767,7 @@ setInterval(loadEngineHealth, 30000);
 async function loadDecisionTimeline(){
   try{
     const res = await fetch(TK_API_DASHBOARD + '?cache=' + Date.now());
+    if(!res.ok) throw new Error('Paper status unavailable');
     const d = await res.json();
     const feed = document.getElementById('decisionTimelineFeed');
     if(!feed) return;
