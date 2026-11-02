@@ -59,13 +59,16 @@ module.exports = async function connection(req, res) {
   if (!endpoint || !password) {
     return send(res, 503, { connected: false, state: 'NOT_CONFIGURED' });
   }
-  if (!isApprovedEndpoint(endpoint) || password.length < 32 ||
+  const username = process.env.GENESIS_STATUS_USERNAME || 'tkempire-site';
+  if (!isApprovedEndpoint(endpoint) ||
+      (username !== 'tkempire-site' && username !== 'tkempire-prod') ||
+      password.length < 32 ||
       password.length > 256 || /[\r\n]/.test(password)) {
     return send(res, 503, { connected: false, state: 'INVALID_CONFIGURATION' });
   }
 
   try {
-    const basic = Buffer.from('tkempire-site:' + password, 'utf8').toString('base64');
+    const basic = Buffer.from(username + ':' + password, 'utf8').toString('base64');
     const upstream = await fetch(endpoint, {
       method: 'GET',
       redirect: 'error',
