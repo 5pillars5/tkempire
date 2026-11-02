@@ -1793,7 +1793,9 @@ setInterval(loadDecisionTimeline, 30000);
       const tradeList = Array.isArray(trades.trades) ? trades.trades : [];
       const tradePanel = document.getElementById('empire-active-trade');
 
-      if(tradeList.length){
+      if(trades.details_public===false){
+        tradePanel.textContent='Private paper missions. Health API reports '+(Number.isSafeInteger(trades.count)?trades.count:'unknown')+' open trade(s); details withheld.';
+      }else if(tradeList.length){
         const t = tradeList[0];
         const side = String(t.action || '--').toUpperCase();
         const sideClass = side === 'BUY' ? 'empire-buy' : 'empire-sell';
@@ -1829,11 +1831,11 @@ setInterval(loadDecisionTimeline, 30000);
         `;
       }else{
         tradePanel.innerHTML =
-          '<div class="empire-empty">No active mission.<br>Genesis is scanning for the next qualified setup.</div>';
+          '<div class="empire-empty">Trade details unavailable.</div>';
       }
 
       const missionState = document.getElementById('empire-mission-state');
-      missionState.textContent = c.engine ? 'SCANNING' : 'OFFLINE';
+      missionState.textContent = c.engine ? 'PAPER STATUS' : 'UNAVAILABLE';
       missionState.style.color = c.engine ? '#4ade80' : '#f87171';
 
       document.getElementById('empire-mission-sub').textContent =
@@ -1848,7 +1850,7 @@ setInterval(loadDecisionTimeline, 30000);
         String(engine.regime || '--').toUpperCase();
 
       document.getElementById('empire-mission-score').textContent =
-        engine.score_min ?? '--';
+        'Private';
 
       document.getElementById('empire-feed-altfins').textContent =
         feeds.altfins_parsed ? ageText(feeds.altfins_parsed.age_seconds) : 'Unavailable';
@@ -1890,37 +1892,37 @@ setInterval(loadDecisionTimeline, 30000);
         decisionNote.textContent =
           `${t.coin || 'Asset'} mission active. Genesis is monitoring TP1, TP2 and stop conditions.`;
       }else{
-        confidence = Number(engine.score_min || 0);
-        decision = 'WAIT';
+        confidence = null;
+        decision = 'PRIVATE';
         decisionColor = '#f59e0b';
 
         reasons = [
           'Genesis engine online',
           `Market regime: ${String(engine.regime || 'unknown').toUpperCase()}`,
-          `Minimum required score: ${engine.score_min ?? '--'}`,
-          'No qualified active trade'
+          `Minimum required score: ${'Private'}`,
+          'Individual paper-trade details withheld'
         ];
 
         decisionNote.textContent =
-          'No active mission. Genesis is scanning and preserving capital until conditions qualify.';
+          'Execution state is not verified through this public view.';
       }
 
       document.getElementById('genesis-confidence-value').textContent =
-        Math.round(confidence) + '%';
+        (confidence===null ? '—' : Math.round(confidence)+'%');
 
       document.getElementById('genesis-confidence-fill').style.width =
-        Math.max(0, Math.min(100, confidence)) + '%';
+        (confidence===null ? 0 : Math.max(0, Math.min(100, confidence))) + '%';
 
       document.getElementById('genesis-decision-regime').textContent =
         String(engine.regime || '--').toUpperCase();
 
       document.getElementById('genesis-decision-threshold').textContent =
-        engine.score_min ?? '--';
+        'Private';
 
       decisionStatus.textContent = decision;
       decisionStatus.style.color = decisionColor;
 
-      decisionBadge.textContent = c.engine ? 'LIVE' : 'OFFLINE';
+      decisionBadge.textContent = c.engine ? 'PAPER API' : 'UNAVAILABLE';
       decisionBadge.style.color = c.engine ? '#4ade80' : '#f87171';
 
       reasonList.innerHTML = reasons.length
@@ -1954,7 +1956,7 @@ async function loadGenesisThoughts(){
       : [];
 
     if(thoughts.length===0){
-      box.innerHTML='<div style="color:#94a3b8;">Genesis is waiting for the next scan...</div>';
+      box.innerHTML='<div style="color:#94a3b8;">Individual research thoughts are private.</div>';
       return;
     }
 
@@ -1983,7 +1985,7 @@ ${t.coin || ""} ${t.action || ""} ${t.score!==null && t.score!==undefined ? "Sco
     const box=document.getElementById('genesis-thoughts');
 
     if(box){
-      box.innerHTML='<div style="color:#ef4444;">Unable to reach Genesis.</div>';
+      box.innerHTML='<div style="color:#ef4444;">Private reasoning is not publicly available.</div>';
     }
 
   }
@@ -2004,7 +2006,7 @@ setInterval(loadGenesisThoughts,5000);
       const weights = Array.isArray(d.weights) ? d.weights : [];
 
       if(!weights.length){
-        box.innerHTML = '<div class="neural-empty">No live weight data available.</div>';
+        box.innerHTML = '<div class="neural-empty">Indicator weights are private.</div>';
         return;
       }
 
@@ -2030,7 +2032,7 @@ setInterval(loadGenesisThoughts,5000);
 
     }catch(err){
       box.innerHTML =
-        '<div class="neural-empty" style="color:#f87171;">Unable to load Genesis weights.</div>';
+        '<div class="neural-empty" style="color:#f87171;">Indicator weights are private.</div>';
     }
   }
 
@@ -2164,7 +2166,7 @@ setInterval(loadGenesisThoughts,5000);
       const openTrades = Number(positions.open || 0);
 
       const winRateText = winRate.toFixed(2) + '%';
-      const pnlText = formatPnl(totalPnl);
+      const pnlText = formatPnl(totalPnl) + ' paper units';
 
       // Main EAI cards
       setText('v3Signals', String(trades));
@@ -2183,7 +2185,7 @@ setInterval(loadGenesisThoughts,5000);
       setText('pub-losses', String(losses));
 
       // Operations Center
-      setText('ops-trades', String(openTrades) + ' ACTIVE');
+      // Do not overwrite live health count with historical aggregate positions.
 
       // Brain Activity
       const brain = document.getElementById('v3BrainFeed');
@@ -2238,7 +2240,7 @@ setInterval(loadGenesisThoughts,5000);
 
         updateGridValue('Signals', String(trades));
         updateGridValue('Win Rate', winRateText);
-        updateGridValue('Open Trades', String(openTrades));
+        // Live open count remains governed by /api/health.
       }
 
       window.GENESIS_CANONICAL_PERFORMANCE = {
@@ -2247,7 +2249,7 @@ setInterval(loadGenesisThoughts,5000);
         losses,
         winRate,
         totalPnl,
-        openTrades,
+        openTrades: null,
         updatedAt: data.updated_at || null
       };
 
