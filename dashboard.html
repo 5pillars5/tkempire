@@ -561,9 +561,9 @@ const TK_API_DASHBOARD = '/api/genesis/status';
     </div>
 
     <div class="v3-panel">
-      <div class="v3-kicker">Next Scan</div>
-      <div id="v3ScanTimer" style="font-size:54px;font-weight:950;color:#f5c542;margin-top:8px;">02:00</div>
-      <div class="v3-sub">The public command center refreshes every 30 seconds. The engine scan cycle runs continuously on the VPS.</div>
+      <div class="v3-kicker">Next Public Refresh</div>
+      <div id="v3ScanTimer" style="font-size:54px;font-weight:950;color:#f5c542;margin-top:8px;">00:30</div>
+      <div class="v3-sub">Public API is polled every 30 seconds. This is not an execution timer.</div>
     </div>
   </div>
 
@@ -632,20 +632,7 @@ const TK_API_DASHBOARD = '/api/genesis/status';
 </style>
 
 
-<!-- LOCK SCREEN -->
-<div id="lockScreen" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(6,6,15,0.98);z-index:99999;align-items:center;justify-content:center;">
-  <div style="background:#0d0d1f;border:1px solid #2a2a5a;border-radius:16px;padding:40px;width:300px;text-align:center;">
-    <img src="https://i.imgur.com/Kf99eJt.jpeg" style="width:60px;height:60px;border-radius:12px;object-fit:cover;margin:0 auto 16px;display:block;"/>
-    <h3 style="font-size:18px;font-weight:800;margin-bottom:6px;">Private Dashboard</h3>
-    <p style="font-size:12px;color:#6B7280;margin-bottom:20px;">Enter your PIN to access</p>
-    <input type="password" id="pinInput" placeholder="Enter PIN" maxlength="6"
-      style="width:100%;background:#12122a;border:1px solid #2a2a4a;border-radius:8px;padding:11px 14px;color:#e2e2f0;font-size:18px;outline:none;text-align:center;letter-spacing:0.3em;margin-bottom:12px;display:block;"/>
-    <button id="pinBtn" style="width:100%;padding:12px;border-radius:8px;border:none;background:linear-gradient(135deg,#7C3AED,#4f46e5);color:#fff;font-size:14px;font-weight:700;cursor:pointer;">
-      ⚡ Access Empire
-    </button>
-    <div id="lockError" style="font-size:11px;color:#ff4b6e;margin-top:10px;display:none;">Wrong PIN. Try again.</div>
-  </div>
-</div>
+<!-- Private access requires server-side authorization. Browser PIN removed. -->
 
 <!-- NAV -->
 <nav>
@@ -656,10 +643,7 @@ const TK_API_DASHBOARD = '/api/genesis/status';
       <div class="nav-brand-tag">COMMAND CENTER</div>
     </div>
   </div>
-  <div class="nav-center">
-    <button class="nav-tab active" onclick="setView('public',this)">📊 Public View</button>
-    <button class="nav-tab" onclick="setView('private',this)">🔒 Private View</button>
-  </div>
+  <div class="nav-center"><span style="font-size:11px;color:var(--gold)">PAPER VALIDATION · READ ONLY</span></div>
   <div class="nav-right">
     <div class="live-pill" id="genesis-nav-status" aria-live="polite" style="background:#17172c;border-color:#854d0e;color:#f5c542;">GENESIS: CHECKING</div>
     <div id="modePill" style="display:flex;align-items:center;gap:5px;border-radius:20px;padding:4px 10px;font-size:10px;font-weight:700;background:#150a2a;border:1px solid #2a1a4a;color:#A78BFA;">⚙️ —</div>
@@ -1055,114 +1039,14 @@ Waiting for Genesis...
 
   </div><!-- /view-public -->
 
-  <!-- ══════════════════════════════════════ -->
-  <!-- PRIVATE VIEW -->
-  <!-- ══════════════════════════════════════ -->
-  <div class="view-private">
+  <!-- Private broker and account details are not shipped in the public page. -->
 
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-      <span class="private-badge">👑 PRIVATE</span>
-      <span style="font-size:11px;color:var(--muted)">Full Empire Command Center — Confidential</span>
-      <span style="margin-left:auto;font-size:10px;color:var(--muted)" id="priv-updated">—</span>
-    </div>
-
-    <!-- PRIVATE STATS -->
-    <div class="stats-row">
-      <div class="stat green">
-        <div class="stat-val" id="priv-totalprofit" style="color:var(--green)">—</div>
-        <div class="stat-label">Total P&L</div>
-        <div class="stat-sub">Grid + Trend</div>
-      </div>
-      <div class="stat gold">
-        <div class="stat-val" id="priv-gridprofit" style="color:var(--gold)">—</div>
-        <div class="stat-label">Grid Profit</div>
-        <div class="stat-sub" id="priv-gridpct">—</div>
-      </div>
-      <div class="stat purple">
-        <div class="stat-val" id="priv-capital" style="color:var(--purple-light)">—</div>
-        <div class="stat-label">Capital</div>
-        <div class="stat-sub">Deployed</div>
-      </div>
-      <div class="stat eth">
-        <div class="stat-val" id="priv-cycles" style="color:var(--eth)">—</div>
-        <div class="stat-label">Cycles</div>
-        <div class="stat-sub" id="priv-cycles24">—</div>
-      </div>
-      <div class="stat red">
-        <div class="stat-val" id="priv-liq" style="color:var(--red)">—</div>
-        <div class="stat-label">Liq Price</div>
-        <div class="stat-sub" id="priv-liqdist">—</div>
-      </div>
-      <div class="stat green">
-        <div class="stat-val" id="priv-position" style="color:var(--green)">—</div>
-        <div class="stat-label">Position</div>
-        <div class="stat-sub">ETH Long</div>
-      </div>
-    </div>
-
-    <!-- PRIVATE MAIN CHARTS -->
-    <div class="grid-7-5">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">📈 ETH/USD Live Chart</div>
-          <div style="display:flex;gap:6px;" id="tfBtns">
-            <button onclick="setTF('1',this)" style="padding:3px 8px;border-radius:4px;border:none;background:#1a1a3a;color:var(--text);font-size:9px;cursor:pointer;" class="tf active">1H</button>
-            <button onclick="setTF('4',this)" style="padding:3px 8px;border-radius:4px;border:none;background:transparent;color:var(--muted);font-size:9px;cursor:pointer;" class="tf">4H</button>
-            <button onclick="setTF('24',this)" style="padding:3px 8px;border-radius:4px;border:none;background:transparent;color:var(--muted);font-size:9px;cursor:pointer;" class="tf">1D</button>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="chart-wrap" style="height:220px;"><canvas id="privEthChart"></canvas></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header"><div class="card-title">📏 Live Grid Levels</div><div style="font-size:10px;color:var(--muted)" id="priv-range">—</div></div>
-        <div class="card-body" id="privGridLevels"></div>
-      </div>
-    </div>
-
-    <!-- PRIVATE ROW 2 -->
-    <div class="grid-5-7">
-      <div class="card">
-        <div class="card-header"><div class="card-title">⚡ Bot Health</div></div>
-        <div class="card-body">
-          <div class="mini-stats">
-            <div class="mini-row"><span class="mini-label">Status</span><span class="mini-val" style="color:var(--green)">🟢 Running</span></div>
-            <div class="mini-row"><span class="mini-label">Running Time</span><span class="mini-val" id="priv-runtime">—</span></div>
-            <div class="mini-row"><span class="mini-label">Capital Deployed</span><span class="mini-val" id="priv-cap2">—</span></div>
-            <div class="mini-row"><span class="mini-label">Extra Margin</span><span class="mini-val">$278.15</span></div>
-            <div class="mini-row"><span class="mini-label">Grid Levels</span><span class="mini-val">60</span></div>
-            <div class="mini-row"><span class="mini-label">Grid Type</span><span class="mini-val">Arithmetic</span></div>
-            <div class="mini-row"><span class="mini-label">Direction</span><span class="mini-val" style="color:var(--green)">15x Long</span></div>
-            <div class="mini-row"><span class="mini-label">24H Cycles</span><span class="mini-val" id="priv-24h">—</span></div>
-            <div class="mini-row"><span class="mini-label">Liq Distance</span><span class="mini-val" id="priv-liqdist2" style="color:var(--green)">—</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header"><div class="card-title">📋 Signal Log</div><div style="font-size:10px;color:var(--muted)" id="priv-sigcount">—</div></div>
-        <div class="sig-row sig-head">
-          <div>Action</div><div>Pair</div><div>Reason</div><div>Entry</div><div>P&L</div><div>Result</div>
-        </div>
-        <div id="priv-signalLog"></div>
-      </div>
-    </div>
-
-    <!-- PRIVATE ROW 3 — MARKET OVERVIEW -->
-    <div class="card" style="margin-bottom:12px;">
-      <div class="card-header"><div class="card-title">🌐 Market Overview — 20 Pairs</div></div>
-      <div class="card-body">
-        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;" id="marketGrid"></div>
-      </div>
-    </div>
-
-  </div><!-- /view-private -->
 
 </div>
 
 <script>
 // ── CONFIG ──
-const PIN = null; // Client-side PIN is not authentication; private mode disabled.
+// Private-mode PIN is not embedded in public HTML.
 const GH_BASE = ''; // Never fetch private historical strategy data from GitHub.
 // ARCHIVED data only. Never use historical grid values as current execution evidence.
 const PAIRS_20 = ['BTC','ETH','SOL','XRP','BNB','DOGE','ADA','AVAX','LINK','DOT','MATIC','UNI','ATOM','LTC','BCH','APT','ARB','OP','INJ','SUI'];
@@ -1174,45 +1058,7 @@ let equityChartObj = null;
 let ethChartObj = null;
 let ethMiniChartObj = null;
 
-// ── PIN SYSTEM ──
-function checkPin(){
-  const val = document.getElementById('pinInput').value;
-  if(false && val === PIN){
-    document.getElementById('lockScreen').style.display = 'none';
-    document.body.classList.add('private-mode');
-    document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
-    document.querySelectorAll('.nav-tab')[1].classList.add('active');
-    loadPrivateData();
-  } else {
-    document.getElementById('lockError').style.display = 'block';
-    document.getElementById('pinInput').value = '';
-    setTimeout(()=>{ document.getElementById('lockError').style.display='none'; }, 2000);
-  }
-}
-
-// ── VIEW TOGGLE ──
-function setView(view, btn){
-  document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  if(view === 'private'){
-    if(!document.body.classList.contains('private-mode')){
-      const ls = document.getElementById('lockScreen');
-      ls.style.display = 'flex';
-      setTimeout(()=>{ document.getElementById('pinInput').focus(); }, 100);
-    }
-  } else {
-    document.body.classList.remove('private-mode');
-  }
-}
-
-// Wire up PIN button and Enter key after DOM loads
-document.addEventListener('DOMContentLoaded', function(){
-  document.getElementById('pinBtn').addEventListener('click', checkPin);
-  document.getElementById('pinInput').addEventListener('keydown', function(e){
-    if(e.key === 'Enter') checkPin();
-  });
-});
-
+// No browser-side private access. Server-side authentication is required.
 // ── FETCH PORTFOLIO ──
 async function fetchPortfolio(){
   try {
@@ -1499,10 +1345,10 @@ setInterval(loadDashboardJson, 30000);
 </script>
 \n
 <script>
-let v3ScanSeconds = 120;
+let v3ScanSeconds = 30;
 function v3Tick(){
   v3ScanSeconds--;
-  if(v3ScanSeconds < 0) v3ScanSeconds = 120;
+  if(v3ScanSeconds < 0) v3ScanSeconds = 30;
   const m = String(Math.floor(v3ScanSeconds/60)).padStart(2,'0');
   const sec = String(v3ScanSeconds%60).padStart(2,'0');
   const el = document.getElementById('v3ScanTimer');
