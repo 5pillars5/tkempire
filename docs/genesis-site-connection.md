@@ -1,22 +1,25 @@
-# TK Empire: Genesis read-only website connection
+# TK Empire / Genesis status-only HTTPS gateway
 
-This branch adds a status-only serverless endpoint at `/api/genesis/connection`, plus a dashboard badge. It does not change Genesis trading, approvals, execution controls, or production deployment.
+Status: development branch, not production. This does not modify engine execution, approvals, timers, or trading state.
 
-## Gateway contract
+## Confirmed source fields
+The canonical VPS `/health` endpoint returns top-level `served_at` and `engine` with `running` and `mode`. Its actual field types still require validation. The new Vercel endpoint maps the source response to an allowlisted mode, engine state and freshness timestamp, but does **not** establish independent evidence of actual trading.
 
-A separately deployed authenticated HTTPS gateway must serve a **fresh, actual engine observation**:
+## Proposed routing
+- DNS `api.tkempire.io` will be a dedicated `A` record to the approved VPS only after checking existing ownership and host routing.
+- VPS Nginx will terminate certificate-validated HTTPS for `api.tkempire.io` on port 443.
+- A restricted Nginx location `/internal/genesis/health` must require HTTP Basic authentication and proxy solely to `http://127.0.0.1:5000/health`. Deny directory listings, every other path, redirects and all mutation methods. Set `Cache-Control: no-store`.
+- Store a long unique password hash in root-owned Nginx htpasswd file outside source control. Store the plaintext only in the Vercel encrypted server-side `GENESIS_STATUS_TOKEN`. Use username `tkempire-site`. Never paste it into chat, GitHub, or terminal output.
+- Configure encrypted Vercel server variables: `GENESIS_STATUS_URL=https://api.tkempire.io/internal/genesis/health` and `GENESIS_STATUS_TOKEN`.
+- Browser fetches only `/api/genesis/connection`. The response returns no internal trades, balances, risk config, secrets or raw logs.
 
-```json
-{"schema_version":1,"source":"genesis","observed_at":"2026-11-01T20:00:00Z","engine":{"mode":"PAPER","state":"RUNNING"}}
-```
+## Validation and deployment
+1. Check timestamp format and actual mode values on `/health`, without printing sensitive records.
+2. Stage separate Nginx HTTPS site and TLS certificate, and validate `nginx -t` before reloading.
+3. Validate unauthenticated gateway returns 401, approved gateway returns 200 with correct authentication, certificates valid, stale data fails closed, and Vercel preview resolves the new endpoint.
+4. **Important:** Existing public website Vercel routes still rewrite `/api/health`, `/api/genesis/status`, thoughts and weights to the public unencrypted VPS port 5000. New connection badge does not secure those routes.
+5. Migrate legacy website/API routes to a deliberate scoped HTTPS mechanism; audit content for private data; then restrict external TCP 5000 and bind internal service to loopback where possible. Do not cut over until the new endpoint and rollback path are confirmed.
+6. Run `node --test tests/genesis-connection.test.js` on an actual checkout; preview build success alone does not verify tests.
+7. Do not merge/ship to production until security review and end-to-end verification.
 
-The timestamp above is an example, not a real report. The gateway must keep all trading commands, exchange credentials, order state, private MCP data and account information inaccessible. It should strictly filter fields, rate-limit access, authenticate each request, and prohibit caching. Refresh the heartbeat using actual observed state, never by re-timestamping old records.
-
-Set server-only Vercel encrypted values `GENESIS_STATUS_URL` (the full HTTPS gateway URL) and `GENESIS_STATUS_TOKEN` (a dedicated long random **status-only** token). Never place credentials in the browser, GitHub, or public chat. Without these settings, the website says NOT VERIFIED.
-
-The function times out after four seconds, refuses redirects, validates the response format, and considers heartbeats older than two minutes stale. It publishes only mode, state, and timestamp.
-
-**Security limitation:** The existing Vercel configuration still contains older HTTP rewrites for `/api/health`, `/api/genesis/status`, weights and thoughts. This new endpoint does not protect or replace those routes. They must be reviewed and separately migrated to a scoped authenticated HTTPS gateway before production approval. Existing client-side PIN must not be treated as secure access control.
-
-## Verification
-Run `node --test tests/genesis-connection.test.js` on a local checkout. Test a Vercel preview with missing environment settings, then test with the real gateway after service review. Do not merge or promote without checking the legacy HTTP routes and page data provenance.
+**Do not assume status API availability means paper trading is executing, or that a refreshed served_at means underlying trade state was refreshed.**
