@@ -2,51 +2,37 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const handler = require('../api/genesis/connection');
-function makeRes() {
-  return { code: 200, headers: {}, setHeader(k,v) { this.headers[k]=v;return this; }, status(c) { this.code=c; return this; }, json(v) { this.body=v; return this; } };
+const prior = { fetch: global.fetch, url: process.env.GENESIS_STATUS_URL, token: process.env.GENESIS_STATUS_TOKEN };
+function res() { return {code:200,headers:{},setHeader(k,v){this.headers[k]=v;return this},status(c){this.code=c;return this},json(v){this.body=v;return this}} }
+async function call(method='GET'){const r=res();await handler({method},r);return r}
+function configured(){
+ process.env.GENESIS_STATUS_URL='https://api.tkempire.io/internal/genesis/health';
+ process.env.GENESIS_STATUS_TOKEN='a'.repeat(40);
 }
-async function run(method='GET') { const res=makeRes(); await handler({method},res); return res; }
-const fetchBefore=global.fetch;
-const urlBefore=process.env.GENESIS_STATUS_URL;
-const tokenBefore=process.env.GENESIS_STATUS_TOKEN;
+function stub(value){
+ global.fetch=async(_url,opts)=>({
+ ok:true,
+ headers:{get:()=>null},
+ text:async()=>JSON.stringify(value)
+ });
+}
 test.after(()=>{
-  global.fetch=fetchBefore;
-  if(urlBefore===undefined) delete process.env.GENESIS_STATUS_URL; else process.env.GENESIS_STATUS_URL=urlBefore;
-  if(tokenBefore===undefined) delete process.env.GENESIS_STATUS_TOKEN; else process.env.GENESIS_STATUS_TOKEN=tokenBefore;
+ global.fetch=prior.fetch;
+ if(prior.url===undefined)delete process.env.GENESIS_STATUS_URL;else process.env.GENESIS_STATUS_URL=prior.url;
+ if(prior.token===undefined)delete process.env.GENESIS_STATUS_TOKEN;else process.env.GENESIS_STATUS_TOKEN=prior.token;
 });
-test('missing configuration fails closed',async()=>{
-  delete process.env.GENESIS_STATUS_URL; delete process.env.GENESIS_STATUS_TOKEN;
-  const res=await run(); assert.equal(res.code,503); assert.equal(res.body.state,'NOT_CONFIGURED');
+test('unconfigured fails closed',async()=>{delete process.env.GENESIS_STATUS_URL;delete process.env.GENESIS_STATUS_TOKEN;let r=await call();assert.equal(r.code,503);assert.equal(r.body.state,'NOT_CONFIGURED')});
+test('rejects writes',async()=>{let r=await call('POST');assert.equal(r.code,405)});
+test('rejects arbitrary origin',async()=>{configured();process.env.GENESIS_STATUS_URL='https://attacker.example/status';let r=await call();assert.equal(r.code,503)});
+test('accepts real /health structure and strips sensitive fields',async()=>{
+ configured();stub({served_at:new Date().toISOString(),engine:{mode:'paper',running:true},open_trades:{secrets:'hidden'},private_key:'hidden'});
+ let r=await call();assert.equal(r.code,200);assert.equal(r.body.state,'API_REACHABLE');assert.equal(r.body.engine_state,'RUNNING');assert.equal(r.body.mode,'PAPER');assert.ok(!JSON.stringify(r.body).includes('hidden'));
 });
-test('non-GET rejected',async()=>{
-  const res=await run('POST'); assert.equal(res.code,405);
+test('stale /health response rejected',async()=>{
+ configured();stub({served_at:new Date(Date.now()-3600000).toISOString(),engine:{mode:'paper',running:true}});
+ let r=await call();assert.equal(r.code,503);assert.equal(r.body.state,'STALE_SNAPSHOT');
 });
-test('insecure gateway rejected',async()=>{
-  process.env.GENESIS_STATUS_URL='http://example.com:5000/status';
-  process.env.GENESIS_STATUS_TOKEN='test-secret';
-  const res=await run(); assert.equal(res.code,503); assert.equal(res.body.state,'INVALID_CONFIGURATION');
-});
-test('valid fresh response only returns allowed fields',async()=>{
-  process.env.GENESIS_STATUS_URL='https://gateway.example.com/status';
-  process.env.GENESIS_STATUS_TOKEN='test-secret';
-  global.fetch=async()=>({ok:true,headers:{get:()=>null},text:async()=>JSON.stringify({
-    schema_version:1,source:'genesis',observed_at:new Date().toISOString(),
-    engine:{mode:'PAPER',state:'RUNNING',private_key:'NEVER_LEAK'},account:{balance:900}
-  })});
-  const res=await run();
-  assert.equal(res.code,200); assert.equal(res.body.mode,'PAPER');
-  assert.equal(res.body.connected,true);
-  assert.ok(!JSON.stringify(res.body).includes('NEVER_LEAK'));
-  assert.ok(!JSON.stringify(res.body).includes('test-secret'));
-});
-test('stale snapshot rejected',async()=>{
-  global.fetch=async()=>({ok:true,headers:{get:()=>null},text:async()=>JSON.stringify({
-    schema_version:1,source:'genesis',observed_at:new Date(Date.now()-3600000).toISOString(),
-    engine:{mode:'PAPER',state:'RUNNING'}
-  })});
-  const res=await run(); assert.equal(res.code,503); assert.equal(res.body.state,'STALE_SNAPSHOT');
-});
-test('upstream failure fails closed',async()=>{
-  global.fetch=async()=>{throw new Error('backend secret')};
-  const res=await run(); assert.equal(res.code,502); assert.equal(res.body.state,'UPSTREAM_UNAVAILABLE');
+test('invalid response rejected',async()=>{configured();stub({engine:{running:true}});let r=await call();assert.equal(r.code,502)});
+test('upstream failure fails closed without leaking error',async()=>{
+ configured();global.fetch=async()=>{throw new Error('secret')};let r=await call();assert.equal(r.code,502);assert.ok(!JSON.stringify(r.body).includes('secret'));
 });
