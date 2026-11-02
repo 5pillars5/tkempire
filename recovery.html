@@ -308,10 +308,11 @@ ids.filter(id=>!['returnRate','feeRate'].includes(id)).forEach(id=>$(id)?.addEve
 
 function syncGenesis(state){
   const h=state.health||{},e=h.engine||{},open=h.open_trades||{},trades=Array.isArray(open.trades)?open.trades:[];
-  $('gEngine').textContent=String(h.status||e.mode||'ONLINE').toUpperCase();
+  $('gEngine').textContent=String(h.status||e.mode||'UNAVAILABLE').toUpperCase();
   $('gRegime').textContent=String(e.regime||'UNKNOWN').toUpperCase();
-  $('gOpen').textContent=String(trades.length);
+  $('gOpen').textContent=Number.isSafeInteger(open.count)?String(open.count):'—';
   const box=$('missionList');
+  if(open.details_public===false){box.innerHTML='<h3>Current Genesis Mission</h3><div class="mission"><span>Paper trade details are private. The reported count appears above.</span></div>';return;}
   box.innerHTML='<h3>Current Genesis Mission</h3>'+(trades.length?trades.map(t=>'<div class="mission"><b>'+String(t.coin||'ASSET').toUpperCase()+' '+String(t.action||'').toUpperCase()+'</b><br><span>Entry '+(t.entry??'—')+' · TP1 '+(t.tp1??'—')+' · TP2 '+(t.tp2??'—')+' · Stop '+(t.stop??'—')+' · Score '+(t.score??'—')+'</span><br><span>'+(t.reason||'Canonical Genesis active mission')+'</span></div>').join(''):'<div class="mission"><span>No active mission. Genesis is scanning.</span></div>');
 }
 function attachGenesis(){if(window.GenesisLive){window.GenesisLive.subscribe(syncGenesis);syncGenesis(window.GenesisLive.getState())}else setTimeout(attachGenesis,100)}
