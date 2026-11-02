@@ -595,7 +595,7 @@ const TK_API_DASHBOARD = '/api/genesis/status';
   </div>
 
   <div class="v3-panel" style="margin-top:18px;">
-    <div class="v3-kicker">Live Open Signals</div>
+    <div class="v3-kicker">Private Paper Signals</div>
     <div id="v3OpenSignals" style="margin-top:12px;">Loading open signals...</div>
   </div>
 </section>
@@ -813,7 +813,7 @@ const TK_API_DASHBOARD = '/api/genesis/status';
   <div class="genesis-brain__header">
     <div>
       <div class="genesis-brain__title">Genesis Neural Core</div>
-      <div class="neural-sub">Live adaptive intelligence network</div>
+      <div class="neural-sub">Read-only research visualization</div>
     </div>
     <div id="genesis-brain-status" class="genesis-brain__status">CONNECTING</div>
   </div>
@@ -850,7 +850,7 @@ const TK_API_DASHBOARD = '/api/genesis/status';
   <section class="neural-map">
     <div class="neural-header">
       <div class="neural-title">Genesis Neural Map</div>
-      <div class="neural-sub">Live adaptive indicator weights</div>
+      <div class="neural-sub">Private indicator weights</div>
     </div>
     <div id="neuralWeights">
       <div class="neural-empty">Loading Genesis weights...</div>
@@ -903,7 +903,7 @@ const TK_API_DASHBOARD = '/api/genesis/status';
 
 
 <div class="genesis-thought-stream" style="margin:24px 0;padding:20px;border-radius:16px;background:#0f172a;border:1px solid rgba(168,85,247,.25);">
-<h3 style="margin:0 0 14px;color:#fff;">Genesis Live Thought Stream</h3>
+<h3 style="margin:0 0 14px;color:#fff;">Private Genesis Thought Stream</h3>
 
 <div id="genesis-thoughts"
 style="
@@ -929,9 +929,9 @@ Waiting for Genesis...
   <div class="view-public">
 
     <div class="public-hero">
-      <div style="font-size:10px;color:var(--purple-light);letter-spacing:0.2em;font-weight:600;margin-bottom:10px;">EMPIRE SIGNALS · LIVE PERFORMANCE</div>
+      <div style="font-size:10px;color:var(--purple-light);letter-spacing:0.2em;font-weight:600;margin-bottom:10px;">EMPIRE SIGNALS · PAPER VALIDATION</div>
       <h1>TK Empire <span style="background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Command Center</span></h1>
-      <p>Real-time performance data. Every win and loss documented. This is what systematic trading looks like.</p>
+      <p>Read-only paper-validation metrics, with historical observations labeled separately from fresh API status.</p>
       <a href="join.html" style="display:inline-block;background:linear-gradient(135deg,var(--purple),#4f46e5);color:#fff;padding:12px 28px;border-radius:9px;font-size:13px;font-weight:700;">Private Beta Status</a>
     </div>
 
@@ -1013,14 +1013,14 @@ Waiting for Genesis...
     <!-- PUBLIC BOT SUMMARY -->
     <div class="grid-3">
       <div class="card">
-        <div class="card-header"><div class="card-title">🤖 Grid Bot Status</div><div style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--green)"><span class="live-dot"></span>Running</div></div>
+        <div class="card-header"><div class="card-title">🤖 Historical Grid Archive</div><div style="font-size:10px;color:var(--gold)">NOT LIVE</div></div>
         <div class="card-body">
           <div class="mini-stats">
             <div class="mini-row"><span class="mini-label">Pair</span><span class="mini-val">ETH/USDT</span></div>
             <div class="mini-row"><span class="mini-label">Grid P&L</span><span class="mini-val" style="color:var(--green)" id="pub-gp">—</span></div>
             <div class="mini-row"><span class="mini-label">Total Cycles</span><span class="mini-val" id="pub-tc">—</span></div>
             <div class="mini-row"><span class="mini-label">Running</span><span class="mini-val" id="pub-rt">—</span></div>
-            <div class="mini-row"><span class="mini-label">Status</span><span class="mini-val" style="color:var(--green)">🟢 Active</span></div>
+            <div class="mini-row"><span class="mini-label">Status</span><span class="mini-val" style="color:var(--green)">ARCHIVED</span></div>
           </div>
         </div>
       </div>
@@ -1164,6 +1164,7 @@ Waiting for Genesis...
 // ── CONFIG ──
 const PIN = '1111'; // Change this to your actual PIN
 const GH_BASE = 'https://raw.githubusercontent.com/5pillars5/tkempire/main';
+// ARCHIVED data only. Never use historical grid values as current execution evidence.
 const PAIRS_20 = ['BTC','ETH','SOL','XRP','BNB','DOGE','ADA','AVAX','LINK','DOT','MATIC','UNI','ATOM','LTC','BCH','APT','ARB','OP','INJ','SUI'];
 
 let ethPriceGlobal = 0;
@@ -1338,6 +1339,10 @@ async function buildMarketGrid(priceData){
 
 // ── CHARTS ──
 function buildEquityChart(currentPnl, capital){
+  // Historical plotting was synthetic; do not present invented returns as telemetry.
+  const container=document.getElementById('equityChart');
+  if(container){container.style.display='none';const parent=container.parentElement;if(parent&&!parent.querySelector('.archive-equity-note')){const note=document.createElement('div');note.className='archive-equity-note';note.textContent='Equity curve unavailable: no verified historical series has been supplied.';note.style.cssText='color:#f5c542;padding:32px 12px;text-align:center';parent.append(note);}}
+  return;
   const ctx = document.getElementById('equityChart');
   if(!ctx) return;
   // Simulate equity curve building to current profit
@@ -1425,9 +1430,9 @@ function setEl(id, val){
 // ── MARKET MODE ──
 async function fetchMarketMode(){
   try {
-    const r = await fetch('https://raw.githubusercontent.com/5pillars5/tkempire/main/stats.json?t='+Date.now());
+    const r = await fetch('/api/genesis/status?cached=' + Date.now(), {cache:'no-store'});
     const d = await r.json();
-    const mode = (d.market_mode||'bull').toUpperCase();
+    const mode = String(d.engine?.regime || 'UNKNOWN').toUpperCase();
     const pairs = d.pairs||20;
     const el = null; // LIVE_HEALTH_REGIME_SYNC
     if(el){
@@ -1438,12 +1443,12 @@ async function fetchMarketMode(){
       el.style.borderColor = color+'66';
     }
     // Also update public stats
-    const s = d.stats||{};
-    const total = (s.wins||0)+(s.losses||0);
-    const wr = total>0?Math.round(s.wins/total*100):0;
+    const s = d.performance||{};
+    const total = Number(s.trades||0);
+    const wr = Number(s.win_rate||0);
     setEl('pub-winrate', wr+'%');
     setEl('pub-wr2', wr+'%');
-    setEl('pub-signals', (total+(d.stats?.signals||0)).toString());
+    setEl('pub-signals', String(total));
     setEl('pub-wins', (s.wins||0).toString());
     setEl('pub-losses', (s.losses||0).toString());
   } catch(e){}
