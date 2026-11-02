@@ -174,7 +174,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:32px 6%;display:f
   <div class="page-badge"><span class="live-dot"></span> VALIDATION RESULTS — DATA UPDATES AS RECORDED</div>
   <div id="marketModeBadge" style="display:inline-flex;align-items:center;gap:6px;background:#150a2a;border:1px solid #2a1a4a;color:#A78BFA;font-size:10px;font-weight:700;letter-spacing:0.14em;padding:5px 16px;border-radius:20px;margin-left:10px;">⚙️ LOADING...</div>
   <h1>Empire Signals<br/>Performance Log</h1>
-  <p>Every signal. Every result. Every loss shown. This is what real transparency looks like in the trading signal space.</p>
+  <p>Historical paper-validation signal records and reported aggregate outcomes. Public records are not a complete independently audited execution ledger.</p>
 </div>
 
 <!-- STATS ROW -->
@@ -191,7 +191,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:32px 6%;display:f
 <div class="chart-section">
   <div class="chart-wrap">
     <div class="chart-title">Canonical Performance Authority</div>
-    <div style="padding:18px;color:var(--muted);font-size:12px;line-height:1.7;">Current totals and open missions above are loaded from <strong style="color:var(--text)">/api/genesis/status</strong> and <strong style="color:var(--text)">/api/health</strong>. Historical closed rows remain in the result log; open rows come only from the live Genesis state.</div>
+    <div style="padding:18px;color:var(--muted);font-size:12px;line-height:1.7;">Reported paper-aggregate totals and a separate current health count are loaded from <strong style="color:var(--text)">/api/genesis/status</strong> and <strong style="color:var(--text)">/api/health</strong>. Historical closed rows are archived observations; individual open missions are private. The health count is not equivalent to the aggregate status dataset.</div>
   </div>
 </div>
 
@@ -336,13 +336,14 @@ async function syncCanonicalResults(){
     document.getElementById('statLoss').textContent = Number(p.losses || 0);
     document.getElementById('statTotal').textContent = Number(p.trades || 0);
     document.getElementById('statPnl').textContent = (totalPnl >= 0 ? '+' : '') + totalPnl.toFixed(2);
-    document.getElementById('statOpen').textContent = Number(positions.open ?? liveOpen.length);
+    const openCount = health.open_trades?.count;
+    document.getElementById('statOpen').textContent = Number.isSafeInteger(openCount) ? String(openCount) : '—';
 
     const badge = document.getElementById('marketModeBadge');
     const engine = health.engine || {};
     if(badge){
       const mode = String(engine.regime || 'UNKNOWN').toUpperCase();
-      badge.textContent = '⚙️ ' + mode + ' · ' + liveOpen.length + ' ACTIVE';
+      badge.textContent = '⚙️ PAPER · ' + mode + ' · ' + (Number.isSafeInteger(openCount)?openCount:'—') + ' REPORTED OPEN';
     }
   }catch(e){
     console.error('Canonical results sync failed:', e);
@@ -448,10 +449,11 @@ async function loadBotData(){
 // Load live signals from GitHub on page load
 window.addEventListener('load', () => {
   loadSignals();
-  loadBotData();
-  fetchMarketMode();
+  // Legacy grid data and stats.json are not current Genesis authority.
+  const note=document.getElementById('botUpdated');
+  if(note)note.textContent='Historical grid records — live status not independently verified';
   setInterval(loadSignals, 60000);
-  setInterval(loadBotData, 30000);
+  // Historical grid widget intentionally not refreshed as live performance.
   setInterval(fetchMarketMode, 60000);
 });
 </script>
