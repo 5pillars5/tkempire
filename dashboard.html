@@ -1162,8 +1162,8 @@ Waiting for Genesis...
 
 <script>
 // ── CONFIG ──
-const PIN = '1111'; // Change this to your actual PIN
-const GH_BASE = 'https://raw.githubusercontent.com/5pillars5/tkempire/main';
+const PIN = null; // Client-side PIN is not authentication; private mode disabled.
+const GH_BASE = ''; // Never fetch private historical strategy data from GitHub.
 // ARCHIVED data only. Never use historical grid values as current execution evidence.
 const PAIRS_20 = ['BTC','ETH','SOL','XRP','BNB','DOGE','ADA','AVAX','LINK','DOT','MATIC','UNI','ATOM','LTC','BCH','APT','ARB','OP','INJ','SUI'];
 
@@ -1177,7 +1177,7 @@ let ethMiniChartObj = null;
 // ── PIN SYSTEM ──
 function checkPin(){
   const val = document.getElementById('pinInput').value;
-  if(val === PIN){
+  if(false && val === PIN){
     document.getElementById('lockScreen').style.display = 'none';
     document.body.classList.add('private-mode');
     document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
@@ -1216,21 +1216,17 @@ document.addEventListener('DOMContentLoaded', function(){
 // ── FETCH PORTFOLIO ──
 async function fetchPortfolio(){
   try {
-    const r = await fetch(GH_BASE + '/data/portfolio.json?t=' + Date.now());
-    portfolioData = await r.json();
-    updatePublicBot();
-    updatePrivateBot();
+    portfolioData = null;
+    // Detailed legacy portfolio is private. Do not fetch or simulate live bot state.
   } catch(e){ console.log('Portfolio error:', e); }
 }
 
 // ── FETCH SIGNALS ──
 async function fetchSignals(){
   try {
-    const r = await fetch(GH_BASE + '/data/signals.json?t=' + Date.now());
-    signalsData = await r.json();
-    renderPublicSignals();
-    renderPrivateSignals();
-    updateSignalStats();
+    signalsData = [];
+    const panel=document.getElementById('pub-signalLog');
+    if(panel)panel.textContent='Individual research signals are private. Public aggregate paper statistics appear above.';
   } catch(e){ console.log('Signals error:', e); }
 }
 
@@ -1431,6 +1427,7 @@ function setEl(id, val){
 async function fetchMarketMode(){
   try {
     const r = await fetch('/api/genesis/status?cached=' + Date.now(), {cache:'no-store'});
+    if(!r.ok)throw new Error('Paper performance unavailable');
     const d = await r.json();
     const mode = String(d.engine?.regime || 'UNKNOWN').toUpperCase();
     const pairs = d.pairs||20;
