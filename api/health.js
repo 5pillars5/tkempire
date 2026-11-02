@@ -25,8 +25,12 @@ async function readHealth() {
       password.length > 256 || /[\r\n]/.test(password)) {
     throw new Error('NOT_CONFIGURED');
   }
+  const username = process.env.GENESIS_STATUS_USERNAME || 'tkempire-site';
+  if (username !== 'tkempire-site' && username !== 'tkempire-prod') {
+    throw new Error('NOT_CONFIGURED');
+  }
   const authorization = 'Basic ' +
-    Buffer.from('tkempire-site:' + password, 'utf8').toString('base64');
+    Buffer.from(username + ':' + password, 'utf8').toString('base64');
   const response = await fetch(process.env.GENESIS_STATUS_URL, {
     method: 'GET',
     redirect: 'error',
