@@ -174,7 +174,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:32px 6%;display:f
   <div class="page-badge"><span class="live-dot"></span> VALIDATION RESULTS — DATA UPDATES AS RECORDED</div>
   <div id="marketModeBadge" style="display:inline-flex;align-items:center;gap:6px;background:#150a2a;border:1px solid #2a1a4a;color:#A78BFA;font-size:10px;font-weight:700;letter-spacing:0.14em;padding:5px 16px;border-radius:20px;margin-left:10px;">⚙️ LOADING...</div>
   <h1>Empire Signals<br/>Performance Log</h1>
-  <p>Every signal. Every result. Every loss shown. This is what real transparency looks like in the trading signal space.</p>
+  <p>Historical paper-validation signal records and reported aggregate outcomes. Public records are not a complete independently audited execution ledger.</p>
 </div>
 
 <!-- STATS ROW -->
@@ -183,7 +183,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:32px 6%;display:f
   <div class="stat-card"><div class="stat-card-num" id="statWins" style="color:var(--green)">—</div><div class="stat-card-label">Total Wins</div></div>
   <div class="stat-card"><div class="stat-card-num" id="statLoss" style="color:var(--red)">—</div><div class="stat-card-label">Total Losses</div></div>
   <div class="stat-card"><div class="stat-card-num" id="statTotal" style="color:var(--text)">—</div><div class="stat-card-label">Total Signals</div></div>
-  <div class="stat-card"><div class="stat-card-num" id="statPnl" style="color:var(--green)">—</div><div class="stat-card-label">Total P&L</div></div>
+  <div class="stat-card"><div class="stat-card-num" id="statPnl" style="color:var(--green)">—</div><div class="stat-card-label">Paper Aggregate P&L</div></div>
   <div class="stat-card"><div class="stat-card-num" id="statOpen" style="color:var(--purple-light)">—</div><div class="stat-card-label">Open Now</div></div>
 </div>
 
@@ -191,7 +191,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:32px 6%;display:f
 <div class="chart-section">
   <div class="chart-wrap">
     <div class="chart-title">Canonical Performance Authority</div>
-    <div style="padding:18px;color:var(--muted);font-size:12px;line-height:1.7;">Current totals and open missions above are loaded from <strong style="color:var(--text)">/api/genesis/status</strong> and <strong style="color:var(--text)">/api/health</strong>. Historical closed rows remain in the result log; open rows come only from the live Genesis state.</div>
+    <div style="padding:18px;color:var(--muted);font-size:12px;line-height:1.7;">Reported paper-aggregate totals and a separate current health count are loaded from <strong style="color:var(--text)">/api/genesis/status</strong> and <strong style="color:var(--text)">/api/health</strong>. Historical closed rows are archived observations; individual open missions are private. The health count is not equivalent to the aggregate status dataset.</div>
   </div>
 </div>
 
@@ -237,7 +237,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:32px 6%;display:f
     <div class="bot-card eth" style="grid-column:span 3;display:flex;align-items:center;justify-content:center;padding:40px;">
       <div style="text-align:center;color:var(--muted)">
         <div style="font-size:24px;margin-bottom:8px;">🤖</div>
-        <div style="font-size:13px;">Loading live bot data...</div>
+        <div style="font-size:13px;">No verified current grid-bot data; archived telemetry withheld.</div>
       </div>
     </div>
   </div>
@@ -260,7 +260,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:32px 6%;display:f
 
 <script>
 // ── LIVE SIGNALS FROM GITHUB ──
-const SIGNALS_URL = '/data/signals.json';
+const SIGNALS_URL = '/data/public_signal_archive.json';
 let SIGNALS = [];
 
 async function fetchMarketMode(){
@@ -319,12 +319,9 @@ async function syncCanonicalResults(){
       fetchJSON('/api/genesis/status')
     ]);
 
-    CLOSED_SIGNALS = Array.isArray(rawSignals)
-      ? rawSignals.filter(s => ['win','loss'].includes(String(s.result || '').toLowerCase()))
-      : [];
-
-    const liveOpen = normalizeLiveTrades(health);
-    SIGNALS = [...liveOpen, ...CLOSED_SIGNALS];
+    const archived = Array.isArray(rawSignals.records) ? rawSignals.records : [];
+    CLOSED_SIGNALS = archived.map(r=>({coin:r.asset,pair:r.asset+'/USDC',action:r.side,result:String(r.recorded_outcome||'').toLowerCase(),date:r.date,reason:'Redacted historical observation',entry:0,exit:null,pnl:null}));
+    SIGNALS = CLOSED_SIGNALS;
     applyFilters();
 
     const p = status.performance || {};
@@ -336,13 +333,14 @@ async function syncCanonicalResults(){
     document.getElementById('statLoss').textContent = Number(p.losses || 0);
     document.getElementById('statTotal').textContent = Number(p.trades || 0);
     document.getElementById('statPnl').textContent = (totalPnl >= 0 ? '+' : '') + totalPnl.toFixed(2);
-    document.getElementById('statOpen').textContent = Number(positions.open ?? liveOpen.length);
+    const openCount = health.open_trades?.count;
+    document.getElementById('statOpen').textContent = Number.isSafeInteger(openCount) ? String(openCount) : '—';
 
     const badge = document.getElementById('marketModeBadge');
     const engine = health.engine || {};
     if(badge){
       const mode = String(engine.regime || 'UNKNOWN').toUpperCase();
-      badge.textContent = '⚙️ ' + mode + ' · ' + liveOpen.length + ' ACTIVE';
+      badge.textContent = '⚙️ PAPER · ' + mode + ' · ' + (Number.isSafeInteger(openCount)?openCount:'—') + ' REPORTED OPEN';
     }
   }catch(e){
     console.error('Canonical results sync failed:', e);
@@ -360,19 +358,19 @@ function renderTable(data){
   const body = document.getElementById('tableBody');
   if(!data.length){ body.innerHTML = '<div style="padding:30px;text-align:center;color:var(--muted);font-size:13px;">No signals match your filter.</div>'; return; }
   body.innerHTML = data.map(s => {
-    const pnl = s.pnl || 0;
+    const pnl = typeof s.pnl === 'number' ? s.pnl : null;
     const isOpen = s.result === 'open';
     const isWin = s.result === 'win';
-    const pnlColor = isOpen ? 'var(--gold)' : isWin ? 'var(--green)' : 'var(--red)';
-    const pnlText = isOpen ? 'Open ⚡' : (pnl >= 0 ? '+' : '') + pnl.toFixed(2) + '%';
-    const entry = s.entry || 0;
-    const exit = s.exit || null;
+    const pnlColor = pnl === null ? 'var(--muted)' : isOpen ? 'var(--gold)' : isWin ? 'var(--green)' : 'var(--red)';
+    const pnlText = isOpen ? 'Open ⚡' : pnl === null ? '—' : (pnl >= 0 ? '+' : '') + pnl.toFixed(2) + '%';
+    const entry = typeof s.entry === 'number' && s.entry>0 ? s.entry : null;
+    const exit = typeof s.exit === 'number' && s.exit>0 ? s.exit : null;
     return `
     <div class="table-row">
       <div><span class="action-badge ${s.action==='BUY'?'buy-badge':'sell-badge'}">${s.action}</span></div>
       <div class="pair-cell">${s.pair||s.coin+'/USDC'}</div>
       <div class="reason-cell" title="${s.reason}">${s.reason}</div>
-      <div class="price-cell">$${entry > 100 ? entry.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}) : entry}</div>
+      <div class="price-cell">${entry===null ? "—" : "$"+(entry>100 ? entry.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2}) : entry)}</div>
       <div class="price-cell">${exit ? '$'+(exit > 100 ? exit.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}) : exit) : '—'}</div>
       <div class="pnl-cell" style="color:${pnlColor}">${pnlText}</div>
       <div class="pct-cell" style="color:var(--muted)">${s.date||''} ${s.time||''}</div>
@@ -448,11 +446,12 @@ async function loadBotData(){
 // Load live signals from GitHub on page load
 window.addEventListener('load', () => {
   loadSignals();
-  loadBotData();
-  fetchMarketMode();
+  // Legacy grid data and stats.json are not current Genesis authority.
+  const note=document.getElementById('botUpdated');
+  if(note)note.textContent='Historical grid records — live status not independently verified';
   setInterval(loadSignals, 60000);
-  setInterval(loadBotData, 30000);
-  setInterval(fetchMarketMode, 60000);
+  // Historical grid widget intentionally not refreshed as live performance.
+  // Archived stats.json is not a current market-regime source.
 });
 </script>
 <script src="empire.js"></script>

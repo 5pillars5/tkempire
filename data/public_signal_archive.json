@@ -1,0 +1,844 @@
+{
+  "schema_version": 1,
+  "description": "Redacted historical signal observations. Not current, not independently audited.",
+  "origin": "Legacy public data/signals.json",
+  "era": "June-July 2026",
+  "generated_for": "PUBLIC_ARCHIVE_ONLY",
+  "record_count": 139,
+  "records": [
+    {
+      "date": "Jul 14",
+      "asset": "ETH",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jul 10",
+      "asset": "OP",
+      "side": "BUY",
+      "recorded_outcome": "STALE"
+    },
+    {
+      "date": "Jul 04",
+      "asset": "DOGE",
+      "side": "BUY",
+      "recorded_outcome": "STALE"
+    },
+    {
+      "date": "Jun 21",
+      "asset": "INJ",
+      "side": "BUY",
+      "recorded_outcome": "STALE"
+    },
+    {
+      "date": "Jun 21",
+      "asset": "AVAX",
+      "side": "BUY",
+      "recorded_outcome": "STALE"
+    },
+    {
+      "date": "Jul 09",
+      "asset": "DOT",
+      "side": "SELL",
+      "recorded_outcome": "STALE"
+    },
+    {
+      "date": "Jun 29",
+      "asset": "APT",
+      "side": "SELL",
+      "recorded_outcome": "STALE"
+    },
+    {
+      "date": "Jun 29",
+      "asset": "LINK",
+      "side": "SELL",
+      "recorded_outcome": "STALE"
+    },
+    {
+      "date": "Jun 25",
+      "asset": "SOL",
+      "side": "SELL",
+      "recorded_outcome": "STALE"
+    },
+    {
+      "date": "Jun 25",
+      "asset": "TIA",
+      "side": "SELL",
+      "recorded_outcome": "STALE"
+    },
+    {
+      "date": "Jun 21",
+      "asset": "TIA",
+      "side": "BUY",
+      "recorded_outcome": "STALE"
+    },
+    {
+      "date": "Jun 21",
+      "asset": "ADA",
+      "side": "BUY",
+      "recorded_outcome": "STALE"
+    },
+    {
+      "date": "Jun 18",
+      "asset": "TRX",
+      "side": "BUY",
+      "recorded_outcome": "STALE"
+    },
+    {
+      "date": "Jun 18",
+      "asset": "ALGO",
+      "side": "BUY",
+      "recorded_outcome": "STALE"
+    },
+    {
+      "date": "Jun 18",
+      "asset": "ENS",
+      "side": "BUY",
+      "recorded_outcome": "STALE"
+    },
+    {
+      "date": "Jun 18",
+      "asset": "JUP",
+      "side": "BUY",
+      "recorded_outcome": "STALE"
+    },
+    {
+      "date": "Jun 18",
+      "asset": "ATOM",
+      "side": "BUY",
+      "recorded_outcome": "STALE"
+    },
+    {
+      "date": "Jul 14",
+      "asset": "APT",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jul 12",
+      "asset": "ETH",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jul 12",
+      "asset": "BNB",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jul 12",
+      "asset": "BNB",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jul 11",
+      "asset": "ETH",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jul 10",
+      "asset": "ETH",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jul 10",
+      "asset": "BNB",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jul 07",
+      "asset": "DOT",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jul 08",
+      "asset": "OP",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jul 07",
+      "asset": "ETH",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jul 07",
+      "asset": "APT",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jul 06",
+      "asset": "APT",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jul 06",
+      "asset": "OP",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jul 06",
+      "asset": "BNB",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jul 05",
+      "asset": "BNB",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jul 05",
+      "asset": "BNB",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jul 04",
+      "asset": "ETH",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jul 04",
+      "asset": "DOT",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jul 03",
+      "asset": "ETH",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jul 04",
+      "asset": "DOT",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jul 04",
+      "asset": "OP",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jul 04",
+      "asset": "ARB",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jul 04",
+      "asset": "DOGE",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jul 03",
+      "asset": "OP",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 21",
+      "asset": "BTC",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 21",
+      "asset": "SOL",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 29",
+      "asset": "BNB",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 18",
+      "asset": "APT",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jul 03",
+      "asset": "DOGE",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jul 03",
+      "asset": "DOT",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jul 02",
+      "asset": "OP",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jul 03",
+      "asset": "ETH",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jul 03",
+      "asset": "BNB",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jul 02",
+      "asset": "ADA",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jul 02",
+      "asset": "DOT",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jul 02",
+      "asset": "ARB",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jul 02",
+      "asset": "ETH",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jul 02",
+      "asset": "SOL",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jul 01",
+      "asset": "DOGE",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jul 01",
+      "asset": "BNB",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jul 01",
+      "asset": "BTC",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jul 01",
+      "asset": "APT",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 30",
+      "asset": "LINK",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 30",
+      "asset": "ETH",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 30",
+      "asset": "DOGE",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 30",
+      "asset": "APT",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 29",
+      "asset": "INJ",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 29",
+      "asset": "BTC",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 29",
+      "asset": "ETH",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 24",
+      "asset": "ADA",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 29",
+      "asset": "DOGE",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 21",
+      "asset": "DOGE",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 28",
+      "asset": "APT",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 28",
+      "asset": "DOT",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 28",
+      "asset": "ETH",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 28",
+      "asset": "BNB",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 27",
+      "asset": "OP",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 28",
+      "asset": "DOGE",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 28",
+      "asset": "LINK",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 28",
+      "asset": "ARB",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 27",
+      "asset": "ETH",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 27",
+      "asset": "APT",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 25",
+      "asset": "DOGE",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 25",
+      "asset": "LINK",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 27",
+      "asset": "BNB",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 27",
+      "asset": "DOT",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 27",
+      "asset": "LINK",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 25",
+      "asset": "DOT",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 21",
+      "asset": "XRP",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 26",
+      "asset": "APT",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 25",
+      "asset": "BNB",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 25",
+      "asset": "BTC",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 26",
+      "asset": "ARB",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 25",
+      "asset": "ETH",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 24",
+      "asset": "XRP",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 26",
+      "asset": "INJ",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 26",
+      "asset": "DOT",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 26",
+      "asset": "XRP",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 26",
+      "asset": "BNB",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 26",
+      "asset": "DOGE",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 26",
+      "asset": "ADA",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 26",
+      "asset": "ADA",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 26",
+      "asset": "INJ",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 25",
+      "asset": "BNB",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 25",
+      "asset": "SOL",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 25",
+      "asset": "BTC",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 25",
+      "asset": "ADA",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 25",
+      "asset": "XRP",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 25",
+      "asset": "DOT",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 25",
+      "asset": "DOGE",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 25",
+      "asset": "ARB",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 25",
+      "asset": "INJ",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 24",
+      "asset": "TIA",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 24",
+      "asset": "AVAX",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 24",
+      "asset": "ADA",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 24",
+      "asset": "ARB",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 24",
+      "asset": "XRP",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 24",
+      "asset": "INJ",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 24",
+      "asset": "TIA",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 24",
+      "asset": "AVAX",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 23",
+      "asset": "AVAX",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 23",
+      "asset": "TIA",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 22",
+      "asset": "TIA",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 22",
+      "asset": "TIA",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 22",
+      "asset": "TIA",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 21",
+      "asset": "LINK",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 21",
+      "asset": "AVAX",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 21",
+      "asset": "SOL",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 21",
+      "asset": "APT",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 21",
+      "asset": "BTC",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 20",
+      "asset": "ARB",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 20",
+      "asset": "APT",
+      "side": "SELL",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 20",
+      "asset": "AVAX",
+      "side": "SELL",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 18",
+      "asset": "TIA",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 18",
+      "asset": "HYPE",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 18",
+      "asset": "ENS",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 18",
+      "asset": "LDO",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 18",
+      "asset": "SUI",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 18",
+      "asset": "ALGO",
+      "side": "BUY",
+      "recorded_outcome": "LOSS"
+    },
+    {
+      "date": "Jun 18",
+      "asset": "ENS",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 18",
+      "asset": "TRX",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    },
+    {
+      "date": "Jun 18",
+      "asset": "WLD",
+      "side": "BUY",
+      "recorded_outcome": "WIN"
+    }
+  ]
+}

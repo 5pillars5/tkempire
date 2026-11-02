@@ -31,8 +31,8 @@ footer{padding:32px 0;color:#66667d;font-size:10px}.footer{display:flex;justify-
 <header class="hero">
   <div class="shell">
     <div class="eyebrow">Genesis Research Layer</div>
-    <h1>Research that is <span style="color:#f59e0b">actually alive.</span></h1>
-    <p>This page now follows the same canonical Genesis state as the Dashboard and Results pages. It separates internal Genesis reasoning from external experimental observations so you can see what the engine is thinking, what inputs are weighted, and whether outside research sources are healthy.</p>
+    <h1>Research with <span style="color:#f59e0b">verified source labels.</span></h1>
+    <p>This page now follows the same canonical Genesis state as the Dashboard and Results pages. The public view shows filtered paper-mode health and experimental research. Internal reasoning and indicator weights stay private until they have been reviewed.</p>
     <div class="warning"><strong>Research only.</strong> Nothing on this page grants execution authority. External observations can be stale, incomplete, rate-limited, or wrong. Genesis execution remains governed by separate gates.</div>
 
     <div class="status-grid">
@@ -47,17 +47,17 @@ footer{padding:32px 0;color:#66667d;font-size:10px}.footer{display:flex;justify-
 <section>
   <div class="shell">
     <div class="section-label">Live Genesis Intelligence</div>
-    <h2 class="section-title">Reasoning stream + adaptive weights</h2>
-    <p class="section-copy">These panels come directly from Genesis API endpoints, not from hard-coded website examples.</p>
+    <h2 class="section-title">Filtered status and private research</h2>
+    <p class="section-copy">Private reasoning and weight data are intentionally unavailable on the public website; the engine health summary is provided separately.</p>
 
     <div class="research-grid">
       <div class="panel">
-        <div class="panel-head"><div class="panel-title">🧠 Genesis Thought Stream</div><div class="badge live">5s REFRESH</div></div>
+        <div class="panel-head"><div class="panel-title">🧠 Genesis Thought Stream</div><div class="badge">PRIVATE</div></div>
         <div class="thoughts" id="thoughtStream"><div class="empty">Connecting to Genesis thoughts…</div></div>
       </div>
 
       <div class="panel">
-        <div class="panel-head"><div class="panel-title">🧬 Adaptive Indicator Weights</div><div class="badge">30s REFRESH</div></div>
+        <div class="panel-head"><div class="panel-title">🧬 Adaptive Indicator Weights</div><div class="badge">PRIVATE</div></div>
         <div class="weights" id="weightList"><div class="empty">Loading live weights…</div></div>
         <div class="feed-status" id="canonicalNote"><strong>Canonical authority:</strong> current mission and regime are loaded from /api/health. Performance state is loaded from /api/genesis/status.</div>
       </div>
@@ -97,11 +97,11 @@ async function getJSON(url){const r=await fetch(url+(url.includes('?')?'&':'?')+
 
 function syncHeader(state){
   const h=state.health||{},engine=h.engine||{},open=h.open_trades||{},trades=Array.isArray(open.trades)?open.trades:[];
-  document.getElementById('rEngine').textContent=(h.status||engine.mode||'ONLINE').toString().toUpperCase();
+  document.getElementById('rEngine').textContent=(h.status||engine.mode||'UNAVAILABLE').toString().toUpperCase();
   document.getElementById('rHealth').textContent='Health '+Number(h.health_score||0).toFixed(0)+'%';
   document.getElementById('rRegime').textContent=String(engine.regime||'UNKNOWN').toUpperCase();
-  document.getElementById('rOpen').textContent=String(trades.length);
-  document.getElementById('rOpenAssets').textContent=trades.length?trades.map(t=>String(t.coin||'ASSET').toUpperCase()+' '+String(t.action||'').toUpperCase()).join(' · '):'Genesis scanning';
+  document.getElementById('rOpen').textContent=Number.isSafeInteger(open.count)?String(open.count):'—';
+  document.getElementById('rOpenAssets').textContent=open.details_public===false?'Paper trade details private':trades.length?trades.map(t=>String(t.coin||'ASSET').toUpperCase()+' '+String(t.action||'').toUpperCase()).join(' · '):'Genesis scanning';
 }
 function attachLive(){if(window.GenesisLive){window.GenesisLive.subscribe(syncHeader);syncHeader(window.GenesisLive.getState())}else setTimeout(attachLive,100)}
 attachLive();
@@ -112,7 +112,7 @@ async function loadThoughts(){
     const d=await getJSON('/api/genesis-thoughts');
     const thoughts=Array.isArray(d.thoughts)?d.thoughts.slice().reverse():[];
     box.innerHTML=thoughts.length?thoughts.map(t=>'<div class="thought"><div class="thought-time">'+esc(t.timestamp||'')+'</div><div class="thought-msg">'+esc(t.message||'Genesis observation')+'</div><div class="thought-meta">'+esc(t.coin||'')+' '+esc(t.action||'')+(t.score!==undefined&&t.score!==null?' · Score '+esc(t.score):'')+'</div></div>').join(''):'<div class="empty">Genesis is waiting for the next research event.</div>';
-  }catch(e){box.innerHTML='<div class="empty">Genesis thought endpoint is temporarily unavailable.</div>'}
+  }catch(e){box.innerHTML='<div class="empty">Private Genesis reasoning is not publicly available.</div>'}
 }
 async function loadWeights(){
   const box=document.getElementById('weightList');
@@ -120,7 +120,7 @@ async function loadWeights(){
     const d=await getJSON('/api/genesis-weights');
     const ws=Array.isArray(d.weights)?d.weights:[];
     box.innerHTML=ws.length?ws.map(w=>{const val=Number(w.weight||0),pct=Math.max(4,Math.min(100,val*50)),name=String(w.name||'').replaceAll('_',' ').replace(/\b\w/g,x=>x.toUpperCase());return '<div><div class="weight-top"><span class="weight-name">'+esc(name)+'</span><span class="weight-val">'+val.toFixed(3)+'</span></div><div class="track"><div class="fill" style="width:'+pct+'%"></div></div></div>'}).join(''):'<div class="empty">No live weight data available.</div>';
-  }catch(e){box.innerHTML='<div class="empty">Genesis weight endpoint is temporarily unavailable.</div>'}
+  }catch(e){box.innerHTML='<div class="empty">Private strategy weights are not publicly available.</div>'}
 }
 async function loadExternal(){
   try{

@@ -542,7 +542,7 @@ body.private-mode .view-private{display:block;}
 <body>
 
 <script>
-const TK_API_DASHBOARD = 'data/dashboard.json';
+const TK_API_DASHBOARD = '/api/genesis/status';
 </script>
 
 
@@ -551,9 +551,9 @@ const TK_API_DASHBOARD = 'data/dashboard.json';
     <div class="v3-panel">
       <div class="v3-kicker">Empire Adaptive Intelligence</div>
       <div class="v3-title">TK Empire Command Center</div>
-      <div class="v3-sub">A live operating window into the EAI engine: market regime, performance, open signals, learning state, and AI reasoning.</div>
+      <div class="v3-sub">Read-only paper-validation summary. API availability does not verify execution, and private trade details are withheld.</div>
       <div class="v3-badges">
-        <div class="v3-badge live">● OBSERVING</div>
+        <div class="v3-badge" id="genesis-connection-badge" aria-live="polite">GENESIS: CHECKING</div>
         <div class="v3-badge beta">PRIVATE BETA</div>
         <div class="v3-badge" id="v3RegimeBadge">REGIME: --</div>
         <div class="v3-badge" id="v3Updated">UPDATED: --</div>
@@ -561,19 +561,19 @@ const TK_API_DASHBOARD = 'data/dashboard.json';
     </div>
 
     <div class="v3-panel">
-      <div class="v3-kicker">Next Scan</div>
-      <div id="v3ScanTimer" style="font-size:54px;font-weight:950;color:#f5c542;margin-top:8px;">02:00</div>
-      <div class="v3-sub">The public command center refreshes every 30 seconds. The engine scan cycle runs continuously on the VPS.</div>
+      <div class="v3-kicker">Next Public Refresh</div>
+      <div id="v3ScanTimer" style="font-size:54px;font-weight:950;color:#f5c542;margin-top:8px;">00:30</div>
+      <div class="v3-sub">Public API is polled every 30 seconds. This is not an execution timer.</div>
     </div>
   </div>
 
   <div class="v3-metrics">
-    <div class="v3-metric"><span>Engine</span><strong id="v3Engine">ONLINE</strong></div>
-    <div class="v3-metric"><span>Mode</span><strong>Beta</strong></div>
+    <div class="v3-metric"><span>Engine</span><strong id="v3Engine">—</strong></div>
+    <div class="v3-metric"><span>Trading Mode</span><strong id="v3Mode">—</strong></div>
     <div class="v3-metric"><span>Signals</span><strong id="v3Signals">--</strong></div>
     <div class="v3-metric"><span>Win Rate</span><strong id="v3WinRate">--</strong></div>
-    <div class="v3-metric"><span>Total PnL</span><strong id="v3Pnl">--</strong></div>
-    <div class="v3-metric"><span>Learning</span><strong>Active</strong></div>
+    <div class="v3-metric"><span>Paper PnL*</span><strong id="v3Pnl">--</strong></div>
+    <div class="v3-metric"><span>Learning Data</span><strong>Private</strong></div>
   </div>
 
   <div class="v3-grid2">
@@ -584,18 +584,14 @@ const TK_API_DASHBOARD = 'data/dashboard.json';
 
     <div class="v3-panel">
       <div class="v3-kicker">Strategy Radar</div>
-      <div id="v3Radar" style="margin-top:14px;">
-        <div class="v3-radar-row"><span>Trend</span><div class="v3-bar"><div class="v3-fill" style="width:80%"></div></div><b>80</b></div>
-        <div class="v3-radar-row"><span>Momentum</span><div class="v3-bar"><div class="v3-fill" style="width:65%"></div></div><b>65</b></div>
-        <div class="v3-radar-row"><span>Funding</span><div class="v3-bar"><div class="v3-fill" style="width:55%"></div></div><b>55</b></div>
-        <div class="v3-radar-row"><span>Fear/Greed</span><div class="v3-bar"><div class="v3-fill" style="width:70%"></div></div><b>70</b></div>
-        <div class="v3-radar-row"><span>Memory</span><div class="v3-bar"><div class="v3-fill" style="width:60%"></div></div><b>60</b></div>
+      <div id="v3Radar" style="margin-top:14px;color:#c0b8d1;line-height:1.7;">
+        Indicator weights and scores are private during paper validation. No live strategy radar is publicly published.
       </div>
     </div>
   </div>
 
   <div class="v3-panel" style="margin-top:18px;">
-    <div class="v3-kicker">Live Open Signals</div>
+    <div class="v3-kicker">Private Paper Signals</div>
     <div id="v3OpenSignals" style="margin-top:12px;">Loading open signals...</div>
   </div>
 </section>
@@ -603,18 +599,18 @@ const TK_API_DASHBOARD = 'data/dashboard.json';
 
 <section class="eai-command-center" style="padding:60px 20px;background:#05050d;border-top:1px solid #2a2347;border-bottom:1px solid #2a2347;">
   <div style="max-width:1200px;margin:0 auto;">
-    <h2 style="color:#f5c542;text-align:center;font-size:34px;margin-bottom:10px;">LIVE EAI COMMAND CENTER</h2>
-    <p style="color:#9ca3af;text-align:center;margin-bottom:32px;">Real-time intelligence from the TK Empire adaptive signal engine.</p>
+    <h2 style="color:#f5c542;text-align:center;font-size:34px;margin-bottom:10px;">EAI PAPER VALIDATION</h2>
+    <p style="color:#9ca3af;text-align:center;margin-bottom:32px;">Public paper-research metrics are separate from account profitability and execution authority.</p>
 
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;">
-      <div class="dash-card"><span>Engine</span><strong id="eaiEngine">ONLINE</strong></div>
+      <div class="dash-card"><span>Engine</span><strong id="eaiEngine">—</strong></div>
       <div class="dash-card"><span>Regime</span><strong id="eaiRegime2">--</strong></div>
       <div class="dash-card"><span>Signals</span><strong id="eaiSignals2">--</strong></div>
       <div class="dash-card"><span>Win Rate</span><strong id="eaiWinRate2">--</strong></div>
-      <div class="dash-card"><span>Total PnL</span><strong id="eaiPnl2">--</strong></div>
+      <div class="dash-card"><span>Paper PnL*</span><strong id="eaiPnl2">--</strong></div>
       <div class="dash-card"><span>Min Score</span><strong id="eaiMinScore">--</strong></div>
       <div class="dash-card"><span>Min Gap</span><strong id="eaiMinGap">--</strong></div>
-      <div class="dash-card"><span>Learning</span><strong>ACTIVE</strong></div>
+      <div class="dash-card"><span>Learning Data</span><strong>PRIVATE</strong></div>
     </div>
 
     <div style="margin-top:28px;background:#080816;border:1px solid #2a2347;border-radius:22px;padding:24px;">
@@ -632,20 +628,7 @@ const TK_API_DASHBOARD = 'data/dashboard.json';
 </style>
 
 
-<!-- LOCK SCREEN -->
-<div id="lockScreen" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(6,6,15,0.98);z-index:99999;align-items:center;justify-content:center;">
-  <div style="background:#0d0d1f;border:1px solid #2a2a5a;border-radius:16px;padding:40px;width:300px;text-align:center;">
-    <img src="https://i.imgur.com/Kf99eJt.jpeg" style="width:60px;height:60px;border-radius:12px;object-fit:cover;margin:0 auto 16px;display:block;"/>
-    <h3 style="font-size:18px;font-weight:800;margin-bottom:6px;">Private Dashboard</h3>
-    <p style="font-size:12px;color:#6B7280;margin-bottom:20px;">Enter your PIN to access</p>
-    <input type="password" id="pinInput" placeholder="Enter PIN" maxlength="6"
-      style="width:100%;background:#12122a;border:1px solid #2a2a4a;border-radius:8px;padding:11px 14px;color:#e2e2f0;font-size:18px;outline:none;text-align:center;letter-spacing:0.3em;margin-bottom:12px;display:block;"/>
-    <button id="pinBtn" style="width:100%;padding:12px;border-radius:8px;border:none;background:linear-gradient(135deg,#7C3AED,#4f46e5);color:#fff;font-size:14px;font-weight:700;cursor:pointer;">
-      ⚡ Access Empire
-    </button>
-    <div id="lockError" style="font-size:11px;color:#ff4b6e;margin-top:10px;display:none;">Wrong PIN. Try again.</div>
-  </div>
-</div>
+<!-- Private access requires server-side authorization. Browser PIN removed. -->
 
 <!-- NAV -->
 <nav>
@@ -656,12 +639,9 @@ const TK_API_DASHBOARD = 'data/dashboard.json';
       <div class="nav-brand-tag">COMMAND CENTER</div>
     </div>
   </div>
-  <div class="nav-center">
-    <button class="nav-tab active" onclick="setView('public',this)">📊 Public View</button>
-    <button class="nav-tab" onclick="setView('private',this)">🔒 Private View</button>
-  </div>
+  <div class="nav-center"><span style="font-size:11px;color:var(--gold)">PAPER VALIDATION · READ ONLY</span></div>
   <div class="nav-right">
-    <div class="live-pill"><span class="live-dot"></span>LIVE</div>
+    <div class="live-pill" id="genesis-nav-status" aria-live="polite" style="background:#17172c;border-color:#854d0e;color:#f5c542;">GENESIS: CHECKING</div>
     <div id="modePill" style="display:flex;align-items:center;gap:5px;border-radius:20px;padding:4px 10px;font-size:10px;font-weight:700;background:#150a2a;border:1px solid #2a1a4a;color:#A78BFA;">⚙️ —</div>
     <div style="font-size:11px;color:var(--muted)" id="lastUpdated">Updating...</div>
   </div>
@@ -813,7 +793,7 @@ const TK_API_DASHBOARD = 'data/dashboard.json';
   <div class="genesis-brain__header">
     <div>
       <div class="genesis-brain__title">Genesis Neural Core</div>
-      <div class="neural-sub">Live adaptive intelligence network</div>
+      <div class="neural-sub">Read-only research visualization</div>
     </div>
     <div id="genesis-brain-status" class="genesis-brain__status">CONNECTING</div>
   </div>
@@ -850,7 +830,7 @@ const TK_API_DASHBOARD = 'data/dashboard.json';
   <section class="neural-map">
     <div class="neural-header">
       <div class="neural-title">Genesis Neural Map</div>
-      <div class="neural-sub">Live adaptive indicator weights</div>
+      <div class="neural-sub">Private indicator weights</div>
     </div>
     <div id="neuralWeights">
       <div class="neural-empty">Loading Genesis weights...</div>
@@ -903,7 +883,7 @@ const TK_API_DASHBOARD = 'data/dashboard.json';
 
 
 <div class="genesis-thought-stream" style="margin:24px 0;padding:20px;border-radius:16px;background:#0f172a;border:1px solid rgba(168,85,247,.25);">
-<h3 style="margin:0 0 14px;color:#fff;">Genesis Live Thought Stream</h3>
+<h3 style="margin:0 0 14px;color:#fff;">Private Genesis Thought Stream</h3>
 
 <div id="genesis-thoughts"
 style="
@@ -929,9 +909,9 @@ Waiting for Genesis...
   <div class="view-public">
 
     <div class="public-hero">
-      <div style="font-size:10px;color:var(--purple-light);letter-spacing:0.2em;font-weight:600;margin-bottom:10px;">EMPIRE SIGNALS · LIVE PERFORMANCE</div>
+      <div style="font-size:10px;color:var(--purple-light);letter-spacing:0.2em;font-weight:600;margin-bottom:10px;">EMPIRE SIGNALS · PAPER VALIDATION</div>
       <h1>TK Empire <span style="background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Command Center</span></h1>
-      <p>Real-time performance data. Every win and loss documented. This is what systematic trading looks like.</p>
+      <p>Read-only paper-validation metrics, with historical observations labeled separately from fresh API status.</p>
       <a href="join.html" style="display:inline-block;background:linear-gradient(135deg,var(--purple),#4f46e5);color:#fff;padding:12px 28px;border-radius:9px;font-size:13px;font-weight:700;">Private Beta Status</a>
     </div>
 
@@ -1013,14 +993,14 @@ Waiting for Genesis...
     <!-- PUBLIC BOT SUMMARY -->
     <div class="grid-3">
       <div class="card">
-        <div class="card-header"><div class="card-title">🤖 Grid Bot Status</div><div style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--green)"><span class="live-dot"></span>Running</div></div>
+        <div class="card-header"><div class="card-title">🤖 Historical Grid Archive</div><div style="font-size:10px;color:var(--gold)">NOT LIVE</div></div>
         <div class="card-body">
           <div class="mini-stats">
             <div class="mini-row"><span class="mini-label">Pair</span><span class="mini-val">ETH/USDT</span></div>
             <div class="mini-row"><span class="mini-label">Grid P&L</span><span class="mini-val" style="color:var(--green)" id="pub-gp">—</span></div>
             <div class="mini-row"><span class="mini-label">Total Cycles</span><span class="mini-val" id="pub-tc">—</span></div>
             <div class="mini-row"><span class="mini-label">Running</span><span class="mini-val" id="pub-rt">—</span></div>
-            <div class="mini-row"><span class="mini-label">Status</span><span class="mini-val" style="color:var(--green)">🟢 Active</span></div>
+            <div class="mini-row"><span class="mini-label">Status</span><span class="mini-val" style="color:var(--green)">ARCHIVED</span></div>
           </div>
         </div>
       </div>
@@ -1055,115 +1035,16 @@ Waiting for Genesis...
 
   </div><!-- /view-public -->
 
-  <!-- ══════════════════════════════════════ -->
-  <!-- PRIVATE VIEW -->
-  <!-- ══════════════════════════════════════ -->
-  <div class="view-private">
+  <!-- Private broker and account details are not shipped in the public page. -->
 
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-      <span class="private-badge">👑 PRIVATE</span>
-      <span style="font-size:11px;color:var(--muted)">Full Empire Command Center — Confidential</span>
-      <span style="margin-left:auto;font-size:10px;color:var(--muted)" id="priv-updated">—</span>
-    </div>
-
-    <!-- PRIVATE STATS -->
-    <div class="stats-row">
-      <div class="stat green">
-        <div class="stat-val" id="priv-totalprofit" style="color:var(--green)">—</div>
-        <div class="stat-label">Total P&L</div>
-        <div class="stat-sub">Grid + Trend</div>
-      </div>
-      <div class="stat gold">
-        <div class="stat-val" id="priv-gridprofit" style="color:var(--gold)">—</div>
-        <div class="stat-label">Grid Profit</div>
-        <div class="stat-sub" id="priv-gridpct">—</div>
-      </div>
-      <div class="stat purple">
-        <div class="stat-val" id="priv-capital" style="color:var(--purple-light)">—</div>
-        <div class="stat-label">Capital</div>
-        <div class="stat-sub">Deployed</div>
-      </div>
-      <div class="stat eth">
-        <div class="stat-val" id="priv-cycles" style="color:var(--eth)">—</div>
-        <div class="stat-label">Cycles</div>
-        <div class="stat-sub" id="priv-cycles24">—</div>
-      </div>
-      <div class="stat red">
-        <div class="stat-val" id="priv-liq" style="color:var(--red)">—</div>
-        <div class="stat-label">Liq Price</div>
-        <div class="stat-sub" id="priv-liqdist">—</div>
-      </div>
-      <div class="stat green">
-        <div class="stat-val" id="priv-position" style="color:var(--green)">—</div>
-        <div class="stat-label">Position</div>
-        <div class="stat-sub">ETH Long</div>
-      </div>
-    </div>
-
-    <!-- PRIVATE MAIN CHARTS -->
-    <div class="grid-7-5">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">📈 ETH/USD Live Chart</div>
-          <div style="display:flex;gap:6px;" id="tfBtns">
-            <button onclick="setTF('1',this)" style="padding:3px 8px;border-radius:4px;border:none;background:#1a1a3a;color:var(--text);font-size:9px;cursor:pointer;" class="tf active">1H</button>
-            <button onclick="setTF('4',this)" style="padding:3px 8px;border-radius:4px;border:none;background:transparent;color:var(--muted);font-size:9px;cursor:pointer;" class="tf">4H</button>
-            <button onclick="setTF('24',this)" style="padding:3px 8px;border-radius:4px;border:none;background:transparent;color:var(--muted);font-size:9px;cursor:pointer;" class="tf">1D</button>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="chart-wrap" style="height:220px;"><canvas id="privEthChart"></canvas></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header"><div class="card-title">📏 Live Grid Levels</div><div style="font-size:10px;color:var(--muted)" id="priv-range">—</div></div>
-        <div class="card-body" id="privGridLevels"></div>
-      </div>
-    </div>
-
-    <!-- PRIVATE ROW 2 -->
-    <div class="grid-5-7">
-      <div class="card">
-        <div class="card-header"><div class="card-title">⚡ Bot Health</div></div>
-        <div class="card-body">
-          <div class="mini-stats">
-            <div class="mini-row"><span class="mini-label">Status</span><span class="mini-val" style="color:var(--green)">🟢 Running</span></div>
-            <div class="mini-row"><span class="mini-label">Running Time</span><span class="mini-val" id="priv-runtime">—</span></div>
-            <div class="mini-row"><span class="mini-label">Capital Deployed</span><span class="mini-val" id="priv-cap2">—</span></div>
-            <div class="mini-row"><span class="mini-label">Extra Margin</span><span class="mini-val">$278.15</span></div>
-            <div class="mini-row"><span class="mini-label">Grid Levels</span><span class="mini-val">60</span></div>
-            <div class="mini-row"><span class="mini-label">Grid Type</span><span class="mini-val">Arithmetic</span></div>
-            <div class="mini-row"><span class="mini-label">Direction</span><span class="mini-val" style="color:var(--green)">15x Long</span></div>
-            <div class="mini-row"><span class="mini-label">24H Cycles</span><span class="mini-val" id="priv-24h">—</span></div>
-            <div class="mini-row"><span class="mini-label">Liq Distance</span><span class="mini-val" id="priv-liqdist2" style="color:var(--green)">—</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header"><div class="card-title">📋 Signal Log</div><div style="font-size:10px;color:var(--muted)" id="priv-sigcount">—</div></div>
-        <div class="sig-row sig-head">
-          <div>Action</div><div>Pair</div><div>Reason</div><div>Entry</div><div>P&L</div><div>Result</div>
-        </div>
-        <div id="priv-signalLog"></div>
-      </div>
-    </div>
-
-    <!-- PRIVATE ROW 3 — MARKET OVERVIEW -->
-    <div class="card" style="margin-bottom:12px;">
-      <div class="card-header"><div class="card-title">🌐 Market Overview — 20 Pairs</div></div>
-      <div class="card-body">
-        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;" id="marketGrid"></div>
-      </div>
-    </div>
-
-  </div><!-- /view-private -->
 
 </div>
 
 <script>
 // ── CONFIG ──
-const PIN = '1111'; // Change this to your actual PIN
-const GH_BASE = 'https://raw.githubusercontent.com/5pillars5/tkempire/main';
+// Private-mode PIN is not embedded in public HTML.
+const GH_BASE = ''; // Never fetch private historical strategy data from GitHub.
+// ARCHIVED data only. Never use historical grid values as current execution evidence.
 const PAIRS_20 = ['BTC','ETH','SOL','XRP','BNB','DOGE','ADA','AVAX','LINK','DOT','MATIC','UNI','ATOM','LTC','BCH','APT','ARB','OP','INJ','SUI'];
 
 let ethPriceGlobal = 0;
@@ -1173,63 +1054,21 @@ let equityChartObj = null;
 let ethChartObj = null;
 let ethMiniChartObj = null;
 
-// ── PIN SYSTEM ──
-function checkPin(){
-  const val = document.getElementById('pinInput').value;
-  if(val === PIN){
-    document.getElementById('lockScreen').style.display = 'none';
-    document.body.classList.add('private-mode');
-    document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
-    document.querySelectorAll('.nav-tab')[1].classList.add('active');
-    loadPrivateData();
-  } else {
-    document.getElementById('lockError').style.display = 'block';
-    document.getElementById('pinInput').value = '';
-    setTimeout(()=>{ document.getElementById('lockError').style.display='none'; }, 2000);
-  }
-}
-
-// ── VIEW TOGGLE ──
-function setView(view, btn){
-  document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  if(view === 'private'){
-    if(!document.body.classList.contains('private-mode')){
-      const ls = document.getElementById('lockScreen');
-      ls.style.display = 'flex';
-      setTimeout(()=>{ document.getElementById('pinInput').focus(); }, 100);
-    }
-  } else {
-    document.body.classList.remove('private-mode');
-  }
-}
-
-// Wire up PIN button and Enter key after DOM loads
-document.addEventListener('DOMContentLoaded', function(){
-  document.getElementById('pinBtn').addEventListener('click', checkPin);
-  document.getElementById('pinInput').addEventListener('keydown', function(e){
-    if(e.key === 'Enter') checkPin();
-  });
-});
-
+// No browser-side private access. Server-side authentication is required.
 // ── FETCH PORTFOLIO ──
 async function fetchPortfolio(){
   try {
-    const r = await fetch(GH_BASE + '/data/portfolio.json?t=' + Date.now());
-    portfolioData = await r.json();
-    updatePublicBot();
-    updatePrivateBot();
+    portfolioData = null;
+    // Detailed legacy portfolio is private. Do not fetch or simulate live bot state.
   } catch(e){ console.log('Portfolio error:', e); }
 }
 
 // ── FETCH SIGNALS ──
 async function fetchSignals(){
   try {
-    const r = await fetch(GH_BASE + '/data/signals.json?t=' + Date.now());
-    signalsData = await r.json();
-    renderPublicSignals();
-    renderPrivateSignals();
-    updateSignalStats();
+    signalsData = [];
+    const panel=document.getElementById('pub-signalLog');
+    if(panel)panel.textContent='Individual research signals are private. Public aggregate paper statistics appear above.';
   } catch(e){ console.log('Signals error:', e); }
 }
 
@@ -1338,6 +1177,10 @@ async function buildMarketGrid(priceData){
 
 // ── CHARTS ──
 function buildEquityChart(currentPnl, capital){
+  // Historical plotting was synthetic; do not present invented returns as telemetry.
+  const container=document.getElementById('equityChart');
+  if(container){container.style.display='none';const parent=container.parentElement;if(parent&&!parent.querySelector('.archive-equity-note')){const note=document.createElement('div');note.className='archive-equity-note';note.textContent='Equity curve unavailable: no verified historical series has been supplied.';note.style.cssText='color:#f5c542;padding:32px 12px;text-align:center';parent.append(note);}}
+  return;
   const ctx = document.getElementById('equityChart');
   if(!ctx) return;
   // Simulate equity curve building to current profit
@@ -1425,9 +1268,10 @@ function setEl(id, val){
 // ── MARKET MODE ──
 async function fetchMarketMode(){
   try {
-    const r = await fetch('https://raw.githubusercontent.com/5pillars5/tkempire/main/stats.json?t='+Date.now());
+    const r = await fetch('/api/genesis/status?cached=' + Date.now(), {cache:'no-store'});
+    if(!r.ok)throw new Error('Paper performance unavailable');
     const d = await r.json();
-    const mode = (d.market_mode||'bull').toUpperCase();
+    const mode = String(d.engine?.regime || 'UNKNOWN').toUpperCase();
     const pairs = d.pairs||20;
     const el = null; // LIVE_HEALTH_REGIME_SYNC
     if(el){
@@ -1438,12 +1282,12 @@ async function fetchMarketMode(){
       el.style.borderColor = color+'66';
     }
     // Also update public stats
-    const s = d.stats||{};
-    const total = (s.wins||0)+(s.losses||0);
-    const wr = total>0?Math.round(s.wins/total*100):0;
+    const s = d.performance||{};
+    const total = Number(s.trades||0);
+    const wr = Number(s.win_rate||0);
     setEl('pub-winrate', wr+'%');
     setEl('pub-wr2', wr+'%');
-    setEl('pub-signals', (total+(d.stats?.signals||0)).toString());
+    setEl('pub-signals', String(total));
     setEl('pub-wins', (s.wins||0).toString());
     setEl('pub-losses', (s.losses||0).toString());
   } catch(e){}
@@ -1475,13 +1319,13 @@ async function loadDashboardJson(){
       if(el) el.textContent = val;
     };
 
-    set('eaiEngine', d.engine || 'ONLINE');
+    set('eaiEngine', d.engine?.running ? 'PAPER ACTIVE' : 'UNAVAILABLE');
       // LIVE_HEALTH_REGIME_SYNC: managed by loadEmpireOperations()
-    set('eaiSignals2', d.signals ?? '--');
-    set('eaiWinRate2', d.win_rate !== undefined ? d.win_rate + '%' : '--');
-    set('eaiPnl2', d.total_pnl !== undefined ? ((d.total_pnl >= 0 ? '+' : '') + d.total_pnl) : '--');
-    set('eaiMinScore', d.min_score ?? '--');
-    set('eaiMinGap', d.min_gap ?? '--');
+    set('eaiSignals2', d.performance?.trades ?? '--');
+    set('eaiWinRate2', d.performance?.win_rate != null ? d.performance.win_rate + '%' : '--');
+    set('eaiPnl2', d.performance?.total_pnl != null ? ((d.performance.total_pnl >= 0 ? '+' : '') + d.performance.total_pnl) + ' paper units' : '--');
+    set('eaiMinScore', 'Private');
+    set('eaiMinGap', 'Private');
 
     const feed = document.getElementById('eaiBrainFeed');
     if(feed && Array.isArray(d.brain)){
@@ -1497,10 +1341,10 @@ setInterval(loadDashboardJson, 30000);
 </script>
 \n
 <script>
-let v3ScanSeconds = 120;
+let v3ScanSeconds = 30;
 function v3Tick(){
   v3ScanSeconds--;
-  if(v3ScanSeconds < 0) v3ScanSeconds = 120;
+  if(v3ScanSeconds < 0) v3ScanSeconds = 30;
   const m = String(Math.floor(v3ScanSeconds/60)).padStart(2,'0');
   const sec = String(v3ScanSeconds%60).padStart(2,'0');
   const el = document.getElementById('v3ScanTimer');
@@ -1510,25 +1354,25 @@ setInterval(v3Tick,1000);
 
 async function loadEaiV3(){
   try{
-    const res = await fetch(TK_API_DASHBOARD + '?cache=' + Date.now());
+    const res = await fetch(TK_API_DASHBOARD + '?cache=' + Date.now(), {cache:'no-store'});
+    if(!res.ok) throw new Error('Paper performance unavailable');
     const d = await res.json();
+    if(d.engine?.mode !== 'paper' || d.source !== 'GENESIS_PAPER_AGGREGATE') throw new Error('Unexpected source');
     const set=(id,v)=>{const el=document.getElementById(id); if(el) el.textContent=v;};
 
-    set('v3Engine', d.engine || 'ONLINE');
-    set('v3Signals', d.signals ?? '--');
-    set('v3WinRate', d.win_rate !== undefined ? d.win_rate + '%' : '--');
-    set('v3Pnl', d.total_pnl !== undefined ? ((d.total_pnl >= 0 ? '+' : '') + d.total_pnl) : '--');
+    set('v3Mode', 'PAPER');
+    set('v3Engine', d.engine?.running ? 'PAPER ACTIVE' : 'PAPER STOPPED');
+    set('v3Signals', d.performance?.trades ?? '--');
+    set('v3WinRate', d.performance?.win_rate != null ? d.performance.win_rate + '%' : '--');
+    set('v3Pnl', d.performance?.total_pnl != null ? ((d.performance.total_pnl >= 0 ? '+' : '') + d.performance.total_pnl) + ' paper units' : '--');
       // LIVE_HEALTH_REGIME_SYNC: managed by loadEmpireOperations()
       // LIVE_HEALTH_REGIME_SYNC: managed by loadEmpireOperations()
     const brain=document.getElementById('v3BrainFeed');
-    if(brain){
-      const lines = Array.isArray(d.brain) ? d.brain : [];
-      brain.innerHTML = lines.map(x=>`<div class="v3-brain-line">${x}</div>`).join('') || '<div class="v3-brain-line">EAI learning active.</div>';
-    }
+    if(brain) brain.textContent='Private research reasoning is not published. The figures shown are aggregate paper-validation data.';
 
     const open=document.getElementById('v3OpenSignals');
     if(open){
-      const sigs = (await fetchLiveEmpireTrades()).slice(0, 8);
+      const sigs = [];
       open.innerHTML = sigs.length ? sigs.map(s=>{
         const action = String(s.action || '--').toUpperCase();
         const conf = s.confidence || s.score || '--';
@@ -1540,11 +1384,15 @@ async function loadEaiV3(){
           <div><div class="v3-coin">${s.coin || '--'} / USDC · ${entryFmt}</div><div class="v3-reason">${reason}</div></div>
           <div class="v3-conf">${conf}/100</div>
         </div>`;
-      }).join('') : '<div class="v3-brain-line">No open signals right now. EAI is waiting.</div>';
+      }).join('') : '<div class="v3-brain-line">Private paper trade details are not displayed.</div>';
     }
   }catch(e){
+    for(const id of ['v3Mode','v3Engine','v3Signals','v3WinRate','v3Pnl']){
+      const el=document.getElementById(id);
+      if(el) el.textContent='—';
+    }
     const brain=document.getElementById('v3BrainFeed');
-    if(brain) brain.innerHTML='<div class="v3-brain-line">Dashboard data unavailable.</div>';
+    if(brain) brain.textContent='Paper validation summary unavailable.';
   }
 }
 loadEaiV3();
@@ -1615,11 +1463,12 @@ async function fetchLiveEmpireTrades(){
 async function loadOpenTradeStatus(){
   try{
     const res = await fetch('/api/health?cache=' + Date.now());
+    if(!res.ok) throw new Error('Paper health unavailable');
     const d = await res.json();
     const trades = Array.isArray(d.open_trades?.trades) ? d.open_trades.trades : [];
 
     const count = document.getElementById('openTradeCount');
-    if(count) count.textContent = trades.length;
+    if(count) count.textContent = Number.isSafeInteger(d.open_trades?.count) ? d.open_trades.count : '—';
 
     const box = document.getElementById('openTradeCards');
     if(!box) return;
@@ -1694,18 +1543,19 @@ setInterval(loadOpenTradeStatus, 30000);
 async function loadEngineHealth(){
   try{
     const res = await fetch(TK_API_DASHBOARD + '?cache=' + Date.now());
+    if(!res.ok) throw new Error('Paper performance unavailable');
     const d = await res.json();
 
-    const openCount = (await fetchLiveEmpireTrades()).length;
-    const regime = String(d.regime || 'learning').toUpperCase();
-    const engine = d.engine || 'ONLINE';
-    const learning = d.learning || 'ACTIVE';
-    const updated = d.updated_at || '--';
+    const healthRes = await fetch('/api/health?cache=' + Date.now(), {cache:'no-store'});
+    if(!healthRes.ok) throw new Error('Health unavailable');
+    const healthData = await healthRes.json();
+    const openCount = Number.isSafeInteger(healthData.open_trades?.count) ? healthData.open_trades.count : '—';
+    const regime = String(healthData.engine?.regime || 'UNKNOWN').toUpperCase();
+    const engine = healthData.engine?.running ? 'PAPER ACTIVE' : 'UNAVAILABLE';
+    const learning = 'NOT PUBLIC';
+    const updated = healthData.served_at || '--';
 
-    let health = 92;
-    if(engine !== 'ONLINE') health -= 40;
-    if(!d.updated_at) health -= 10;
-    health = Math.max(0, Math.min(100, health));
+    const health = typeof healthData.health_score === 'number' ? healthData.health_score : 0;
 
     const score = document.getElementById('engineHealthScore');
     const bar = document.getElementById('engineHealthBar');
@@ -1719,10 +1569,10 @@ async function loadEngineHealth(){
         ['Engine', engine, '#00ffc8'],
         ['Learning', learning, '#f5c542'],
         ['Regime', regime, '#f5c542'],
-        ['Open Trades', openCount, '#fff'],
-        ['Signals', d.signals ?? '--', '#fff'],
-        ['Win Rate', d.win_rate !== undefined ? d.win_rate + '%' : 'Validation', '#fff'],
-        ['Min Score', d.min_score ?? '--', '#fff'],
+        ['Reported Paper Open', openCount, '#fff'],
+        ['Paper Trades', d.performance?.trades ?? '--', '#fff'],
+        ['Paper Win Rate', d.performance?.win_rate != null ? d.performance.win_rate + '%' : 'Unavailable', '#fff'],
+        ['Strategy Threshold', 'Private', '#fff'],
         ['Last Update', updated, '#9ca3af']
       ];
 
@@ -1765,41 +1615,12 @@ setInterval(loadEngineHealth, 30000);
 async function loadDecisionTimeline(){
   try{
     const res = await fetch(TK_API_DASHBOARD + '?cache=' + Date.now());
+    if(!res.ok) throw new Error('Paper status unavailable');
     const d = await res.json();
     const feed = document.getElementById('decisionTimelineFeed');
     if(!feed) return;
 
-    const events = [];
-
-    const open = await fetchLiveEmpireTrades();
-    open.slice(0,10).forEach(t=>{
-      events.push({
-        time: t.time || '--',
-        icon: t.action === 'SELL' ? '🔴' : '🟢',
-        title: `${t.coin || '--'} ${String(t.action || '').toUpperCase()} opened`,
-        detail: `Confidence ${t.confidence || '--'}/100 · ${t.reason || 'EAI setup detected'}`
-      });
-    });
-
-    if(d.regime){
-      events.push({
-        time: d.updated_at ? String(d.updated_at).split(' ')[1] || '--' : '--',
-        icon: '📈',
-        title: `Market regime detected: ${String(d.regime).toUpperCase()}`,
-        detail: `Minimum score ${d.min_score || '--'} · Minimum gap ${d.min_gap || '--'}`
-      });
-    }
-
-    if(Array.isArray(d.brain)){
-      d.brain.slice(0,6).forEach(line=>{
-        events.push({
-          time: '--',
-          icon: '🧠',
-          title: line,
-          detail: 'EAI brain activity'
-        });
-      });
-    }
+    const events = [{time:'—',icon:'📋',title:'Private paper research',detail:'Individual strategy decisions, trade reasons and timeline events are not publicly published. Aggregate results are shown above.'}];
 
     if(!events.length){
       feed.innerHTML = '<div style="color:#9ca3af;">No decision events available.</div>';
@@ -1972,7 +1793,9 @@ setInterval(loadDecisionTimeline, 30000);
       const tradeList = Array.isArray(trades.trades) ? trades.trades : [];
       const tradePanel = document.getElementById('empire-active-trade');
 
-      if(tradeList.length){
+      if(trades.details_public===false){
+        tradePanel.textContent='Private paper missions. Health API reports '+(Number.isSafeInteger(trades.count)?trades.count:'unknown')+' open trade(s); details withheld.';
+      }else if(tradeList.length){
         const t = tradeList[0];
         const side = String(t.action || '--').toUpperCase();
         const sideClass = side === 'BUY' ? 'empire-buy' : 'empire-sell';
@@ -2008,11 +1831,11 @@ setInterval(loadDecisionTimeline, 30000);
         `;
       }else{
         tradePanel.innerHTML =
-          '<div class="empire-empty">No active mission.<br>Genesis is scanning for the next qualified setup.</div>';
+          '<div class="empire-empty">Trade details unavailable.</div>';
       }
 
       const missionState = document.getElementById('empire-mission-state');
-      missionState.textContent = c.engine ? 'SCANNING' : 'OFFLINE';
+      missionState.textContent = c.engine ? 'PAPER STATUS' : 'UNAVAILABLE';
       missionState.style.color = c.engine ? '#4ade80' : '#f87171';
 
       document.getElementById('empire-mission-sub').textContent =
@@ -2027,7 +1850,7 @@ setInterval(loadDecisionTimeline, 30000);
         String(engine.regime || '--').toUpperCase();
 
       document.getElementById('empire-mission-score').textContent =
-        engine.score_min ?? '--';
+        'Private';
 
       document.getElementById('empire-feed-altfins').textContent =
         feeds.altfins_parsed ? ageText(feeds.altfins_parsed.age_seconds) : 'Unavailable';
@@ -2069,37 +1892,37 @@ setInterval(loadDecisionTimeline, 30000);
         decisionNote.textContent =
           `${t.coin || 'Asset'} mission active. Genesis is monitoring TP1, TP2 and stop conditions.`;
       }else{
-        confidence = Number(engine.score_min || 0);
-        decision = 'WAIT';
+        confidence = null;
+        decision = 'PRIVATE';
         decisionColor = '#f59e0b';
 
         reasons = [
           'Genesis engine online',
           `Market regime: ${String(engine.regime || 'unknown').toUpperCase()}`,
-          `Minimum required score: ${engine.score_min ?? '--'}`,
-          'No qualified active trade'
+          `Minimum required score: ${'Private'}`,
+          'Individual paper-trade details withheld'
         ];
 
         decisionNote.textContent =
-          'No active mission. Genesis is scanning and preserving capital until conditions qualify.';
+          'Execution state is not verified through this public view.';
       }
 
       document.getElementById('genesis-confidence-value').textContent =
-        Math.round(confidence) + '%';
+        (confidence===null ? '—' : Math.round(confidence)+'%');
 
       document.getElementById('genesis-confidence-fill').style.width =
-        Math.max(0, Math.min(100, confidence)) + '%';
+        (confidence===null ? 0 : Math.max(0, Math.min(100, confidence))) + '%';
 
       document.getElementById('genesis-decision-regime').textContent =
         String(engine.regime || '--').toUpperCase();
 
       document.getElementById('genesis-decision-threshold').textContent =
-        engine.score_min ?? '--';
+        'Private';
 
       decisionStatus.textContent = decision;
       decisionStatus.style.color = decisionColor;
 
-      decisionBadge.textContent = c.engine ? 'LIVE' : 'OFFLINE';
+      decisionBadge.textContent = c.engine ? 'PAPER API' : 'UNAVAILABLE';
       decisionBadge.style.color = c.engine ? '#4ade80' : '#f87171';
 
       reasonList.innerHTML = reasons.length
@@ -2133,7 +1956,7 @@ async function loadGenesisThoughts(){
       : [];
 
     if(thoughts.length===0){
-      box.innerHTML='<div style="color:#94a3b8;">Genesis is waiting for the next scan...</div>';
+      box.innerHTML='<div style="color:#94a3b8;">Individual research thoughts are private.</div>';
       return;
     }
 
@@ -2162,7 +1985,7 @@ ${t.coin || ""} ${t.action || ""} ${t.score!==null && t.score!==undefined ? "Sco
     const box=document.getElementById('genesis-thoughts');
 
     if(box){
-      box.innerHTML='<div style="color:#ef4444;">Unable to reach Genesis.</div>';
+      box.innerHTML='<div style="color:#ef4444;">Private reasoning is not publicly available.</div>';
     }
 
   }
@@ -2183,7 +2006,7 @@ setInterval(loadGenesisThoughts,5000);
       const weights = Array.isArray(d.weights) ? d.weights : [];
 
       if(!weights.length){
-        box.innerHTML = '<div class="neural-empty">No live weight data available.</div>';
+        box.innerHTML = '<div class="neural-empty">Indicator weights are private.</div>';
         return;
       }
 
@@ -2209,7 +2032,7 @@ setInterval(loadGenesisThoughts,5000);
 
     }catch(err){
       box.innerHTML =
-        '<div class="neural-empty" style="color:#f87171;">Unable to load Genesis weights.</div>';
+        '<div class="neural-empty" style="color:#f87171;">Indicator weights are private.</div>';
     }
   }
 
@@ -2343,7 +2166,7 @@ setInterval(loadGenesisThoughts,5000);
       const openTrades = Number(positions.open || 0);
 
       const winRateText = winRate.toFixed(2) + '%';
-      const pnlText = formatPnl(totalPnl);
+      const pnlText = formatPnl(totalPnl) + ' paper units';
 
       // Main EAI cards
       setText('v3Signals', String(trades));
@@ -2362,7 +2185,7 @@ setInterval(loadGenesisThoughts,5000);
       setText('pub-losses', String(losses));
 
       // Operations Center
-      setText('ops-trades', String(openTrades) + ' ACTIVE');
+      // Do not overwrite live health count with historical aggregate positions.
 
       // Brain Activity
       const brain = document.getElementById('v3BrainFeed');
@@ -2417,7 +2240,7 @@ setInterval(loadGenesisThoughts,5000);
 
         updateGridValue('Signals', String(trades));
         updateGridValue('Win Rate', winRateText);
-        updateGridValue('Open Trades', String(openTrades));
+        // Live open count remains governed by /api/health.
       }
 
       window.GENESIS_CANONICAL_PERFORMANCE = {
@@ -2426,7 +2249,7 @@ setInterval(loadGenesisThoughts,5000);
         losses,
         winRate,
         totalPnl,
-        openTrades,
+        openTrades: null,
         updatedAt: data.updated_at || null
       };
 
@@ -2443,6 +2266,7 @@ setInterval(loadGenesisThoughts,5000);
 </script>
 
 <script src="assets/js/genesis-brain.js?v=2" defer></script>
+<script src="/assets/js/genesis-connection.js?v=1" defer></script>
 <script src="/assets/js/site-tabs.js?v=2" defer></script>
 </body>
 </html>
