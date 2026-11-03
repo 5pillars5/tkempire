@@ -72,3 +72,14 @@ test('mobile Results distinguishes current paper aggregates from archived signal
   assert.doesNotMatch(results,/function filterResults/);
   assert.doesNotMatch(results,/Last 7 Days/);
 });
+
+test('archive mobile cards are compact and STALE is not silently counted as a loss', () => {
+  const results=read('results.html');
+  assert.match(results,/min-height:64px/);
+  assert.match(results,/STALE means the source recorded a stale status/);
+  assert.match(results,/not scored as a win or loss/);
+  assert.match(results,/id="archive-filter"/);
+  assert.match(results,/var archive=null,shown=12/);
+  assert.match(results,/shown\+=12/);
+  assert.doesNotMatch(results,/result\.textContent='Recorded outcome: '/);
+});

@@ -58,16 +58,22 @@ h1{font-size:clamp(32px,6vw,54px);line-height:1.05;letter-spacing:-.04em;margin:
 .archive-summary-title{display:block;font-weight:850;font-size:17px}
 .archive-summary-sub{display:block;font-size:12px;color:#a7acc3;margin-top:4px}
 .archive-content{padding:0 22px 22px;border-top:1px solid #2d2c47}
-.archive-warning{font-size:12px;line-height:1.7;color:#d7b886;margin:16px 0}
+.archive-warning{font-size:12px;line-height:1.55;color:#d7b886;margin:14px 0 10px}
 .archive-tools{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:13px 0}
 .archive-search{width:min(100%,320px);border:1px solid #494465;background:#090a18;color:#fff;padding:11px 14px;border-radius:10px;min-width:0}
 #archive-count{font-size:12px;color:#a8abc5}
-.archive-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:0;padding:0;list-style:none}
-.archive-row{display:flex;align-items:center;flex-wrap:wrap;gap:9px;padding:12px 14px;border:1px solid #292a46;background:#0d1020;border-radius:11px;min-width:0}
-.archive-side{font-size:10px;font-weight:900;border-radius:6px;padding:5px 7px;color:#c8cbd7;background:#282b44}
+.archive-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0;padding:0;list-style:none}
+.archive-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"side symbol date" "side outcome outcome";align-items:center;column-gap:11px;row-gap:2px;padding:10px 12px;min-height:64px;border:1px solid #292a46;background:#0d1020;border-radius:11px;min-width:0}
+.archive-side{grid-area:side;display:grid;place-items:center;font-size:10px;font-weight:900;border-radius:6px;padding:5px 8px;min-width:44px;min-height:31px;color:#c8cbd7;background:#282b44}
 .archive-side.buy{color:#7bffc7;background:#0f3a30}.archive-side.sell{color:#ff91ad;background:#461a31}
-.archive-symbol{font-weight:850;font-size:14px}.archive-date{margin-left:auto;color:#adb0c4;font-size:11px}
-.archive-outcome{flex-basis:100%;font-size:11px;color:#a8acc8}
+.archive-symbol{grid-area:symbol;font-weight:850;font-size:14px;min-width:0}
+.archive-date{grid-area:date;white-space:nowrap;color:#adb0c4;font-size:11px}
+.archive-outcome{grid-area:outcome;font-size:11px;color:#a8acc8;line-height:1.35}
+.archive-outcome[data-outcome="stale"]{color:#f0bd79}
+.archive-outcome[data-outcome="win"]{color:#8bd7b5}
+.archive-outcome[data-outcome="loss"]{color:#e5a5b8}
+.archive-filter{min-width:115px;padding:11px 12px;border:1px solid #494465;background:#090a18;color:#fff;border-radius:10px}
+.archive-legend{font-size:11px;color:#b5acc5;margin:8px 0 13px;line-height:1.55}
 .archive-more{display:block;margin:18px auto 0;padding:10px 17px;border:1px solid #7253a9;background:#221737;color:#fff;border-radius:9px;font-weight:800}
 .archive-more[hidden]{display:none}
 footer{width:min(1120px,94vw);margin:0 auto;border-top:1px solid #252341;padding:22px 0 45px;color:#9395ad;font-size:11px}
@@ -148,9 +154,18 @@ footer{width:min(1120px,94vw);margin:0 auto;border-top:1px solid #252341;padding
       </span>
     </summary>
     <div class="archive-content">
-      <p class="archive-warning">These are archived observations, not current alerts or a complete audited trade ledger. Entry prices, exit prices, risk settings, and returns have not been verified for publication. The archive does not reconcile with today's aggregate performance totals.</p>
+      <p class="archive-warning">Archived observations only—not current alerts or a complete audited trade ledger. Entry, exit, risk and return data are not verified. This archive does not reconcile with the current aggregate performance totals.</p>
+      <p class="archive-legend">Legacy WIN/LOSS are source-reported outcomes. STALE means the source recorded a stale status; it is <strong>not a documented win or loss</strong>.</p>
       <div class="archive-tools">
         <input id="archive-search" class="archive-search" type="search" placeholder="Search archived asset…" aria-label="Search historical observations">
+        <label for="archive-filter" class="metric-label">Show
+          <select id="archive-filter" class="archive-filter" aria-label="Filter historical records by status">
+            <option value="all">All statuses</option>
+            <option value="win">Wins</option>
+            <option value="loss">Losses</option>
+            <option value="stale">Stale / unscored</option>
+          </select>
+        </label>
         <span id="archive-count" role="status">Open archive to load records</span>
       </div>
       <ul id="archive-list" class="archive-list" aria-label="Archived observations"></ul>
@@ -238,7 +253,7 @@ footer{width:min(1120px,94vw);margin:0 auto;border-top:1px solid #252341;padding
     button.disabled=false;
   }
 
-  var archive=null,shown=25;
+  var archive=null,shown=12;
   function itemElement(r) {
     var li=document.createElement('li');
     li.className='archive-row';
@@ -251,21 +266,28 @@ footer{width:min(1120px,94vw);margin:0 auto;border-top:1px solid #252341;padding
     var date=document.createElement('span');date.className='archive-date';
     date.textContent=String(r.date || 'Date not recorded');
     var result=document.createElement('span');result.className='archive-outcome';
-    result.textContent='Recorded outcome: '+String(r.recorded_outcome || 'Unknown').toUpperCase();
+    var outcome=String(r.recorded_outcome || 'Unknown').toUpperCase();
+    result.dataset.outcome=outcome.toLowerCase();
+    result.textContent=outcome==='STALE' ? 'STALE · not scored as a win or loss'
+      : (outcome==='WIN'||outcome==='LOSS' ? 'Historical result: '+outcome : 'Legacy status: '+outcome);
     li.append(side,asset,date,result);
     return li;
   }
   function renderArchive() {
     if (!archive) return;
     var q=$('archive-search').value.trim().toLowerCase();
+    var selected=$('archive-filter').value;
     var matches=archive.filter(function (r) {
-      return [r.asset,r.side,r.date,r.recorded_outcome].join(' ').toLowerCase().includes(q);
+      var matchesSearch=[r.asset,r.side,r.date,r.recorded_outcome].join(' ').toLowerCase().includes(q);
+      var matchesStatus=selected==='all'||String(r.recorded_outcome||'').toLowerCase()===selected;
+      return matchesSearch&&matchesStatus;
     });
     var list=$('archive-list');
     list.replaceChildren();
     matches.slice(0,shown).forEach(function (r) { list.appendChild(itemElement(r)); });
-    set('archive-count',matches.length+' archived observation'+(matches.length===1?'':'s')+' · showing '+Math.min(shown,matches.length));
+    set('archive-count',Math.min(shown,matches.length)+' of '+matches.length+' matching archive records');
     $('archive-more').hidden=shown>=matches.length;
+    $('archive-more').textContent='Show '+Math.min(12,Math.max(0,matches.length-shown))+' more';
   }
   async function loadArchive() {
     if (archive) return;
@@ -280,8 +302,9 @@ footer{width:min(1120px,94vw);margin:0 auto;border-top:1px solid #252341;padding
     }
   }
   $('archive-details').addEventListener('toggle',function () { if (this.open) loadArchive(); });
-  $('archive-search').addEventListener('input',function () { shown=25;renderArchive(); });
-  $('archive-more').addEventListener('click',function () { shown+=25;renderArchive(); });
+  $('archive-search').addEventListener('input',function () { shown=12;renderArchive(); });
+  $('archive-filter').addEventListener('change',function () { shown=12;renderArchive(); });
+  $('archive-more').addEventListener('click',function () { shown+=12;renderArchive(); });
   $('refresh-results').addEventListener('click',refresh);
   refresh();
   setInterval(refresh,30000);
