@@ -83,3 +83,17 @@ test('archive mobile cards are compact and STALE is not silently counted as a lo
   assert.match(results,/shown\+=12/);
   assert.doesNotMatch(results,/result\.textContent='Recorded outcome: '/);
 });
+
+test('public app never promises unsupported push alerts or live orders', () => {
+  const app=read('app.html');
+  assert.match(app,/PAPER API CONNECTED/);
+  assert.match(app,/isFresh\(health\.served_at\)/);
+  assert.match(app,/isFresh\(status\.updated_at\)/);
+  assert.match(app,/Browser push-signal subscriptions are not configured/);
+  assert.match(app,/https:\/\/t\.me\/tkempirebot/);
+  assert.match(app,/href="\/results\.html"/);
+  assert.doesNotMatch(app,/requestNotifications|Notification\.requestPermission/);
+  assert.doesNotMatch(app,/You will now receive signal alerts instantly/);
+  assert.doesNotMatch(app,/Never miss an entry again/);
+  assert.doesNotMatch(app,/class="live-txt">LIVE/);
+});
