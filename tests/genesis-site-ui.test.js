@@ -55,3 +55,20 @@ test('inline scripts parse on key changed pages', () => {
     for (const script of scripts) assert.doesNotThrow(() => new vm.Script(script,{filename:file}));
   }
 });
+test('mobile Results distinguishes current paper aggregates from archived signals', () => {
+  const results=read('results.html');
+  assert.match(results,/Paper performance/);
+  assert.match(results,/GENESIS|Genesis/);
+  assert.match(results,/\/api\/genesis\/status/);
+  assert.match(results,/\/api\/health/);
+  assert.match(results,/generated_for !== 'PUBLIC_ARCHIVE_ONLY'/);
+  assert.match(results,/<details class="panel archive"/);
+  assert.match(results,/Archive temporarily unavailable/);
+  assert.match(results,/aria-label="Search historical observations"/);
+  assert.match(results,/FRESH_LIMIT_MS = 120000/);
+  assert.doesNotMatch(results,/SIGNAL ENGINE IN LEARNING MODE/);
+  assert.doesNotMatch(results,/raw\.githubusercontent\.com/);
+  assert.doesNotMatch(results,/data\/portfolio\.json/);
+  assert.doesNotMatch(results,/function filterResults/);
+  assert.doesNotMatch(results,/Last 7 Days/);
+});
