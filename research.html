@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#070711"/>
 <link rel="icon" type="image/jpeg" href="https://i.imgur.com/Kf99eJt.jpeg"/>
 <link rel="stylesheet" href="/empire.css"/>
-<link rel="stylesheet" href="/assets/css/site-tabs.css?v=2"/>
+<link rel="stylesheet" href="/assets/css/site-tabs.css?v=3"/>
 <style>
 :root{--bg:#070711;--panel:#0d0d1b;--panel2:#121225;--line:#24243f;--text:#f0f0f7;--muted:#8a8aa3;--purple:#7c3aed;--purple2:#a78bfa;--gold:#f59e0b;--green:#00e5a0;--red:#ff5a78;--orange:#f97316}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}a{color:inherit;text-decoration:none}
@@ -127,11 +127,14 @@ async function loadExternal(){
     const p=await getJSON('/data/research_signals.json');
     extSignals=Array.isArray(p.signals)?p.signals:[];
     const status=String(p.status||'unknown');
-    const healthy=extSignals.length>0&&!/rate_limit|error|fail/i.test(status);
-    document.getElementById('rExternal').textContent=healthy?'ACTIVE':(status.includes('429')?'RATE LIMITED':'IDLE');
+    const sourceTime=Date.parse(p.updated_at||'');
+    const sourceAge=Date.now()-sourceTime;
+    const sourceFresh=Number.isFinite(sourceTime)&&sourceAge>=-30000&&sourceAge<=3600000;
+    const healthy=sourceFresh&&extSignals.length>0&&!/rate_limit|error|fail/i.test(status);
+    document.getElementById('rExternal').textContent=healthy?'ACTIVE':(!sourceFresh?'ARCHIVED / STALE':(status.includes('429')?'RATE LIMITED':'IDLE'));
     document.getElementById('rExternal').style.color=healthy?'var(--green)':'var(--gold)';
     document.getElementById('rExternalSub').textContent=(p.source||'External research')+' · '+(p.updated_at||p.last_attempt_at||'no timestamp');
-    document.getElementById('externalHealth').innerHTML='<strong>External source:</strong> '+esc(p.source||'Unknown')+' · <strong>Status:</strong> '+esc(status)+' · <strong>Observations:</strong> '+extSignals.length+(p.message?' · '+esc(p.message):'');
+    document.getElementById('externalHealth').innerHTML='<strong>External source:</strong> '+esc(p.source||'Unknown')+' · <strong>Status:</strong> '+esc(sourceFresh?status:'ARCHIVED / STALE')+' · <strong>Observations:</strong> '+extSignals.length+(p.message?' · '+esc(p.message):'');
     renderExternal();
   }catch(e){
     document.getElementById('rExternal').textContent='UNAVAILABLE';
@@ -152,6 +155,6 @@ function renderExternal(){
 loadThoughts();loadWeights();loadExternal();
 setInterval(loadThoughts,5000);setInterval(loadWeights,30000);setInterval(loadExternal,60000);
 </script>
-<script src="/assets/js/site-tabs.js?v=2" defer></script>
+<script src="/assets/js/site-tabs.js?v=3" defer></script>
 </body>
 </html>
