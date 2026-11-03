@@ -536,7 +536,7 @@ body.private-mode .view-private{display:block;}
 }
 </style>
 
-<link rel="stylesheet" href="assets/css/genesis-brain.css?v=2"/>
+<link rel="stylesheet" href="assets/css/genesis-brain.css?v=3"/>
 <link rel="stylesheet" href="/assets/css/site-tabs.css?v=2"/>
 </head>
 <body>
@@ -788,42 +788,49 @@ const TK_API_DASHBOARD = '/api/genesis/status';
 
 
 
-<!-- GENESIS BRAIN CENTERPIECE V1 -->
-<section class="genesis-brain">
+<!-- GENESIS VERIFIED OPERATIONS PIPELINE -->
+<section class="genesis-brain" aria-label="Genesis public operations overview">
   <div class="genesis-brain__header">
     <div>
-      <div class="genesis-brain__title">Genesis Neural Core</div>
-      <div class="neural-sub">Read-only research visualization</div>
+      <div class="genesis-brain__title">GENESIS · OPERATIONS PIPELINE</div>
+      <div class="neural-sub">Source-bound paper research. Private strategy details are never published.</div>
     </div>
-    <div id="genesis-brain-status" class="genesis-brain__status">CONNECTING</div>
+    <div id="genesis-brain-status" class="genesis-brain__status" data-state="warn" aria-live="polite">CHECKING</div>
   </div>
-
-  <div class="genesis-brain__stage">
-    <svg id="genesis-brain-svg"
-         class="genesis-brain__svg"
-         viewBox="0 0 1000 600"
-         preserveAspectRatio="xMidYMid meet"
-         aria-label="Genesis adaptive intelligence network"></svg>
+  <div class="genesis-pipeline">
+    <div id="genesis-stage-feeds" class="genesis-pipeline__stage" data-state="warn">
+      <span class="stage-label">01 · MARKET DATA</span>
+      <strong id="genesis-stage-feeds-value">CHECKING</strong>
+      <small id="genesis-stage-feeds-detail">Checking feed freshness</small>
+    </div>
+    <div id="genesis-stage-engine" class="genesis-pipeline__stage" data-state="warn">
+      <span class="stage-label">02 · EVALUATION</span>
+      <strong id="genesis-stage-engine-value">CHECKING</strong>
+      <small id="genesis-stage-engine-detail">Health verification</small>
+    </div>
+    <div id="genesis-stage-gate" class="genesis-pipeline__stage" data-state="safe">
+      <span class="stage-label">03 · RISK & AUTHORITY</span>
+      <strong id="genesis-stage-gate-value">PAPER ONLY</strong>
+      <small id="genesis-stage-gate-detail">No real-money authority</small>
+    </div>
+    <div id="genesis-stage-positions" class="genesis-pipeline__stage" data-state="warn">
+      <span class="stage-label">04 · PAPER POSITIONS</span>
+      <strong id="genesis-stage-positions-value">CHECKING</strong>
+      <small id="genesis-stage-positions-detail">Count only; details private</small>
+    </div>
   </div>
-
   <div class="genesis-brain__footer">
-    <div class="genesis-brain__metric">
-      <span>Regime</span>
-      <strong id="genesis-brain-regime">--</strong>
-    </div>
-    <div class="genesis-brain__metric">
-      <span>Mode</span>
-      <strong id="genesis-brain-mode">--</strong>
-    </div>
-    <div class="genesis-brain__metric">
-      <span>Empire Health</span>
-      <strong id="genesis-brain-health">--</strong>
-    </div>
-    <div class="genesis-brain__metric">
-      <span>Mission</span>
-      <strong id="genesis-brain-mission">--</strong>
-    </div>
+    <div class="genesis-brain__metric"><span>Regime</span><strong id="genesis-brain-regime">—</strong></div>
+    <div class="genesis-brain__metric"><span>Mode</span><strong id="genesis-brain-mode">—</strong></div>
+    <div class="genesis-brain__metric"><span>Health</span><strong id="genesis-brain-health">—</strong></div>
+    <div class="genesis-brain__metric"><span>Open paper trades</span><strong id="genesis-brain-open">—</strong></div>
+    <div class="genesis-brain__metric"><span>Paper win rate</span><strong id="genesis-brain-winrate">—</strong></div>
   </div>
+  <div class="genesis-pipeline__timestamps">
+    <span id="genesis-core-source-time">Awaiting health snapshot</span>
+    <span id="genesis-core-performance-time">Awaiting aggregate result</span>
+  </div>
+  <p class="genesis-pipeline__note">Public status is read-only. Feed availability and a reported paper position count do not prove live exchange execution. Verified results and health snapshots can have different underlying datasets.</p>
 </section>
 
 <!-- GENESIS NEURAL MAP V1 -->
@@ -2265,7 +2272,7 @@ setInterval(loadGenesisThoughts,5000);
 })();
 </script>
 
-<script src="assets/js/genesis-brain.js?v=2" defer></script>
+<script src="assets/js/genesis-brain.js?v=3" defer></script>
 <script src="/assets/js/genesis-connection.js?v=1" defer></script>
 <script src="/assets/js/site-tabs.js?v=2" defer></script>
 </body>
