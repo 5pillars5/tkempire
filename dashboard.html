@@ -1802,68 +1802,7 @@ setInterval(loadDecisionTimeline, 30000);
           : 'Unavailable';
 
 
-      // GENESIS DECISION ENGINE V1
-      const decisionBadge = document.getElementById('genesis-decision-badge');
-      const decisionStatus = document.getElementById('genesis-decision-status');
-      const decisionNote = document.getElementById('genesis-decision-note');
-      const reasonList = document.getElementById('genesis-reason-list');
-
-      let confidence = 0;
-      let decision = 'WAIT';
-      let decisionColor = '#f59e0b';
-      let reasons = [];
-
-      if(tradeList.length){
-        const t = tradeList[0];
-        confidence = Number(t.score || 0);
-        decision = String(t.action || 'WAIT').toUpperCase();
-        decisionColor = decision === 'BUY' ? '#4ade80' : '#f87171';
-
-        reasons = String(t.reason || '')
-          .split('·')
-          .map(x => x.trim())
-          .filter(Boolean);
-
-        decisionNote.textContent =
-          `${t.coin || 'Asset'} mission active. Genesis is monitoring TP1, TP2 and stop conditions.`;
-      }else{
-        confidence = null;
-        decision = 'PRIVATE';
-        decisionColor = '#f59e0b';
-
-        reasons = [
-          'Genesis engine online',
-          `Market regime: ${String(engine.regime || 'unknown').toUpperCase()}`,
-          `Minimum required score: ${'Private'}`,
-          'Individual paper-trade details withheld'
-        ];
-
-        decisionNote.textContent =
-          'Execution state is not verified through this public view.';
-      }
-
-      document.getElementById('genesis-confidence-value').textContent =
-        (confidence===null ? '—' : Math.round(confidence)+'%');
-
-      document.getElementById('genesis-confidence-fill').style.width =
-        (confidence===null ? 0 : Math.max(0, Math.min(100, confidence))) + '%';
-
-      document.getElementById('genesis-decision-regime').textContent =
-        String(engine.regime || '--').toUpperCase();
-
-      document.getElementById('genesis-decision-threshold').textContent =
-        'Private';
-
-      decisionStatus.textContent = decision;
-      decisionStatus.style.color = decisionColor;
-
-      decisionBadge.textContent = c.engine ? 'PAPER API' : 'UNAVAILABLE';
-      decisionBadge.style.color = c.engine ? '#4ade80' : '#f87171';
-
-      reasonList.innerHTML = reasons.length
-        ? reasons.map(r => `<li>${r}</li>`).join('')
-        : '<li>No decision evidence available</li>';
-
+      // Individual decisions remain private; public pipeline uses only health and aggregate endpoints.
       document.getElementById('ops-last-check').textContent =
         'Last health check: ' + new Date().toLocaleTimeString();
     }catch(err){
