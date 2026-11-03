@@ -536,8 +536,8 @@ body.private-mode .view-private{display:block;}
 }
 </style>
 
-<link rel="stylesheet" href="assets/css/genesis-brain.css?v=2"/>
-<link rel="stylesheet" href="/assets/css/site-tabs.css?v=2"/>
+<link rel="stylesheet" href="assets/css/genesis-brain.css?v=3"/>
+<link rel="stylesheet" href="/assets/css/site-tabs.css?v=3"/>
 </head>
 <body>
 
@@ -788,118 +788,53 @@ const TK_API_DASHBOARD = '/api/genesis/status';
 
 
 
-<!-- GENESIS BRAIN CENTERPIECE V1 -->
-<section class="genesis-brain">
+<!-- GENESIS VERIFIED OPERATIONS PIPELINE -->
+<section class="genesis-brain" aria-label="Genesis public operations overview">
   <div class="genesis-brain__header">
     <div>
-      <div class="genesis-brain__title">Genesis Neural Core</div>
-      <div class="neural-sub">Read-only research visualization</div>
+      <div class="genesis-brain__title">GENESIS · OPERATIONS PIPELINE</div>
+      <div class="neural-sub">Source-bound paper research. Private strategy details are never published.</div>
     </div>
-    <div id="genesis-brain-status" class="genesis-brain__status">CONNECTING</div>
+    <div id="genesis-brain-status" class="genesis-brain__status" data-state="warn" aria-live="polite">CHECKING</div>
   </div>
-
-  <div class="genesis-brain__stage">
-    <svg id="genesis-brain-svg"
-         class="genesis-brain__svg"
-         viewBox="0 0 1000 600"
-         preserveAspectRatio="xMidYMid meet"
-         aria-label="Genesis adaptive intelligence network"></svg>
+  <div class="genesis-pipeline">
+    <div id="genesis-stage-feeds" class="genesis-pipeline__stage" data-state="warn">
+      <span class="stage-label">01 · MARKET DATA</span>
+      <strong id="genesis-stage-feeds-value">CHECKING</strong>
+      <small id="genesis-stage-feeds-detail">Checking feed freshness</small>
+    </div>
+    <div id="genesis-stage-engine" class="genesis-pipeline__stage" data-state="warn">
+      <span class="stage-label">02 · EVALUATION</span>
+      <strong id="genesis-stage-engine-value">CHECKING</strong>
+      <small id="genesis-stage-engine-detail">Health verification</small>
+    </div>
+    <div id="genesis-stage-gate" class="genesis-pipeline__stage" data-state="safe">
+      <span class="stage-label">03 · RISK & AUTHORITY</span>
+      <strong id="genesis-stage-gate-value">PAPER ONLY</strong>
+      <small id="genesis-stage-gate-detail">No real-money authority</small>
+    </div>
+    <div id="genesis-stage-positions" class="genesis-pipeline__stage" data-state="warn">
+      <span class="stage-label">04 · PAPER POSITIONS</span>
+      <strong id="genesis-stage-positions-value">CHECKING</strong>
+      <small id="genesis-stage-positions-detail">Count only; details private</small>
+    </div>
   </div>
-
   <div class="genesis-brain__footer">
-    <div class="genesis-brain__metric">
-      <span>Regime</span>
-      <strong id="genesis-brain-regime">--</strong>
-    </div>
-    <div class="genesis-brain__metric">
-      <span>Mode</span>
-      <strong id="genesis-brain-mode">--</strong>
-    </div>
-    <div class="genesis-brain__metric">
-      <span>Empire Health</span>
-      <strong id="genesis-brain-health">--</strong>
-    </div>
-    <div class="genesis-brain__metric">
-      <span>Mission</span>
-      <strong id="genesis-brain-mission">--</strong>
-    </div>
+    <div class="genesis-brain__metric"><span>Regime</span><strong id="genesis-brain-regime">—</strong></div>
+    <div class="genesis-brain__metric"><span>Mode</span><strong id="genesis-brain-mode">—</strong></div>
+    <div class="genesis-brain__metric"><span>Health</span><strong id="genesis-brain-health">—</strong></div>
+    <div class="genesis-brain__metric"><span>Open paper trades</span><strong id="genesis-brain-open">—</strong></div>
+    <div class="genesis-brain__metric"><span>Paper win rate</span><strong id="genesis-brain-winrate">—</strong></div>
   </div>
+  <div class="genesis-pipeline__timestamps">
+    <span id="genesis-core-source-time">Awaiting health snapshot</span>
+    <span id="genesis-core-performance-time">Awaiting aggregate result</span>
+  </div>
+  <p class="genesis-pipeline__note">Public status is read-only. Feed availability and a reported paper position count do not prove live exchange execution. Verified results and health snapshots can have different underlying datasets.</p>
 </section>
 
-<!-- GENESIS NEURAL MAP V1 -->
-  <section class="neural-map">
-    <div class="neural-header">
-      <div class="neural-title">Genesis Neural Map</div>
-      <div class="neural-sub">Private indicator weights</div>
-    </div>
-    <div id="neuralWeights">
-      <div class="neural-empty">Loading Genesis weights...</div>
-    </div>
-  </section>
-
-
-  <!-- GENESIS DECISION ENGINE V1 -->
-  <div class="genesis-decision-panel">
-    <div class="genesis-decision-head">
-      <div class="genesis-decision-title">Genesis Decision Engine</div>
-      <div id="genesis-decision-badge" class="genesis-decision-badge">CONNECTING</div>
-    </div>
-
-    <div class="genesis-decision-grid">
-      <div class="genesis-decision-block">
-        <div class="genesis-decision-label">Confidence</div>
-        <div id="genesis-confidence-value" class="genesis-decision-value">--</div>
-        <div class="genesis-confidence-track">
-          <div id="genesis-confidence-fill" class="genesis-confidence-fill"></div>
-        </div>
-
-        <div class="empire-command-row" style="margin-top:14px;">
-          <span class="empire-command-label">Regime</span>
-          <span id="genesis-decision-regime" class="empire-command-value">--</span>
-        </div>
-        <div class="empire-command-row">
-          <span class="empire-command-label">Threshold</span>
-          <span id="genesis-decision-threshold" class="empire-command-value">--</span>
-        </div>
-      </div>
-
-      <div class="genesis-decision-block">
-        <div class="genesis-decision-label">Decision Evidence</div>
-        <ul id="genesis-reason-list" class="genesis-reason-list">
-          <li>Awaiting Genesis decision data</li>
-        </ul>
-      </div>
-
-      <div class="genesis-decision-block">
-        <div class="genesis-decision-label">Current Decision</div>
-        <div id="genesis-decision-status" class="genesis-decision-status">WAIT</div>
-        <div id="genesis-decision-note" class="genesis-decision-note">
-          Genesis is evaluating market conditions.
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-
-<div class="genesis-thought-stream" style="margin:24px 0;padding:20px;border-radius:16px;background:#0f172a;border:1px solid rgba(168,85,247,.25);">
-<h3 style="margin:0 0 14px;color:#fff;">Private Genesis Thought Stream</h3>
-
-<div id="genesis-thoughts"
-style="
-height:320px;
-overflow-y:auto;
-font-family:monospace;
-font-size:13px;
-line-height:1.7;
-color:#cbd5e1;
-">
-Waiting for Genesis...
-</div>
-
-</div>
-
-  <div id="ops-last-check" class="ops-last-check">Awaiting first health report...</div>
+<!-- Private strategy weights, individual decision evidence and reasoning are intentionally hidden from public pages. -->
+<div id="ops-last-check" class="ops-last-check">Awaiting first health report...</div>
 </section>
 
 
@@ -1867,68 +1802,7 @@ setInterval(loadDecisionTimeline, 30000);
           : 'Unavailable';
 
 
-      // GENESIS DECISION ENGINE V1
-      const decisionBadge = document.getElementById('genesis-decision-badge');
-      const decisionStatus = document.getElementById('genesis-decision-status');
-      const decisionNote = document.getElementById('genesis-decision-note');
-      const reasonList = document.getElementById('genesis-reason-list');
-
-      let confidence = 0;
-      let decision = 'WAIT';
-      let decisionColor = '#f59e0b';
-      let reasons = [];
-
-      if(tradeList.length){
-        const t = tradeList[0];
-        confidence = Number(t.score || 0);
-        decision = String(t.action || 'WAIT').toUpperCase();
-        decisionColor = decision === 'BUY' ? '#4ade80' : '#f87171';
-
-        reasons = String(t.reason || '')
-          .split('·')
-          .map(x => x.trim())
-          .filter(Boolean);
-
-        decisionNote.textContent =
-          `${t.coin || 'Asset'} mission active. Genesis is monitoring TP1, TP2 and stop conditions.`;
-      }else{
-        confidence = null;
-        decision = 'PRIVATE';
-        decisionColor = '#f59e0b';
-
-        reasons = [
-          'Genesis engine online',
-          `Market regime: ${String(engine.regime || 'unknown').toUpperCase()}`,
-          `Minimum required score: ${'Private'}`,
-          'Individual paper-trade details withheld'
-        ];
-
-        decisionNote.textContent =
-          'Execution state is not verified through this public view.';
-      }
-
-      document.getElementById('genesis-confidence-value').textContent =
-        (confidence===null ? '—' : Math.round(confidence)+'%');
-
-      document.getElementById('genesis-confidence-fill').style.width =
-        (confidence===null ? 0 : Math.max(0, Math.min(100, confidence))) + '%';
-
-      document.getElementById('genesis-decision-regime').textContent =
-        String(engine.regime || '--').toUpperCase();
-
-      document.getElementById('genesis-decision-threshold').textContent =
-        'Private';
-
-      decisionStatus.textContent = decision;
-      decisionStatus.style.color = decisionColor;
-
-      decisionBadge.textContent = c.engine ? 'PAPER API' : 'UNAVAILABLE';
-      decisionBadge.style.color = c.engine ? '#4ade80' : '#f87171';
-
-      reasonList.innerHTML = reasons.length
-        ? reasons.map(r => `<li>${r}</li>`).join('')
-        : '<li>No decision evidence available</li>';
-
+      // Individual decisions remain private; public pipeline uses only health and aggregate endpoints.
       document.getElementById('ops-last-check').textContent =
         'Last health check: ' + new Date().toLocaleTimeString();
     }catch(err){
@@ -1939,106 +1813,7 @@ setInterval(loadDecisionTimeline, 30000);
     }
   }
 
-async function loadGenesisThoughts(){
-
-  try{
-
-    const r = await fetch('/api/genesis-thoughts?cache=' + Date.now());
-
-    const d = await r.json();
-
-    const box = document.getElementById('genesis-thoughts');
-
-    if(!box) return;
-
-    const thoughts = Array.isArray(d.thoughts)
-      ? d.thoughts.slice().reverse()
-      : [];
-
-    if(thoughts.length===0){
-      box.innerHTML='<div style="color:#94a3b8;">Individual research thoughts are private.</div>';
-      return;
-    }
-
-    box.innerHTML = thoughts.map(t=>`
-
-<div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);">
-
-<div style="color:#22c55e;font-size:11px;">
-${t.timestamp || ""}
-</div>
-
-<div style="color:#fff;font-weight:600;">
-${t.message || ""}
-</div>
-
-<div style="color:#94a3b8;font-size:11px;">
-${t.coin || ""} ${t.action || ""} ${t.score!==null && t.score!==undefined ? "Score: "+t.score : ""}
-</div>
-
-</div>
-
-`).join("");
-
-  }catch(e){
-
-    const box=document.getElementById('genesis-thoughts');
-
-    if(box){
-      box.innerHTML='<div style="color:#ef4444;">Private reasoning is not publicly available.</div>';
-    }
-
-  }
-
-}
-
-loadGenesisThoughts();
-setInterval(loadGenesisThoughts,5000);
-
-
-  async function loadNeuralMap(){
-    const box = document.getElementById('neuralWeights');
-    if(!box) return;
-
-    try{
-      const r = await fetch('/api/genesis-weights?cache=' + Date.now());
-      const d = await r.json();
-      const weights = Array.isArray(d.weights) ? d.weights : [];
-
-      if(!weights.length){
-        box.innerHTML = '<div class="neural-empty">Indicator weights are private.</div>';
-        return;
-      }
-
-      box.innerHTML = weights.map(w => {
-        const weight = Number(w.weight || 0);
-        const pct = Math.max(4, Math.min(100, weight * 50));
-        const name = String(w.name || '')
-          .replaceAll('_', ' ')
-          .replace(/\b\w/g, c => c.toUpperCase());
-
-        return `
-          <div class="neural-row">
-            <div class="neural-name">
-              <span>${name}</span>
-              <span>${weight.toFixed(3)}</span>
-            </div>
-            <div class="neural-bar">
-              <div class="neural-fill" style="width:${pct}%"></div>
-            </div>
-          </div>
-        `;
-      }).join('');
-
-    }catch(err){
-      box.innerHTML =
-        '<div class="neural-empty" style="color:#f87171;">Indicator weights are private.</div>';
-    }
-  }
-
-
-  loadNeuralMap();
-  setInterval(loadNeuralMap, 30000);
+// Public dashboard never polls private thoughts or indicator weights.
 
   loadEmpireOperations();
   setInterval(loadEmpireOperations, 30000);
@@ -2265,8 +2040,8 @@ setInterval(loadGenesisThoughts,5000);
 })();
 </script>
 
-<script src="assets/js/genesis-brain.js?v=2" defer></script>
+<script src="assets/js/genesis-brain.js?v=3" defer></script>
 <script src="/assets/js/genesis-connection.js?v=1" defer></script>
-<script src="/assets/js/site-tabs.js?v=2" defer></script>
+<script src="/assets/js/site-tabs.js?v=3" defer></script>
 </body>
 </html>

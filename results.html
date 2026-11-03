@@ -131,7 +131,7 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:32px 6%;display:f
 }
 </style>
 <link rel="stylesheet" href="empire.css"/>
-<link rel="stylesheet" href="/assets/css/site-tabs.css?v=2"/>
+<link rel="stylesheet" href="/assets/css/site-tabs.css?v=3"/>
 </head>
 <body>
 
@@ -263,24 +263,8 @@ footer{background:#040408;border-top:1px solid #0f0f1a;padding:32px 6%;display:f
 const SIGNALS_URL = '/data/public_signal_archive.json';
 let SIGNALS = [];
 
-async function fetchMarketMode(){
-  try {
-    const r = await fetch('https://raw.githubusercontent.com/5pillars5/tkempire/main/stats.json?t='+Date.now());
-    const d = await r.json();
-    const mode = (d.market_mode||'bull').toUpperCase();
-    const pairs = d.pairs || 20;
-    const minScore = d.min_score || 60;
-    const badge = document.getElementById('marketModeBadge');
-    if(badge){
-      const modeColor = mode==='BULL'?'var(--green)':mode==='BEAR'?'var(--red)':'var(--gold)';
-      const modeEmoji = mode==='BULL'?'📈':mode==='BEAR'?'📉':'↔️';
-      badge.innerHTML = `${modeEmoji} ${mode} MODE · ${pairs} PAIRS · MIN ${minScore}/100`;
-      badge.style.borderColor = modeColor;
-      badge.style.color = modeColor;
-    }
-  } catch(e){ console.log('Mode fetch error:',e); }
-}
-
+// Historical records are separate from source-bound current paper aggregates.
+// The current regime badge is populated by syncCanonicalResults() from /api/health.
 let CLOSED_SIGNALS = [];
 
 async function fetchJSON(url){
@@ -455,6 +439,6 @@ window.addEventListener('load', () => {
 });
 </script>
 <script src="empire.js"></script>
-<script src="/assets/js/site-tabs.js?v=2" defer></script>
+<script src="/assets/js/site-tabs.js?v=3" defer></script>
 </body>
 </html>

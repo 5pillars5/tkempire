@@ -1,5 +1,5 @@
-// TK Empire Service Worker v3
-const CACHE = 'tkempire-v3';
+// TK Empire Service Worker v4
+const CACHE = 'tkempire-v4';
 
 const STATIC_ASSETS = [
   '/',

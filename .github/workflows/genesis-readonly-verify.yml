@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - feature/genesis-readonly-site-status-20261101
+      - fix/genesis-mobile-command-center-20261103
   pull_request:
     branches:
       - website/genesis-validation-refresh-20260923
@@ -31,4 +32,4 @@ jobs:
           node --check api/genesis/connection.js
       - name: Run offline read-only API and release safety tests
         run: |
-          node --test tests/genesis-connection.test.js tests/genesis-public-api.test.js
+          node --test tests/genesis-connection.test.js tests/genesis-public-api.test.js tests/genesis-site-ui.test.js

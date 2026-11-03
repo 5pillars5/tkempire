@@ -1,138 +1,117 @@
 (() => {
   'use strict';
 
-  const NODES = [
-    ['funding', 50, 12],
-    ['supertrend_1h', 25, 25],
-    ['supertrend_4h', 75, 25],
-    ['adx', 13, 50],
-    ['ema_ribbon', 87, 50],
-    ['rsi', 25, 75],
-    ['order_book', 75, 75],
-    ['fear_greed', 50, 88]
-  ];
+  // Only source-bound, public PAPER aggregates are displayed. Private weights,
+  // decisions, scores, entries and accounts are intentionally not requested.
+  const $ = id => document.getElementById(id);
+  const text = (id, value) => {
+    const node = $(id);
+    if (node) node.textContent = String(value);
+  };
+  const fresh = timestamp => {
+    const time = Date.parse(timestamp || '');
+    const age = Date.now() - time;
+    return Number.isFinite(time) && age >= -30000 && age <= 120000;
+  };
+  const num = value => typeof value === 'number' && Number.isFinite(value) ? value : null;
 
-  const label = name =>
-    String(name).replaceAll('_',' ').replace(/\b\w/g,c=>c.toUpperCase());
-
-  const escapeHtml = value => String(value ?? '')
-    .replaceAll('&','&amp;')
-    .replaceAll('<','&lt;')
-    .replaceAll('>','&gt;')
-    .replaceAll('"','&quot;')
-    .replaceAll("'",'&#039;');
-
-  function nodeClass(weight) {
-    if (weight >= 1.1) return 'genesis-node--strong';
-    if (weight < .85) return 'genesis-node--weak';
-    return 'genesis-node--neutral';
+  function stage(name, value, detail, state) {
+    const element = $('genesis-stage-' + name);
+    if (!element) return;
+    element.dataset.state = state;
+    text('genesis-stage-' + name + '-value', value);
+    text('genesis-stage-' + name + '-detail', detail);
   }
 
-  function draw(weights, health, thoughts) {
-    const svg = document.getElementById('genesis-brain-svg');
-    if (!svg) return;
-
-    const map = Object.fromEntries(
-      (weights || []).map(row => [row.name, Number(row.weight || 0)])
-    );
-
-    const lines = NODES.map(([,x,y]) => {
-      const weight = map[NODES.find(n => n[1] === x && n[2] === y)?.[0]] || 1;
-      return `<line class="genesis-link" x1="50%" y1="50%" x2="${x}%" y2="${y}%"
-        style="stroke-width:${Math.max(1.5,weight*2.2)}" />`;
-    }).join('');
-
-    const nodes = NODES.map(([name,x,y]) => {
-      const weight = map[name] ?? 1;
-      const radius = Math.max(25,Math.min(36,26 + weight*5));
-      return `
-        <g class="genesis-node ${nodeClass(weight)}" transform="translate(${x * 10},${y * 6})">
-          <circle r="${radius}"></circle>
-          <text y="-2">${escapeHtml(label(name))}</text>
-          <text class="node-weight" y="14">${weight.toFixed(3)}</text>
-        </g>`;
-    }).join('');
-
-    const trade = health?.open_trades?.trades?.[0];
-    const engine = health?.engine || {};
-    const lastDecision = [...(thoughts || [])].reverse()
-      .find(t => ['fired','decision','rejected','mission'].includes(t.type));
-
-    const rawScore = Number(
-      trade?.score ?? lastDecision?.score ?? engine.score_min ?? 0
-    );
-    const score = Math.max(
-      0,
-      Math.min(100, Number.isFinite(rawScore) ? rawScore : 0)
-    );
-    const decision = String(trade?.action ?? (trade ? 'ACTIVE' : 'WAIT')).toUpperCase();
-    const coin = trade?.coin ?? lastDecision?.coin ?? '';
-
-    const decisionColor =
-      decision === 'BUY' ? '#4ade80' :
-      decision === 'SELL' ? '#f87171' : '#f59e0b';
-
-    svg.innerHTML = `
-      <g>${lines}</g>
-      <g>${nodes}</g>
-      <g class="genesis-core" transform="translate(500,300)">
-        <circle r="74"></circle>
-        <text class="core-title" y="-30">GENESIS</text>
-        <text class="core-decision" y="-7" fill="${decisionColor}">
-          ${escapeHtml(decision)} ${escapeHtml(coin)}
-        </text>
-        <text class="core-score" y="25">${Math.round(score)}%</text>
-        <text class="node-weight" y="44">CONFIDENCE</text>
-      </g>`;
-
-    const set = (id,value) => {
-      const el = document.getElementById(id);
-      if (el) el.textContent = value;
-    };
-
-    set('genesis-brain-regime', String(engine.regime || '--').toUpperCase());
-    set('genesis-brain-mode', String(engine.mode || '--').toUpperCase());
-    set('genesis-brain-health', `${Math.round(Number(health?.health_score || 0))}%`);
-    set('genesis-brain-mission', trade ? `${trade.coin} ${trade.action}` : 'SCANNING');
-
-    const badge = document.getElementById('genesis-brain-status');
+  function status(label, state) {
+    const badge = $('genesis-brain-status');
     if (badge) {
-      badge.textContent = health?.checks?.engine ? 'NEURAL CORE LIVE' : 'CORE OFFLINE';
-      badge.style.color = health?.checks?.engine ? '#4ade80' : '#f87171';
+      badge.textContent = label;
+      badge.dataset.state = state;
     }
   }
 
-  async function refreshGenesisBrain() {
+  function relativeTime(stamp) {
+    if (!fresh(stamp)) return 'Unverified';
+    return new Date(stamp).toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
+  }
+
+  function renderHealth(health) {
+    if (!health || !fresh(health.served_at) || health.engine?.mode !== 'paper') {
+      throw new Error('stale_or_unsupported_health');
+    }
+    const engine = health.engine || {};
+    const checks = health.checks || {};
+    const count = health.open_trades?.count;
+    const openCount = Number.isSafeInteger(count) && count >= 0 ? count : null;
+    const score = num(health.health_score);
+    const running = engine.running === true && checks.engine === true;
+
+    stage('feeds', checks.runtime_fresh === true ? 'FRESH' : 'UNVERIFIED',
+      'Runtime source check', checks.runtime_fresh === true ? 'ok' : 'warn');
+    stage('engine', running ? 'RUNNING' : 'NOT VERIFIED',
+      'Evaluation details private', running ? 'ok' : 'warn');
+    stage('gate', 'PAPER ONLY', 'No real-money authority', 'safe');
+    stage('positions', openCount === null ? 'WITHHELD' : String(openCount) + ' OPEN',
+      'Individual positions private', openCount === null ? 'warn' : 'ok');
+
+    text('genesis-brain-regime', String(engine.regime || 'UNKNOWN').toUpperCase());
+    text('genesis-brain-mode', 'PAPER');
+    text('genesis-brain-health', score === null ? '—' : Math.round(score) + '/100');
+    text('genesis-brain-open', openCount === null ? '—' : openCount);
+    text('genesis-core-source-time', 'Health ' + relativeTime(health.served_at));
+    status(running ? 'PAPER · CONNECTED' : 'PAPER · LIMITED', running ? 'ok' : 'warn');
+  }
+
+  function renderPerformance(performance) {
+    if (!performance || !fresh(performance.updated_at) ||
+        performance.engine?.mode !== 'paper') {
+      text('genesis-brain-winrate', '—');
+      text('genesis-core-performance-time', 'Aggregate unavailable');
+      return;
+    }
+    const p = performance.performance || {};
+    const winRate = num(p.win_rate);
+    const trades = p.trades;
+    text('genesis-brain-winrate', winRate === null || winRate < 0 || winRate > 100
+      ? '—' : winRate.toFixed(2) + '%');
+    text('genesis-core-performance-time', 'Results ' + relativeTime(performance.updated_at) +
+      (Number.isSafeInteger(trades) ? ' · ' + trades + ' completed' : ''));
+  }
+
+  async function getJSON(url) {
+    const response = await fetch(url + '?refresh=' + Date.now(), {cache:'no-store'});
+    if (!response.ok) throw new Error('HTTP ' + response.status);
+    return response.json();
+  }
+
+  async function refresh() {
     try {
-      const stamp = Date.now();
-      const [weightsResponse,healthResponse,thoughtsResponse] = await Promise.all([
-        fetch(`/api/genesis-weights?cache=${stamp}`),
-        fetch(`/api/health?cache=${stamp}`),
-        fetch(`/api/genesis-thoughts?cache=${stamp}`)
-      ]);
-
-      if (!weightsResponse.ok || !healthResponse.ok || !thoughtsResponse.ok) {
-        throw new Error('Genesis API unavailable');
+      const health = await getJSON('/api/health');
+      renderHealth(health);
+      try {
+        renderPerformance(await getJSON('/api/genesis/status'));
+      } catch {
+        renderPerformance(null);
+        status('PAPER · PARTIAL DATA', 'warn');
       }
-
-      const [weights,health,thoughts] = await Promise.all([
-        weightsResponse.json(),
-        healthResponse.json(),
-        thoughtsResponse.json()
-      ]);
-
-      draw(weights.weights || [],health,thoughts.thoughts || []);
-    } catch (error) {
-      const badge = document.getElementById('genesis-brain-status');
-      if (badge) {
-        badge.textContent = 'CONNECTION DEGRADED';
-        badge.style.color = '#f87171';
+    } catch {
+      status('STATUS UNAVAILABLE', 'warn');
+      for (const key of ['feeds','engine','gate','positions']) {
+        stage(key, 'UNVERIFIED', 'Live snapshot unavailable', 'warn');
       }
+      for (const id of ['genesis-brain-regime','genesis-brain-mode',
+        'genesis-brain-health','genesis-brain-open','genesis-brain-winrate']) text(id, '—');
+      text('genesis-core-source-time', 'No fresh health timestamp');
+      text('genesis-core-performance-time', 'Not verified');
     }
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    refreshGenesisBrain();
-    setInterval(refreshGenesisBrain,15000);
-  });
+  const start = () => {
+    refresh();
+    setInterval(refresh, 15000);
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start, {once:true});
+  } else start();
 })();

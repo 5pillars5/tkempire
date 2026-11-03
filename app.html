@@ -114,7 +114,7 @@ body{display:flex;flex-direction:column;font-family:'Inter',system-ui,sans-serif
 .nav-icon{font-size:20px;margin-bottom:3px;}
 .nav-label{font-size:8px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600;}
 </style>
-<link rel="stylesheet" href="/assets/css/site-tabs.css?v=2"/>
+<link rel="stylesheet" href="/assets/css/site-tabs.css?v=3"/>
 <script src="/assets/js/genesis-live.js?v=1" defer></script>
 </head>
 <body>
@@ -277,19 +277,9 @@ function renderAppLive(state){
     }
   }
 }
-async function renderAppPortfolio(){
+function renderAppPortfolio(){
   const box=document.getElementById('appStrategyTelemetry');
-  if(!box)return;
-  try{
-    const r=await fetch('/api/portfolio?ts='+Date.now(),{cache:'no-store'});
-    if(!r.ok)throw new Error('HTTP '+r.status);
-    const p=await r.json();
-    const pair=p.pair||p.symbol||'Strategy';
-    const status=String(p.status||'research').toUpperCase();
-    const cycles=p.cycles??p.total_cycles??'—';
-    const profit=Number(p.gridProfit??p.grid_profit??p.totalProfit??p.total_profit??0);
-    box.innerHTML='<div class="bot-card-hdr"><div class="bot-status-dot"></div><div><div class="bot-pair">'+pair+'</div><div class="bot-meta">'+status+' · live portfolio telemetry</div></div><div class="bot-pnl">'+(profit>=0?'+':'')+profit.toFixed(2)+'</div></div><div class="bot-grid"><div class="bot-stat"><div class="bot-stat-val">'+cycles+'</div><div class="bot-stat-lbl">Cycles</div></div><div class="bot-stat"><div class="bot-stat-val">'+status+'</div><div class="bot-stat-lbl">Status</div></div><div class="bot-stat"><div class="bot-stat-val">API</div><div class="bot-stat-lbl">Source</div></div></div>';
-  }catch(e){box.innerHTML='<div class="bot-meta">Strategy telemetry unavailable. No cached performance claim is shown.</div>'}
+  if(box)box.textContent='Private strategy telemetry is not accessible from the public website. Verified paper aggregates are shown on the Dashboard and Results pages.';
 }
 function attachGenesisLive(){
   if(window.GenesisLive){window.GenesisLive.subscribe(renderAppLive);renderAppLive(window.GenesisLive.getState());}
@@ -358,6 +348,6 @@ function requestNotifications(){
 }
 </script>
 <script src="empire.js"></script>
-<script src="/assets/js/site-tabs.js?v=2" defer></script>
+<script src="/assets/js/site-tabs.js?v=3" defer></script>
 </body>
 </html>
