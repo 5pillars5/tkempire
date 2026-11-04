@@ -109,7 +109,9 @@ module.exports = async function testnetAccount(req, res) {
     return respond(res, 405, { status: 'METHOD_NOT_ALLOWED' });
   }
   const origin = req.headers.origin;
-  if (origin && origin !== ALLOWED_ORIGIN && origin !== 'https://tkempire.io') {
+  const host = req.headers.host;
+  const sameOrigin = typeof host === 'string' && /^[a-z0-9.-]{1,180}$/.test(host) && origin === 'https://' + host;
+  if (origin && !sameOrigin && origin !== ALLOWED_ORIGIN && origin !== 'https://tkempire.io') {
     return respond(res, 403, { status: 'ORIGIN_NOT_ALLOWED' });
   }
   if (Number(req.headers['content-length']) > 256) {
