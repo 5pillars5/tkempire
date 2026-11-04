@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090917">
+<meta name="description" content="Genesis Hyperliquid TESTNET exchange account dashboard: mock USDC balances, positions, orders, fills and verified P&L.">
+<title>Genesis TESTNET Portfolio | TK Empire</title>
+<link rel="icon" type="image/jpeg" href="https://i.imgur.com/Kf99eJt.jpeg">
+<link rel="stylesheet" href="/assets/css/site-tabs.css?v=3">
+<style>
+:root{color-scheme:dark;--bg:#080916;--panel:#121327;--panel2:#0c1020;--line:#31314f;--text:#f4f2ff;--muted:#a5aac5;--gold:#f6ca75;--purple:#b69cff;--green:#65e4b2;--red:#ff879c}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 70% 0%,#2a1747 0,transparent 38%),var(--bg);color:var(--text);font:14px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:1190px;width:calc(100% - 38px);margin:auto;padding:36px 0 80px}
+a{color:var(--purple)}h1{font-size:clamp(33px,5.2vw,59px);letter-spacing:-.045em;line-height:1.06;margin:8px 0 12px}h1 em{font-style:normal;color:var(--gold)}
+.eyebrow{font-size:11px;font-weight:900;letter-spacing:.17em;color:var(--purple);text-transform:uppercase}
+.lead{color:var(--muted);font-size:15px;max-width:780px}
+.heading{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.pill{border:1px solid #775a30;color:var(--gold);background:#261d17;padding:9px 12px;border-radius:99px;font-size:11px;font-weight:900;letter-spacing:.03em}
+.pill.ok{border-color:#286c57;background:#102f29;color:var(--green)}.pill.error{border-color:#90465d;background:#341925;color:var(--red)}
+.note{border:1px solid #54442c;background:#211d17;border-radius:13px;padding:13px 16px;color:#eed3a8;margin:22px 0;font-size:12px}
+.form-panel,.panel,.metric{background:linear-gradient(145deg,#17162d,#0e1224);border:1px solid var(--line);border-radius:16px}
+.form-panel{padding:20px;margin:24px 0}.form-row{display:flex;gap:10px;flex-wrap:wrap;align-items:end}.field{flex:1 1 330px}
+label{display:block;color:#b3b8d2;font-weight:800;font-size:11px;margin-bottom:7px;text-transform:uppercase;letter-spacing:.08em}
+input{width:100%;min-width:0;padding:13px 14px;background:#090d1e;border:1px solid #5d547c;color:#fff;border-radius:9px;font:13px system-ui;letter-spacing:.02em}
+button{font:800 13px system-ui;border:1px solid #7461a7;border-radius:9px;background:#2a1d4a;color:#fff;padding:13px 18px;cursor:pointer}button.primary{background:linear-gradient(110deg,#7141ce,#4e36bb);border-color:#906bcf}button:disabled{opacity:.5;cursor:wait}button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.form-help,.small{font-size:11px;color:#a5a9c3;margin:9px 0 0}.status{font-size:12px;color:#c4c1db;margin:10px 0 0}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.metric{padding:20px;min-width:0}.metric small{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.055em;font-weight:800}.metric strong{font-size:clamp(22px,3vw,31px);line-height:1.17;display:block;margin:11px 0 7px;font-weight:900;letter-spacing:-.035em;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}.metric span{font-size:11px;color:#adb1c9;display:block}.green{color:var(--green)!important}.red{color:var(--red)!important}.gold{color:var(--gold)!important}.muted{color:var(--muted)!important}
+.section{margin-top:30px}.section h2{font-size:19px;letter-spacing:-.015em;margin:0 0 10px}.section .desc{font-size:12px;color:var(--muted);margin:0 0 14px}
+.panel{padding:20px}.twocol{display:grid;grid-template-columns:1.15fr .85fr;gap:12px}
+.table-scroll{overflow-x:auto}.grid-table{width:100%;border-collapse:collapse;text-align:left;font-size:12px}.grid-table th{padding:11px 13px;color:#a9aac2;background:#101229;font-size:10px;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}.grid-table td{padding:12px 13px;border-bottom:1px solid #2b2b48;white-space:nowrap;font-variant-numeric:tabular-nums}.grid-table tr:last-child td{border-bottom:none}.empty{padding:24px 10px;color:#a6abc5;text-align:center}
+.kv{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 2px;border-bottom:1px solid #2a2a49}.kv:last-child{border:0}.kv span{color:var(--muted)}.kv strong{font-variant-numeric:tabular-nums;text-align:right}
+.chart-wrap{margin-top:5px}.chart-wrap svg{width:100%;height:220px;display:block;overflow:visible}.chart-wrap .axis{fill:#9c9fbc;font-size:10px}.chart-wrap .path{stroke:var(--purple);stroke-width:2.5;fill:none;stroke-linejoin:round;stroke-linecap:round}.chart-wrap .baseline{stroke:#40415f;stroke-dasharray:3 5}.chart-wrap .fill{fill:#9e76ff15}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}.actions a{display:inline-block;padding:11px 14px;text-decoration:none;border:1px solid #615588;background:#1a1531;border-radius:10px;font-size:12px;font-weight:800}
+footer{padding:28px 15px;border-top:1px solid #242443;font-size:11px;color:#969bb8;text-align:center}
+@media(max-width:930px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.twocol{grid-template-columns:1fr}}
+@media(max-width:530px){main{width:calc(100% - 26px);padding-top:23px}.form-panel,.panel{padding:15px}.metrics{gap:8px}.metric{padding:15px 12px}.metric strong{font-size:22px}.metric small{font-size:10px}.form-row button{flex:1 1 130px}.grid-table{font-size:11px}}
+</style>
+</head>
+<body>
+<nav></nav>
+<main>
+  <header class="heading">
+    <div>
+      <div class="eyebrow">TK EMPIRE · GENESIS · EXCHANGE-VERIFIED</div>
+      <h1>TESTNET <em>Portfolio.</em></h1>
+      <p class="lead">Monitor real Hyperliquid <strong>TESTNET</strong> account records, including simulated-USDC balances, open perpetual positions, orders and exchange fills. No trading controls or real-money account data.</p>
+    </div>
+    <div class="pill" id="connectionPill" role="status">NOT CONNECTED</div>
+  </header>
+  <div class="note"><strong>Simulation environment.</strong> This page reads actual TESTNET exchange records. It does not show Genesis internal paper positions, and it does not submit orders. Mock USDC and TESTNET P&amp;L have no real-money value.</div>
+  <section class="form-panel" aria-label="Read-only account connection">
+    <form id="walletForm">
+      <div class="form-row">
+        <div class="field">
+          <label for="wallet">Hyperliquid TESTNET master wallet (public address only)</label>
+          <input id="wallet" placeholder="0x… (42-character public wallet address)" spellcheck="false" autocapitalize="off" autocomplete="off" required pattern="0x[a-fA-F0-9]{40}" maxlength="42">
+        </div>
+        <button type="submit" class="primary" id="connect">Load portfolio</button>
+        <button type="button" id="refresh">Refresh</button>
+      </div>
+      <p class="form-help">Paste only the public master account address—not the agent wallet and never a seed phrase or private key. Stored only in this browser. Nothing is sent to Genesis for trading.</p>
+    </form>
+    <div class="status" id="sourceStatus" aria-live="polite">Enter the master wallet address to read Hyperliquid TESTNET.</div>
+  </section>
+  <section aria-label="Exchange account overview">
+    <div class="metrics">
+      <div class="metric"><small>Perps account value</small><strong id="perpValue">—</strong><span>Exchange-reported TESTNET margin account</span></div>
+      <div class="metric"><small>Spot USDC</small><strong id="spotValue" class="gold">—</strong><span>Simulated TESTNET spot balance</span></div>
+      <div class="metric"><small>Open unrealized P&amp;L</small><strong id="unrealized">—</strong><span>Sum of current exchange positions</span></div>
+      <div class="metric"><small>Realized P&amp;L on fills</small><strong id="realized">—</strong><span>Reported closed P&amp;L; before fees and funding</span></div>
+      <div class="metric"><small>Fees on fills</small><strong id="fees">—</strong><span>USDC fees from returned fill history</span></div>
+      <div class="metric"><small>Net closed P&amp;L after fees</small><strong id="netRealized">—</strong><span>Returned fills only; excludes funding</span></div>
+      <div class="metric"><small>Open positions</small><strong id="positionCount">—</strong><span>Actual TESTNET perpetual positions</span></div>
+      <div class="metric"><small>Open orders</small><strong id="orderCount">—</strong><span>Current TESTNET order book</span></div>
+    </div>
+  </section>
+  <section class="section" aria-labelledby="positionTitle">
+    <h2 id="positionTitle">Open perpetual positions</h2>
+    <p class="desc">Position size, average entry, exchange-reported position value, current unrealized P&amp;L and liquidation price.</p>
+    <div class="panel table-scroll"><table class="grid-table"><thead><tr><th>Asset</th><th>Side</th><th>Size</th><th>Entry</th><th>Notional</th><th>Unrealized</th><th>Leverage</th><th>Liquidation</th></tr></thead><tbody id="positionsBody"><tr><td colspan="8" class="empty">Connect the TESTNET wallet to load positions.</td></tr></tbody></table></div>
+  </section>
+  <section class="section twocol">
+    <div>
+      <h2>Closed P&amp;L progression</h2>
+      <p class="desc">Cumulative closed P&amp;L minus reported USDC fees over returned fills—not a full equity curve or all-time return. Funding is excluded.</p>
+      <div class="panel"><div class="chart-wrap" id="pnlChart"><div class="empty">No exchange fill history loaded.</div></div><p class="small" id="chartNote">Up to the latest 2,000 reported fills. No invented starting balance.</p></div>
+    </div>
+    <div>
+      <h2>Account &amp; data provenance</h2>
+      <p class="desc">Read-only snapshot pulled from the official Hyperliquid TESTNET Info API.</p>
+      <div class="panel">
+        <div class="kv"><span>Environment</span><strong>HYPERLIQUID TESTNET</strong></div>
+        <div class="kv"><span>Snapshot time</span><strong id="snapshot">—</strong></div>
+        <div class="kv"><span>Perps withdrawable</span><strong id="withdrawable">—</strong></div>
+        <div class="kv"><span>Margin in use</span><strong id="marginUsed">—</strong></div>
+        <div class="kv"><span>Returned fills</span><strong id="fillsCount">—</strong></div>
+        <div class="kv"><span>Availability</span><strong id="dataHealth">Not loaded</strong></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <h2>Active exchange orders</h2>
+    <p class="desc">Only orders that remain open at the time of the query.</p>
+    <div class="panel table-scroll"><table class="grid-table"><thead><tr><th>Asset</th><th>Side</th><th>Limit price</th><th>Size</th><th>Submitted (UTC)</th></tr></thead><tbody id="ordersBody"><tr><td colspan="5" class="empty">No data loaded.</td></tr></tbody></table></div>
+  </section>
+  <section class="section">
+    <h2>Exchange fill history</h2>
+    <p class="desc">Real testnet matching-engine fills, newest first. Entries and exits appear separately. A fill does not always mean a completed round-trip trade.</p>
+    <div class="panel table-scroll"><table class="grid-table"><thead><tr><th>Time (UTC)</th><th>Asset</th><th>Action</th><th>Quantity</th><th>Fill price</th><th>Closed P&amp;L</th><th>Fee</th></tr></thead><tbody id="fillsBody"><tr><td colspan="7" class="empty">No data loaded.</td></tr></tbody></table></div>
+    <p class="small" id="fillsNote">History is capped by the exchange API; this dashboard is not a complete accounting ledger.</p>
+  </section>
+  <div class="actions">
+    <a href="/portfolio.html">Genesis paper Portfolio Lab</a>
+    <a href="/results.html">Research results</a>
+    <a href="https://app.hyperliquid-testnet.xyz" rel="noopener noreferrer" target="_blank">Hyperliquid TESTNET</a>
+  </div>
+</main>
+<footer>© TK Empire · Read-only exchange telemetry · TESTNET simulation only · Not a brokerage statement</footer>
+<script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+const addressPattern=/^0x[a-fA-F0-9]{40}$/;
+const money=(v,places=2)=>typeof v==='number'&&Number.isFinite(v)?v.toLocaleString('en-US',{minimumFractionDigits:places,maximumFractionDigits:places}):'—';
+const usd=v=>typeof v==='number'&&Number.isFinite(v)?(v<0?'−':'')+'$'+money(Math.abs(v)):'—';
+const count=v=>Number.isSafeInteger(v)?String(v):'—';
+const number=v=>typeof v==='number'&&Number.isFinite(v)?v:null;
+const date=v=>typeof v==='number'&&Number.isFinite(v)?new Date(v).toISOString().replace('T',' ').replace('Z',' UTC'):'—';
+const set=(id,value)=>{$(id).textContent=String(value)};
+const signed=(v)=>{if(number(v)===null)return '—';return (v>0?'+':'')+usd(v)};
+let activeWallet=null, loading=false;
+function tone(id,n){$(id).classList.remove('green','red');if(number(n)!==null&&n!==0)$(id).classList.add(n>0?'green':'red')}
+function empty(id,cols,msg){const body=$(id);body.replaceChildren();const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=cols;td.className='empty';td.textContent=msg;tr.appendChild(td);body.appendChild(tr)}
+function table(id,rows,keys,columns,emptyMessage){
+  if(!Array.isArray(rows)){empty(id,columns,'Data unavailable');return}
+  if(!rows.length){empty(id,columns,emptyMessage);return}
+  const body=$(id);body.replaceChildren();
+  for(const item of rows){
+    const tr=document.createElement('tr');
+    for(const key of keys){
+      const td=document.createElement('td');
+      const result=key(item);
+      td.textContent=String(result===undefined?'—':result);
+      tr.appendChild(td);
+    }
+    body.appendChild(tr);
+  }
+}
+function chart(fills){
+  const target=$('pnlChart');target.replaceChildren();
+  if(!Array.isArray(fills)){target.textContent='Fill history unavailable';return}
+  const items=fills.filter(f=>number(f.timestamp)!==null&&number(f.closed_pnl)!==null).slice().sort((a,b)=>a.timestamp-b.timestamp);
+  if(!items.length){target.textContent='No exchange fills with realized P&L in the reported history.';target.classList.add('empty');return}
+  target.classList.remove('empty');
+  let cumulative=0;
+  const pts=[{y:0}];
+  for(const f of items){cumulative+=f.closed_pnl-(f.fee_token==='USDC'?(number(f.fee)||0):0);pts.push({y:cumulative})}
+  let lo=Math.min(0,...pts.map(p=>p.y)),hi=Math.max(0,...pts.map(p=>p.y));
+  if(hi===lo){hi+=1;lo-=1}
+  const W=800,H=220,left=14,right=14,top=13,bottom=25;
+  const x=i=>left+(W-left-right)*(i/(pts.length-1));
+  const y=n=>top+(H-top-bottom)*(1-(n-lo)/(hi-lo));
+  const coord=pts.map((p,i)=>x(i).toFixed(1)+','+y(p.y).toFixed(1)).join(' ');
+  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svg.setAttribute('viewBox','0 0 '+W+' '+H);
+  svg.setAttribute('role','img');
+  svg.setAttribute('aria-label','Cumulative realized TESTNET P&L after USDC fees from '+items.length+' reported fills: '+signed(cumulative));
+  const ns='http://www.w3.org/2000/svg';
+  const baseline=document.createElementNS(ns,'line');
+  baseline.setAttribute('x1',String(left));baseline.setAttribute('x2',String(W-right));
+  baseline.setAttribute('y1',String(y(0)));baseline.setAttribute('y2',String(y(0)));baseline.setAttribute('class','baseline');
+  const line=document.createElementNS(ns,'polyline');
+  line.setAttribute('points',coord);line.setAttribute('class','path');
+  svg.appendChild(baseline);svg.appendChild(line);
+  for(const item of [{t:usd(hi),v:hi},{t:usd(lo),v:lo}]){
+    const label=document.createElementNS(ns,'text');label.setAttribute('x','14');label.setAttribute('y',String(Math.max(12,Math.min(H-10,y(item.v)-4))));label.setAttribute('class','axis');label.textContent=item.t;svg.appendChild(label);
+  }
+  target.appendChild(svg);
+}
+function clear(){
+ ['perpValue','spotValue','unrealized','realized','fees','netRealized','positionCount','orderCount','snapshot','withdrawable','marginUsed','fillsCount'].forEach(x=>set(x,'—'));
+ ['unrealized','realized','netRealized'].forEach(x=>tone(x,null));
+ ['positionsBody','ordersBody','fillsBody'].forEach((x,i)=>empty(x,[8,5,7][i],'No verified exchange data loaded.'));
+ $('pnlChart').replaceChildren();$('pnlChart').textContent='No verified fill history loaded.';
+ set('dataHealth','Not loaded');
+}
+async function refresh(){
+ if(loading||!activeWallet)return;
+ loading=true;$('connect').disabled=true;$('refresh').disabled=true;
+ set('sourceStatus','Fetching Hyperliquid TESTNET exchange records…');
+ set('connectionPill','SYNCING');$('connectionPill').className='pill';
+ try{
+  const r=await fetch('/api/testnet-account',{method:'POST',headers:{'Content-Type':'application/json'},cache:'no-store',body:JSON.stringify({user:activeWallet}),signal:AbortSignal.timeout(16000)});
+  if(!r.ok)throw Error('TESTNET account endpoint unavailable (HTTP '+r.status+')');
+  const data=await r.json();
+  if(data.source!=='HYPERLIQUID_TESTNET_INFO'||data.network!=='TESTNET'||data.address!==activeWallet.toLowerCase())throw Error('Invalid exchange source response');
+  clear();
+  const s=data.sections||{},p=s.perps,spot=s.spot,orders=s.orders,fills=s.fills;
+  set('perpValue',p?usd(p.account_value):'—');
+  set('withdrawable',p?usd(p.withdrawable):'—');
+  set('marginUsed',p?usd(p.total_margin_used):'—');
+  set('positionCount',p?count(p.positions.length):'—');
+  if(Array.isArray(spot)){
+    const usdc=spot.find(x=>x.coin==='USDC');set('spotValue',usdc?usd(usdc.total):'$0.00');
+  }
+  set('orderCount',Array.isArray(orders)?count(orders.length):'—');
+  let realized=null,fees=null,net=null;
+  if(Array.isArray(fills)){
+    const validClosed=fills.every(f=>number(f.closed_pnl)!==null);
+    realized=validClosed?fills.reduce((sum,f)=>sum+f.closed_pnl,0):null;
+    const allFeesUsdc=fills.every(f=>f.fee_token==='USDC'||number(f.fee)===0);
+    fees=allFeesUsdc&&fills.every(f=>number(f.fee)!==null)?fills.reduce((sum,f)=>sum+f.fee,0):null;
+    net=realized!==null&&fees!==null?realized-fees:null;
+    set('fillsCount',fills.length);
+  }
+  set('realized',signed(realized));tone('realized',realized);
+  set('fees',usd(fees));
+  set('netRealized',signed(net));tone('netRealized',net);
+  const pos=p?p.positions:null;
+  const unp=Array.isArray(pos)&&pos.every(x=>number(x.unrealized_pnl)!==null)?pos.reduce((sum,x)=>sum+x.unrealized_pnl,0):null;
+  set('unrealized',signed(unp));tone('unrealized',unp);
+  table('positionsBody',pos,[
+    o=>o.coin,o=>o.direction,o=>money(Math.abs(o.size),5),o=>usd(o.entry_price),o=>usd(o.position_value),
+    o=>signed(o.unrealized_pnl),o=>number(o.leverage)===null?'—':o.leverage+'×',o=>usd(o.liquidation_price)
+  ],8,'No open Hyperliquid TESTNET positions.');
+  table('ordersBody',orders,[
+    o=>o.coin,o=>o.side,o=>usd(o.price),o=>money(o.size,5),o=>date(o.timestamp)
+  ],5,'No active TESTNET orders.');
+  const sorted=Array.isArray(fills)?fills.slice().sort((a,b)=>(b.timestamp||0)-(a.timestamp||0)):null;
+  table('fillsBody',sorted?sorted.slice(0,100):null,[
+    o=>date(o.timestamp),o=>o.coin,o=>o.direction||o.side,o=>money(o.size,5),o=>usd(o.price),
+    o=>signed(o.closed_pnl),o=>o.fee_token==='USDC'?usd(o.fee):money(o.fee,5)+' '+o.fee_token
+  ],7,'No TESTNET fills in the returned history.');
+  chart(fills);
+  set('snapshot',new Date(data.fetched_at).toLocaleString());
+  set('dataHealth',data.status+(data.errors?.length?' · '+data.errors.join(', '):''));
+  set('sourceStatus','Exchange snapshot '+new Date(data.fetched_at).toLocaleString()+' · read-only · refreshes every 90 seconds');
+  set('connectionPill',data.status==='OK'?'TESTNET VERIFIED':'PARTIAL EXCHANGE DATA');
+  $('connectionPill').className='pill '+(data.status==='OK'?'ok':'');
+  set('fillsNote','Displaying up to 100 of '+(Array.isArray(fills)?fills.length:0)+' returned fills. Total reported sample is limited to the 2,000 latest fills. Fees and funding limitations apply.');
+  set('chartNote','Sample cumulative closed P&L, net of reported USDC fees · '+(Array.isArray(fills)?fills.length:0)+' returned fills · excludes funding and earlier history');
+ }catch(e){
+  clear();set('connectionPill','DATA UNAVAILABLE');$('connectionPill').className='pill error';
+  set('sourceStatus',String(e.message||'Exchange data unavailable')+'. No position or P&L values inferred.');
+ }finally{loading=false;$('connect').disabled=false;$('refresh').disabled=false}
+}
+$('walletForm').addEventListener('submit',e=>{
+ e.preventDefault();const address=$('wallet').value.trim();
+ if(!addressPattern.test(address)){set('sourceStatus','Enter a valid 42-character public master wallet address.');return}
+ activeWallet=address.toLowerCase();
+ try{localStorage.setItem('tkempire_testnet_wallet',activeWallet)}catch{}
+ refresh();
+});
+$('refresh').addEventListener('click',refresh);
+let saved='';try{saved=localStorage.getItem('tkempire_testnet_wallet')||''}catch{}
+if(addressPattern.test(saved)){$('wallet').value=saved;activeWallet=saved.toLowerCase();refresh()}
+setInterval(()=>{if(activeWallet&&!document.hidden)refresh()},90000);
+})();
+</script>
+<script src="/assets/js/site-tabs.js?v=3" defer></script>
+</body>
+</html>

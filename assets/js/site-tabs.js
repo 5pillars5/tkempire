@@ -2,7 +2,7 @@
   'use strict';
   const tabs = [
     ['Home','/'],['Dashboard','/dashboard.html'],['Results','/results.html'],
-    ['Research','/research.html'],['Learn','/learn.html'],['Portfolio','/portfolio.html'],
+    ['Research','/research.html'],['Learn','/learn.html'],['Portfolio','/portfolio.html'],['TESTNET P&L','/testnet.html'],
     ['Recovery','/recovery.html'],['About','/about.html'],
     ['Community','/community.html'],['App','/app.html'],
     ['Private Beta','/join.html','cta']
