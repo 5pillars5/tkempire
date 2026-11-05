@@ -69,7 +69,7 @@ footer{border-top:1px solid #292742;color:#8990aa;font-size:11px;padding:23px 0 
     <h2 class="section-title">Current paper status</h2>
     <div class="overview-grid">
       <div class="metric"><small>Engine</small><strong id="appEngine" class="green">—</strong><span id="appMode">Mode unverified</span></div>
-      <div class="metric"><small>Open paper positions</small><strong id="appOpenCount" class="purple">—</strong><span>Reported count, not live orders</span></div>
+      <div class="metric"><small>Open paper positions</small><strong id="appOpenCount" class="purple">—</strong><span id="appPaperState">Position status not verified</span></div>
       <div class="metric"><small>Paper win rate</small><strong id="appWinRate" class="gold">—</strong><span>Source-reported outcomes</span></div>
       <div class="metric"><small>Completed paper trades</small><strong id="appTrades">—</strong><span>Separate aggregate dataset</span></div>
     </div>
@@ -135,6 +135,7 @@ footer{border-top:1px solid #292742;color:#8990aa;font-size:11px;padding:23px 0 
     set('appEngine',healthOK?(running?'RUNNING':'UNVERIFIED'):'—');
     set('appMode',healthOK?'PAPER MODE · NO LIVE ORDERS':'Mode unverified');
     set('appOpenCount',open===null?'—':open);
+    set('appPaperState',open===null?'UNVERIFIED · data unavailable':open>0?'OPEN PAPER POSITIONS · not exchange orders':'ZERO OPEN PAPER POSITIONS · not exchange orders');
     set('appHealthTimestamp',healthOK?'Health checked '+sourceTime(health.served_at):'Health timestamp unverified');
     var p=statusOK?status.performance||{}:{};
     var rate=num(p.win_rate);
