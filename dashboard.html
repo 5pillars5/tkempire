@@ -568,6 +568,10 @@ const TK_API_DASHBOARD = '/api/genesis/status';
   </div>
 
   <div class="v3-metrics">
+    <div class="v3-metric" id="paper-position-summary" aria-live="polite">
+      <span>Open PAPER positions</span><strong id="v3PaperTradeState">CHECKING</strong>
+      <small id="v3PaperTradeFreshness" style="display:block;margin-top:8px;font-size:11px;color:#9ca3af;">Awaiting verified PAPER health snapshot</small>
+    </div>
     <div class="v3-metric"><span>Engine</span><strong id="v3Engine">—</strong></div>
     <div class="v3-metric"><span>Trading Mode</span><strong id="v3Mode">—</strong></div>
     <div class="v3-metric"><span>Signals</span><strong id="v3Signals">--</strong></div>
@@ -1341,7 +1345,7 @@ setInterval(loadEaiV3,30000);
       <div>
         <div style="color:#f5c542;font-size:12px;font-weight:900;letter-spacing:2px;text-transform:uppercase;">Private Beta Validation</div>
         <h2 style="color:#fff;margin:8px 0 6px;font-size:28px;">Open Trade Status</h2>
-        <p style="color:#9ca3af;margin:0;">Trades remain active until TP1, TP2, stop-loss, or 24h timeout.</p>
+        <p style="color:#9ca3af;margin:0;">Read-only count reported by the PAPER health API, not Hyperliquid TESTNET orders. Individual trade details remain private.</p>
       </div>
       <div style="text-align:right;">
         <div style="color:#f5c542;font-size:32px;font-weight:950;" id="openTradeCount">--</div>
@@ -1365,87 +1369,51 @@ setInterval(loadEaiV3,30000);
 
 
 <script>
-
-async function fetchLiveEmpireTrades(){
-  const response = await fetch('/api/health?cache=' + Date.now(), {
-    cache: 'no-store'
-  });
-
-  if(!response.ok){
-    throw new Error('Live runtime unavailable: ' + response.status);
-  }
-
-  const health = await response.json();
-
-  const rows = Array.isArray(health.open_trades?.trades)
-    ? health.open_trades.trades
-    : [];
-
-  return rows.filter(trade => {
-    const status = String(trade?.status || 'open').toLowerCase();
-
-    return ![
-      'closed',
-      'complete',
-      'completed',
-      'win',
-      'loss',
-      'stopped'
-    ].includes(status);
-  });
+/* PAPER POSITION STATUS V2: Public count only. Never infer zero from withheld trades. */
+function paperHealthFresh(stamp){
+  const time = Date.parse(stamp || "");
+  const age = Date.now() - time;
+  return Number.isFinite(time) && age >= -30000 && age <= 120000;
 }
 
 async function loadOpenTradeStatus(){
+  const state = document.getElementById("v3PaperTradeState");
+  const age = document.getElementById("v3PaperTradeFreshness");
+  const count = document.getElementById("openTradeCount");
+  const box = document.getElementById("openTradeCards");
   try{
-    const res = await fetch('/api/health?cache=' + Date.now());
-    if(!res.ok) throw new Error('Paper health unavailable');
+    const res = await fetch("/api/health?cache=" + Date.now(), {cache:"no-store"});
+    if(!res.ok) throw new Error("HEALTH_UNAVAILABLE");
     const d = await res.json();
-    const trades = Array.isArray(d.open_trades?.trades) ? d.open_trades.trades : [];
-
-    const count = document.getElementById('openTradeCount');
-    if(count) count.textContent = Number.isSafeInteger(d.open_trades?.count) ? d.open_trades.count : '—';
-
-    const box = document.getElementById('openTradeCards');
-    if(!box) return;
-
-    if(!trades.length){
-      box.innerHTML = '<div style="color:#9ca3af;">No open trades. EAI is waiting for a valid setup.</div>';
-      return;
+    const n = d && d.open_trades && d.open_trades.count;
+    if(d?.source !== "GENESIS_PAPER_PUBLIC_SUMMARY" || d?.engine?.mode !== "paper" ||
+       !paperHealthFresh(d.served_at) || !Number.isSafeInteger(n) || n < 0 || n > 100000){
+      throw new Error("INVALID_OR_STALE_PAPER_SNAPSHOT");
     }
-
-    box.innerHTML = trades.map(t=>{
-      const action = String(t.action || '--').toUpperCase();
-      const color = action === 'SELL' ? '#ff4d7d' : '#00ffc8';
-      const entry = Number(t.entry || 0);
-      const tp1 = Number(t.tp1 || 0);
-      const tp2 = Number(t.tp2 || 0);
-      const stop = Number(t.stop || 0);
-
-      const fmt = n => n ? '$' + n.toLocaleString('en-US',{maximumFractionDigits:n>10?2:6}) : '--';
-
-      return `
-        <div style="background:#090916;border:1px solid #2a2347;border-radius:18px;padding:16px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-            <div style="font-size:22px;font-weight:950;color:#fff;">${t.coin || '--'}</div>
-            <div style="color:${color};font-weight:900;">${action}</div>
-          </div>
-          <div style="color:#9ca3af;font-size:12px;line-height:1.8;">
-            Entry: <b style="color:#fff;">${fmt(entry)}</b><br>
-            TP1: <b style="color:#00ffc8;">${fmt(tp1)}</b><br>
-            TP2: <b style="color:#00ffc8;">${fmt(tp2)}</b><br>
-            Stop: <b style="color:#ff4d7d;">${fmt(stop)}</b><br>
-            Confidence: <b style="color:#f5c542;">${t.confidence || '--'}/100</b><br>
-            Status: <b style="color:#f5c542;">Monitoring</b>
-          </div>
-        </div>`;
-    }).join('');
-  }catch(e){
-    const box = document.getElementById('openTradeCards');
-    if(box) box.innerHTML = '<div style="color:#9ca3af;">Open trade data unavailable.</div>';
+    if(count) count.textContent = String(n);
+    if(state){
+      state.textContent = n > 0 ? String(n) + " OPEN" : "0 OPEN";
+      state.style.color = n > 0 ? "#f5c542" : "#00e5a0";
+    }
+    if(age){
+      const timeText = new Date(d.served_at).toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});
+      const engineState = d.engine.running === true ? "engine reports running" : "engine not running";
+      age.textContent = "API checked " + timeText + " · " + engineState + " · position update time not independently verified";
+    }
+    if(box){
+      box.textContent = n > 0
+        ? String(n) + " PAPER position" + (n === 1 ? "" : "s") + " reported OPEN in the latest health snapshot. Individual coins, entries, stops and P&L are not public."
+        : "Zero open PAPER positions reported in the latest health snapshot. This is not an exchange position confirmation.";
+    }
+  }catch{
+    if(count) count.textContent = "—";
+    if(state){state.textContent = "UNVERIFIED"; state.style.color = "#f5c542";}
+    if(age) age.textContent = "API unavailable, stale or invalid — previous position status cleared";
+    if(box) box.textContent = "Current PAPER positions cannot be verified. Do not interpret this as zero open trades.";
   }
 }
 loadOpenTradeStatus();
-setInterval(loadOpenTradeStatus, 30000);
+setInterval(loadOpenTradeStatus,30000);
 </script>
 
 
