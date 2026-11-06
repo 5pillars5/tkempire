@@ -50,7 +50,7 @@ function render(){
 }
 function notifyFresh(signals){
  if(!primed){signals.forEach(s=>seen.add(s.id));primed=true;return;}
- for(const s of signals){if(seen.has(s.id))continue;seen.add(s.id);if(s.alert_fresh&&Notification?.permission==='granted'){try{new Notification('Genesis: '+s.type.replaceAll('_',' '),{body:s.market+' — '+s.outcome+' ('+s.wallet_count+' wallets)',tag:'genesis-'+s.id})}catch(e){}}}
+ for(const s of signals){if(seen.has(s.id))continue;seen.add(s.id);if(s.alert_fresh&&typeof Notification!=='undefined'&&Notification.permission==='granted'){try{new Notification('Genesis: '+s.type.replaceAll('_',' '),{body:s.market+' — '+s.outcome+' ('+s.wallet_count+' wallets)',tag:'genesis-'+s.id})}catch(e){}}}
  if(seen.size>600)seen=new Set([...seen].slice(-350));
 }
 async function load(){
