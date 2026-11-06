@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080c18">
+<title>Genesis Smart Money Watch | TK Empire</title>
+<meta name="description" content="Read-only Polymarket wallet performance and public trade monitor.">
+<link rel="icon" type="image/jpeg" href="https://i.imgur.com/Kf99eJt.jpeg">
+<style>
+:root{color-scheme:dark;--bg:#080c18;--panel:#101727;--panel2:#131e31;--edge:#29354a;--text:#f0f4fc;--muted:#a2b0c5;--gold:#f8bf54;--blue:#6db7ff;--green:#60e6bb;--red:#ff8094}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 85% -10%,#132b44 0,transparent 48%),var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+a{color:inherit;text-decoration:none}button,select,input{font:inherit}button,select,input{outline-offset:3px}
+header{border-bottom:1px solid var(--edge);background:#0a0f1be8}header .inner{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:15px 20px;gap:12px}.brand{display:flex;align-items:center;gap:12px;font-weight:850;letter-spacing:.07em}.crest{height:40px;width:40px;object-fit:cover;border-radius:9px}.brand small{display:block;color:var(--gold);font-size:10px;letter-spacing:.15em}.back{font-size:13px;color:var(--muted);border:1px solid var(--edge);border-radius:8px;padding:8px 12px}.back:hover{color:white}
+main{max-width:1200px;margin:auto;padding:35px 20px 70px}.eyebrow{font-size:11px;letter-spacing:.17em;color:var(--gold);font-weight:800}h1{font-size:clamp(32px,5vw,54px);margin:7px 0;letter-spacing:-.045em;line-height:1.04}h1 em{font-style:normal;color:var(--gold)}.intro{max-width:790px;color:var(--muted);font-size:15px;margin:12px 0 20px}
+.strip{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:15px 0 24px}.chip{border:1px solid #43553f;background:#14251c;color:var(--green);padding:5px 10px;border-radius:30px;font-size:11px;font-weight:750}.stamp{color:var(--muted);font-size:12px}.warning{color:var(--muted);font-size:12px}
+.card{background:linear-gradient(160deg,var(--panel),#0c1422);border:1px solid var(--edge);border-radius:16px;margin:15px 0;overflow:hidden}.card-head{padding:19px 22px;border-bottom:1px solid var(--edge);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.card-head h2{font-size:17px;margin:0}.card-body{padding:20px 22px}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.control{display:flex;flex-direction:column;gap:4px;color:var(--muted);font-size:11px;font-weight:750;letter-spacing:.04em}
+select,input{background:#0b1321;border:1px solid #334158;color:var(--text);border-radius:8px;padding:11px 12px;min-width:155px;max-width:100%}
+button{padding:11px 15px;border:1px solid #465670;border-radius:8px;background:#21324a;color:var(--text);font-weight:750;cursor:pointer}button:hover{background:#2b425f}button.primary{background:#5c4621;color:#ffe0a0;border-color:#a77f39}button:disabled{opacity:.5;cursor:default}.walletbar{display:flex;gap:9px;flex-wrap:wrap}.walletbar input{flex:1;min-width:240px}.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}.stat{background:var(--panel2);padding:17px;border:1px solid var(--edge);border-radius:12px}.stat small{display:block;color:var(--muted);font-size:11px}.stat strong{display:block;font-size:22px;margin:5px 0;overflow-wrap:anywhere}.stat span{color:var(--muted);font-size:11px}
+.tablewrap{overflow:auto}.grid{width:100%;border-collapse:collapse;white-space:nowrap}.grid th{font-size:11px;text-align:left;color:var(--muted);font-weight:750;letter-spacing:.045em;border-bottom:1px solid var(--edge);padding:12px 14px}.grid td{padding:13px 14px;border-bottom:1px solid #1f2a3a;font-size:13px}.grid tr:last-child td{border-bottom:none}.grid tbody tr[data-wallet]{cursor:pointer}.grid tbody tr[data-wallet]:hover{background:#1c2b41}.grid td.titlecell{white-space:normal;min-width:230px;max-width:460px}.green{color:var(--green)}.red{color:var(--red)}.muted{color:var(--muted)}.wallet{font-family:ui-monospace,Consolas,monospace;font-size:11px;color:var(--blue)}.empty{color:var(--muted);padding:23px 8px;text-align:center}.meta{color:var(--muted);font-size:12px;margin:8px 0 0}.tabs{display:flex;gap:8px}.tabs button{padding:8px 12px;font-size:12px}.tabs button.active{background:#4c3b22;border-color:#a77f39;color:#ffd993}.walletheading{font-family:ui-monospace,Consolas,monospace;overflow-wrap:anywhere;color:var(--blue);font-size:12px}.error{color:#ffb6c2}.hidden{display:none}footer{color:var(--muted);font-size:11px;max-width:1200px;margin:0 auto 25px;padding:0 20px}
+@media(max-width:650px){.summary{grid-template-columns:1fr}.card-head,.card-body{padding:16px}.back{font-size:11px}.brand{font-size:12px}main{padding:25px 12px}select{min-width:125px}.walletbar input{min-width:0;width:100%}.walletbar button{width:100%}}
+</style>
+</head>
+<body>
+<header><div class="inner"><a href="/" class="brand"><img class="crest" src="https://i.imgur.com/Kf99eJt.jpeg" alt=""><span>TK EMPIRE<small>GENESIS INTELLIGENCE</small></span></a><span style="display:flex;gap:9px;flex-wrap:wrap"><a class="back" href="/smart-money-signals.html" style="color:#f8bf54;border-color:#8b6e3a">Live Signals</a><a class="back" href="/dashboard.html">← Genesis Dashboard</a></span></div></header>
+<main>
+<div class="eyebrow">PUBLIC MARKET INTELLIGENCE / RESEARCH</div>
+<h1>Smart Money <em>Watch</em></h1>
+<p class="intro">Explore public Polymarket leaderboard performance and inspect a wallet's most recent trades and open holdings. Rankings reflect reported results—not guaranteed skill, future returns, or copyable execution prices.</p>
+<div class="strip"><span class="chip">READ ONLY • EXECUTION DISABLED</span><span class="stamp" id="refreshTime">Data not loaded</span><span class="warning">Refreshes every 60 seconds while page is open</span></div>
+
+<div class="summary">
+<div class="stat"><small>Wallets on this page</small><strong id="totalWallets">—</strong><span>Public leaderboard sample</span></div>
+<div class="stat"><small>Highest reported window PnL</small><strong id="maxProfit">—</strong><span>USDC; not a win rate</span></div>
+<div class="stat"><small>Selected wallet</small><strong id="selectedShort">None</strong><span>Tap any leaderboard row to inspect</span></div>
+</div>
+
+<section class="card" aria-label="Leaderboard">
+<div class="card-head"><h2>Profit leaderboard</h2><div class="controls">
+<label class="control">PERIOD<select id="period"><option value="day">24 hours</option><option value="week" selected>7 days</option><option value="month">30 days</option><option value="all">All time</option></select></label>
+<label class="control">MARKET CATEGORY<select id="category"><option value="crypto" selected>Crypto</option><option value="overall">All markets</option><option value="sports">Sports</option><option value="politics">Politics</option></select></label>
+<button class="primary" id="refresh">Refresh</button>
+</div></div>
+<div class="tablewrap"><table class="grid"><thead><tr><th>Rank</th><th>Trader</th><th>Reported PnL</th><th>Volume (shares)</th><th>Wallet</th></tr></thead><tbody id="board"><tr><td colspan="5" class="empty">Loading public leaderboard…</td></tr></tbody></table></div>
+<div class="card-body"><p id="boardStatus" class="meta" role="status">Source: Polymarket Data API v2. All-time figures use realized PnL; shorter windows include unrealized market movements.</p></div>
+</section>
+
+<section class="card" aria-label="Wallet activity">
+<div class="card-head"><h2>Wallet inspector</h2><div class="tabs"><button class="active" id="tabTrades">Recent trades</button><button id="tabPositions">Open positions</button></div></div>
+<div class="card-body">
+<div class="walletbar"><input id="walletInput" placeholder="0x… Paste a public Polymarket wallet address" aria-label="Public wallet address" maxlength="42" autocomplete="off" spellcheck="false"><button id="inspect">Inspect wallet</button></div>
+<p class="meta">Selected: <span class="walletheading" id="walletHeading">No wallet selected</span></p>
+<p class="meta" id="walletStatus" role="status">Select a leaderboard trader or enter a wallet address. No connection to a private wallet is needed.</p>
+</div>
+<div class="tablewrap"><table class="grid"><thead id="activityHead"><tr><th>Market</th><th>Outcome</th><th>Side</th><th>Shares</th><th>Price</th><th>Time</th></tr></thead><tbody id="activity"><tr><td colspan="6" class="empty">Choose a trader to view public activity.</td></tr></tbody></table></div>
+</section>
+<div class="warning">This independent research view is not investment advice. The leaderboard is a selected sample, not an audited performance record. Wallets may hedge or trade elsewhere. Data may lag; if upstream data is unavailable, this page shows an error rather than simulated numbers. No trading or Genesis engine connection is present.</div>
+</main>
+<footer>© TK Empire • Genesis Smart Money Watch v1 • Public Polymarket market data • No order execution</footer>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const state={wallet:null,view:'trades',lastFetched:null,board:[]};
+const formatUsd=n=>typeof n==='number'&&Number.isFinite(n)?new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:2}).format(n):'—';
+const formatNumber=n=>typeof n==='number'&&Number.isFinite(n)?new Intl.NumberFormat('en-US',{maximumFractionDigits:2}).format(n):'—';
+const shorten=s=>s&&s.length===42?s.slice(0,8)+'…'+s.slice(-6):s||'—';
+const td=(value,cls='')=>{const el=document.createElement('td');el.textContent=String(value??'—');if(cls)el.className=cls;return el;};
+const clear=node=>node.replaceChildren();
+const empty=(node,col,msg)=>{clear(node);const r=document.createElement('tr'),c=td(msg,'empty');c.colSpan=col;r.append(c);node.append(r);};
+const positive=n=>typeof n==='number'?n>=0?'green':'red':'';
+async function getData(query){
+ const r=await fetch('/api/smart-money-watch?'+new URLSearchParams(query),{cache:'no-store',headers:{Accept:'application/json'}});
+ const body=await r.json();
+ if(!r.ok||body.status!=='ok'||!Array.isArray(body.rows))throw new Error('Live public data unavailable'+(body.upstream_status?' ('+body.upstream_status+')':''));
+ state.lastFetched=body.fetched_at;
+ $('refreshTime').textContent='Fetched '+new Date(body.fetched_at).toLocaleTimeString();
+ return body.rows;
+}
+async function loadBoard(){
+ $('refresh').disabled=true;
+ $('boardStatus').textContent='Loading current leaderboard…';
+ try{
+  const rows=await getData({view:'board',period:$('period').value,category:$('category').value});
+  state.board=rows;
+  $('totalWallets').textContent=String(rows.length);
+  $('maxProfit').textContent=rows.length?formatUsd(rows.reduce((a,b)=>Math.max(a,b.pnl_usdc??-Infinity),-Infinity)):'—';
+  const table=$('board');clear(table);
+  if(!rows.length)empty(table,5,'No leaderboard rows returned for this filter.');
+  rows.forEach(item=>{
+   const tr=document.createElement('tr');tr.dataset.wallet=item.wallet;tr.tabIndex=0;tr.title='Inspect public wallet activity';
+   tr.append(td(item.rank),td(item.name||'Unnamed trader'),td(formatUsd(item.pnl_usdc),positive(item.pnl_usdc)),td(formatNumber(item.volume_shares)),td(shorten(item.wallet),'wallet'));
+   tr.addEventListener('click',()=>chooseWallet(item.wallet));
+   tr.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();chooseWallet(item.wallet);}});
+   table.append(tr);
+  });
+  $('boardStatus').textContent='Source: Polymarket Data API v2 • '+$('period').selectedOptions[0].text+' • '+$('category').selectedOptions[0].text+'. Volume is in shares, not dollars. Short-window PnL includes unrealized movements; all-time PnL is realized only.';
+ }catch(e){empty($('board'),5,'Unable to load public leaderboard.');$('totalWallets').textContent='—';$('maxProfit').textContent='—';$('boardStatus').textContent='Data unavailable. Please retry. No values were estimated.';$('boardStatus').className='meta error';}
+ finally{$('refresh').disabled=false;}
+}
+function chooseWallet(wallet){
+ if(!/^0x[a-fA-F0-9]{40}$/.test(wallet))return;
+ state.wallet=wallet;$('walletInput').value=wallet;$('selectedShort').textContent=shorten(wallet);$('walletHeading').textContent=wallet;loadActivity();
+}
+function setView(view){
+ state.view=view;$('tabTrades').classList.toggle('active',view==='trades');$('tabPositions').classList.toggle('active',view==='positions');
+ const titles=view==='trades'?['Market','Outcome','Side','Shares','Price','Time']:['Market','Outcome','Status','Holding (shares)','Value (USDC)','Total PnL'];
+ const tr=document.createElement('tr');titles.forEach(t=>{const th=document.createElement('th');th.textContent=t;tr.append(th);});$('activityHead').replaceChildren(tr);
+ loadActivity();
+}
+function formatTime(value){
+ if(typeof value!=='number'||!Number.isFinite(value)||value<=0)return '—';
+ const ms=value<100000000000?value*1000:value;const d=new Date(ms);return Number.isNaN(d.getTime())?'—':d.toLocaleString();
+}
+async function loadActivity(){
+ if(!state.wallet){empty($('activity'),6,'Choose a trader to view public activity.');return;}
+ $('walletStatus').textContent='Loading '+state.view+'…';
+ try{
+  const rows=await getData({view:state.view,wallet:state.wallet});
+  const tbody=$('activity');clear(tbody);
+  if(!rows.length)empty(tbody,6,'No public '+state.view+' returned for this wallet.');
+  rows.forEach(r=>{
+   const tr=document.createElement('tr');
+   const cells=state.view==='trades'?
+    [r.title||'Market not labeled',r.outcome||'—',r.side||'—',formatNumber(r.size_shares),formatNumber(r.price),formatTime(r.timestamp)]:
+    [r.title||'Market not labeled',r.outcome||'—',r.status||'—',formatNumber(r.current_size),formatUsd(r.current_value),formatUsd(r.total_pnl)];
+   cells.forEach((x,i)=>tr.append(td(x,i===0?'titlecell':state.view==='positions'&&i===5?positive(r.total_pnl):'')));
+   tbody.append(tr);
+  });
+  $('walletStatus').textContent=rows.length+' public '+state.view+' returned; latest fetch '+new Date(state.lastFetched).toLocaleTimeString()+'. Not a complete trade ledger.';
+  $('walletStatus').className='meta';
+ }catch(e){empty($('activity'),6,'Public wallet data unavailable.');$('walletStatus').textContent='Public activity unavailable; no records inferred.';$('walletStatus').className='meta error';}
+}
+$('period').addEventListener('change',loadBoard);$('category').addEventListener('change',loadBoard);
+$('refresh').addEventListener('click',()=>{loadBoard();if(state.wallet)loadActivity();});
+$('inspect').addEventListener('click',()=>{
+ const wallet=$('walletInput').value.trim();
+ if(!/^0x[a-fA-F0-9]{40}$/.test(wallet)){$('walletStatus').textContent='Enter a valid public Polygon address (0x + 40 hex characters).';$('walletStatus').className='meta error';return;}
+ chooseWallet(wallet);
+});
+$('walletInput').addEventListener('keydown',e=>{if(e.key==='Enter')$('inspect').click();});
+$('tabTrades').addEventListener('click',()=>setView('trades'));
+$('tabPositions').addEventListener('click',()=>setView('positions'));
+loadBoard();setInterval(()=>{if(!document.hidden){loadBoard();if(state.wallet)loadActivity();}},60000);
+</script>
+</body></html>
