@@ -1,0 +1,36 @@
+name: Smart Money VPS Installer Static Validation
+on:
+  push:
+    branches: [ops/smart-money-persistent-monitor-v1-20261106]
+  pull_request:
+    paths:
+      - ops/smart-money-monitor-v1/install.sh
+      - .github/workflows/smart-money-vps-installer.yml
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Shell syntax
+        run: bash -n ops/smart-money-monitor-v1/install.sh
+      - name: Embedded Python syntax and boundaries
+        run: |
+          python3 - <<'PY'
+          import ast
+          from pathlib import Path
+          src=Path('ops/smart-money-monitor-v1/install.sh').read_text()
+          for marker in ['PY_GATE','PY_PREFLIGHT','PY_COLLECTOR','PY_SYNTAX','PY_READBACK']:
+              start = src.index("<<'"+marker+"'")+len("<<'"+marker+"'")
+              content = src[start:].split('\n',1)[1].split('\n'+marker+'\n',1)[0]
+              ast.parse(content)
+          assert 'systemctl restart tkempire' not in src
+          assert 'systemctl stop tkempire' not in src
+          assert 'systemctl start "$UNIT"' in src
+          assert 'MILESTONE_CHECKPOINT=NOT_YET_WRITTEN_TO_VPS' in src
+          print('INSTALLER_STATIC_CHECK=PASS')
+          PY
