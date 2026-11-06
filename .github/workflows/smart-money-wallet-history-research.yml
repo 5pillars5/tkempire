@@ -1,0 +1,22 @@
+name: Smart Money Wallet Closed History Research
+on:
+  push:
+    branches: [research/smartmoney-closed-position-history-20261106]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  history:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+      - name: Validate research syntax
+        run: node --check research/smart-money-wallet-history-20261106.js
+      - name: Fetch read-only closed-position history from public API
+        run: node research/smart-money-wallet-history-20261106.js
