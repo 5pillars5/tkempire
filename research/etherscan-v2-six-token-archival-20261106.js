@@ -165,9 +165,10 @@ async function run(){
     const metrics=reconcile(rows,item.wallet,id);
     const status={wallet:item.wallet,label:item.label,condition,token_id:id,
       scope_start_block:item.start,scope_end_block:item.end,
-      indexed_transfer_complete:eligible,log_indices_present:withoutLogIndex===0,
+      indexed_transfer_complete:eligible&&metrics.transfer_rows>0,log_indices_present:withoutLogIndex===0,
       ...metrics};
     console.log('TOKEN_ARCHIVAL_RESULT '+JSON.stringify(status));
+    if(metrics.transfer_rows===0){process.exitCode=2;console.log('INDEX_BLOCKER '+JSON.stringify({wallet:item.wallet,condition,reason:'PINNED_TOKEN_NOT_FOUND'}));}
     all.push(status);
   }}
   // Write evidence with no credentials, for independent after-the-fact audit.
