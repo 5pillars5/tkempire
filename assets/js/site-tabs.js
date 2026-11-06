@@ -2,7 +2,8 @@
   'use strict';
   const tabs = [
     ['Home','/'],['Dashboard','/dashboard.html'],['Results','/results.html'],
-    ['Research','/research.html'],['Learn','/learn.html'],['Portfolio','/portfolio.html'],['TESTNET P&L','/testnet.html'],
+    ['Research','/research.html'],['Smart Money','/smart-money.html'],['Live Signals','/smart-money-signals.html'],
+    ['Learn','/learn.html'],['Portfolio','/portfolio.html'],['TESTNET P&L','/testnet.html'],
     ['Recovery','/recovery.html'],['About','/about.html'],
     ['Community','/community.html'],['App','/app.html'],
     ['Private Beta','/join.html','cta']
@@ -15,6 +16,10 @@
     nav.className = 'empire-global-nav';
     nav.setAttribute('aria-label','Main navigation');
     nav.replaceChildren();
+    // Keep the skip link first, but make navigation the first visible site landmark.
+    const skipLink = document.body.querySelector(':scope > .skip');
+    if (skipLink) skipLink.after(nav);
+    else document.body.prepend(nav);
 
     const inner = document.createElement('div');
     inner.className = 'empire-global-nav__inner';
@@ -44,15 +49,23 @@
       if (target === current) link.setAttribute('aria-current','page');
       links.appendChild(link);
     });
+    const closeMenu = () => {
+      toggle.setAttribute('aria-expanded', 'false');
+      links.classList.remove('is-open');
+    };
     toggle.addEventListener('click', () => {
       const expanded = toggle.getAttribute('aria-expanded') === 'true';
-      toggle.setAttribute('aria-expanded', String(!expanded));
-      links.classList.toggle('is-open', !expanded);
+      if (expanded) closeMenu();
+      else { toggle.setAttribute('aria-expanded', 'true'); links.classList.add('is-open'); }
+    });
+    document.addEventListener('click', event => {
+      if (!nav.contains(event.target)) closeMenu();
     });
     nav.addEventListener('keydown', event => {
       if (event.key === 'Escape') {
-        toggle.setAttribute('aria-expanded', 'false');
-        links.classList.remove('is-open');
+        const wasOpen = toggle.getAttribute('aria-expanded') === 'true';
+        closeMenu();
+        if (wasOpen) toggle.focus();
       }
     });
     inner.append(brand,toggle,links);
