@@ -5,6 +5,7 @@ on:
       - 'research/polygon-papeasy-usdc-boundary-20261106.js'
       - 'research/polygon-spirit-first-entry-scan-20261106.js'
       - 'research/polygon-historical-provider-verify-20261106.js'
+      - 'research/polygon-papeasy-redemption-collateral-20261106.js'
       - '.github/workflows/polygon-cashflow-research.yml'
 permissions:
   contents: read
@@ -30,5 +31,9 @@ jobs:
         run: |
           node --check research/polygon-spirit-first-entry-scan-20261106.js
           node research/polygon-spirit-first-entry-scan-20261106.js
+      - name: Verify redemption ERC20 collateral and gas
+        run: |
+          node --check research/polygon-papeasy-redemption-collateral-20261106.js
+          node research/polygon-papeasy-redemption-collateral-20261106.js
       - name: Wallet-level cash flow
         run: node research/polygon-papeasy-usdc-boundary-20261106.js
