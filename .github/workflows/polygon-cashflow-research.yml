@@ -4,6 +4,7 @@ on:
     paths:
       - 'research/polygon-papeasy-usdc-boundary-20261106.js'
       - 'research/polygon-spirit-first-entry-scan-20261106.js'
+      - 'research/polygon-historical-provider-verify-20261106.js'
       - '.github/workflows/polygon-cashflow-research.yml'
 permissions:
   contents: read
@@ -20,6 +21,10 @@ jobs:
           node-version: '22'
       - name: Syntax
         run: node --check research/polygon-papeasy-usdc-boundary-20261106.js
+      - name: Verify alternative historical Polygon RPC providers
+        run: |
+          node --check research/polygon-historical-provider-verify-20261106.js
+          node research/polygon-historical-provider-verify-20261106.js
       - name: Spirit historical first-entry transfers
         continue-on-error: true
         run: |
