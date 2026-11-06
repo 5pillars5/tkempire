@@ -6,7 +6,7 @@
 
 ## Fixed six-token cohort
 
-- Four Papeasy CTF outcome tokens in two resolved, short-duration Bitcoin markets, conditions `0x197b6683dfa66ae2721066584357219ab8f4154b7b4574fa678e334a7f54b33b0` [CHECK: use canonical `0x197b6683dfa66ae2721066584357219ab8f4154b7b4574fa7db7a00fc40fd9fe`] and `0xe5e31527a8c0e9b7edeadb69acb2a31bbf751e2c3ec10c88e2517f9237b239`. The bracketed incorrect control condition above was only a rejected indexed-provider probe identifier and **is not canonical**.
+- Four Papeasy CTF outcome tokens in two resolved, short-duration Bitcoin markets, conditions `0x197b6683dfa66ae2721066584357219ab8f4154b7b4574fa7db7a00fc40fd9fe` and `0xe5e31527a8c0e9b7edeadb69acb2a31bbf751e2c3ec10c88e2517f9237b239`.
 - Two Spirit of Ukraine>UMA tokens in conditions `0x998bc71817b2d76921d1999ce0f3431cfd5945583667a371280ca2b430b0c06e` and `0xe50c71cc5e2372bf0f6194a02e51459dd03b2c7b2d78a0d4650e5f36c425338b`.
 
 ## Historical indexing provider verification
