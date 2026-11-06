@@ -20,5 +20,10 @@ jobs:
           node-version: '22'
       - name: Syntax
         run: node --check research/polygon-papeasy-usdc-boundary-20261106.js
+      - name: Spirit historical first-entry transfers
+        continue-on-error: true
+        run: |
+          node --check research/polygon-spirit-first-entry-scan-20261106.js
+          node research/polygon-spirit-first-entry-scan-20261106.js
       - name: Wallet-level cash flow
         run: node research/polygon-papeasy-usdc-boundary-20261106.js
