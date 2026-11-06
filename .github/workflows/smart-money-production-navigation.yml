@@ -1,0 +1,31 @@
+name: Verify Live Smart Money Navigation
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tests/smart-money-production-navigation.js'
+      - '.github/workflows/smart-money-production-navigation.yml'
+      - 'assets/js/site-tabs.js'
+      - 'assets/css/site-tabs.css'
+      - 'smart-money.html'
+      - 'smart-money-signals.html'
+      - 'index.html'
+      - 'research.html'
+      - 'dashboard.html'
+permissions:
+  contents: read
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+      - name: Check live verification script syntax
+        run: node --check tests/smart-money-production-navigation.js
+      - name: Verify public domain serves new Smart Money navigation after Vercel propagation
+        run: node tests/smart-money-production-navigation.js
