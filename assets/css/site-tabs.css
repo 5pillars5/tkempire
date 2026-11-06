@@ -33,3 +33,6 @@
 .empire-global-nav__links{scrollbar-color:#6d4fb1 #141425}
 .empire-global-nav__toggle[aria-expanded="true"]{background:#261a47;border-color:#b69ce8}
 @media(max-width:1120px){.empire-global-nav__links{max-height:calc(100dvh - 110px);overscroll-behavior:contain}.empire-global-nav__link{width:100%}}
+
+.empire-global-nav__status{display:flex;justify-content:flex-end;gap:12px;align-items:center;flex-wrap:wrap;width:min(1440px,96vw);margin:-3px auto 5px;padding:0 14px;color:#a7a7bd;font:600 11px/1.4 system-ui,sans-serif}
+@media(max-width:1120px){.empire-global-nav__status{width:100%;justify-content:center;padding:2px 10px 5px;gap:8px}}
