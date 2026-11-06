@@ -4,6 +4,7 @@ on:
     paths:
       - 'research/polygon-six-token-receipt-probe-20261106.js'
       - 'research/polygon-blockscout-transfer-probe-20261106.js'
+      - 'research/polygon-papeasy-token-boundary-20261106.js'
       - 'tests/polygon-six-token-receipt-probe.test.js'
       - '.github/workflows/polygon-six-token-probe.yml'
 permissions:
@@ -26,5 +27,8 @@ jobs:
       - name: Indexed wallet transfer source probe (optional public provider)
         continue-on-error: true
         run: node research/polygon-blockscout-transfer-probe-20261106.js
+      - name: Bounded wallet-boundary ERC1155 log scan
+        continue-on-error: true
+        run: node research/polygon-papeasy-token-boundary-20261106.js
       - name: Public Polygon RPC receipt probe
         run: node research/polygon-six-token-receipt-probe-20261106.js
