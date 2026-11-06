@@ -59,4 +59,13 @@ assert.equal(identity({...e('TRADE','BUY',10,3,1),transaction_hash:'x'}),null);
  assert.equal(mkt.pnl_eligible,true);
  assert.equal(mkt.pnl_matches,true);
 }
+{
+ const {oracleBinaryVector}=require('../research/smartmoney-independent-pnl-reconcile-20261106.js');
+ const mapping=[{outcome_index:0,outcome:'Yes'},{outcome_index:1,outcome:'No'}];
+ assert.deepEqual(oracleBinaryVector({status:'resolved',new_version_q:true,price:'1000000000000000000'},mapping),[1,0]);
+ assert.deepEqual(oracleBinaryVector({status:'resolved',new_version_q:true,price:'0'},mapping),[0,1]);
+ assert.equal(oracleBinaryVector({status:'posed',new_version_q:true,price:'0'},mapping),null);
+ assert.equal(oracleBinaryVector({status:'resolved',new_version_q:true,price:'69'},mapping),null);
+ assert.equal(oracleBinaryVector({status:'resolved',new_version_q:true,price:'0'},[{outcome_index:0,outcome:'No'}]),null);
+}
 console.log('INDEPENDENT_RECONCILIATION_UNIT_TESTS=PASS');
