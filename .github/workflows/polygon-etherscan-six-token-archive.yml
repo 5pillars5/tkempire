@@ -4,6 +4,7 @@ on:
     paths:
       - 'research/etherscan-v2-six-token-archival-20261106.js'
       - 'research/etherscan-v2-receipt-enrich-20261106.js'
+      - 'research/etherscan-v2-cohort-identity-20261106.js'
       - 'tests/etherscan-v2-six-token-archival.test.js'
       - 'tests/etherscan-v2-receipt-enrich.test.js'
       - '.github/workflows/polygon-etherscan-six-token-archive.yml'
@@ -27,6 +28,8 @@ jobs:
           node tests/etherscan-v2-six-token-archival.test.js
           node --check research/etherscan-v2-receipt-enrich-20261106.js
           node tests/etherscan-v2-receipt-enrich.test.js
+      - name: Check six pinned token IDs against actual public market history
+        run: node research/etherscan-v2-cohort-identity-20261106.js
   index:
     if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
     needs: validate
