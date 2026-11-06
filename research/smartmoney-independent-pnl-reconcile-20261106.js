@@ -237,7 +237,11 @@ async function main(){
    const item={
     name:c.name,wallet:c.wallet,condition:c.condition,old_unmatched_token_cases:c.original_failed_token_lots,
     activity_complete:activity.complete,activity_failure:activity.reason,closed_complete:closed.complete,
-    opened_complete:opened.complete,resolution_status:resolved?.status||'not_found',
+    opened_complete:opened.complete,
+    open_positions_count:opened.rows.length,closed_positions_count:closed.rows.length,
+    open_positions_conditions:[...new Set(opened.rows.map(x=>x.condition_id))].slice(0,3),
+    closed_positions_conditions:[...new Set(closed.rows.map(x=>x.condition_id))].slice(0,3),
+    resolution_status:resolved?.status||'not_found',
     payout_vector:stats.payout_vector,
     events_unique:stats.unique_events,duplicate_event_fingerprints:stats.duplicate_fingerprints,
     invalid_events:stats.invalid_events,spillover:stats.spillover,
