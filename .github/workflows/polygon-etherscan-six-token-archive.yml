@@ -3,7 +3,9 @@ on:
   pull_request:
     paths:
       - 'research/etherscan-v2-six-token-archival-20261106.js'
+      - 'research/etherscan-v2-receipt-enrich-20261106.js'
       - 'tests/etherscan-v2-six-token-archival.test.js'
+      - 'tests/etherscan-v2-receipt-enrich.test.js'
       - '.github/workflows/polygon-etherscan-six-token-archive.yml'
   workflow_dispatch:
 permissions:
@@ -25,6 +27,8 @@ jobs:
         run: |
           node --check research/etherscan-v2-six-token-archival-20261106.js
           node tests/etherscan-v2-six-token-archival.test.js
+          node --check research/etherscan-v2-receipt-enrich-20261106.js
+          node tests/etherscan-v2-receipt-enrich.test.js
       - name: Check archival access configuration without revealing secret
         id: auth
         shell: bash
