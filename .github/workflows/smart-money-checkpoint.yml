@@ -1,0 +1,25 @@
+name: Smart Money Milestone Checkpoint Validation
+on:
+  push:
+    branches: [ops/smart-money-monitor-v1-checkpoint-20261106]
+  pull_request:
+    paths:
+      - 'ops/smart-money-monitor-v1/write_checkpoint.py'
+      - 'tests/smart-money-checkpoint.test.py'
+      - '.github/workflows/smart-money-checkpoint.yml'
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Python syntax
+        run: python3 -m py_compile ops/smart-money-monitor-v1/write_checkpoint.py tests/smart-money-checkpoint.test.py
+      - name: Isolated checkpoint tests
+        run: python3 tests/smart-money-checkpoint.test.py -v
+      - name: SHA256 checkpoint writer
+        run: sha256sum ops/smart-money-monitor-v1/write_checkpoint.py
