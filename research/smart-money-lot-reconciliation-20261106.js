@@ -124,7 +124,8 @@ function summarizeResolution(rows,condition){
  }
  const terminal=Object.keys(explicit).some(k=>/state|status|resolved/i.test(k) && /resolve|final|redeem/i.test(String(explicit[k])));
  // Terminal status alone is not proof of the winning token/payout index.
- // Live API uses integer micro-unit payout weights, e.g. [0, 1000000].\n const hasPayout=Array.isArray(explicit.payouts) && explicit.payouts.length >= 2 && explicit.payouts.every(v=>typeof v==='number' && Number.isFinite(v) && v>=0) && [1,1000000].some(scale=>Math.abs(explicit.payouts.reduce((a,b)=>a+b,0)-scale)<0.0001);
+ // Live API uses integer micro-unit payout weights, e.g. [0, 1000000].
+ const hasPayout=Array.isArray(explicit.payouts) && explicit.payouts.length >= 2 && explicit.payouts.every(v=>typeof v==='number' && Number.isFinite(v) && v>=0) && [1,1000000].some(scale=>Math.abs(explicit.payouts.reduce((a,b)=>a+b,0)-scale)<0.0001);
  return {matched:true,verified:terminal&&hasPayout,keys:keys.slice(0,35),explicit,
     reason:terminal&&!hasPayout?'terminal_without_valid_payout_vector':null};
 }
