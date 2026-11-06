@@ -52,3 +52,27 @@ Prior research remains valid at the limited scope:
 - `MILESTONE_CHECKPOINT=NOT_YET_WRITTEN_TO_VPS`
 
 Previous verified VPS checkpoint: `20261106T195838Z_genesis_smart_money_monitor_v1_persistent_readonly_verified`. This research does not modify the Empire Milestone Registry.
+
+
+## Follow-up bounded wallet-boundary scan: Papeasy
+
+GitHub Actions run `42299118344` executed 36 read-only `eth_getLogs` queries over Polygon block range **96861000–96863000**, indexed by `from/to = 0x111f73e91f85b6fe4de1ddec3de2fe32122e355b` and restricted to the Polymarket CTF contract. The scanner deduplicated **315 wallet-level TransferSingle/TransferBatch log identities** (tx hash + log index) across all tokens in the interval. Four selected token IDs each had zero net balance change during this interval:
+
+| Market condition prefix | Outcome | Incoming shares | Outgoing/burned shares | Net |
+|---|---|---:|---:|---:|
+| `0x197b6683...` | Down | 3384.112884 | 3384.112884 | 0 |
+| `0x197b6683...` | Up | 3389.761564 | 3389.761564 | 0 |
+| `0xe5e31527...` | Down | 5581.333872 | 5581.333872 | 0 |
+| `0xe5e31527...` | Up | 5617.256713 | 5617.256713 | 0 |
+
+The outgoing transfers are burns to the zero address. **This reconciles the four Papeasy token inventories over the bounded block interval**, removing four inventory discrepancies from the original six. It is not certified full lifetime token history; do not infer fee or net P&L verification from a zero share balance.
+
+Remaining inventory cases: **2 Spirit of Ukraine>UMA token positions** involving sells without captured opening purchases and/or unverified earlier inventory. Public Blockscout index queries still returned HTTP 403; certain historical Polygon receipt queries returned HTTP 403/401. At the end of the latest run, two old Spirit transaction receipts were restricted by the available public providers.
+
+**Updated read-only status:**
+- `PAPEASY_ONCHAIN_INTERVAL_INVENTORY=4_OF_4_PASS`
+- `TOTAL_PREVIOUS_MISMATCHES_RECONCILED=12_OF_14` (8 earlier, plus 4 Papeasy)
+- `UNRESOLVED_INVENTORY_CASES=2`
+- `OPENING_COST_BASIS_AND_FEES=NOT_FULLY_VERIFIED`
+- `ADDITIONAL_INDEPENDENT_PNL_MATCHES=0`
+- `WALLET_QUALITY_SCORES=WITHHELD`
