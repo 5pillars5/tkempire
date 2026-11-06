@@ -16,8 +16,10 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
-      - name: Shell syntax
-        run: bash -n ops/smart-money-monitor-v1/install.sh
+      - name: Shell syntax and SHA256
+        run: |
+          bash -n ops/smart-money-monitor-v1/install.sh
+          sha256sum ops/smart-money-monitor-v1/install.sh
       - name: Embedded Python syntax and boundaries
         run: |
           python3 - <<'PY'
