@@ -7,7 +7,7 @@ const CTF='0x4d97dcd97ec945f40cf65f87097ace5ea0476045';
 const TOPS=['0xc3d58168c5ae7397731d063d5bbf3d657854427343f4c083240f7aacaa2d0f62','0x4a39dc06d4c0dbc64b70af90fd698a233a518aa5d07e595d983b8c0526c8f7fb'];
 const CONDITIONS=['0x998bc71817b2d76921d1999ce0f3431cfd5945583667a371280ca2b430b0c06e',
  '0xe50c71cc5e2372bf0f6194a02e51459dd03b2c7b2d78a0d4650e5f36c425338b'];
-const ENDPOINT='https://polygon-bor-rpc.publicnode.com';
+const ENDPOINT='https://polygon.drpc.org';
 const TRANSFER=async(url)=>{const r=await fetch(url,{headers:{accept:'application/json'},signal:AbortSignal.timeout(18000)});if(!r.ok)throw Error('http_'+r.status);const d=await r.json();if(!Array.isArray(d.data))throw Error('no_data');return d};
 let id=0,calls=0;
 async function rpc(method,params){
