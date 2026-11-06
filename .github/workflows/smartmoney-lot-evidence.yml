@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - 'research/smartmoney-event-schema-probe-20261106.js'
+      - 'research/smartmoney-independent-pnl-reconcile-20261106.js'
+      - 'tests/smartmoney-independent-pnl.test.js'
       - 'research/data/smartmoney-fixed-cohort-32-markets-20261106.json'
       - '.github/workflows/smartmoney-lot-evidence.yml'
   workflow_dispatch:
@@ -21,5 +23,9 @@ jobs:
           node-version: '22'
       - name: Syntax check
         run: node --check research/smartmoney-event-schema-probe-20261106.js
-      - name: Inspect live public event schemas
-        run: node research/smartmoney-event-schema-probe-20261106.js
+      - name: Verify independent PnL model
+        run: |
+          node --check research/smartmoney-independent-pnl-reconcile-20261106.js
+          node tests/smartmoney-independent-pnl.test.js
+      - name: Independently reconcile eight mismatched markets
+        run: node research/smartmoney-independent-pnl-reconcile-20261106.js
