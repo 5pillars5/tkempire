@@ -15,6 +15,9 @@
     if (!nav) { nav = document.createElement('nav'); document.body.prepend(nav); }
     nav.className = 'empire-global-nav';
     nav.setAttribute('aria-label','Main navigation');
+    // Preserve live command-center status nodes before replacing its legacy nav.
+    // Other dashboard scripts update these same DOM nodes by ID.
+    const statusNodes = [...nav.querySelectorAll('#genesis-nav-status, #modePill, #lastUpdated')];
     nav.replaceChildren();
     // Keep the skip link first, but make navigation the first visible site landmark.
     const skipLink = document.body.querySelector(':scope > .skip');
@@ -70,6 +73,13 @@
     });
     inner.append(brand,toggle,links);
     nav.appendChild(inner);
+    if (statusNodes.length) {
+      const status = document.createElement('div');
+      status.className = 'empire-global-nav__status';
+      status.setAttribute('aria-label', 'Genesis live status');
+      statusNodes.forEach(node => status.appendChild(node));
+      nav.appendChild(status);
+    }
     document.querySelectorAll('#empire-site-tabs').forEach(x => x.remove());
     if (!document.querySelector('script[src*="/assets/js/genesis-live.js"]')) {
       const live = document.createElement('script');
