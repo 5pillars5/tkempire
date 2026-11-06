@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#070711"/>
 <link rel="icon" type="image/jpeg" href="https://i.imgur.com/Kf99eJt.jpeg"/>
 <link rel="stylesheet" href="/empire.css"/>
-<link rel="stylesheet" href="/assets/css/site-tabs.css?v=3"/>
+<link rel="stylesheet" href="/assets/css/site-tabs.css?v=4"/>
 <style>
 :root{--bg:#070711;--panel:#0d0d1b;--panel2:#121225;--line:#24243f;--text:#f0f0f7;--muted:#8a8aa3;--purple:#7c3aed;--purple2:#a78bfa;--gold:#f59e0b;--green:#00e5a0;--red:#ff5a78;--orange:#f97316}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}a{color:inherit;text-decoration:none}
@@ -43,6 +43,24 @@ footer{padding:32px 0;color:#66667d;font-size:10px}.footer{display:flex;justify-
     </div>
   </div>
 </header>
+
+<section id="smart-money-research" aria-labelledby="smartMoneyHeading">
+  <div class="shell">
+    <div class="section-label">Public Wallet Intelligence</div>
+    <h2 class="section-title" id="smartMoneyHeading">Smart Money research, clearly separated from execution.</h2>
+    <p class="section-copy">Inspect public prediction-market wallets and recent trades. Rankings and signal observations are not verified investing skill, and do not authorize or place trades.</p>
+    <div class="research-grid">
+      <a class="panel" href="/smart-money.html" style="display:block;text-decoration:none;color:inherit">
+        <div class="panel-head"><div class="panel-title">Smart Money Watch</div><div class="badge">READ ONLY</div></div>
+        <div style="padding:20px;line-height:1.7">Wallet leaderboard, public positions and trade history.<div style="color:#fbbf24;margin-top:12px;font-weight:700">Open Wallet Watch →</div></div>
+      </a>
+      <a class="panel" href="/smart-money-signals.html" style="display:block;text-decoration:none;color:inherit">
+        <div class="panel-head"><div class="panel-title">Live Smart Money Signals</div><div class="badge">PUBLIC FEED</div></div>
+        <div style="padding:20px;line-height:1.7">Recent observed buying, selling and unusual activity. Not recommendations.<div style="color:#fbbf24;margin-top:12px;font-weight:700">Open Live Signals →</div></div>
+      </a>
+    </div>
+  </div>
+</section>
 
 <section>
   <div class="shell">
@@ -155,6 +173,6 @@ function renderExternal(){
 loadThoughts();loadWeights();loadExternal();
 setInterval(loadThoughts,5000);setInterval(loadWeights,30000);setInterval(loadExternal,60000);
 </script>
-<script src="/assets/js/site-tabs.js?v=3" defer></script>
+<script src="/assets/js/site-tabs.js?v=4" defer></script>
 </body>
 </html>
