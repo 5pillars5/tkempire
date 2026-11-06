@@ -7,7 +7,7 @@
  *
  * A position is NOT a resolved market prediction. CLOSED is fully exited.
  * OPEN includes resolved-but-unredeemed REDEEMABLE rows. REDEEMABLE_LOST
- * is a subset of REDEEMABLE; never double count these three views.
+ * is a subset of REDEEMABLE; never double count these three views.\n * REDEEMABLE_LOST may still report positive TOTAL_PNL from earlier partial exits;\n * count economic gains/losses by pnl sign, not the status label.
  */
 const ORIGIN = 'https://data-api.polymarket.com';
 const COHORT_FROM = '2026-11-06T20:30:17.802Z';
@@ -238,9 +238,9 @@ async function main(){
     totals.total_closed_positions+=x.closed.positions;
   }
   console.log('RECONCILIATION_SUMMARY '+JSON.stringify(totals));
-  console.log('DATASET_INTERPRETATION=CLOSED_MEANS_EXITED;REDEEMABLE_LOST_IS_HELD_RESOLVED_ZERO_PAYOUT;OPEN_UNRESOLVED_IS_NOT_CLOSED');
+  console.log('DATASET_INTERPRETATION=CLOSED_MEANS_EXITED;REDEEMABLE_LOST_IS_SUBSET_OF_REDEEMABLE_AND_CAN_HAVE_POSITIVE_TOTAL_PNL;OPEN_UNRESOLVED_IS_NOT_CLOSED');
   console.log('CRYPTO_SCOPE_WARNING=Wallet histories span all market categories, not crypto only');
-  console.log('ACCURACY_WARNING=Position_PnL_sign_is_not_market_prediction_hit_rate');
+  console.log('ACCURACY_WARNING=Position_PnL_sign_is_not_market_prediction_hit_rate;CLOSED_HELD_OVERLAP_REQUIRES_LOT_LEVEL_RECONCILIATION');
   console.log('RESULT='+(results.length===FIXED_WALLETS.length?'RECONCILIATION_RETRIEVED':'RECONCILIATION_PARTIAL'));
   if(results.length!==FIXED_WALLETS.length)process.exitCode=2;
 }
