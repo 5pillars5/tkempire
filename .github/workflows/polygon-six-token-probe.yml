@@ -1,0 +1,26 @@
+name: Polygon Six Token Read-Only Receipt Probe
+on:
+  pull_request:
+    paths:
+      - 'research/polygon-six-token-receipt-probe-20261106.js'
+      - 'tests/polygon-six-token-receipt-probe.test.js'
+      - '.github/workflows/polygon-six-token-probe.yml'
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+      - name: Syntax and decoder tests
+        run: |
+          node --check research/polygon-six-token-receipt-probe-20261106.js
+          node tests/polygon-six-token-receipt-probe.test.js
+      - name: Public Polygon RPC receipt probe
+        run: node research/polygon-six-token-receipt-probe-20261106.js
