@@ -42,4 +42,21 @@ assert.equal(identity({...e('TRADE','BUY',10,3,1),transaction_hash:'x'}),null);
  const r=auditEvents([x,x],condition,wallet,null);
  assert.equal(r.duplicate_fingerprints,1);
 }
+{
+ const t0=e('TRADE','BUY',10,4,1,0),t1={...e('TRADE','BUY',10,5,2,1),token_id:'98765'};
+ const m={...e('MERGE','',10,10,3,999),token_id:''};
+ const r=auditEvents([t0,t1,m],condition,wallet,null);
+ assert.equal(r.invalid_events,0);
+ assert.equal(r.merge_events,1);
+ assert.equal(r.merged_collateral_usdc,10);
+ assert.equal(r.tokens.length,2);
+ assert.deepEqual(r.tokens.map(t=>t.modeled_remaining_shares),[0,0]);
+ const positions=[{token_id:token,realized_pnl:1,avg_price:0.4,total_size:10},
+                  {token_id:'98765',realized_pnl:0,avg_price:0.5,total_size:10}];
+ const cmp=compareToPositions(r,[],positions);
+ const mkt=require('../research/smartmoney-independent-pnl-reconcile-20261106.js').marketCashPnl(r,cmp,[],positions);
+ assert.equal(mkt.inventory_reconciled,true);
+ assert.equal(mkt.pnl_eligible,true);
+ assert.equal(mkt.pnl_matches,true);
+}
 console.log('INDEPENDENT_RECONCILIATION_UNIT_TESTS=PASS');
