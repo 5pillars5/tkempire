@@ -23,7 +23,8 @@ jobs:
         run: |
           node --check research/polygon-six-token-receipt-probe-20261106.js
           node tests/polygon-six-token-receipt-probe.test.js
-      - name: Indexed wallet transfer source probe
+      - name: Indexed wallet transfer source probe (optional public provider)
+        continue-on-error: true
         run: node research/polygon-blockscout-transfer-probe-20261106.js
       - name: Public Polygon RPC receipt probe
         run: node research/polygon-six-token-receipt-probe-20261106.js
