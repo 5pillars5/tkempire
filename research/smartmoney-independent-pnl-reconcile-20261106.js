@@ -62,7 +62,7 @@ function identity(e){
  const condition=String(e.condition_id||'').toLowerCase();
  const token=String(e.token_id||'');
  const ts=num(e.timestamp),size=num(e.size),usdc=num(e.usdc_size);
- if(!/^0x[0-9a-f]{64}$/.test(t)||!goodCondition(condition)||!goodToken(token)||
+ if(!/^0x[0-9a-f]{64}$/.test(t)||!goodCondition(condition)||!(goodToken(token)||(['MERGE','SPLIT'].includes(String(e.type||'').toUpperCase())&&token===''))||
     ts===null||size===null||usdc===null)return null;
  return [t,condition,token,String(e.outcome_index??''),String(e.type||''),String(e.side||''),
          ts.toString(),size.toString(),usdc.toString()].join('|');
@@ -80,11 +80,13 @@ function auditEvents(events,condition,wallet,resolution){
  }
  const filtered=[...unique.values()].sort((a,b)=>
    a.timestamp-b.timestamp||a.transaction_hash.localeCompare(b.transaction_hash));
- const vectors=payoutVector(resolution),tokens=new Map(),reds=new Map();
+ const vectors=payoutVector(resolution),tokens=new Map(),reds=new Map(),structural=[];
  let redemptionChecks=0,redemptionPasses=0,redemptionFailures=0,
      unverifiedRedemption=0,mergeCount=0,splitCount=0,feeUnavailable=0;
  for(const e of filtered){
   const token=String(e.token_id);
+  const kind=String(e.type||'').toUpperCase();
+  if((kind==='MERGE'||kind==='SPLIT')&&token===''){structural.push(e);continue}
   if(!tokens.has(token))tokens.set(token,{token,idx:new Set(),buys:0,buysUsd:0,sells:0,sellsUsd:0,redeemBurn:0,redeemUsd:0,split:0,merge:0,unknown:0,
     events:[],txSet:new Set()});
   const t=tokens.get(token);t.idx.add(e.outcome_index);t.events.push(e);
@@ -106,6 +108,16 @@ function auditEvents(events,condition,wallet,resolution){
   else if(type==='SPLIT'){t.split+=e.size;splitCount++}
   else{t.unknown++}
  }
+ let structuralNotMapped=0,collateralMerged=0,collateralSplit=0;
+ const pair=[...tokens.values()].filter(t=>t.idx.size===1&&[...t.idx][0]>=0&&[...t.idx][0]<=1);
+ const hasPair=pair.length===2&&new Set(pair.map(t=>[...t.idx][0])).size===2;
+ for(const e of structural){
+   const kind=String(e.type||'').toUpperCase();
+   if(!hasPair){structuralNotMapped++;continue}
+   for(const t of pair){if(kind==='MERGE')t.merge+=e.size;else t.split+=e.size}
+   if(kind==='MERGE'){mergeCount++;collateralMerged+=e.usdc_size}
+   else{splitCount++;collateralSplit+=e.usdc_size}
+ }
  const audited=[];
  for(const t of tokens.values()){
   const net=t.buys-t.sells-t.redeemBurn+t.split-t.merge;
@@ -125,8 +137,34 @@ function auditEvents(events,condition,wallet,resolution){
   redemption_checks: redemptionChecks, redemption_passes:redemptionPasses,
   redemption_failures:redemptionFailures,redemption_without_vector:unverifiedRedemption,
   merge_events:mergeCount,split_events:splitCount,
+  structural_events_without_pair:structuralNotMapped,
+  merged_collateral_usdc:round(collateralMerged),split_collateral_usdc:round(collateralSplit),
   payout_vector:vectors,tokens:audited
  };
+}
+function marketCashPnl(stats,compares,openRows,closedRows){
+ const uniqueClosed=new Map(closedRows.map(x=>[String(x.token_id||''),x]));
+ const report=[...uniqueClosed.values()].reduce((s,x)=>s+(num(x.realized_pnl)||0),0);
+ const fees=[...uniqueClosed.values()].reduce((s,x)=>s+(num(x.entry_fees_usdc)||0),0);
+ const modeled=stats.tokens.reduce((s,t)=>s+t.net_cash_flow_usdc,0)
+       + stats.merged_collateral_usdc - stats.split_collateral_usdc;
+ const fullShares=compares.length===2&&compares.every(t=>Math.abs(t.residual_delta_shares)<=0.03
+      &&!t.missing_opening_basis&&t.classification!=='NOT_RECONCILED_INVENTORY');
+ const openHeld=openRows.some(x=>(num(x.current_size)||0)>0.03);
+ const complete=fullShares&&!openHeld&&stats.invalid_events===0
+   &&stats.duplicate_fingerprints===0&&stats.structural_events_without_pair===0
+   &&stats.redemption_failures===0&&stats.redemption_without_vector===0
+   &&compares.every(t=>!t.has_closed_open_overlap)&&uniqueClosed.size===2;
+ const delta=round(modeled-report);
+ const tol=Math.max(0.1,Math.abs(modeled)*0.001);
+ return {reported_closed_pnl_usdc:round(report),modeled_market_cash_pnl_usdc:round(modeled),
+    reported_remaining_entry_fees_usdc:round(fees),
+    delta_usdc:delta,tolerance_usdc:round(tol),
+    inventory_reconciled:fullShares,market_fully_flat:!openHeld,
+    pnl_eligible:complete,pnl_matches:complete&&Math.abs(delta)<=tol,
+    classification:!complete?'INCOMPLETE_ECONOMIC_EVIDENCE':
+      Math.abs(delta)<=tol?'PROVISIONAL_MARKET_PNL_MATCH':'MARKET_PNL_DISAGREEMENT',
+    note:'Trade/redeem/merge cash flows, before independent fee and on-chain transfer verification'};
 }
 function positionsForToken(rows,token){
  return rows.filter(x=>String(x.token_id||'')===token);
@@ -181,7 +219,8 @@ async function main(){
      redemption_failures:0,unverifiable_redemptions:0,
      resolved_with_vector:0,open_status_markets:0,
      token_cases:0,independent_pnl_eligible:0,independent_pnl_passes:0,
-     independent_pnl_failures:0,unreconciled_inventory:0,
+     independent_pnl_failures:0,market_pnl_eligible:0,market_pnl_matches:0,
+     market_pnl_disagreements:0,recognized_merges:0,unreconciled_inventory:0,
      lot_scores:'WITHHELD',wallet_scores:'WITHHELD'};
  for(const c of targets){
   try{
@@ -193,6 +232,7 @@ async function main(){
    const resolved=resolution.data.find(x=>String(x.condition_id||'').toLowerCase()===c.condition)||null;
    const stats=auditEvents(activity.rows,c.condition,c.wallet,resolved);
    const compares=compareToPositions(stats,opened.rows,closed.rows);
+   const marketPnl=marketCashPnl(stats,compares,opened.rows,closed.rows);
    const reliable=activity.complete&&opened.complete&&closed.complete&&stats.invalid_events===0&&stats.duplicate_fingerprints===0&&stats.spillover===0;
    const item={
     name:c.name,wallet:c.wallet,condition:c.condition,old_unmatched_token_cases:c.original_failed_token_lots,
@@ -207,6 +247,9 @@ async function main(){
     redemption_failures:stats.redemption_failures,
     redemption_without_vector:stats.redemption_without_vector,
     merged_events:stats.merge_events,split_events:stats.split_events,
+    mapped_merge_usdc:stats.merged_collateral_usdc,
+    structural_unmapped:stats.structural_events_without_pair,
+    independent_market_pnl:marketPnl,
     source_pages_complete:reliable,
     token_audits:compares
    };
@@ -227,11 +270,15 @@ async function main(){
    totals.independent_pnl_passes+=compares.filter(x=>x.independent_pnl_pass).length;
    totals.independent_pnl_failures+=compares.filter(x=>x.independent_pnl_fail).length;
    totals.unreconciled_inventory+=compares.filter(x=>x.classification==='NOT_RECONCILED_INVENTORY').length;
+   totals.recognized_merges+=stats.merge_events;
+   totals.market_pnl_eligible+=marketPnl.pnl_eligible?1:0;
+   totals.market_pnl_matches+=marketPnl.pnl_matches?1:0;
+   totals.market_pnl_disagreements+=marketPnl.pnl_eligible&&!marketPnl.pnl_matches?1:0;
   }catch(e){console.log('INDEPENDENT_ERROR '+JSON.stringify({wallet:c.wallet,condition:c.condition,error:String(e.message||e)}));}
  }
  console.log('INDEPENDENT_SUMMARY '+JSON.stringify(totals));
  console.log('RESULT='+ (totals.markets_fetched===targets.length?'ALL_EIGHT_MARKETS_AUDITED':'PARTIAL'));
  if(totals.markets_fetched!==targets.length)process.exitCode=2;
 }
-module.exports={payoutVector,identity,auditEvents,compareToPositions};
+module.exports={payoutVector,identity,auditEvents,compareToPositions,marketCashPnl};
 if(require.main===module)main().catch(e=>{console.error('FATAL '+String(e));process.exitCode=1});
