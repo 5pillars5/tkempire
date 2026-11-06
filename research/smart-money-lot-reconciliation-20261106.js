@@ -116,7 +116,7 @@ function summarizeResolution(rows,condition){
  const keys=Object.keys(row).sort();
  const explicit={};
  for(const key of keys){
-  if(/^(state|status|resolved|winning_outcome|winning_token|payout|resolution|result|outcome)$/i.test(key)){
+  if(/^(state|status|resolved|resolved_at|winning_outcome|winning_token|payout|payouts|resolution|result|outcome)$/i.test(key)){
     const val=row[key];
     if(typeof val==='string'||typeof val==='number'||typeof val==='boolean'||Array.isArray(val))
       explicit[key]=Array.isArray(val)?val.slice(0,8):val;
@@ -124,9 +124,9 @@ function summarizeResolution(rows,condition){
  }
  const terminal=Object.keys(explicit).some(k=>/state|status|resolved/i.test(k) && /resolve|final|redeem/i.test(String(explicit[k])));
  // Terminal status alone is not proof of the winning token/payout index.
- const hasPayout=Object.keys(explicit).some(k=>/payout|winning_token/i.test(k));
+ const hasPayout=Array.isArray(explicit.payouts) && explicit.payouts.length >= 2 && explicit.payouts.every(v=>typeof v==='number' && Number.isFinite(v) && v>=0 && v<=1) && Math.abs(explicit.payouts.reduce((a,b)=>a+b,0)-1)<0.0001;
  return {matched:true,verified:terminal&&hasPayout,keys:keys.slice(0,35),explicit,
-    reason:terminal&&!hasPayout?'terminal_without_verified_token_payout':null};
+    reason:terminal&&!hasPayout?'terminal_without_valid_payout_vector':null};
 }
 function lotLedger(events,token){
  const sorted=events.filter(e=>String(e.token_id||'')===token).sort((a,b)=>
