@@ -1,0 +1,17 @@
+'use strict';
+const assert=require('node:assert/strict');
+const {decodeLog}=require('../research/polygon-six-token-receipt-probe-20261106.js');
+const pad=n=>BigInt(n).toString(16).padStart(64,'0');
+const addr=x=>'0x'+x.padStart(64,'0');
+const from='1'.repeat(40),to='2'.repeat(40);
+const base={address:'0x4D97DCd97eC945f40cF65F87097ACe5EA0476045',transactionHash:'0x'+'a'.repeat(64),logIndex:'0x9'};
+const single={...base,topics:['0xc3d58168c5ae7397731d063d5bbf3d657854427343f4c083240f7aacaa2d0f62',addr('3'),addr(from),addr(to)],data:'0x'+pad(123)+pad(5000000)};
+const r1=decodeLog(single);
+assert.equal(r1.event,'TransferSingle');assert.equal(r1.id,'123');assert.equal(r1.value,5);
+assert.equal(r1.from,'0x'+from);assert.equal(r1.to,'0x'+to);
+const batch={...base,topics:['0x4a39dc06d4c0dbc64b70af90fd698a233a518aa5d07e595d983b8c0526c8f7fb',addr('3'),addr(from),addr(to)],data:'0x'+pad(64)+pad(160)+pad(2)+pad(11)+pad(22)+pad(2)+pad(3000000)+pad(7000000)};
+const r2=decodeLog(batch);
+assert.deepEqual(r2.ids,['11','22']);assert.deepEqual(r2.values,[3,7]);
+const erc20={...base,address:'0x'+('f'.repeat(40)),topics:['0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef',addr(from),addr(to)],data:'0x'+pad(9900000)};
+assert.equal(decodeLog(erc20).value,9.9);
+console.log('POLYGON_RECEIPT_DECODER_TESTS=PASS');
