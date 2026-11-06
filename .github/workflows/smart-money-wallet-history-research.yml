@@ -1,7 +1,7 @@
 name: Smart Money Wallet Closed History Research
 on:
   push:
-    branches: [research/smartmoney-closed-position-history-20261106]
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
