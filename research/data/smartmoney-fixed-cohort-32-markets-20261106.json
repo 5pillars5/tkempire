@@ -1,0 +1,635 @@
+{
+  "captured_from": {
+    "run_id": 42293270788,
+    "job_id": 128151891668,
+    "commit": "47161d773845786f6d22bf6ce5aa399570d6d39a",
+    "cohort": "eight_wallets_2026_11_06",
+    "note": "Fixed conditions from successful prior pilot; truncated token IDs are presentation only, full token identities are refetched."
+  },
+  "conditions": [
+    {
+      "wallet": "0x111f73e91f85b6fe4de1ddec3de2fe32122e355b",
+      "name": "Papeasy",
+      "condition": "0x9afd31c5a20a180a6e8d505673c942208fa14b4c1bd68ef718aa380bb58ccdec",
+      "selection": "settled_unredeemed",
+      "original_failed_token_lots": 0,
+      "original_matched_token_lots": 1,
+      "activity_rows": 1,
+      "original_resolution_verified": true,
+      "token_display": [
+        {
+          "token_prefix": "114198683452...",
+          "matched": true,
+          "delta": 0,
+          "anomalies": []
+        }
+      ]
+    },
+    {
+      "wallet": "0x111f73e91f85b6fe4de1ddec3de2fe32122e355b",
+      "name": "Papeasy",
+      "condition": "0xbbf4a4db781e990b87977641dc9096363183675dd609b5817f832df9cc5f0f2c",
+      "selection": "unresolved_held",
+      "original_failed_token_lots": 0,
+      "original_matched_token_lots": 1,
+      "activity_rows": 2,
+      "original_resolution_verified": false,
+      "token_display": [
+        {
+          "token_prefix": "201195431501...",
+          "matched": true,
+          "delta": 0,
+          "anomalies": []
+        }
+      ]
+    },
+    {
+      "wallet": "0x111f73e91f85b6fe4de1ddec3de2fe32122e355b",
+      "name": "Papeasy",
+      "condition": "0x197b6683dfa66ae2721066584357219ab8f4154b7b4574fa7db7a00fc40fd9fe",
+      "selection": "recent_closed",
+      "original_failed_token_lots": 2,
+      "original_matched_token_lots": 0,
+      "activity_rows": 34,
+      "original_resolution_verified": true,
+      "token_display": [
+        {
+          "token_prefix": "466300746448...",
+          "matched": false,
+          "delta": 0,
+          "anomalies": [
+            "exit_without_observed_buy"
+          ]
+        },
+        {
+          "token_prefix": "876927580997...",
+          "matched": false,
+          "delta": 0,
+          "anomalies": [
+            "exit_without_observed_buy"
+          ]
+        }
+      ]
+    },
+    {
+      "wallet": "0x111f73e91f85b6fe4de1ddec3de2fe32122e355b",
+      "name": "Papeasy",
+      "condition": "0xe5e31527a8c0e9b7edeadb69acb2a2a31bbf751e2c3ec10c88e2517f9237b239",
+      "selection": "recent_closed",
+      "original_failed_token_lots": 2,
+      "original_matched_token_lots": 0,
+      "activity_rows": 48,
+      "original_resolution_verified": true,
+      "token_display": [
+        {
+          "token_prefix": "876412587491...",
+          "matched": false,
+          "delta": 0,
+          "anomalies": [
+            "exit_without_observed_buy"
+          ]
+        },
+        {
+          "token_prefix": "103941550064...",
+          "matched": false,
+          "delta": 0,
+          "anomalies": [
+            "exit_without_observed_buy"
+          ]
+        }
+      ]
+    },
+    {
+      "wallet": "0x06dc51826bc524d9a83770e7de9dd7e005b04524",
+      "name": "0x06dc...4524",
+      "condition": "0x02c99390943a3e57e88c7400b23f291f4951c3f71b8fd9ac7b45222eb8dbb1c1",
+      "selection": "settled_unredeemed",
+      "original_failed_token_lots": 0,
+      "original_matched_token_lots": 1,
+      "activity_rows": 5,
+      "original_resolution_verified": false,
+      "token_display": [
+        {
+          "token_prefix": "901252074404...",
+          "matched": true,
+          "delta": 0,
+          "anomalies": []
+        }
+      ]
+    },
+    {
+      "wallet": "0x06dc51826bc524d9a83770e7de9dd7e005b04524",
+      "name": "0x06dc...4524",
+      "condition": "0xc889f23e792463cc0674eff9b147941b4ee3acfed0c490d3f81e5bfe865ec1d0",
+      "selection": "unresolved_held",
+      "original_failed_token_lots": 0,
+      "original_matched_token_lots": 1,
+      "activity_rows": 19,
+      "original_resolution_verified": false,
+      "token_display": [
+        {
+          "token_prefix": "771387469631...",
+          "matched": true,
+          "delta": 0,
+          "anomalies": []
+        }
+      ]
+    },
+    {
+      "wallet": "0x06dc51826bc524d9a83770e7de9dd7e005b04524",
+      "name": "0x06dc...4524",
+      "condition": "0xa28b5f443744069cdb4e4f47aadb6bfcfb8a3614da98b994bea152d231274074",
+      "selection": "recent_closed",
+      "original_failed_token_lots": 2,
+      "original_matched_token_lots": 0,
+      "activity_rows": 152,
+      "original_resolution_verified": false,
+      "token_display": [
+        {
+          "token_prefix": "881622329235...",
+          "matched": false,
+          "delta": 3224.08,
+          "anomalies": []
+        },
+        {
+          "token_prefix": "213137092471...",
+          "matched": false,
+          "delta": 3224.08,
+          "anomalies": []
+        }
+      ]
+    },
+    {
+      "wallet": "0x06dc51826bc524d9a83770e7de9dd7e005b04524",
+      "name": "0x06dc...4524",
+      "condition": "0xcfe3135ee8946574a475c692da62810f60ad56d64c919c524a975818120d38c7",
+      "selection": "recent_closed",
+      "original_failed_token_lots": 2,
+      "original_matched_token_lots": 0,
+      "activity_rows": 75,
+      "original_resolution_verified": false,
+      "token_display": [
+        {
+          "token_prefix": "910970812712...",
+          "matched": false,
+          "delta": 100.06,
+          "anomalies": []
+        },
+        {
+          "token_prefix": "342272914686...",
+          "matched": false,
+          "delta": 100.06,
+          "anomalies": []
+        }
+      ]
+    },
+    {
+      "wallet": "0xd1c769317bd15de7768a70d0214cf0bbcc531d2b",
+      "name": "033033033",
+      "condition": "0x3738ad9665480991affe3ba286cd035516e17d1f8b7703e05088ec19c70c21a4",
+      "selection": "unresolved_held",
+      "original_failed_token_lots": 0,
+      "original_matched_token_lots": 1,
+      "activity_rows": 145,
+      "original_resolution_verified": false,
+      "token_display": [
+        {
+          "token_prefix": "671025989247...",
+          "matched": true,
+          "delta": 0,
+          "anomalies": []
+        }
+      ]
+    },
+    {
+      "wallet": "0xd1c769317bd15de7768a70d0214cf0bbcc531d2b",
+      "name": "033033033",
+      "condition": "0x2d8bf985cf97f2f46e14beac97cbd1431dcac70bd613ef87e0449f20d2e716f3",
+      "selection": "recent_closed",
+      "original_failed_token_lots": 0,
+      "original_matched_token_lots": 1,
+      "activity_rows": 3,
+      "original_resolution_verified": false,
+      "token_display": [
+        {
+          "token_prefix": "103403462066...",
+          "matched": true,
+          "delta": 0,
+          "anomalies": []
+        }
+      ]
+    },
+    {
+      "wallet": "0xd1c769317bd15de7768a70d0214cf0bbcc531d2b",
+      "name": "033033033",
+      "condition": "0x320ac669236ff86c10ebff36bf6c3c8d3af89756bf471948d27cdca755ec497f",
+      "selection": "recent_closed",
+      "original_failed_token_lots": 0,
+      "original_matched_token_lots": 1,
+      "activity_rows": 2,
+      "original_resolution_verified": false,
+      "token_display": [
+        {
+          "token_prefix": "114381075328...",
+          "matched": true,
+          "delta": 0,
+          "anomalies": []
+        }
+      ]
+    },
+    {
+      "wallet": "0xd1c769317bd15de7768a70d0214cf0bbcc531d2b",
+      "name": "033033033",
+      "condition": "0x89ec9f99dce2be0b8d3923a6c204e51813b788b747d5419f3a5b0ecd00062f76",
+      "selection": "recent_closed",
+      "original_failed_token_lots": 0,
+      "original_matched_token_lots": 1,
+      "activity_rows": 19,
+      "original_resolution_verified": false,
+      "token_display": [
+        {
+          "token_prefix": "112758206619...",
+          "matched": true,
+          "delta": 0,
+          "anomalies": []
+        }
+      ]
+    },
+    {
+      "wallet": "0xcc500cbcc8b7cf5bd21975ebbea34f21b5644c82",
+      "name": "justdance",
+      "condition": "0xee5a4c01a8b6c1241281371963c94faef4073fe557153ead8dc05e9801caf4b5",
+      "selection": "settled_unredeemed",
+      "original_failed_token_lots": 0,
+      "original_matched_token_lots": 1,
+      "activity_rows": 3,
+      "original_resolution_verified": true,
+      "token_display": [
+        {
+          "token_prefix": "349445145611...",
+          "matched": true,
+          "delta": 0,
+          "anomalies": []
+        }
+      ]
+    },
+    {
+      "wallet": "0xcc500cbcc8b7cf5bd21975ebbea34f21b5644c82",
+      "name": "justdance",
+      "condition": "0xc11c78e0e94e85b2cfd9996f7945a2da20a1e0a90b45bcdaa912b0b8da09b18e",
+      "selection": "unresolved_held",
+      "original_failed_token_lots": 2,
+      "original_matched_token_lots": 0,
+      "activity_rows": 21,
+      "original_resolution_verified": false,
+      "token_display": [
+        {
+          "token_prefix": "108999714778...",
+          "matched": false,
+          "delta": 354.32,
+          "anomalies": []
+        },
+        {
+          "token_prefix": "477031489330...",
+          "matched": false,
+          "delta": 354.32,
+          "anomalies": []
+        }
+      ]
+    },
+    {
+      "wallet": "0xcc500cbcc8b7cf5bd21975ebbea34f21b5644c82",
+      "name": "justdance",
+      "condition": "0x1eb58346a96ddeb329c989e50bccf44ddfb855f6e0416ed1739082dd24fecce2",
+      "selection": "recent_closed",
+      "original_failed_token_lots": 0,
+      "original_matched_token_lots": 1,
+      "activity_rows": 2,
+      "original_resolution_verified": true,
+      "token_display": [
+        {
+          "token_prefix": "101816732564...",
+          "matched": true,
+          "delta": 0,
+          "anomalies": []
+        }
+      ]
+    },
+    {
+      "wallet": "0xcc500cbcc8b7cf5bd21975ebbea34f21b5644c82",
+      "name": "justdance",
+      "condition": "0x6f9d3f8478b79527fbfa1b6528fa0b63ca2ce813e4f44a5326af35aac5d96924",
+      "selection": "recent_closed",
+      "original_failed_token_lots": 2,
+      "original_matched_token_lots": 0,
+      "activity_rows": 11,
+      "original_resolution_verified": false,
+      "token_display": [
+        {
+          "token_prefix": "948089113757...",
+          "matched": false,
+          "delta": 1685.48,
+          "anomalies": []
+        },
+        {
+          "token_prefix": "821547690346...",
+          "matched": false,
+          "delta": 1685.48,
+          "anomalies": []
+        }
+      ]
+    },
+    {
+      "wallet": "0x301e286fd88abb7cda0a19a24e4dc4823c4db752",
+      "name": "fred4332",
+      "condition": "0x48335e4649dc26274185c7272c5874ac7fa4836feda8cae8920b3b227cda95c5",
+      "selection": "settled_unredeemed",
+      "original_failed_token_lots": 0,
+      "original_matched_token_lots": 1,
+      "activity_rows": 1,
+      "original_resolution_verified": false,
+      "token_display": [
+        {
+          "token_prefix": "566239290055...",
+          "matched": true,
+          "delta": 0,
+          "anomalies": []
+        }
+      ]
+    },
+    {
+      "wallet": "0x301e286fd88abb7cda0a19a24e4dc4823c4db752",
+      "name": "fred4332",
+      "condition": "0xe857908af861488514fa1c3aabdc3a8b0c59598b8b647d2d98780ec43bf1d2bc",
+      "selection": "unresolved_held",
+      "original_failed_token_lots": 0,
+      "original_matched_token_lots": 1,
+      "activity_rows": 4,
+      "original_resolution_verified": false,
+      "token_display": [
+        {
+          "token_prefix": "473648503826...",
+          "matched": true,
+          "delta": 0,
+          "anomalies": []
+        }
+      ]
+    },
+    {
+      "wallet": "0x301e286fd88abb7cda0a19a24e4dc4823c4db752",
+      "name": "fred4332",
+      "condition": "0x0d71c7465da12ca54f8f37dcab2fd0c781460bde7a5c5ae8df3f476279e9cfdf",
+      "selection": "recent_closed",
+      "original_failed_token_lots": 0,
+      "original_matched_token_lots": 1,
+      "activity_rows": 11,
+      "original_resolution_verified": false,
+      "token_display": [
+        {
+          "token_prefix": "360231858160...",
+          "matched": true,
+          "delta": 0,
+          "anomalies": []
+        }
+      ]
+    },
+    {
+      "wallet": "0x301e286fd88abb7cda0a19a24e4dc4823c4db752",
+      "name": "fred4332",
+      "condition": "0x136b47f72b07ce533aea044fdc3d07c9f8a80e04ee5bfbec8f26666b7650c7d4",
+      "selection": "recent_closed",
+      "original_failed_token_lots": 0,
+      "original_matched_token_lots": 1,
+      "activity_rows": 7,
+      "original_resolution_verified": false,
+      "token_display": [
+        {
+          "token_prefix": "106497210007...",
+          "matched": true,
+          "delta": 0.01,
+          "anomalies": []
+        }
+      ]
+    },
+    {
+      "wallet": "0x56ad6bd05999e0f33ea9c05a48ccb1364a46f13e",
+      "name": "floatingraft",
+      "condition": "0xacec7e5b90ccb1ac4c950e3aff18156d6ce1bb7b0c87c001a281279412dca784",
+      "selection": "unresolved_held",
+      "original_failed_token_lots": 0,
+      "original_matched_token_lots": 1,
+      "activity_rows": 130,
+      "original_resolution_verified": false,
+      "token_display": [
+        {
+          "token_prefix": "101492056351...",
+          "matched": true,
+          "delta": 0,
+          "anomalies": []
+        }
+      ]
+    },
+    {
+      "wallet": "0x56ad6bd05999e0f33ea9c05a48ccb1364a46f13e",
+      "name": "floatingraft",
+      "condition": "0xe3b3f693b8138e12752b000a4202da1d8d3d1ece76c659f43a242a8e97fb7059",
+      "selection": "recent_closed",
+      "original_failed_token_lots": 0,
+      "original_matched_token_lots": 1,
+      "activity_rows": 3,
+      "original_resolution_verified": false,
+      "token_display": [
+        {
+          "token_prefix": "105191353671...",
+          "matched": true,
+          "delta": 0,
+          "anomalies": []
+        }
+      ]
+    },
+    {
+      "wallet": "0x56ad6bd05999e0f33ea9c05a48ccb1364a46f13e",
+      "name": "floatingraft",
+      "condition": "0xdab67762c15cb21febbe7f53f7774f6cd5e551044ec065bde26317aa436446a2",
+      "selection": "recent_closed",
+      "original_failed_token_lots": 0,
+      "original_matched_token_lots": 1,
+      "activity_rows": 2,
+      "original_resolution_verified": false,
+      "token_display": [
+        {
+          "token_prefix": "619661477045...",
+          "matched": true,
+          "delta": 0,
+          "anomalies": []
+        }
+      ]
+    },
+    {
+      "wallet": "0x56ad6bd05999e0f33ea9c05a48ccb1364a46f13e",
+      "name": "floatingraft",
+      "condition": "0xbdb1ee6229876248ad8a80249b4a18c7d16c555f97af1667ee0c2fb827bd18af",
+      "selection": "recent_closed",
+      "original_failed_token_lots": 0,
+      "original_matched_token_lots": 1,
+      "activity_rows": 2,
+      "original_resolution_verified": false,
+      "token_display": [
+        {
+          "token_prefix": "951093152489...",
+          "matched": true,
+          "delta": 0,
+          "anomalies": []
+        }
+      ]
+    },
+    {
+      "wallet": "0xb6fef4c2c436ab8bbf07d017952e851dcf717394",
+      "name": "0xb6fe...7394",
+      "condition": "0xf7bf08163b710c2383b1f7145e1769284a46c2e840454dd56439659c302f24eb",
+      "selection": "settled_unredeemed",
+      "original_failed_token_lots": 0,
+      "original_matched_token_lots": 1,
+      "activity_rows": 19,
+      "original_resolution_verified": false,
+      "token_display": [
+        {
+          "token_prefix": "120395454586...",
+          "matched": true,
+          "delta": 0,
+          "anomalies": []
+        }
+      ]
+    },
+    {
+      "wallet": "0xb6fef4c2c436ab8bbf07d017952e851dcf717394",
+      "name": "0xb6fe...7394",
+      "condition": "0xdc5938c9f2d64cc674bd2e612dcb953716c8978c68916496a233d609b28a68a1",
+      "selection": "unresolved_held",
+      "original_failed_token_lots": 0,
+      "original_matched_token_lots": 1,
+      "activity_rows": 4,
+      "original_resolution_verified": false,
+      "token_display": [
+        {
+          "token_prefix": "928827245533...",
+          "matched": true,
+          "delta": 0,
+          "anomalies": []
+        }
+      ]
+    },
+    {
+      "wallet": "0xb6fef4c2c436ab8bbf07d017952e851dcf717394",
+      "name": "0xb6fe...7394",
+      "condition": "0x60a020d3ff97f796234762db7b642df73dde18f18c55dec0704cceacdc7c5e75",
+      "selection": "recent_closed",
+      "original_failed_token_lots": 0,
+      "original_matched_token_lots": 1,
+      "activity_rows": 4,
+      "original_resolution_verified": false,
+      "token_display": [
+        {
+          "token_prefix": "914575188311...",
+          "matched": true,
+          "delta": 0,
+          "anomalies": []
+        }
+      ]
+    },
+    {
+      "wallet": "0xb6fef4c2c436ab8bbf07d017952e851dcf717394",
+      "name": "0xb6fe...7394",
+      "condition": "0xd4702e2ef4e26d6a4eb55aae3fd47bc1a5c1026434891e0b8cedbbfd4339c0a6",
+      "selection": "recent_closed",
+      "original_failed_token_lots": 0,
+      "original_matched_token_lots": 1,
+      "activity_rows": 13,
+      "original_resolution_verified": false,
+      "token_display": [
+        {
+          "token_prefix": "890326329386...",
+          "matched": true,
+          "delta": 0,
+          "anomalies": []
+        }
+      ]
+    },
+    {
+      "wallet": "0x0c0e270cf879583d6a0142fc817e05b768d0434e",
+      "name": "Spirit of Ukraine>UMA",
+      "condition": "0x998bc71817b2d76921d1999ce0f3431cfd5945583667a371280ca2b430b0c06e",
+      "selection": "settled_unredeemed",
+      "original_failed_token_lots": 1,
+      "original_matched_token_lots": 0,
+      "activity_rows": 47,
+      "original_resolution_verified": false,
+      "token_display": [
+        {
+          "token_prefix": "630235995613...",
+          "matched": false,
+          "delta": 3266.08,
+          "anomalies": [
+            "exit_without_observed_buy"
+          ]
+        }
+      ]
+    },
+    {
+      "wallet": "0x0c0e270cf879583d6a0142fc817e05b768d0434e",
+      "name": "Spirit of Ukraine>UMA",
+      "condition": "0x99dcf0abf02cdbd62e6a17a95c68f7864be5f5779d25d44cf7ea134f5d7979a9",
+      "selection": "unresolved_held",
+      "original_failed_token_lots": 0,
+      "original_matched_token_lots": 1,
+      "activity_rows": 2,
+      "original_resolution_verified": false,
+      "token_display": [
+        {
+          "token_prefix": "173205928985...",
+          "matched": true,
+          "delta": 0,
+          "anomalies": []
+        }
+      ]
+    },
+    {
+      "wallet": "0x0c0e270cf879583d6a0142fc817e05b768d0434e",
+      "name": "Spirit of Ukraine>UMA",
+      "condition": "0xe50c71cc5e2372bf0f6194a02e51459dd03b2c7b2d78a0d4650e5f36c425338b",
+      "selection": "recent_closed",
+      "original_failed_token_lots": 1,
+      "original_matched_token_lots": 0,
+      "activity_rows": 191,
+      "original_resolution_verified": false,
+      "token_display": [
+        {
+          "token_prefix": "484557365460...",
+          "matched": false,
+          "delta": 0,
+          "anomalies": [
+            "exit_without_observed_buy"
+          ]
+        }
+      ]
+    },
+    {
+      "wallet": "0x0c0e270cf879583d6a0142fc817e05b768d0434e",
+      "name": "Spirit of Ukraine>UMA",
+      "condition": "0xa2e43598547f2e90e3eee195812c8814202b9b66f6c540d7e15a265cbe93f68f",
+      "selection": "recent_closed",
+      "original_failed_token_lots": 0,
+      "original_matched_token_lots": 1,
+      "activity_rows": 6,
+      "original_resolution_verified": false,
+      "token_display": [
+        {
+          "token_prefix": "106321904011...",
+          "matched": true,
+          "delta": 0,
+          "anomalies": []
+        }
+      ]
+    }
+  ]
+}

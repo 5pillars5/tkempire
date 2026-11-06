@@ -1,0 +1,31 @@
+name: Smart Money Mismatched Lot Evidence
+on:
+  pull_request:
+    paths:
+      - 'research/smartmoney-event-schema-probe-20261106.js'
+      - 'research/smartmoney-independent-pnl-reconcile-20261106.js'
+      - 'tests/smartmoney-independent-pnl.test.js'
+      - 'research/data/smartmoney-fixed-cohort-32-markets-20261106.json'
+      - '.github/workflows/smartmoney-lot-evidence.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+      - name: Syntax check
+        run: node --check research/smartmoney-event-schema-probe-20261106.js
+      - name: Verify independent PnL model
+        run: |
+          node --check research/smartmoney-independent-pnl-reconcile-20261106.js
+          node tests/smartmoney-independent-pnl.test.js
+      - name: Independently reconcile eight mismatched markets
+        run: node research/smartmoney-independent-pnl-reconcile-20261106.js
