@@ -35,4 +35,8 @@ function trade(side,size,usdc,timestamp){
  const r=summarizeResolution([{condition_id:'0x'+'a'.repeat(64),status:'resolved',payouts:[0,1]}],'0x'+'a'.repeat(64));
  assert.equal(r.verified,true);
 }
+{
+ const r=summarizeResolution([{condition_id:'0x'+'a'.repeat(64),status:'resolved',payouts:[1000000,0]}],'0x'+'a'.repeat(64));
+ assert.equal(r.verified,true);
+}
 console.log('LOT_RECONCILIATION_UNIT_TESTS=PASS');
