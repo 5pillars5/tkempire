@@ -31,3 +31,6 @@ jobs:
           node --check api/smart-money-watch.js
       - name: Run deterministic signal and safety tests
         run: node --test tests/smart-money-signals.test.js
+
+      - name: Verify live Polymarket public API contract
+        run: node tests/smart-money-live-smoke.js
