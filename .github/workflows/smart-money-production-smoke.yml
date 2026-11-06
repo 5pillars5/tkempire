@@ -1,0 +1,27 @@
+name: Smart Money Production Smoke
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tests/smart-money-production-smoke.js'
+      - '.github/workflows/smart-money-production-smoke.yml'
+      - 'api/smart-money-*.js'
+      - 'smart-money*.html'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout public repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Use Node 22
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+      - name: Verify production Smart Money webpage and live APIs
+        run: node tests/smart-money-production-smoke.js
