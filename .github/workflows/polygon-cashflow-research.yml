@@ -1,0 +1,24 @@
+name: Polygon Independent USDC Cash Flow Research
+on:
+  pull_request:
+    paths:
+      - 'research/polygon-papeasy-usdc-boundary-20261106.js'
+      - 'research/polygon-spirit-first-entry-scan-20261106.js'
+      - '.github/workflows/polygon-cashflow-research.yml'
+permissions:
+  contents: read
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 11
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+      - name: Syntax
+        run: node --check research/polygon-papeasy-usdc-boundary-20261106.js
+      - name: Wallet-level cash flow
+        run: node research/polygon-papeasy-usdc-boundary-20261106.js
