@@ -14,7 +14,10 @@ test('phone navigation has an accessible menu and responsive layout', () => {
   assert.match(nav,/aria-controls/);
   assert.match(nav,/Escape/);
   assert.match(css,/\.empire-global-nav__links\.is-open/);
-  assert.match(css,/max-width:700px/);
+  // Keep all destinations accessible on tablets and phones rather than clipping the nav.
+  assert.match(css,/max-width:1120px/);
+  assert.match(nav,/Smart Money/);
+  assert.match(nav,/Live Signals/);
 });
 test('Genesis pipeline reads only public filtered APIs', () => {
   const brain=read('assets/js/genesis-brain.js');
