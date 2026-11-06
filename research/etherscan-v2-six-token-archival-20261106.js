@@ -7,6 +7,7 @@
 const crypto=require('node:crypto');
 const fs=require('node:fs');
 const path=require('node:path');
+const {enrich}=require('./etherscan-v2-receipt-enrich-20261106.js');
 const API='https://api.etherscan.io/v2/api';
 const CTF='0x4d97dcd97ec945f40cf65f87097ace5ea0476045';
 const maxPages=12,perPage=1000,maxRanges=128,minBlock=0;
@@ -147,8 +148,12 @@ async function run(){
   try{source=await fetchRange(key,item,selection,item.start,item.end)}
   catch(e){console.log('INDEX_BLOCKER '+JSON.stringify({wallet:item.wallet,reason:errorText(e),calls:requestCount}));process.exitCode=2;continue}
   let duplicates=0,withoutLogIndex=0;
+  const selectedRows=source.rows.filter(r=>r.selected);
+  let attested;
+  try{attested=await enrich(selectedRows,item.wallet,selection);}
+  catch(e){console.log('INDEX_BLOCKER '+JSON.stringify({wallet:item.wallet,reason:'RECEIPT_VERIFICATION_'+errorText(e)}));process.exitCode=2;continue}
   const unique=new Map();
-  for(const r of source.rows){
+  for(const r of selectedRows){
    if(r.log_index===null){withoutLogIndex++;continue;}
    const identity=r.tx_hash+':'+r.log_index+':'+r.token_id;
    if(unique.has(identity))duplicates++;else unique.set(identity,r);
@@ -170,13 +175,17 @@ async function run(){
     startblock:item.start,endblock:item.end,selected_token_ids:tokens,
     source_complete:source.complete,identity_complete:withoutLogIndex===0,
     unique_transfer_rows:rows.length,duplicates,without_log_index:withoutLogIndex,
-    elapsed_ms:Date.now()-start,records:rows.filter(x=>x.selected)};
+    elapsed_ms:Date.now()-start,
+    receipt_transactions_verified:attested.transactions_verified,
+    receipt_log_indices_enriched:attested.identities_enriched,
+    records:rows};
   const outDir=process.env.EVIDENCE_DIR||'/tmp/tk-smartmoney-index';
   fs.mkdirSync(outDir,{recursive:true,mode:0o700});
   const dst=path.join(outDir,item.label.startsWith('Papeasy')?'papeasy_transfers.json':'spirit_transfers.json');
   fs.writeFileSync(dst,JSON.stringify(artifact,null,2)+'\n',{mode:0o600,flag:'w'});
   console.log('EVIDENCE_FILE '+JSON.stringify({wallet:item.wallet,
-    path:dst,sha256:digest(fs.readFileSync(dst)),selected_rows:artifact.records.length}));
+    path:dst,sha256:digest(fs.readFileSync(dst)),selected_rows:artifact.records.length,
+    receipt_transactions_verified:attested.transactions_verified}));
   if(!eligible){process.exitCode=2;console.log('INDEX_BLOCKER '+JSON.stringify({
     wallet:item.wallet,reason:withoutLogIndex?'MISSING_LOG_INDEX_IN_INDEXER_RESPONSE':'DUPLICATE_OR_INCOMPLETE_PAGE'}));}
  }
