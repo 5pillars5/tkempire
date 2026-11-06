@@ -57,6 +57,21 @@ function payoutVector(record){
  if(Math.abs(total-1000000)<1e-3)return p.map(x=>x/1000000);
  return null;
 }
+function oracleBinaryVector(record,positionRows){
+ if(!record||record.status!=='resolved'||record.new_version_q!==true)return null;
+ const price=String(record.price??'');
+ if(price!=='0'&&price!=='1000000000000000000')return null;
+ const mapped=new Map();
+ for(const p of positionRows){
+   if(!Number.isInteger(p.outcome_index)||p.outcome_index<0||p.outcome_index>1)continue;
+   const name=String(p.outcome||'').toLowerCase();
+   if(name!=='yes'&&name!=='no')return null;
+   if(mapped.has(p.outcome_index)&&mapped.get(p.outcome_index)!==name)return null;
+   mapped.set(p.outcome_index,name);
+ }
+ if(mapped.size!==2||mapped.get(0)!=='yes'||mapped.get(1)!=='no')return null;
+ return price==='1000000000000000000'?[1,0]:[0,1];
+}
 function identity(e){
  const t=String(e.transaction_hash||'').toLowerCase();
  const condition=String(e.condition_id||'').toLowerCase();
@@ -217,7 +232,7 @@ async function main(){
      activity_records:0,unique_event_records:0,duplicates:0,invalid:0,
      redemption_events:0,redemption_tx:0,redemption_checks:0,redemption_passes:0,
      redemption_failures:0,unverifiable_redemptions:0,
-     resolved_with_vector:0,open_status_markets:0,
+     resolved_with_vector:0,oracle_derived_vector_markets:0,open_status_markets:0,
      token_cases:0,independent_pnl_eligible:0,independent_pnl_passes:0,
      independent_pnl_failures:0,market_pnl_eligible:0,market_pnl_matches:0,
      market_pnl_disagreements:0,recognized_merges:0,unreconciled_inventory:0,
@@ -230,7 +245,10 @@ async function main(){
    const opened=await paged('/v2/positions',{user:c.wallet,condition:c.condition,status:'OPEN',include_archived:true,limit:100},3);
    const resolution=await data('/v2/resolutions',{condition:c.condition});
    const resolved=resolution.data.find(x=>String(x.condition_id||'').toLowerCase()===c.condition)||null;
-   const stats=auditEvents(activity.rows,c.condition,c.wallet,resolved);
+   const explicit=payoutVector(resolved);
+   const derived=!explicit?oracleBinaryVector(resolved,[...opened.rows,...closed.rows]):null;
+   const resolutionForAudit=derived?{status:'resolved',payouts:derived}:resolved;
+   const stats=auditEvents(activity.rows,c.condition,c.wallet,resolutionForAudit);
    const compares=compareToPositions(stats,opened.rows,closed.rows);
    const marketPnl=marketCashPnl(stats,compares,opened.rows,closed.rows);
    const reliable=activity.complete&&opened.complete&&closed.complete&&stats.invalid_events===0&&stats.duplicate_fingerprints===0&&stats.spillover===0;
@@ -243,6 +261,7 @@ async function main(){
     closed_positions_conditions:[...new Set(closed.rows.map(x=>x.condition_id))].slice(0,3),
     resolution_status:resolved?.status||'not_found',
     payout_vector:stats.payout_vector,
+    payout_source:explicit?'EXPLICIT_CTF':derived?'ORACLE_PRICE_DERIVED':'UNVERIFIED',
     events_unique:stats.unique_events,duplicate_event_fingerprints:stats.duplicate_fingerprints,
     invalid_events:stats.invalid_events,spillover:stats.spillover,
     redemption_tx_count:stats.redemption_tx_count,
@@ -269,6 +288,7 @@ async function main(){
    totals.redemption_failures+=stats.redemption_failures;
    totals.unverifiable_redemptions+=stats.redemption_without_vector;
    if(stats.payout_vector)totals.resolved_with_vector++;
+   if(derived)totals.oracle_derived_vector_markets++;
    totals.token_cases+=compares.length;
    totals.independent_pnl_eligible+=compares.filter(x=>x.independent_pnl_eligible).length;
    totals.independent_pnl_passes+=compares.filter(x=>x.independent_pnl_pass).length;
@@ -284,5 +304,5 @@ async function main(){
  console.log('RESULT='+ (totals.markets_fetched===targets.length?'ALL_EIGHT_MARKETS_AUDITED':'PARTIAL'));
  if(totals.markets_fetched!==targets.length)process.exitCode=2;
 }
-module.exports={payoutVector,identity,auditEvents,compareToPositions,marketCashPnl};
+module.exports={payoutVector,oracleBinaryVector,identity,auditEvents,compareToPositions,marketCashPnl};
 if(require.main===module)main().catch(e=>{console.error('FATAL '+String(e));process.exitCode=1});
