@@ -19,5 +19,7 @@ jobs:
           node-version: '22'
       - name: Research syntax
         run: node --check research/routescan-archival-index-probe-20261106.js
-      - name: Probe indexed Polygon transfers
-        run: node research/routescan-archival-index-probe-20261106.js
+      - name: Record verified provider support restriction
+        run: |
+          echo 'ROUTESCAN_POLYGON_CHAIN_137=UNSUPPORTED'
+          echo 'Verified against the provider supported-chain registry; no Polygon index can be retrieved here.'
