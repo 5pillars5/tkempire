@@ -10,7 +10,7 @@ button,select{background:#213550;color:var(--fg);border:1px solid #415d7c;border
 .filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:760px}th,td{padding:12px 14px;text-align:left;border-bottom:1px solid #29384a}th{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}td{font-size:13px}td.market{min-width:230px;max-width:430px}.good{color:var(--green)}.bad{color:var(--red)}.gold{color:var(--gold)}.muted{color:var(--muted)}.type{font-size:11px;font-weight:850}.sample{padding:10px 12px;background:#222318;border:1px solid #5b4b2e;border-radius:9px;color:#f5d899;margin:12px 0}
 .empty{padding:24px;color:var(--muted);text-align:center}.walletlist{font:11px/1.8 ui-monospace,monospace;word-break:break-all}.detail{display:none;padding:13px 17px;border-top:1px solid var(--edge);color:var(--muted);font-size:12px}.detail.visible{display:block}footer{max-width:1160px;margin:auto;padding:16px 18px 35px;color:var(--muted);font-size:11px}
 @media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}}
-</style></head><body>
+</style><link rel="stylesheet" href="/assets/css/site-tabs.css?v=4"></head><body>
 <header><div><a href="/">TK EMPIRE / GENESIS</a><span><a href="/smart-money.html">Wallet Watch</a> &nbsp;•&nbsp; <a href="/dashboard.html">Dashboard</a></span></div></header>
 <main>
 <div class="eyebrow">GENESIS / PUBLIC WALLET OBSERVATIONS</div>
@@ -65,4 +65,4 @@ async function load(){
 }
 $('refresh').addEventListener('click',load);$('filter').addEventListener('change',render);$('notify').addEventListener('click',async()=>{if(!('Notification' in window)){$('notify').textContent='Not supported';return;}const p=await Notification.requestPermission();$('notify').textContent=p==='granted'?'Browser alerts enabled':'Alerts denied or unavailable';});
 load();setInterval(()=>{if(!document.hidden)load()},60000);
-</script></body></html>
+</script><script src="/assets/js/site-tabs.js?v=4" defer></script></body></html>
