@@ -34,3 +34,6 @@ jobs:
 
       - name: Verify live Polymarket public API contract
         run: node tests/smart-money-live-smoke.js
+
+      - name: Verify current production Smart Money endpoints
+        run: node tests/smart-money-production-smoke.js
