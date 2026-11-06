@@ -93,7 +93,8 @@ async function enrich(rows,wallet,selected,receiptFetcher=queryReceipt){
   for(const row of subset){
     const bucket=buckets.get(signature(row))||[];
     if(!bucket.length)throw Error('MISSING_RECEIPT_MATCH');
-    const match=row.log_index===null?bucket.shift():bucket.splice(bucket.findIndex(x=>x.log_index===row.log_index),1)[0];
+    const index=row.log_index===null?0:bucket.findIndex(x=>x.log_index===row.log_index);
+    const match=index<0?null:bucket.splice(index,1)[0];
     if(!match)throw Error('RECEIPT_LOG_INDEX_MISMATCH');
     if(row.log_index===null){row.log_index=match.log_index;updated++;}
     matched++;
