@@ -39,7 +39,7 @@ jobs:
           node --check api/smart-money-history.js
           node --check assets/js/smart-money-flow-map.js
           node --test tests/smart-money-history-core.test.js tests/smart-money-history-api.test.js
-          python3 -m unittest discover -s tests -p 'smart-money-history-legacy-import.test.py' -v
+          python3 tests/smart-money-history-legacy-import.test.py
   archive:
     needs: test
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
