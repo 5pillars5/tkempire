@@ -1,0 +1,55 @@
+name: Genesis Smart Money Durable Historian
+on:
+  pull_request:
+    paths:
+      - 'ops/smart-money-history-v1/**'
+      - 'tests/smart-money-history*.test.js'
+      - 'tests/smartmoney-history-live-schema-probe.js'
+      - '.github/workflows/smart-money-durable-history.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'ops/smart-money-history-v1/**'
+      - '.github/workflows/smart-money-durable-history.yml'
+  schedule:
+    - cron: '7,22,37,52 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Pure archival and outcome invariants
+        run: |
+          node --check ops/smart-money-history-v1/history-core.js
+          node --check ops/smart-money-history-v1/publish-history.js
+          node --test tests/smart-money-history-core.test.js
+  archive:
+    needs: test
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    concurrency:
+      group: smartmoney-history-singlewriter
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Mirror public monitor signals and read-only Flow Map observations
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node ops/smart-money-history-v1/publish-history.js
