@@ -3,7 +3,7 @@
  const $=id=>document.getElementById(id);
  const fmt=new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0,notation:'compact'});
  const exact=new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:2});
- const ui={markets:[],selected:null,window:86400,loading:false,lastHistoryMarket:null,historyRequest:0};
+ const ui={markets:[],selected:null,window:86400,loading:false,lastHistoryMarket:null,lastArchiveTimestamp:null,historyRequest:0};
  const number=x=>typeof x==='number'&&Number.isFinite(x)?x:null;
  const usd=x=>number(x)===null?'—':fmt.format(x);
  const fullUsd=x=>number(x)===null?'—':exact.format(x);
@@ -122,9 +122,16 @@
    $('verifiedOutcomes').textContent=String(data.verified_outcomes);
    $('pendingOutcomes').textContent=String(data.pending_outcomes);
    $('historyHealth').textContent='ARCHIVE READING';$('historyHealth').className='tag';
+   if(data.latest_snapshot_at!==ui.lastArchiveTimestamp){
+    ui.lastArchiveTimestamp=data.latest_snapshot_at;
+    ui.lastHistoryMarket=null;
+    loadSelectedHistory();
+   }
    $('historyStamp').textContent='Last stored sample: '+(data.latest_snapshot_at?new Date(data.latest_snapshot_at).toLocaleString():'unknown')+
      ' · Legacy VPS database import remains separate · Results are not calibrated probabilities.';
   }catch(e){
+   ui.lastArchiveTimestamp=null;
+   ui.lastHistoryMarket=null;
    $('historyHealth').textContent='NOT YET VERIFIED';$('historyHealth').className='tag warn';
    for(const id of ['archivedSnapshots','archivedSignals','verifiedOutcomes','pendingOutcomes'])$(id).textContent='—';
    $('historyStamp').textContent='History archive has not produced a verified public readback yet; live rolling flow remains separate.';
