@@ -55,6 +55,12 @@ test('unresolved, bad mapping, missing/wrong token and invalid payout fail close
  assert.equal(matchResolution(signal(),{...res,payouts:[700000,200000]},catalog).result,'UNVERIFIED');
  assert.equal(matchResolution({...signal(),condition_id:null},res,catalog).reason,'UNMATCHABLE_SIGNAL_IDENTITY');
 });
+test('first historian capture after the resolution is excluded even if trade was earlier',()=>{
+ const captured=new Date((now+101)*1000).toISOString();
+ const outcome=matchResolution({...signal(),captured_at:captured},res,catalog);
+ assert.equal(outcome.result,'EXCLUDED');
+ assert.equal(outcome.probability_estimate,null);
+});
 test('late signal cannot be labeled as a successful prediction',()=>{
  assert.equal(matchResolution({...signal(),observed_at:new Date((now+200)*1000).toISOString()},res,catalog).result,'EXCLUDED');
 });
