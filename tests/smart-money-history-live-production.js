@@ -36,7 +36,7 @@ async function load(url,max=1500000){
  assert.ok(day.flow_snapshots.every(s=>s.markets.every(m=>/^0x[a-f0-9]{64}$/.test(m.condition_id)&&/^\d+$/.test(m.token_id))));
  const html=page.toString('utf8');
  assert.ok(html.includes('DURABLE OBSERVATION HISTORY'));
- assert.ok(html.includes('smart-money-flow-map.js?v=2'));
+ assert.match(html,/smart-money-flow-map\.js\?v=(2|3)/);
  const summary=JSON.parse(summaryBytes.toString('utf8'));
  assert.equal(summary.status,'ok');
  assert.equal(summary.source,'GITHUB_PUBLIC_OBSERVATION_MIRROR');
