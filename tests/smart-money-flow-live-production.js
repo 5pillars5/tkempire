@@ -19,15 +19,17 @@ async function fetchChecked(path,retries=5){
  throw Error('UNAVAILABLE_'+path+'_'+last);
 }
 (async()=>{
- const [page,client,api]=await Promise.all([
-  fetchChecked('/smart-money-flow.html'),
-  fetchChecked('/assets/js/smart-money-flow-map.js?v=2'),
+ const page=await fetchChecked('/smart-money-flow.html');
+ const version=page.text.match(/smart-money-flow-map\.js\?v=(2|3)/)?.[1];
+ assert.ok(version,'Live Flow Map asset version not found');
+ const [client,api]=await Promise.all([
+  fetchChecked('/assets/js/smart-money-flow-map.js?v='+version),
   fetchChecked('/api/smart-money-flow')
  ]);
  assert.match(page.text,/Smart Money <span>Flow Map<\/span>/,'deployed public page heading');
  assert.ok(page.text.includes('site-tabs.js?v=4'),'shared navigation missing');
  assert.ok(client.text.includes("'/api/smart-money-flow'"),'client not attached to production API');
- if(page.text.includes('DURABLE OBSERVATION HISTORY')) assert.ok(client.text.includes("'/api/smart-money-history'"),'new historian UI not attached to live history API');
+ if(page.text.includes('DURABLE OBSERVATION HISTORY')) assert.ok(client.text.includes("'/api/smart-money-history?"),'new historian UI not attached to live history API');
  const d=JSON.parse(api.text);
  assert.ok(['ok','degraded'].includes(d.status),'status not verified');
  assert.equal(d.schema_version,1);
