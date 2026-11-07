@@ -5,7 +5,7 @@ const assert=require('node:assert/strict');
 const BASE='https://www.tkempire.io';
 const SLEEP_MS=4000,MAX_ATTEMPTS=35;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-const paths=['/','/research.html','/dashboard.html','/smart-money.html','/smart-money-signals.html','/assets/js/site-tabs.js?v=4','/assets/css/site-tabs.css?v=4'];
+const paths=['/','/research.html','/dashboard.html','/smart-money.html','/smart-money-signals.html','/smart-money-flow.html','/assets/js/site-tabs.js?v=4','/assets/css/site-tabs.css?v=4'];
 async function pull(p){
  const r=await fetch(BASE+p+(p.includes('?')?'&':'?')+'ci_check='+Date.now(),
    {cache:'no-store',redirect:'error',headers:{Accept:'text/html, text/css, application/javascript'},signal:AbortSignal.timeout(15000)});
@@ -13,24 +13,26 @@ async function pull(p){
  return r.text();
 }
 function verify(files){
- for(const p of paths.slice(0,5)){
+ for(const p of paths.slice(0,6)){
   assert.ok(files[p].includes('site-tabs.js?v=4'),p+': old shared navigation JS');
   assert.ok(files[p].includes('site-tabs.css?v=4'),p+': old shared navigation CSS');
  }
  const home=files['/'],research=files['/research.html'],dash=files['/dashboard.html'];
- for(const needle of ['href="smart-money.html"','href="smart-money-signals.html"'])
+ for(const needle of ['href="smart-money-flow.html"','href="smart-money.html"','href="smart-money-signals.html"'])
   assert.ok(home.includes(needle),'homepage missing destination: '+needle);
- for(const needle of ['href="/smart-money.html"','href="/smart-money-signals.html"']){
+ for(const needle of ['href="/smart-money-flow.html"','href="/smart-money.html"','href="/smart-money-signals.html"']){
   assert.ok(research.includes(needle),'research page missing '+needle);
   assert.ok(dash.includes(needle),'dashboard page missing '+needle);
  }
+ assert.ok(files['/smart-money-flow.html'].includes('smart-money-flow-map.js?v=1'),'flow map missing interactive visualization');
  const js=files['/assets/js/site-tabs.js?v=4'];
+ assert.ok(js.includes("['Flow Map','/smart-money-flow.html']"),'live JS missing Flow Map navigation');
  assert.ok(js.includes("['Smart Money','/smart-money.html']"),'live JS missing wallet link');
  assert.ok(js.includes("['Live Signals','/smart-money-signals.html']"),'live JS missing signals link');
  assert.ok(js.includes('statusNodes'),'live JS missing dashboard status preservation');
  const css=files['/assets/css/site-tabs.css?v=4'];
  assert.ok(css.includes('@media(max-width:1120px)'), 'live CSS missing tablet menu');
- console.log('PRODUCTION_NAVIGATION=PASS 5 HTML pages, canonical JS+CSS, homepage/research/dashboard links, accessible tablet menu');
+ console.log('PRODUCTION_NAVIGATION=PASS 6 HTML pages, canonical JS+CSS, Flow Map/research/dashboard links, accessible tablet menu');
 }
 async function main(){
  let reason='';
