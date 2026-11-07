@@ -10,6 +10,6 @@
   "matched_ids": 175,
   "legacy_only_ids": 298,
   "conflicting_ids": 0,
-  "public_commit_performed": false,
-  "verification_status": "STAGED_NOT_PUBLISHED"
+  "public_commit_performed": true,
+  "verification_status": "VERIFIED_PUBLISHED"
 }
