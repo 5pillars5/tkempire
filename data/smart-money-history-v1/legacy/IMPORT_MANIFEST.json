@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "archive_file": "verified-vps-sqlite-signals.json.gz",
+  "archive_sha256": "ec9f566ba68c1c30e880984201876bd7d7a166a8c5433561f66a93f5370807c6",
+  "source_export_sha256": "2478fa443c11fe2f4b3655f087d3aee0c02f834b456a01524e3a37ea6b9fb120",
+  "source_database_sha256": "78eaea8415a10aceacc648b829a613da5b992a7f83dd422c9923a7e411bb1df3",
+  "source_wal_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "source_sqlite_snapshot_sha256": "aadc91fd918588aea9812379d9ff3a85e2a8fe70b99415bb7c957117007959bf",
+  "signal_rows": 473,
+  "matched_ids": 175,
+  "legacy_only_ids": 298,
+  "conflicting_ids": 0,
+  "public_commit_performed": false,
+  "verification_status": "STAGED_NOT_PUBLISHED"
+}
