@@ -3,7 +3,7 @@
  const $=id=>document.getElementById(id);
  const fmt=new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0,notation:'compact'});
  const exact=new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:2});
- const ui={markets:[],selected:null,window:86400,loading:false};
+ const ui={markets:[],selected:null,window:86400,loading:false,lastHistoryMarket:null,historyRequest:0};
  const number=x=>typeof x==='number'&&Number.isFinite(x)?x:null;
  const usd=x=>number(x)===null?'—':fmt.format(x);
  const fullUsd=x=>number(x)===null?'—':exact.format(x);
@@ -27,7 +27,7 @@
   tag.textContent=kind;tag.className='tag '+(kind==='DEGRADED'?'warn':kind==='UNAVAILABLE'?'bad':'');
   $('lastSeen').textContent=text;
  }
- function selectMarket(id){ui.selected=id;renderList();renderDetail()}
+ function selectMarket(id){ui.selected=id;renderList();renderDetail();loadSelectedHistory()}
  function renderList(){
   const target=$('flowRows');target.replaceChildren();
   let markets=[...ui.markets];
@@ -112,8 +112,62 @@
    +'The latest sampled fill is not a quote. Participation does not imply reliable future outcomes or a positive entry edge.';
   graph(m);
  }
+ async function loadHistorySummary(){
+  try{
+   const res=await fetch('/api/smart-money-history?view=summary&days=3',{cache:'no-store'});
+   const data=await res.json();
+   if(!res.ok||data.status!=='ok'||data.trading_authority!=='none')throw Error('history unavailable');
+   $('archivedSnapshots').textContent=String(data.observation_snapshots);
+   $('archivedSignals').textContent=String(data.signal_events);
+   $('verifiedOutcomes').textContent=String(data.verified_outcomes);
+   $('pendingOutcomes').textContent=String(data.pending_outcomes);
+   $('historyHealth').textContent='ARCHIVE READING';$('historyHealth').className='tag';
+   $('historyStamp').textContent='Last stored sample: '+(data.latest_snapshot_at?new Date(data.latest_snapshot_at).toLocaleString():'unknown')+
+     ' · Legacy VPS database import remains separate · Results are not calibrated probabilities.';
+  }catch(e){
+   $('historyHealth').textContent='NOT YET VERIFIED';$('historyHealth').className='tag warn';
+   for(const id of ['archivedSnapshots','archivedSignals','verifiedOutcomes','pendingOutcomes'])$(id).textContent='—';
+   $('historyStamp').textContent='History archive has not produced a verified public readback yet; live rolling flow remains separate.';
+  }
+ }
+ async function loadSelectedHistory(){
+  const m=ui.markets.find(x=>x.market_id===ui.selected);
+  if(!m){
+   $('historicalTrend').replaceChildren();
+   $('historicalEvidenceNote').textContent='No selected outcome; no historical readings are inferred.';
+   ui.lastHistoryMarket=null;return;
+  }
+  if(ui.lastHistoryMarket===m.market_id)return;
+  ui.lastHistoryMarket=m.market_id;
+  const sequence=++ui.historyRequest;
+  try{
+   const url='/api/smart-money-history?view=market&days=3&condition='+encodeURIComponent(m.condition_id)+
+    '&token='+encodeURIComponent(m.token_id);
+   const res=await fetch(url,{cache:'no-store'});
+   const data=await res.json();
+   if(sequence!==ui.historyRequest)return;
+   if(!res.ok||data.execution_authority!=='none'||!Array.isArray(data.trend))throw Error('archive unavailable');
+   const points=data.trend.slice(-96).filter(p=>number(p.net_24h_usdc)!==null);
+   const target=$('historicalTrend');target.replaceChildren();
+   if(!points.length){target.append(el('div','empty','No stored observations for this outcome yet.'));return}
+   const maximum=Math.max(1,...points.map(p=>Math.abs(p.net_24h_usdc)));
+   for(const p of points){
+    const bar=el('span','histbar'+(p.net_24h_usdc<0?' negative':''));
+    bar.style.height=Math.max(4,Math.round(70*Math.abs(p.net_24h_usdc)/maximum))+'px';
+    bar.title=new Date(p.at).toLocaleString()+': '+fullUsd(p.net_24h_usdc)+
+     ' · 24h sampled net flow'+(p.coverage_incomplete?' · incomplete coverage':'');
+    bar.setAttribute('aria-label',bar.title);target.append(bar);
+   }
+   $('historicalEvidenceNote').textContent=points.length+' saved samples for '+m.outcome+
+    ' over the most recent three days. Each bar represents rolling 24h sampled net buying/selling at a recorded timestamp; not cumulative profit, and gaps are omitted.';
+  }catch(e){
+   if(sequence!==ui.historyRequest)return;
+   $('historicalTrend').replaceChildren(el('div','empty','Archived outcome history unavailable.'));
+   $('historicalEvidenceNote').textContent='No artificial historical line or backfilled profitability is generated when the source is unavailable.';
+  }
+ }
  function render(){
-  renderList();renderDetail();
+  renderList();renderDetail();loadSelectedHistory();
  }
  async function load(){
   if(ui.loading)return;ui.loading=true;$('refreshBtn').disabled=true;
@@ -134,13 +188,13 @@
    $('dataLimit').textContent='Scope: current weekly crypto-profit leaderboard wallet sample, across their trades in all market categories. '
     +'At most 70 recent fills per wallet; '+raw.wallets_failed+' feeds unavailable, '+raw.wallets_truncated+
     ' feeds at retrieval cap. No complete historical probability calibration. Refresh every 60 seconds while open.';
-   render();
+   render();loadHistorySummary();
   }catch(err){
    ui.markets=[];ui.selected=null;
    for(const id of ['grossFlow','netFlow','marketCount','walletCoverage'])$(id).textContent='—';
    $('coverageText').textContent='Source unavailable';
    $('dataLimit').textContent='The public feed could not be verified. Market readings are withheld, rather than replaced with simulated values.';
-   setStatus('UNAVAILABLE','No verified flow data; refresh to retry.');render();
+   setStatus('UNAVAILABLE','No verified flow data; refresh to retry.');render();loadHistorySummary();
   }finally{ui.loading=false;$('refreshBtn').disabled=false}
  }
  $('refreshBtn').addEventListener('click',load);
