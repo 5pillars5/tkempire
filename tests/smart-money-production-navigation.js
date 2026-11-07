@@ -24,7 +24,7 @@ function verify(files){
   assert.ok(research.includes(needle),'research page missing '+needle);
   assert.ok(dash.includes(needle),'dashboard page missing '+needle);
  }
- assert.ok(files['/smart-money-flow.html'].includes('smart-money-flow-map.js?v=2'),'flow map missing interactive visualization');
+ assert.match(files['/smart-money-flow.html'],/smart-money-flow-map\.js\?v=(2|3)/,'flow map missing interactive visualization');
  // The production domain may not have received a preview branch yet; verify new history in the post-deploy check.
  assert.ok(files['/assets/js/smart-money-flow-map.js?v=2'].includes("'/api/smart-money-flow'"),'deployed Flow Map missing real public endpoint');
  const js=files['/assets/js/site-tabs.js?v=4'];

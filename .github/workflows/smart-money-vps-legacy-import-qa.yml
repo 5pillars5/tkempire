@@ -1,0 +1,44 @@
+name: Smart Money VPS Legacy Export and Reconciliation Validation
+on:
+  pull_request:
+    paths:
+      - 'ops/smart-money-history-v1/export-verified-vps-sqlite.py'
+      - 'ops/smart-money-history-v1/reconcile-legacy-export.js'
+      - 'ops/smart-money-history-v1/run-verified-vps-export.sh'
+      - 'tests/smart-money-verified-vps-export.test.py'
+      - 'tests/smart-money-legacy-reconciliation.test.js'
+      - 'tests/smart-money-legacy-history-api.test.js'
+      - 'api/smart-money-legacy-history.js'
+      - '.github/workflows/smart-money-vps-legacy-import-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'ops/smart-money-history-v1/export-verified-vps-sqlite.py'
+      - 'ops/smart-money-history-v1/reconcile-legacy-export.js'
+      - 'tests/smart-money-verified-vps-export.test.py'
+      - 'tests/smart-money-legacy-reconciliation.test.js'
+      - '.github/workflows/smart-money-vps-legacy-import-qa.yml'
+permissions:
+  contents: read
+jobs:
+  read-only-import-rehearsal:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+      - name: Syntax and independent source SHA-256 manifests
+        run: |
+          python3 -m py_compile ops/smart-money-history-v1/export-verified-vps-sqlite.py
+          node --check ops/smart-money-history-v1/reconcile-legacy-export.js
+          sh -n ops/smart-money-history-v1/run-verified-vps-export.sh
+          node --check api/smart-money-legacy-history.js
+          sha256sum ops/smart-money-history-v1/export-verified-vps-sqlite.py ops/smart-money-history-v1/export-legacy-sqlite.py ops/smart-money-history-v1/reconcile-legacy-export.js ops/smart-money-history-v1/run-verified-vps-export.sh
+      - name: Verify live SQLite source remains unchanged across hash-confirmed export
+        run: python3 tests/smart-money-verified-vps-export.test.py
+      - name: Verify stable IDs, first-seen, archive integrity, conflicts, idempotence
+        run: node --test tests/smart-money-legacy-reconciliation.test.js tests/smart-money-legacy-history-api.test.js
