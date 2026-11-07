@@ -68,6 +68,31 @@ async function putDay(day,updates,token){
  }
  throw Error('OUTCOME_ARCHIVE_CONFLICT');
 }
+async function refreshLatestIfMatching(day,archiveSha,token){
+ const path=PREFIX+'LATEST.json';
+ for(let i=0;i<3;i++){
+  const current=await gh('GET',path,null,token);
+  if(!current?.content)throw Error('HISTORY_LATEST_UNAVAILABLE');
+  const latest=JSON.parse(Buffer.from(current.content.replace(/\\s/g,''),'base64').toString('utf8'));
+  if(latest.latest_day!==day)return {status:'NOT_LATEST_DAY'};
+  latest.archive_sha256=archiveSha;
+  latest.outcome_evidence_checked_at=new Date().toISOString();
+  latest.outcome_matching='CTF_PAYOUTS_RECONCILED_WHEN_TOKEN_AND_TIME_VERIFIED';
+  const content=Buffer.from(JSON.stringify(latest,null,2)+'\\n').toString('base64');
+  try{
+   await gh('PUT',path,{branch:'main',sha:current.sha,
+    message:'Synchronize durable Smart Money history head after payout evidence update',content},token);
+   const check=await gh('GET',path,null,token);
+   const echoed=JSON.parse(Buffer.from(check.content.replace(/\\s/g,''),'base64').toString('utf8'));
+   if(echoed.archive_sha256!==archiveSha)throw Error('OUTCOME_HEAD_READBACK_MISMATCH');
+   return {status:'HEAD_READBACK_PASS'};
+  }catch(e){
+   if(/GITHUB_PUT_(409|422)/.test(String(e.message))&&i<2){await sleep(800*(i+1));continue}
+   throw e;
+  }
+ }
+ throw Error('OUTCOME_HEAD_WRITE_CONFLICT');
+}
 function eligibleDays(names,now=new Date()){
  const days=names.filter(n=>/^\d{4}-\d\d-\d\d\.json\.gz$/.test(n))
   .map(n=>n.slice(0,10)).filter(n=>(now-Date.parse(n+'T00:00:00Z'))/86400000<=90)
@@ -120,6 +145,11 @@ async function main(){
   }
   if(updates.length){
    const result=await putDay(day,updates,token);updated+=result.changed;
+   if(result.changed>0){
+    const headStatus=await refreshLatestIfMatching(day,result.sha256,token);
+    console.log('SMARTMONEY_OUTCOME_ARCHIVE_READBACK '+JSON.stringify({
+      day,changed:result.changed,sha256:result.sha256,latest_head:headStatus.status}));
+   }
   }
   if(checked>=24)break;
  }
@@ -129,4 +159,4 @@ async function main(){
   trade_profit_claims:0,trading_authority:'none'}));
 }
 if(require.main===module)main().catch(e=>{console.error('SMARTMONEY_OUTCOME_MATCHER=FAIL '+String(e.message||e));process.exitCode=1});
-module.exports={eligibleDays};
+module.exports={eligibleDays,refreshLatestIfMatching};
