@@ -90,20 +90,23 @@ function parseArray(x){
  return null;
 }
 function catalogTokens(catalog,condition){
- // Require explicit token-id index mapping from the actual same condition.
+ // Data API v2 /v2/tokens?condition= response explicitly binds token ID to
+ // outcome_index; do not infer an index from display order or market title.
  const rows=Array.isArray(catalog)?catalog:obj(catalog)&&Array.isArray(catalog.data)?catalog.data:null;
- if(!rows)return null;
- // Gamma market: clobTokenIds ordered with outcomes.
+ if(!rows||rows.length<2||rows.length>16)return null;
+ const tokens=[];
+ const byId=new Set(),byIndex=new Set();
  for(const entry of rows){
-  if(!obj(entry))continue;
-  const cond=String(entry.conditionId||entry.condition_id||'').toLowerCase();
-  if(cond!==condition)return null; // fail closed when wrong market in list
-  const tokens=parseArray(entry.clobTokenIds),outcomes=parseArray(entry.outcomes);
-  if(tokens&&outcomes&&tokens.length===outcomes.length&&tokens.length>=2&&tokens.length<=16&&
-     tokens.every(t=>TOKEN.test(String(t)))&&new Set(tokens.map(String)).size===tokens.length)
-    return tokens.map((t,index)=>({token_id:String(t),index,outcome:String(outcomes[index])}));
+  if(!obj(entry)||String(entry.condition_id||'').toLowerCase()!==condition||
+    !TOKEN.test(String(entry.token_id||''))||!Number.isInteger(entry.outcome_index)||
+    entry.outcome_index<0||entry.outcome_index>=rows.length||
+    byId.has(String(entry.token_id))||byIndex.has(entry.outcome_index))return null;
+  byId.add(String(entry.token_id));byIndex.add(entry.outcome_index);
+  tokens.push({token_id:String(entry.token_id),index:entry.outcome_index,
+    outcome:String(entry.outcome||'')});
  }
- return null;
+ if(tokens.length!==rows.length||!tokens.every((_,i)=>byIndex.has(i)))return null;
+ return tokens;
 }
 function payoutVector(resolution){
  if(!obj(resolution)||resolution.status!=='resolved'||resolution.extended_review===true)return null;
