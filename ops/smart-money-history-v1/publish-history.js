@@ -105,6 +105,19 @@ async function main(){
   outcome_matching:'NOT_SCORED_WITHOUT_TOKEN_CATALOG',
   trading_authority:'none',market_probability_calibration:'NOT_VERIFIED'};
  await putLatest(latest,token);
+ // Verify durable GitHub readback; a successful PUT alone is not an archive checkpoint.
+ const after=await readDay(file,token);
+ if(!after?.data||after.data.day!==day||
+    after.data.flow_snapshots.length!==written.snapshots||
+    after.data.signal_events.length!==written.signals)throw Error('ARCHIVE_READBACK_MISMATCH');
+ const stored=await github('GET',PATH+'LATEST.json',null,token);
+ if(!stored?.content||stored.encoding!=='base64')throw Error('ARCHIVE_HEAD_UNREADABLE');
+ const head=JSON.parse(Buffer.from(stored.content.replace(/\s/g,''),'base64').toString('utf8'));
+ if(head.archive_path!==file||head.archive_sha256!==written.sha256||
+    head.archived_snapshots_this_day!==written.snapshots)throw Error('ARCHIVE_HEAD_READBACK_MISMATCH');
+ console.log('ARCHIVE_READBACK=PASS HEAD_READBACK=PASS '+JSON.stringify({
+    day,stored_snapshots:after.data.flow_snapshots.length,
+    stored_signals:after.data.signal_events.length,compressed_sha256:written.sha256}));
  console.log('SMARTMONEY_HISTORY_WRITE=PASS '+JSON.stringify({
   day,archive:file,bucket:flow.bucket,snapshots:written.snapshots,signals:written.signals,
   compressed_sha256:written.sha256,legacy_import:'NOT_YET_CONNECTED',
