@@ -73,17 +73,17 @@ async function refreshLatestIfMatching(day,archiveSha,token){
  for(let i=0;i<3;i++){
   const current=await gh('GET',path,null,token);
   if(!current?.content)throw Error('HISTORY_LATEST_UNAVAILABLE');
-  const latest=JSON.parse(Buffer.from(current.content.replace(/\\s/g,''),'base64').toString('utf8'));
+  const latest=JSON.parse(Buffer.from(current.content.replace(/\s/g,''),'base64').toString('utf8'));
   if(latest.latest_day!==day)return {status:'NOT_LATEST_DAY'};
   latest.archive_sha256=archiveSha;
   latest.outcome_evidence_checked_at=new Date().toISOString();
   latest.outcome_matching='CTF_PAYOUTS_RECONCILED_WHEN_TOKEN_AND_TIME_VERIFIED';
-  const content=Buffer.from(JSON.stringify(latest,null,2)+'\\n').toString('base64');
+  const content=Buffer.from(JSON.stringify(latest,null,2)+'\n').toString('base64');
   try{
    await gh('PUT',path,{branch:'main',sha:current.sha,
     message:'Synchronize durable Smart Money history head after payout evidence update',content},token);
    const check=await gh('GET',path,null,token);
-   const echoed=JSON.parse(Buffer.from(check.content.replace(/\\s/g,''),'base64').toString('utf8'));
+   const echoed=JSON.parse(Buffer.from(check.content.replace(/\s/g,''),'base64').toString('utf8'));
    if(echoed.archive_sha256!==archiveSha)throw Error('OUTCOME_HEAD_READBACK_MISMATCH');
    return {status:'HEAD_READBACK_PASS'};
   }catch(e){
