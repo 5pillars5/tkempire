@@ -145,7 +145,7 @@ footer{max-width:1370px;padding:4px 24px 30px;margin:0 auto;color:var(--muted);f
     <h3 style="font-size:13px;margin:18px 0 4px">Selected outcome · historical observed 24h net flow</h3>
     <div id="historicalTrend" class="histtimeline" role="img" aria-label="Saved outcome net flow across completed archival scans"></div>
     <p id="historicalEvidenceNote" class="note">The history series plots repeated rolling 24-hour sampled flow readings, not cumulative lifetime trade volume. Missing intervals are not zero.</p>
-    <p class="note">Legacy VPS signal database backfill: <strong style="color:var(--gold)">not yet imported</strong>. Public feeds are mirrored using the same signal IDs; source lineage is retained.</p>
+    <p class="note">Legacy VPS signal database backfill: <strong id="legacyImportStatus" style="color:var(--gold)">not yet imported</strong>. Public feeds are mirrored using the same signal IDs; source lineage is retained.</p>
   </section>
   <div class="bottom">
    <section class="card explain">
@@ -170,7 +170,7 @@ footer{max-width:1370px;padding:4px 24px 30px;margin:0 auto;color:var(--muted);f
   </div>
 </main>
 <footer>© TK Empire · Genesis Smart Money Flow Map · Public Polymarket market data · Research and observation only · Not financial advice</footer>
-<script src="/assets/js/smart-money-flow-map.js?v=2" defer></script>
+<script src="/assets/js/smart-money-flow-map.js?v=3" defer></script>
 <script src="/assets/js/site-tabs.js?v=4" defer></script>
 </body>
 </html>
