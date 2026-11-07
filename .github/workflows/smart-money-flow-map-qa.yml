@@ -9,7 +9,6 @@ on:
       - 'tests/smart-money-flow-*.js'
       - 'tests/smart-money-flow-map-browser.cjs'
       - 'tests/smart-money-flow-live-upstream-smoke.js'
-      - 'tests/smart-money-flow-live-upstream-smoke.js'
       - '.github/workflows/smart-money-flow-map-qa.yml'
   push:
     branches: [main]
