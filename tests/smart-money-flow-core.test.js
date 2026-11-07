@@ -10,7 +10,7 @@ function trade(wallet,side,amount,secondsAgo,token=T,outcome='YES',index=0){
  const size=amount*2;
  const timestamp=now-secondsAgo;
  return {type:'TRADE',proxy_wallet:wallet,condition_id:COND,
-  transaction_hash:'0x'+(wallet.slice(2,3)+side[0]+String(secondsAgo).padStart(6,'0')).padEnd(64,'a'),
+  transaction_hash:'0x'+(wallet.slice(2,3)+(side==='BUY'?'b':'c')+String(secondsAgo).padStart(6,'0')).padEnd(64,'a'),
   title:'Bitcoin example market',outcome,outcome_index:index,token_id:token,
   usdc_size:amount,price:.5,size,timestamp,side};
 }
