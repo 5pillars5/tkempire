@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "source": "GITHUB_PUBLIC_OBSERVATION_MIRROR",
+  "source_links": [
+    "/api/smart-money-flow",
+    "/api/smart-money-signals"
+  ],
+  "latest_day": "2026-11-07",
+  "latest_bucket_utc": 1794013200,
+  "written_at": "2026-11-07T01:04:08.148Z",
+  "flow_status": "ok",
+  "coverage": {
+    "selected": 8,
+    "received": 8,
+    "failed": 0,
+    "truncated": 3,
+    "events": 280,
+    "markets_total": 97,
+    "markets_stored": 80,
+    "incomplete": true
+  },
+  "signal_count_current_read": 60,
+  "archived_snapshots_this_day": 1,
+  "archived_signals_this_day": 60,
+  "archive_path": "data/smart-money-history-v1/2026-11-07.json.gz",
+  "archive_sha256": "def40452828ea73c23391a64e5368e85e720ff4753853144a006ae1e0f20868b",
+  "legacy_vps_sqlite_import": "NOT_YET_CONNECTED",
+  "outcome_matching": "NOT_SCORED_WITHOUT_TOKEN_CATALOG",
+  "trading_authority": "none",
+  "market_probability_calibration": "NOT_VERIFIED"
+}
