@@ -1,0 +1,67 @@
+name: Genesis Smart Money Flow Map Validation
+on:
+  pull_request:
+    paths:
+      - 'api/smart-money-flow-core.js'
+      - 'api/smart-money-flow.js'
+      - 'assets/js/smart-money-flow-map.js'
+      - 'smart-money-flow.html'
+      - 'tests/smart-money-flow-*.js'
+      - 'tests/smart-money-flow-map-browser.cjs'
+      - 'tests/smart-money-flow-live-upstream-smoke.js'
+      - '.github/workflows/smart-money-flow-map-qa.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'api/smart-money-flow-core.js'
+      - 'api/smart-money-flow.js'
+      - 'assets/js/smart-money-flow-map.js'
+      - 'smart-money-flow.html'
+      - 'tests/smart-money-flow-*.js'
+      - 'tests/smart-money-flow-map-browser.cjs'
+      - '.github/workflows/smart-money-flow-map-qa.yml'
+permissions:
+  contents: read
+jobs:
+  model:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Syntax and behavioral contracts
+        run: |
+          node --check api/smart-money-flow-core.js
+          node --check api/smart-money-flow.js
+          node --check assets/js/smart-money-flow-map.js
+          node --test tests/smart-money-flow-core.test.js tests/smart-money-flow-api.test.js
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Pinned browser test library
+        run: npm install --no-save --ignore-scripts playwright-core@1.56.1
+      - name: Interact with Flow Map in Chromium at desktop and phone sizes
+        run: node tests/smart-money-flow-map-browser.cjs
+  public-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Read-only live public Polymarket evidence validation
+        run: node tests/smart-money-flow-live-upstream-smoke.js

@@ -7,6 +7,8 @@ on:
       - '.github/workflows/smart-money-production-navigation.yml'
       - 'assets/js/site-tabs.js'
       - 'assets/css/site-tabs.css'
+      - 'smart-money-flow.html'
+      - 'assets/js/smart-money-flow-map.js'
       - 'smart-money.html'
       - 'smart-money-signals.html'
       - 'index.html'
