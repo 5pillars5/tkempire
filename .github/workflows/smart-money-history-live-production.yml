@@ -1,0 +1,28 @@
+name: Verify Live Smart Money Historical Evidence
+on:
+  pull_request:
+    paths:
+      - 'tests/smart-money-history-live-production.js'
+      - '.github/workflows/smart-money-history-live-production.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'tests/smart-money-history-live-production.js'
+      - '.github/workflows/smart-money-history-live-production.yml'
+permissions:
+  contents: read
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Verify history readback source syntax
+        run: node --check tests/smart-money-history-live-production.js
+      - name: Verify GitHub archive SHA, website history API and public evidence controls
+        run: node tests/smart-money-history-live-production.js
