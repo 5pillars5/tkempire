@@ -19,9 +19,11 @@ async function fetchChecked(path,retries=5){
  throw Error('UNAVAILABLE_'+path+'_'+last);
 }
 (async()=>{
- const [page,client,api]=await Promise.all([
-  fetchChecked('/smart-money-flow.html'),
-  fetchChecked('/assets/js/smart-money-flow-map.js?v=2'),
+ const page=await fetchChecked('/smart-money-flow.html');
+ const version=page.text.match(/smart-money-flow-map\\.js\\?v=(2|3)/)?.[1];
+ assert.ok(version,'Live Flow Map asset version not found');
+ const [client,api]=await Promise.all([
+  fetchChecked('/assets/js/smart-money-flow-map.js?v='+version),
   fetchChecked('/api/smart-money-flow')
  ]);
  assert.match(page.text,/Smart Money <span>Flow Map<\/span>/,'deployed public page heading');
