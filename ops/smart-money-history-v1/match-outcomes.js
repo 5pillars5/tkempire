@@ -83,7 +83,8 @@ async function main(){
  if(!token)throw Error('MISSING_GITHUB_TOKEN');
  if(process.env.GITHUB_REPOSITORY&&process.env.GITHUB_REPOSITORY!=='5pillars5/tkempire')throw Error('WRONG_REPO');
  const list=await gh('GET',PREFIX.slice(0,-1),null,token);
- if(!Array.isArray(list))throw Error('HISTORY_NOT_INSTALLED');
+ if(list===null){console.log('SMARTMONEY_OUTCOME_MATCHER=NO_HISTORY_YET');return;}
+ if(!Array.isArray(list))throw Error('HISTORY_DIRECTORY_INVALID');
  const days=eligibleDays(list.map(x=>x.name));
  let updated=0,checked=0,resolved=0,pending=0,unverified=0;
  const marketCache=new Map();
