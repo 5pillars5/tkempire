@@ -1,0 +1,32 @@
+name: Genesis Flow Map Live Production Contract
+on:
+  pull_request:
+    paths:
+      - 'tests/smart-money-flow-live-production.js'
+      - '.github/workflows/genesis-flow-map-live-production.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'tests/smart-money-flow-live-production.js'
+      - '.github/workflows/genesis-flow-map-live-production.yml'
+      - 'smart-money-flow.html'
+      - 'api/smart-money-flow.js'
+      - 'api/smart-money-flow-core.js'
+      - 'assets/js/smart-money-flow-map.js'
+permissions:
+  contents: read
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Verify code syntax
+        run: node --check tests/smart-money-flow-live-production.js
+      - name: Check public production API, webpage and browser asset
+        run: node tests/smart-money-flow-live-production.js
