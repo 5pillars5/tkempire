@@ -44,7 +44,7 @@ async function readDay(file,token){
  const raw=Buffer.from(content.content.replace(/\s/g,''),'base64');
  if(raw.length>1200000)throw Error('COMPRESSED_DAY_TOO_LARGE');
  const decoded=zlib.gunzipSync(raw,{maxOutputLength:15000000});
- return {sha:content.sha,data:JSON.parse(decoded.toString('utf8'))};
+ return {sha:content.sha,archive_sha256:hash(raw),data:JSON.parse(decoded.toString('utf8'))};
 }
 async function putDay(file,day,token){
  const archive=zlib.gzipSync(Buffer.from(JSON.stringify(day)+'\n'),{level:9,mtime:0});
@@ -109,7 +109,8 @@ async function main(){
  const after=await readDay(file,token);
  if(!after?.data||after.data.day!==day||
     after.data.flow_snapshots.length!==written.snapshots||
-    after.data.signal_events.length!==written.signals)throw Error('ARCHIVE_READBACK_MISMATCH');
+    after.data.signal_events.length!==written.signals||
+    after.archive_sha256!==written.sha256)throw Error('ARCHIVE_READBACK_MISMATCH');
  const stored=await github('GET',PATH+'LATEST.json',null,token);
  if(!stored?.content||stored.encoding!=='base64')throw Error('ARCHIVE_HEAD_UNREADABLE');
  const head=JSON.parse(Buffer.from(stored.content.replace(/\s/g,''),'base64').toString('utf8'));
