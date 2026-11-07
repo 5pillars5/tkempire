@@ -132,8 +132,8 @@ function matchResolution(signal,resolution,catalog){
  if(!tokens||tokens.length!==payouts.length)return {...base,reason:'TOKEN_CATALOG_UNVERIFIED'};
  const chosen=tokens.find(t=>t.token_id===signal.token_id);
  if(!chosen)return {...base,reason:'OUTCOME_TOKEN_MISMATCH'};
- const observed=timestamp(signal.observed_at),resolved=timestamp(resolution.resolved_at);
- if(observed===null||resolved===null||observed>=resolved)return {...base,result:'EXCLUDED',
+ const observed=timestamp(signal.observed_at),captured=timestamp(signal.captured_at),resolved=timestamp(resolution.resolved_at);
+ if(observed===null||captured===null||resolved===null||observed>=resolved||captured>=resolved)return {...base,result:'EXCLUDED',
    reason:'SIGNAL_NOT_PRE_RESOLUTION'};
  const payout=payouts[chosen.index];
  const result=payout>=1-1e-8?'PAYOUT_1':payout<=1e-8?'PAYOUT_0':'PARTIAL_PAYOUT';
