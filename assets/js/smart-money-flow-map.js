@@ -112,6 +112,29 @@
    +'The latest sampled fill is not a quote. Participation does not imply reliable future outcomes or a positive entry edge.';
   graph(m);
  }
+ async function loadLegacyImportStatus(){
+  const target=$('legacyImportStatus');
+  if(!target)return;
+  try{
+   const response=await fetch('/api/smart-money-legacy-history',{cache:'no-store',headers:{Accept:'application/json'}});
+   const data=await response.json();
+   if(response.ok&&data.status==='verified'&&data.verified===true&&
+     data.published===true&&data.conflicting_ids===0&&data.execution_authority==='none'){
+    target.textContent='VERIFIED: '+data.signal_rows+' original signals; '+
+      data.matched_ids+' IDs reconciled, '+data.legacy_only_ids+' earlier records recovered';
+    target.style.color='var(--mint)';
+   }else if(response.ok&&data.status==='not_imported'){
+    target.textContent='not yet imported (original VPS source pending)';
+    target.style.color='var(--gold)';
+   }else{
+    target.textContent='unverified — import evidence withheld';
+    target.style.color='var(--red)';
+   }
+  }catch(e){
+   target.textContent='status unavailable — not verified';
+   target.style.color='var(--red)';
+  }
+ }
  async function loadHistorySummary(){
   try{
    const res=await fetch('/api/smart-money-history?view=summary&days=3',{cache:'no-store'});
@@ -195,7 +218,7 @@
    $('dataLimit').textContent='Scope: current weekly crypto-profit leaderboard wallet sample, across their trades in all market categories. '
     +'At most 70 recent fills per wallet; '+raw.wallets_failed+' feeds unavailable, '+raw.wallets_truncated+
     ' feeds at retrieval cap. No complete historical probability calibration. Refresh every 60 seconds while open.';
-   render();loadHistorySummary();
+   render();loadHistorySummary();loadLegacyImportStatus();
   }catch(err){
    ui.markets=[];ui.selected=null;
    for(const id of ['grossFlow','netFlow','marketCount','walletCoverage'])$(id).textContent='—';
