@@ -89,6 +89,13 @@ async function main(){
  const now=Math.floor(Date.now()/1000);
  const [flowRaw,signalRaw]=await Promise.all([getFeed('smart-money-flow'),getFeed('smart-money-signals')]);
  const flow=validateFlow(flowRaw,now),signal=validateSignalFeed(signalRaw,now);
+ // Preserve first actual historian capture time independently of source
+ // generation time, preventing post-resolution hindsight classification.
+ const capturedAt=new Date().toISOString();
+ for(const event of signal.signals){
+  event.source_feed_generated_at=event.captured_at;
+  event.captured_at=capturedAt;
+ }
  const day=flow.at.slice(0,10);
  if(signal.at.slice(0,10)!==day)throw Error('CROSS_DAY_CAPTURE_RETRY_NEXT_WINDOW');
  const input=mergeDay(null,flow,signal,day+'T23:59:59Z');
