@@ -1,0 +1,37 @@
+name: Genesis Smart Money Outcome Evidence Match
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'ops/smart-money-history-v1/match-outcomes.js'
+      - '.github/workflows/smart-money-outcome-matcher.yml'
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  outcomes:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    concurrency:
+      group: smartmoney-history-singlewriter
+      cancel-in-progress: false
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Verify matcher syntax and outcome invariants
+        run: |
+          node --check ops/smart-money-history-v1/match-outcomes.js
+          node --test tests/smart-money-history-core.test.js
+      - name: Match exact public token identities to finalized market payouts
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node ops/smart-money-history-v1/match-outcomes.js
