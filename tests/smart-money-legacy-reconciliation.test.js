@@ -9,7 +9,7 @@ const id='a'.repeat(24);
 const at=new Date(Date.now()-180000).toISOString();
 const seen=new Date(Date.now()-150000).toISOString();
 const mirrorSeen=new Date(Date.now()-60000).toISOString();
-const sample=(id=id)=>({id,source:'VPS_SQLITE_MONITOR_V1_VERIFIED_EXPORT',
+const sample=(signalId=id)=>({id:signalId,source:'VPS_SQLITE_MONITOR_V1_VERIFIED_EXPORT',
  captured_at:seen,legacy_first_seen_at:seen,observed_at:at,
  condition_id:cond,token_id:'12345',side:'BUY',title:'Market evidence',
  outcome:'Yes',type:'SMART_MONEY_BUY',amount_usdc:250,representative_price:.37,
