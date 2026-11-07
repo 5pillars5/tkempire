@@ -39,3 +39,62 @@ The tool prints `EXPORT_SHA256` and `EXPORT_READBACK=PASS`, and reports `GITHUB_
 - Before claiming the **Empire milestone completed**: verify Genesis `PAPER` / maintenance safety gates and unchanged live service health, write to `/root/tkempire/data/genesis/milestones/` and read back `LATEST.json`, history, Markdown and record with SHA-256 consistency. These VPS steps have **not** been performed by this GitHub-side work.
 
 **TRADING_AUTHORITY=NONE · CALIBRATED_PROBABILITY=NOT_VERIFIED · VPS_LEGACY_IMPORT=NOT_YET_PERFORMED**
+
+
+## Hash-verified original VPS SQLite export / migration handoff
+
+The earlier generic exporter was a preparatory tool only. Use the **new**
+`export-verified-vps-sqlite.py` to prove original DB and WAL file hashes and a
+consistent SQLite backup SHA-256. The exporter only queries the source in
+`mode=ro`, never writes its tables, does not stop the monitor timer, does not
+change trading and never uploads source material. It creates a new local
+`root`-only JSON export file and prints both source and output SHA-256 hashes.
+
+On the operator's VPS, use the reviewed
+`run-verified-vps-export.sh` helper (SHA-verify that helper before execution).
+The helper downloads the two Python source files from reviewed `main`, compares
+each file to its pinned SHA-256, executes the read-only snapshot/export, and
+reports `SOURCE_EXPORT_PATH` plus `EXPORT_SHA256`. If the WAL/DB changes
+during snapshot, missing credentials, permissions, or schema mismatch occur,
+it fails instead of claiming success.
+
+**Do not publish the JSON export directly to the public repository.** Pass the
+verified export through the separate `reconcile-legacy-export.js` validation
+and staging operation. For a *local checkout* that contains the mirrored daily
+archives:
+
+```bash
+node ops/smart-money-history-v1/reconcile-legacy-export.js \
+ --export /path/to/verified-vps-export.json \
+ --expected-export-sha256 <copy-64-hex-hash-from-VPS-exporter> \
+ --mirror-dir data/smart-money-history-v1 \
+ --output-dir /path/to/new-private-staging-directory
+```
+
+The command halts on missing source SHA, inconsistent original source hashes,
+duplicate IDs, conflicting market identities, or core payload disagreement.
+For a stable ID observed in both systems it preserves **both** original VPS
+`first_seen_at` and public mirror first capture time, records the earliest
+verified first seen, and does not invent historical 15-minute market-flow
+snapshots from older signal events.
+
+A successful stage creates:
+
+- `verified-vps-sqlite-signals.json.gz` — compressed verified legacy records,
+  matched IDs and source provenance (not yet published).
+- `IMPORT_MANIFEST.json` — source / archive SHA-256, matched counts and
+  `public_commit_performed:false`.
+
+The tool then reads back both files and checks their hashes, row counts and
+overlap counts. It **does not** modify existing daily archives or push them
+to GitHub. Publication requires a separately approved review of these two
+files, an explicit `public_commit_performed:true` after a real successful
+GitHub commit, and a public readback of both the exact archive hash and the
+signal-ID reconciliation. The fail-closed public endpoint
+`/api/smart-money-legacy-history` reports `not_imported` until a verified
+manifest and archive are actually available and correlating.
+
+**Important boundary:** Exporting locally is **not** importing.
+`SOURCE_SHA256=PASS` does not mean
+`MILESTONE_CHECKPOINT=PASS`. The VPS milestone registry still requires an
+operator-write and independent readback under the Empire Archive Protocol.
