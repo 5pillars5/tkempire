@@ -9,7 +9,7 @@ const catalog={data:[
 const res={condition_id:c,status:'resolved',payouts:[1000000,0],
  resolved_at:new Date((now+100)*1000).toISOString(),transaction_hash:'0x'+'f'.repeat(64),log_index:'1'};
 const signal=(token=a,side='BUY')=>({
- id:'f'.repeat(24),condition_id:c,token_id:token,side,observed_at:at,
+ id:'f'.repeat(24),condition_id:c,token_id:token,side,observed_at:at,captured_at:at,
  amount_usdc:100,representative_price:.45,source:'PUBLIC_SIGNAL_FEED_V1'
 });
 const feed={status:'ok',generated_at:at,execution_enabled:false,genesis_execution_authority:'none',
