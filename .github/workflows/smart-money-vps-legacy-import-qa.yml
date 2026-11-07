@@ -6,6 +6,8 @@ on:
       - 'ops/smart-money-history-v1/reconcile-legacy-export.js'
       - 'tests/smart-money-verified-vps-export.test.py'
       - 'tests/smart-money-legacy-reconciliation.test.js'
+      - 'tests/smart-money-legacy-history-api.test.js'
+      - 'api/smart-money-legacy-history.js'
       - '.github/workflows/smart-money-vps-legacy-import-qa.yml'
   push:
     branches: [main]
@@ -32,8 +34,9 @@ jobs:
         run: |
           python3 -m py_compile ops/smart-money-history-v1/export-verified-vps-sqlite.py
           node --check ops/smart-money-history-v1/reconcile-legacy-export.js
+          node --check api/smart-money-legacy-history.js
           sha256sum ops/smart-money-history-v1/export-verified-vps-sqlite.py ops/smart-money-history-v1/export-legacy-sqlite.py ops/smart-money-history-v1/reconcile-legacy-export.js
       - name: Verify live SQLite source remains unchanged across hash-confirmed export
         run: python3 tests/smart-money-verified-vps-export.test.py
       - name: Verify stable IDs, first-seen, archive integrity, conflicts, idempotence
-        run: node --test tests/smart-money-legacy-reconciliation.test.js
+        run: node --test tests/smart-money-legacy-reconciliation.test.js tests/smart-money-legacy-history-api.test.js
