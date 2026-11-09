@@ -35,6 +35,8 @@ on:
       - 'ops/genesis-public-signals-v1/refresh_cycle_release.py'
       - 'ops/genesis-public-signals-v1/release_website_feed.py'
       - 'ops/genesis-public-signals-v1/test_release_website_feed.py'
+      - 'ops/genesis-public-signals-v1/audit_closed_ledger.py'
+      - 'ops/genesis-public-signals-v1/test_audit_closed_ledger.py'
       - '.github/workflows/genesis-signals.yml'
   push:
     branches: [main]
@@ -72,6 +74,8 @@ on:
       - 'ops/genesis-public-signals-v1/refresh_cycle_release.py'
       - 'ops/genesis-public-signals-v1/release_website_feed.py'
       - 'ops/genesis-public-signals-v1/test_release_website_feed.py'
+      - 'ops/genesis-public-signals-v1/audit_closed_ledger.py'
+      - 'ops/genesis-public-signals-v1/test_audit_closed_ledger.py'
       - '.github/workflows/genesis-signals.yml'
 permissions:
   contents: read
@@ -98,6 +102,6 @@ jobs:
       - name: Verify read-only API, safety and UI
         run: node --test tests/genesis-public-signals.test.js tests/genesis-public-api.test.js tests/genesis-signals-ui.test.js tests/genesis-market-prices.test.js tests/genesis-paper-mark.test.js
       - name: Validate VPS publisher syntax
-        run: python3 -m py_compile ops/genesis-public-signals-v1/publisher.py ops/genesis-public-signals-v1/test_publisher.py ops/genesis-public-signals-v1/install_disabled.py ops/genesis-public-signals-v1/test_install_disabled.py ops/genesis-public-signals-v1/stage_nginx_gateway.py ops/genesis-public-signals-v1/test_stage_nginx_gateway.py ops/genesis-public-signals-v1/export_snapshot.py ops/genesis-public-signals-v1/test_export_snapshot.py ops/genesis-public-signals-v1/credential_reader.py ops/genesis-public-signals-v1/test_credential_reader.py ops/genesis-public-signals-v1/install_credential_handoff.py ops/genesis-public-signals-v1/test_install_credential_handoff.py ops/genesis-public-signals-v1/refresh_snapshot.py ops/genesis-public-signals-v1/test_refresh_snapshot.py ops/genesis-public-signals-v1/refresh_cycle.py ops/genesis-public-signals-v1/test_refresh_cycle.py ops/genesis-public-signals-v1/install_refresh_timer.py ops/genesis-public-signals-v1/test_install_refresh_timer.py ops/genesis-public-signals-v1/test_approved_credential_reader.py ops/genesis-public-signals-v1/refresh_cycle_release.py ops/genesis-public-signals-v1/release_website_feed.py ops/genesis-public-signals-v1/test_release_website_feed.py
+        run: python3 -m py_compile ops/genesis-public-signals-v1/publisher.py ops/genesis-public-signals-v1/test_publisher.py ops/genesis-public-signals-v1/install_disabled.py ops/genesis-public-signals-v1/test_install_disabled.py ops/genesis-public-signals-v1/stage_nginx_gateway.py ops/genesis-public-signals-v1/test_stage_nginx_gateway.py ops/genesis-public-signals-v1/export_snapshot.py ops/genesis-public-signals-v1/test_export_snapshot.py ops/genesis-public-signals-v1/credential_reader.py ops/genesis-public-signals-v1/test_credential_reader.py ops/genesis-public-signals-v1/install_credential_handoff.py ops/genesis-public-signals-v1/test_install_credential_handoff.py ops/genesis-public-signals-v1/refresh_snapshot.py ops/genesis-public-signals-v1/test_refresh_snapshot.py ops/genesis-public-signals-v1/refresh_cycle.py ops/genesis-public-signals-v1/test_refresh_cycle.py ops/genesis-public-signals-v1/install_refresh_timer.py ops/genesis-public-signals-v1/test_install_refresh_timer.py ops/genesis-public-signals-v1/test_approved_credential_reader.py ops/genesis-public-signals-v1/refresh_cycle_release.py ops/genesis-public-signals-v1/release_website_feed.py ops/genesis-public-signals-v1/test_release_website_feed.py ops/genesis-public-signals-v1/audit_closed_ledger.py ops/genesis-public-signals-v1/test_audit_closed_ledger.py
       - name: Test read-only publisher with offline fixtures
         run: python3 -m unittest discover -s ops/genesis-public-signals-v1 -p 'test_*.py' -v
