@@ -99,10 +99,18 @@ def get_code(path, ref, expected_blob):
 
 
 def pin(path, expected):
+    """Identify the exact immutable file that blocks a release."""
     need(path.is_file() and not path.is_symlink(), "EXPECTED_FILE_MISSING")
     st=path.stat()
     need(st.st_uid==0 and stat.S_ISREG(st.st_mode), "SOURCE_OWNER_INVALID")
-    need(sha(path.read_bytes())==expected, "SOURCE_HASH_CHANGED")
+    actual=sha(path.read_bytes())
+    label={str(SRC_READER): "GENESIS_READER",
+           str(SRC_WORKER): "REFRESH_WORKER",
+           str(STAGING_BASE): "STAGING_SERVICE",
+           str(NGINX): "NGINX_GATEWAY"}.get(str(path), "OTHER_SOURCE")
+    print(label+"_SOURCE_SHA256="+actual,flush=True)
+    print(label+"_HASH_MATCH="+("PASS" if actual==expected else "FAIL"),flush=True)
+    need(actual==expected, "SOURCE_HASH_CHANGED_"+label)
 
 
 def service_ok(unit):
