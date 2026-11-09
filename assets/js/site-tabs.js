@@ -3,6 +3,7 @@
   const tabs = [
     ['Home','/'],['Dashboard','/dashboard.html'],['Results','/results.html'],
     ['Research','/research.html'],['Market Outcomes','/smart-money-market.html'],['Flow Map','/smart-money-flow.html'],['Smart Money Positions','/smart-money.html'],['Live Signals','/smart-money-signals.html'],
+    ['Genesis Signals','/genesis-signals.html'],
     ['Learn','/learn.html'],['Portfolio','/portfolio.html'],['TESTNET P&L','/testnet.html'],
     ['Recovery','/recovery.html'],['About','/about.html'],
     ['Community','/community.html'],['App','/app.html'],
