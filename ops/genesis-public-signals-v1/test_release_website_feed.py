@@ -39,6 +39,20 @@ class ReleaseInstallerTests(unittest.TestCase):
         self.assertNotIn("tkempire.service", mod.NEW_REFRESH)
         self.assertNotIn("GENESIS_SIGNALS_PUBLISH_ENABLED=true", mod.NEW_STAGING)
 
+    def test_pinned_source_hash_failure_names_the_file(self):
+        from tempfile import TemporaryDirectory
+        from contextlib import redirect_stdout
+        from io import StringIO
+        with TemporaryDirectory() as tmp:
+            p=Path(tmp)/"fake"
+            p.write_bytes(b"not the expected source")
+            output=StringIO()
+            with patch.object(mod, "SRC_WORKER", p):
+                with redirect_stdout(output):
+                    with self.assertRaisesRegex(mod.GuardError, "SOURCE_HASH_CHANGED_REFRESH_WORKER"):
+                        mod.pin(p, "f"*64)
+            self.assertIn("REFRESH_WORKER_HASH_MATCH=FAIL", output.getvalue())
+
     def test_file_digests_pinned_and_distinct(self):
         self.assertEqual(len(mod.READER_BLOB), 40)
         self.assertEqual(len(mod.WORKER_BLOB), 40)
