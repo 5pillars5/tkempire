@@ -63,6 +63,9 @@ class ReleaseInstallerTests(unittest.TestCase):
         self.assertEqual(len(mod.WORKER_BLOB), 40)
         self.assertEqual(len(mod.ORIGINAL_READER_SHA), 64)
         self.assertEqual(len(mod.ORIGINAL_WORKER_SHA), 64)
+        self.assertEqual(len(mod.NGINX_SHA), 64)
+        self.assertEqual(len(mod.STAGING_BASE_SHA), 64)
+        self.assertEqual(mod.NGINX_SHA, "4dc8cf49978287d86fe1c46b06c213afe0ebd419df0fe92cd5df0fd00c6bdfb5")
 
     def test_read_only_release_does_not_touch_live_trading_units(self):
         source = Path(__file__).with_name("release_website_feed.py").read_text()
