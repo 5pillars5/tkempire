@@ -61,6 +61,75 @@ class ClosedAuditTests(unittest.TestCase):
         report=audit.summarize([open_event(),close_event()],now=NOW)
         self.assertEqual(report["ACCOUNTING_FIELD_NAMES_PRESENT"],"NONE")
 
+    def test_closed_projection_has_only_sanitized_recorded_outcomes(self):
+        raw=[open_event(),close_event()]
+        raw[0]["event_id"]="PRIVATE_OPEN_EVENT"
+        raw[1]["empire_trade_id"]="PRIVATE_ACCOUNT_IDENT"
+        raw[1]["details"]={"wallet_address":"PRIVATE_WALLET_DATA","other":"secret"}
+        data=audit.project_verified_closes(raw,b"k"*32,now=NOW)
+        self.assertEqual(data["publication_scope"],"PRIVATE_DRY_RUN_ONLY")
+        self.assertEqual(data["execution_authority"],"none")
+        self.assertEqual(len(data["closed_trades"]),1)
+        row=data["closed_trades"][0]
+        self.assertEqual(row["result"],"WIN")
+        self.assertEqual(row["realized_pnl"],4.0)
+        self.assertEqual(row["pnl_unit"],"LEDGER_UNIT_UNVERIFIED")
+        self.assertEqual(row["exit_price"],96.0)
+        self.assertEqual(row["closed_at"],audit.utc_text(audit.parse_time(stamp(-80))))
+        self.assertEqual(row["close_reason"],"OTHER")
+        self.assertEqual(row["stage"],"PAPER_CLOSED")
+        self.assertEqual(len(row["id"]),32)
+        self.assertEqual(row["id"],audit.project_verified_closes(raw,b"k"*32,now=NOW)["closed_trades"][0]["id"])
+        data_str=__import__("json").dumps(data)
+        for secret in ("private-1","PRIVATE_OPEN_EVENT","PRIVATE_ACCOUNT_IDENT",
+                       "PRIVATE_WALLET_DATA","wallet_address","trade_key"):
+            self.assertNotIn(secret,data_str)
+        self.assertEqual(len(audit.verify_projected_closes(data,NOW)),64)
+
+    def test_closed_projection_rejects_duplicate_unmatched_and_invalid_closes(self):
+        raw=[open_event(),close_event(),close_event()]
+        self.assertEqual(audit.project_verified_closes(raw,b"k"*32,now=NOW)["closed_trades"],[])
+        raw=[close_event()]
+        self.assertEqual(audit.project_verified_closes(raw,b"k"*32,now=NOW)["closed_trades"],[])
+        raw=[open_event(),close_event(pnl=-3,result="WIN")]
+        self.assertEqual(audit.project_verified_closes(raw,b"k"*32,now=NOW)["closed_trades"],[])
+
+    def test_closed_projection_keeps_last_fifty_newest_and_never_exposes_key(self):
+        raw=[]
+        for i in range(60):
+            key="private-trade-"+str(i)
+            opened=open_event(key)
+            closed=close_event(key)
+            opened["opened_at"]=stamp(-1000+i*2)
+            closed["opened_at"]=opened["opened_at"]
+            closed["closed_at"]=stamp(-900+i*2)
+            raw.extend([opened,closed])
+        data=audit.project_verified_closes(raw,b"z"*32,now=NOW)
+        self.assertEqual(len(data["closed_trades"]),50)
+        times=[x["closed_at"] for x in data["closed_trades"]]
+        self.assertEqual(times,sorted(times,reverse=True))
+        self.assertNotEqual(audit.project_verified_closes(raw,b"y"*32,now=NOW)["closed_trades"][0]["id"],
+                            data["closed_trades"][0]["id"])
+        self.assertNotIn("private-trade-",__import__("json").dumps(data))
+
+    def test_projection_does_not_infer_currency_or_rewrite_closed_time(self):
+        raw=[open_event(),close_event()]
+        data=audit.project_verified_closes(raw,b"k"*32,now=NOW)
+        row=data["closed_trades"][0]
+        self.assertIsNone(row["stop_loss"])
+        self.assertIsNone(row["target"])
+        self.assertEqual(row["observed_at"],audit.utc_text(audit.parse_time(stamp(-200))))
+        self.assertEqual(row["closed_at"],audit.utc_text(audit.parse_time(stamp(-80))))
+        self.assertEqual(row["pnl_unit"],"LEDGER_UNIT_UNVERIFIED")
+        with self.assertRaises(ValueError):
+            audit.project_verified_closes(raw,b"too short",now=NOW)
+
+    def test_projection_rejects_unknown_or_mutated_public_fields(self):
+        data=audit.project_verified_closes([open_event(),close_event()],b"k"*32,now=NOW)
+        data["closed_trades"][0]["account"]="secret"
+        with self.assertRaises(ValueError):
+            audit.verify_projected_closes(data,NOW)
+
     def test_handles_safe_read_without_modification(self):
         with tempfile.TemporaryDirectory() as directory:
             file=Path(directory)/"ledger.json"
