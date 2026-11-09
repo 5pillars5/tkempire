@@ -21,11 +21,13 @@ test('Genesis signals page is mobile-responsive, accessible and error-safe',()=>
   assert.match(html,/id="view-closed"[^>]*aria-pressed="false"/);
   assert.match(html,/view==='closed'/);
   assert.match(html,/Verified closed paper trades/);
-  assert.match(html,/No verified closed-trade results available/);
+  assert.match(html,/Closed-trade feed not verified/);
   assert.match(html,/Close|Closed trades/);
   assert.match(html,/realized_pnl/);
   assert.match(html,/CANONICAL_CLOSED_PAPER_LEDGER|canonical close/i);
   assert.match(html,/No result is inferred from disappearing positions/i);
+  assert.match(html,/fetch\('\/api\/genesis\/closed-trades'/);
+  assert.match(html,/LEDGER_UNIT_UNVERIFIED/);
   assert.match(html,/positions=view==='positions'/);
   assert.match(html,/Only positions corroborated by Genesis/);
   assert.match(html,/Signal trigger/);
