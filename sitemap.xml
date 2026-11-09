@@ -2,6 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://tkempire.io/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
   <url><loc>https://tkempire.io/dashboard.html</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://tkempire.io/genesis-signals.html</loc><changefreq>hourly</changefreq><priority>0.8</priority></url>
   <url><loc>https://tkempire.io/results.html</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://tkempire.io/research.html</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://tkempire.io/smart-money-flow.html</loc><changefreq>hourly</changefreq><priority>0.9</priority></url>
