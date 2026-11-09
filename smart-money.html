@@ -206,6 +206,8 @@ function renderWalletCards(records){
   walletDetail(facts,'Genesis trade?', 'No — independent wallet observation');
   detail.append(facts);
   if(typeof record.event_slug==='string'&&/^[a-z0-9-]{1,180}$/.test(record.event_slug)){
+   const view=walletNode('a','marketlink','See YES / NO outcomes');
+   view.href='/smart-money-market.html?'+new URLSearchParams({event:record.event_slug}).toString();detail.append(view);
    const a=walletNode('a','marketlink','Open original market');
    a.href='https://polymarket.com/event/'+encodeURIComponent(record.event_slug);
    a.target='_blank';a.rel='noopener noreferrer';detail.append(a);

@@ -132,7 +132,11 @@ function renderCards(records){
    const link=cardNode('a','', 'Inspect wallet positions');
    link.href='/smart-money.html?wallet='+encodeURIComponent(wallets[0])+'&view=positions';links.append(link);
   }
-  if(typeof s.event_slug==='string'&&/^[a-z0-9-]{1,180}$/.test(s.event_slug)){
+  if(typeof s.event_slug==='string'&&/^[a-z0-9-]{1,160}$/.test(s.event_slug)){
+   const view=cardNode('a','', 'See YES / NO outcomes');
+   const args=new URLSearchParams({event:s.event_slug});
+   if(typeof s.condition_id==='string'&&/^0x[a-f0-9]{64}$/i.test(s.condition_id))args.set('condition',s.condition_id);
+   view.href='/smart-money-market.html?'+args.toString();links.append(view);
    const link=cardNode('a','', 'View original market');
    link.href='https://polymarket.com/event/'+encodeURIComponent(s.event_slug);
    link.target='_blank';link.rel='noopener noreferrer';links.append(link);

@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#070b12">
+<meta name="description" content="Read-only TK Empire Genesis market outcome prices for public Polymarket events.">
+<title>Market Outcomes | TK Empire Genesis</title>
+<link rel="icon" href="https://i.imgur.com/Kf99eJt.jpeg" type="image/jpeg">
+<link rel="stylesheet" href="/assets/css/site-tabs.css?v=4">
+<style>
+:root{color-scheme:dark;--bg:#070b12;--panel:#101925;--line:#283648;--fg:#f2f6ff;--muted:#aab7c9;--gold:#f2c67a;--green:#9af2b4;--red:#ffabb6}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 100% -10%,#193040,transparent 48%),var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:#b5d8ff}button,input{font:inherit}button{cursor:pointer}
+main{max-width:1050px;margin:auto;padding:32px 16px 75px}
+.eyebrow{color:var(--gold);font-size:11px;letter-spacing:.15em;text-transform:uppercase;font-weight:850}
+h1{font-size:clamp(28px,5vw,48px);line-height:1.12;margin:13px 0 12px;letter-spacing:-.025em;overflow-wrap:anywhere}
+.description{color:var(--muted);max-width:760px;margin:0 0 18px}
+.bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:20px}
+.state{font-size:12px;color:var(--gold);font-weight:800}
+.bar button{background:#253952;border:1px solid #506988;border-radius:10px;padding:9px 15px;color:#fff;font-weight:750}
+.bar button:disabled{opacity:.5}
+.notice{background:#172333;border:1px solid #3e4f65;border-left:3px solid var(--gold);border-radius:10px;padding:14px 16px;margin:18px 0;color:#d0dded;font-size:13px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:20px}
+.panel-header{padding:22px 23px 14px;display:flex;align-items:end;justify-content:space-between;gap:16px}
+.panel-header h2{margin:0;font-size:21px}.panel-header small{color:var(--muted);font-size:12px}
+.outcomes-head{display:grid;grid-template-columns:minmax(0,1fr) 112px 112px;align-items:center;gap:12px;color:var(--muted);padding:11px 23px;border-bottom:1px solid var(--line)}
+.outcomes-head span:nth-child(n+2){text-align:center;font-weight:850}
+.market-row{border-bottom:1px solid #1f2c3a}.market-row:last-child{border-bottom:none}
+.market-summary{display:grid;grid-template-columns:minmax(0,1fr) 112px 112px;align-items:center;gap:12px;padding:13px 23px}
+.market-title{font-size:16px;line-height:1.4;overflow-wrap:anywhere}.market-title small{display:block;color:var(--muted);font-size:11px;margin-top:4px}
+.quote{display:flex;align-items:center;justify-content:center;min-height:61px;border-radius:14px;font-size:20px;font-weight:900;font-variant-numeric:tabular-nums}
+.quote.yes{background:#123823;color:var(--green);border:1px solid #1c593a}
+.quote.no{background:#41141f;color:var(--red);border:1px solid #6a2431}
+.quote.na{background:#252b35;border-color:#394556;color:#bac4d2}
+.market-row.selected{background:#1d2b3a}.market-row.selected .market-title{color:#ffe3a5}
+.market-row details{padding:0 23px 13px}.market-row summary{font-size:12px;color:var(--gold);font-weight:800;cursor:pointer;padding:9px 0}
+.market-row details div{color:var(--muted);font-size:12px;line-height:1.8;overflow-wrap:anywhere}
+.market-row details a{display:inline-block;margin-top:7px}
+.empty{padding:28px 23px;color:var(--muted)}
+.footer{font-size:12px;color:var(--muted);margin:20px 0}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.actions a{display:inline-flex;align-items:center;border:1px solid #526782;border-radius:10px;padding:10px 13px;text-decoration:none;font-size:13px;font-weight:750}
+input{width:100%;background:#121d2d;color:#fff;border:1px solid #42556b;border-radius:10px;padding:11px}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
+@media(max-width:640px){
+main{padding:20px 11px 40px}
+.panel-header{padding:16px 14px 10px}
+.outcomes-head,.market-summary{grid-template-columns:minmax(0,1fr) minmax(75px,94px) minmax(75px,94px);gap:8px;padding-left:13px;padding-right:13px}
+.market-title{font-size:14px}.quote{min-height:56px;font-size:17px;border-radius:12px}
+.market-row details{padding:0 14px 12px}
+}
+@media(max-width:380px){.outcomes-head,.market-summary{grid-template-columns:minmax(0,1fr) 72px 72px;gap:5px}.quote{font-size:15px}}
+</style>
+</head>
+<body>
+<main>
+<div class="eyebrow">TK Empire / Public market intelligence</div>
+<h1 id="title">Market outcomes</h1>
+<p class="description" id="description">See the same simple YES / NO layout used by prediction markets, with verified public data and links to the original market.</p>
+<div class="actions"><a href="/smart-money-signals.html">← Back to signals</a><a href="/smart-money.html">Public wallet positions</a></div>
+<div class="notice"><strong>Price indicators, not trading instructions.</strong> The displayed percentages reflect each outcome's last source-reported share price × 100. They are not guaranteed probabilities or executable bid/ask quotes. Genesis does not open positions here.</div>
+<div class="bar"><span class="state" id="marketStatus" role="status" aria-live="polite">Waiting for an event link…</span><button type="button" id="refresh">Refresh prices</button></div>
+<section class="panel" aria-labelledby="outcomesLabel">
+  <div class="panel-header"><div><h2 id="outcomesLabel">Outcomes</h2><small id="sourceLabel">Polymarket public market data</small></div><small id="countLabel">—</small></div>
+  <div class="outcomes-head"><span>Market outcome</span><span>YES</span><span>NO</span></div>
+  <div id="outcomes" aria-live="polite"><div class="empty">Open a market from a Genesis signal to see its outcomes.</div></div>
+</section>
+<p class="footer" id="cutoffNote">Quotes are a recent source snapshot, not continuously streamed prices. Prices may be stale, unavailable, or no longer tradable.</p>
+</main>
+<footer>TK Empire Genesis · Public source data · No trade execution</footer>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const params=new URLSearchParams(location.search);
+const eventSlug=params.get('event')||'';
+const selectedCondition=(params.get('condition')||'').toLowerCase();
+let loading=false;
+function node(tag,cls,value){const d=document.createElement(tag);if(cls)d.className=cls;if(value!==undefined)d.textContent=String(value);return d;}
+function formatPrice(value){
+ if(typeof value!=='number'||!Number.isFinite(value)||value<0||value>1)return null;
+ return new Intl.NumberFormat('en-US',{style:'percent',maximumFractionDigits:1}).format(value);
+}
+function displayPrice(value,kind){
+ const ok=formatPrice(value);
+ return node('span','quote '+(ok===null?'na':kind),ok===null?'—':ok);
+}
+function writeStatus(message,alert=false){$('marketStatus').textContent=message;$('marketStatus').style.color=alert?'#ffabb6':'#f2c67a';}
+function render(data){
+ const root=$('outcomes');root.replaceChildren();
+ const event=data.event;
+ $('title').textContent=event.title;
+ $('countLabel').textContent=data.markets.length+' markets';
+ $('sourceLabel').textContent=data.source;
+ $('description').textContent='Review individual outcome prices for '+event.title+'. These are public market prices, not Genesis open trades.';
+ const sampleTime=new Date(data.snapshot_fetched_at);
+ $('cutoffNote').textContent='Fetched '+(Number.isNaN(sampleTime.getTime())?'at an unverified time':sampleTime.toLocaleString())+'. These are source-reported prices, not tradeable offers. Closed or inactive rows are labeled.';
+ for(const m of data.markets){
+  const row=node('article','market-row'+(m.condition_id===selectedCondition?' selected':''));
+  const summary=node('div','market-summary');
+  const name=node('div','market-title',m.label||m.question||'Unlabeled market');
+  if(m.closed||m.active!==true)name.append(node('small','',m.closed?'Market closed':'Not active'));
+  summary.append(name,displayPrice(m.yes_price,'yes'),displayPrice(m.no_price,'no'));row.append(summary);
+  const details=node('details');
+  if(m.condition_id===selectedCondition)details.open=true;
+  details.append(node('summary','','Market details and source'));
+  const info=node('div','');
+  info.append(node('div','','Question: '+m.question));
+  info.append(node('div','','Market ID: '+m.condition_id));
+  info.append(node('div','','Status: '+(m.closed?'Closed':m.active?'Active':'Unavailable')));
+  info.append(node('div','','YES/NO values are independent source-reported prices, not guaranteed to sum to 100%.'));
+  if(m.market_slug){
+   const link=node('a','', 'Open this market on Polymarket');
+   link.href='https://polymarket.com/event/'+encodeURIComponent(event.slug);
+   link.target='_blank';link.rel='noopener noreferrer';
+   info.append(link);
+  }
+  details.append(info);row.append(details);root.append(row);
+ }
+ if(!data.markets.length)root.append(node('div','empty','No verified YES/NO markets available for this event.'));
+}
+async function load(){
+ if(loading)return;
+ if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(eventSlug)||eventSlug.length>160){
+  writeStatus('Open this page from a signal with a valid market event link.',true);
+  $('outcomes').replaceChildren(node('div','empty','No market selected. Open a signal and choose “See YES / NO outcomes”.'));return;
+ }
+ loading=true;$('refresh').disabled=true;writeStatus('Loading public outcome prices…');
+ try{
+  const r=await fetch('/api/smart-money-market?'+new URLSearchParams({event:eventSlug}),{cache:'no-store',headers:{Accept:'application/json'},signal:AbortSignal.timeout(15000)});
+  const data=await r.json();
+  if(!r.ok||data.status!=='ok'||!Array.isArray(data.markets)||!data.event||data.event.slug!==eventSlug)throw Error('not_verified');
+  render(data);
+  writeStatus(data.event.closed?'Event closed · Historical market prices':'Source-reported prices · Snapshot');
+ }catch{
+  $('outcomes').replaceChildren(node('div','empty','Market prices could not be verified. No odds are being inferred.'));
+  writeStatus('Market data unavailable. Retry to check the source.',true);
+ }finally{$('refresh').disabled=false;loading=false;}
+}
+$('refresh').addEventListener('click',load);load();
+</script>
+<script src="/assets/js/site-tabs.js?v=4" defer></script>
+</body>
+</html>
