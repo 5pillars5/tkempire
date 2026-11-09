@@ -167,7 +167,7 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
 (() => {
   'use strict';
   const $=id=>document.getElementById(id);
-  let records=[],ready=false,busy=false,view="positions";
+  let records=[],closedRows=[],closedReady=false,ready=false,busy=false,view="positions";
   let quotes=Object.create(null),quoteAt=0,quoteFetchedAt=0,quoteBusy=false;
   const STAGES=new Set(['QUALIFIED','PAPER_OPEN','PAPER_CLOSED']);
   const REASONS={
@@ -218,7 +218,7 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
       const pnl=node('div','closed-pnl');
       const sign=s.realized_pnl>0?'+':s.realized_pnl<0?'−':'';
       const amount=new Intl.NumberFormat('en-US',{maximumFractionDigits:8}).format(Math.abs(s.realized_pnl));
-      pnl.append(node('strong','',sign+amount+' '+(s.pnl_unit==='SIMULATED_USDC'?'simulated USDC':'paper units')),
+      pnl.append(node('strong','',sign+amount+' '+(s.pnl_unit==='LEDGER_UNIT_UNVERIFIED'?'ledger units (unverified)':s.pnl_unit==='SIMULATED_USDC'?'simulated USDC':'paper units')),
         node('small','','Verified recorded realized P&L · no market-price inference'));
       final.append(pnl);article.append(final);
       const closure=node('div','levels');
@@ -231,7 +231,7 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
       const list=node('dl');
       fact(list,'Record ID',s.id);
       fact(list,'Exit reason',s.close_reason.replaceAll('_',' '));
-      fact(list,'P&L units',s.pnl_unit==='SIMULATED_USDC'?'Simulated USDC':'Paper units');
+      fact(list,'P&L units',s.pnl_unit==='LEDGER_UNIT_UNVERIFIED'?'Ledger denomination unverified':s.pnl_unit==='SIMULATED_USDC'?'Simulated USDC':'Paper units');
       fact(list,'Closed',stamp(s.closed_at));
       fact(list,'Evidence','Canonical paper close + realized accounting');
       fact(list,'Execution','None — read-only website');
@@ -289,7 +289,7 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
     $('status-label').hidden=positions||closed;
     set('signals-title',positions?'Verified open paper positions':closed?'Verified closed paper trades':'Genesis signal activity');
     const filter=$('status-filter').value,search=$('search').value.trim().toUpperCase();
-    const visible=records.filter(s=>{
+    const visible=(closed?closedRows:records).filter(s=>{
       if(positions && (s.stage!=='PAPER_OPEN'||s.paper_position_verified!==true))return false;
       if(closed && (s.stage!=='PAPER_CLOSED'||s.paper_position_verified!==true))return false;
       if(!positions&&!closed && filter!=='all' && s.stage!==filter)return false;
@@ -305,12 +305,12 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
     }
     set('feed-message',positions?
       'Only positions corroborated by Genesis’s paper ledger are shown here. Trigger and risk levels do not establish exchange fills or real-money P&L.':
-      closed?'Final results require canonical close evidence with recorded exit, timestamp, and realized paper P&L. No result is inferred from disappearing positions.':
+      closed?(closedReady?'Verified closing records from the authenticated read-only canonical projection. P&L units remain unverified.':'Closed-trade feed not verified or not yet published. No result is inferred from disappearing positions.'):
       'Qualified candidates and verified paper openings/closings. A signal is not proof that Genesis opened a position.');
     if(!visible.length){
       const empty=node('div','empty');
-      empty.append(node('strong','',positions?'No verified open paper positions match':closed?'No verified closed-trade results available':'No signals match this view'),
-        node('span','',positions?'Try another coin or open All signal activity.':closed?'Genesis has not published a canonical close record with complete final accounting. Open positions will not be relabeled as wins or losses.':'Try another filter or coin.'));
+      empty.append(node('strong','',positions?'No verified open paper positions match':closed?(closedReady?'No verified closed trades match':'Closed-trade feed not verified'):'No signals match this view'),
+        node('span','',positions?'Try another coin or open All signal activity.':closed?'No closes are inferred from missing open positions. See feed status above.':'Try another filter or coin.'));
       root.append(empty);return;
     }
     for(const s of visible)root.append(card(s));
@@ -387,6 +387,37 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
       quoteBusy=false;renderQuotes();
     }
   }
+  async function refreshClosed(){
+    closedReady=false;closedRows=[];
+    try{
+      const response=await fetch('/api/genesis/closed-trades',{
+        cache:'no-store',headers:{Accept:'application/json'}});
+      if(!response.ok)throw Error('Closed projection not approved');
+      const data=await response.json(),t=Date.parse(data.generated_at);
+      if(data.status!=='ok'||data.source!=='GENESIS_VERIFIED_CLOSED_PAPER_PROJECTION'||
+        data.execution_authority!=='none'||data.mode!=='PAPER'||
+        data.pnl_unit!=='LEDGER_UNIT_UNVERIFIED'||
+        !Number.isFinite(t)||Date.now()-t>120000||Date.now()-t < -30000||
+        !Array.isArray(data.closed_trades)||data.closed_trades.length>50)
+        throw Error('Closed projection invalid');
+      const ids=new Set();
+      for(const s of data.closed_trades){
+        if(!s||typeof s.id!=='string'||ids.has(s.id)||
+          s.stage!=='PAPER_CLOSED'||s.paper_position_verified!==true||
+          !['WIN','LOSS','BREAKEVEN'].includes(s.result)||
+          s.pnl_unit!=='LEDGER_UNIT_UNVERIFIED'||
+          !['BUY','SELL'].includes(s.side)||!/^[A-Z0-9]{2,15}$/.test(s.asset)||
+          typeof s.realized_pnl!=='number'||!Number.isFinite(s.realized_pnl)||
+          typeof s.exit_price!=='number'||s.exit_price<=0||
+          typeof s.trigger!=='number'||s.trigger<=0||
+          !Number.isFinite(Date.parse(s.closed_at)))
+          throw Error('Closed record invalid');
+        ids.add(s.id);
+      }
+      closedRows=data.closed_trades;closedReady=true;
+    }catch{closedRows=[];closedReady=false;}
+    set('tab-closed-count',closedReady?closedRows.length:'—');
+  }
   async function refresh(){
     if(busy)return;busy=true;$('refresh').disabled=true;
     try{
@@ -410,16 +441,17 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
           ['PAPER_UNITS','SIMULATED_USDC'].includes(s.pnl_unit))));
       ready=true;
       const paper=records.filter(s=>s.stage==='PAPER_OPEN'&&s.paper_position_verified===true);
-      const closed=records.filter(s=>s.stage==='PAPER_CLOSED'&&s.paper_position_verified===true);
+      const closed=closedRows;
       set('all-count',records.length);
       set('qualified-count',records.filter(s=>s.stage==='QUALIFIED').length);
       set('mode-label','PAPER');
       set('paper-count',paper.length);
       set('tab-open-count',paper.length);
-      set('tab-closed-count',closed.length);
+      set('tab-closed-count',closedReady?closed.length:'—');
       set('tab-signal-count',records.length);
       $('feed-pill').className='feed-pill ok';set('feed-pill','VERIFIED PAPER FEED');
       set('last-update','Source generated '+stamp(data.generated_at));
+      await refreshClosed();
       render();
       await refreshPrices();
     }catch{
