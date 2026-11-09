@@ -47,7 +47,12 @@ class ReleaseInstallerTests(unittest.TestCase):
             p=Path(tmp)/"fake"
             p.write_bytes(b"not the expected source")
             output=StringIO()
-            with patch.object(mod, "SRC_WORKER", p):
+            # CI runs as a non-root user; simulate only the root-owned file
+            # metadata while keeping the real content hash mismatch.
+            from types import SimpleNamespace
+            with patch.object(mod, "SRC_WORKER", p), patch.object(
+                Path, "stat", return_value=SimpleNamespace(st_uid=0, st_mode=0o100600)
+            ):
                 with redirect_stdout(output):
                     with self.assertRaisesRegex(mod.GuardError, "SOURCE_HASH_CHANGED_REFRESH_WORKER"):
                         mod.pin(p, "f"*64)
