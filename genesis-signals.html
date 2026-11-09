@@ -31,6 +31,10 @@ button,input,select{font:inherit}button{cursor:pointer}
 button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 .refresh{padding:10px 16px;color:#f5faff;background:#254263;border:1px solid #5078a0;border-radius:9px;font-weight:800}
 .refresh:disabled{opacity:.5;cursor:wait}
+.view-tabs{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 4px}
+.view-tabs button{min-height:46px;display:flex;align-items:center;gap:9px;background:#102135;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:#c7d6e8;font-weight:800}
+.view-tabs button[aria-pressed="true"]{background:#283f50;color:#fff;border-color:var(--gold);box-shadow:inset 0 -3px 0 var(--gold)}
+.view-tabs .count{font-variant-numeric:tabular-nums;background:#223952;border:1px solid #4b6887;color:#fff;border-radius:999px;padding:1px 8px;font-size:11px}
 .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
 .stat{min-width:0;background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px}
 .stat small{display:block;color:var(--muted);font-size:11px}
@@ -84,7 +88,7 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
     <div>
       <div class="eyebrow">TK EMPIRE / GENESIS PAPER ENGINE</div>
       <h1>Genesis <span>Signals</span></h1>
-      <p class="intro">Understand what Genesis detected, which setups passed its checks, and which positions were actually verified in the paper ledger.</p>
+      <p class="intro">See verified open paper positions first, then inspect the signals that Genesis qualified. Clear entry triggers, risk levels, and evidence—without confusing a signal with a trade.</p>
     </div>
     <button class="refresh" id="refresh" type="button">Refresh signals</button>
   </div>
@@ -103,33 +107,34 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
   <section class="stats" aria-label="Genesis signal overview">
     <div class="stat"><small>Signals in snapshot</small><strong id="all-count">—</strong></div>
     <div class="stat"><small>Qualified candidates</small><strong id="qualified-count" class="qualified">—</strong></div>
-    <div class="stat"><small>Rejected candidates</small><strong id="rejected-count" class="rejected">—</strong></div>
+    <div class="stat"><small>Engine mode</small><strong id="mode-label">—</strong></div>
     <div class="stat"><small>Verified paper positions</small><strong id="paper-count" class="paper">—</strong></div>
   </section>
-  <section class="panel" aria-labelledby="signals-title">
+  <div class="view-tabs" role="group" aria-label="Choose Genesis view">
+    <button id="view-positions" type="button" aria-pressed="true" aria-controls="signals-panel">Open paper positions <span class="count" id="tab-open-count">—</span></button>
+    <button id="view-signals" type="button" aria-pressed="false" aria-controls="signals-panel">All signal activity <span class="count" id="tab-signal-count">—</span></button>
+  </div>
+  <section class="panel" id="signals-panel" aria-labelledby="signals-title">
     <div class="panelhead">
-      <h2 id="signals-title">Genesis signal feed</h2>
+      <h2 id="signals-title">Verified open paper positions</h2>
       <div class="controls">
-        <label for="status-filter">Show</label>
-        <select id="status-filter" aria-label="Filter by signal stage">
-          <option value="all">All signals</option>
-          <option value="QUALIFIED">Qualified</option>
-          <option value="DETECTED">Detected</option>
-          <option value="REJECTED">Rejected</option>
-          <option value="EXPIRED">Expired</option>
-          <option value="PAPER">Verified paper positions</option>
+        <label id="status-label" for="status-filter" hidden>Show</label>
+        <select id="status-filter" aria-label="Filter by signal stage" hidden>
+          <option value="all">All activity</option>
+          <option value="QUALIFIED">Qualified candidates</option>
+          <option value="PAPER_OPEN">Verified open positions</option>
         </select>
         <input id="search" type="search" placeholder="Search coin e.g. SOL" aria-label="Search signals by asset">
       </div>
     </div>
     <div id="feed-message" class="feed-message" role="status">Checking for a vetted Genesis signal feed.</div>
     <div id="signal-cards" class="signal-cards" aria-live="polite">
-      <div class="empty"><strong>Awaiting verified Genesis signals</strong> No trade details are published from private Genesis state.</div>
+      <div class="empty"><strong>Awaiting approved Genesis data</strong> The private trading engine is not exposed by this page.</div>
     </div>
   </section>
   <section class="panel" aria-labelledby="meaning-title">
     <div class="panelhead"><h2 id="meaning-title">What the labels mean</h2></div>
-    <div class="helper"><strong>Detected:</strong> Genesis considered a setup. <strong>Qualified:</strong> its admission checks passed, but execution is not implied. <strong>Rejected:</strong> the setup failed an admission rule. <strong>Expired:</strong> it was no longer actionable. <strong>Verified paper position:</strong> the position was corroborated by the canonical paper ledger. All information is read-only; exchange orders and automatic trading are disabled by this page.</div>
+    <div class="helper"><strong>Qualified signal:</strong> Genesis passed its admission checks, but that does not mean a position opened. <strong>Verified open paper position:</strong> its opening was corroborated by the canonical paper ledger. <strong>Signal trigger:</strong> the planned price level, not a verified exchange fill. <strong>Stop loss and target:</strong> research levels, not guaranteed executions. The page is read-only, not a trading terminal, and it cannot place orders.</div>
   </section>
 </main>
 <footer>TK Empire · Genesis Signals · Public-approved PAPER research only · No trading authority</footer>
@@ -137,8 +142,8 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
 (() => {
   'use strict';
   const $=id=>document.getElementById(id);
-  let records=[],ready=false,busy=false;
-  const STAGES=new Set(['DETECTED','QUALIFIED','REJECTED','EXPIRED','PAPER_OPEN','PAPER_CLOSED']);
+  let records=[],ready=false,busy=false,view="positions";
+  const STAGES=new Set(['QUALIFIED','PAPER_OPEN']);
   const REASONS={
     CHECKS_PASSED:'Qualification checks passed',
     CONFIDENCE_TOO_LOW:'Confidence below required threshold',
@@ -175,11 +180,11 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
     const article=node('article','signal-card');
     const top=node('div','topline');
     const side=node('span','tag '+(s.side==='BUY'?'buy':'sell'),s.side);
-    const stage=node('span','tag '+(s.stage.startsWith('PAPER')?'paper':s.stage.toLowerCase()),s.stage.replaceAll('_',' '));
+    const stage=node('span','tag '+(s.stage==='PAPER_OPEN'?'paper':s.stage.toLowerCase()),s.stage==='PAPER_OPEN'?'VERIFIED OPEN PAPER':'QUALIFIED SIGNAL');
     top.append(side,stage);article.append(top);
     article.append(node('h3','',s.asset),node('p','subtitle','Observed '+stamp(s.observed_at)+' · '+age(s.observed_at)));
     const levels=node('div','levels');
-    metric(levels,'Trigger',price(s.trigger),'');
+    metric(levels,'Signal trigger',price(s.trigger),'');
     metric(levels,'Stop loss',price(s.stop_loss),'stop');
     metric(levels,'Target',price(s.target),'target');
     article.append(levels);
@@ -207,20 +212,33 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
     return article;
   }
   function render(){
+    const positions=view==='positions';
+    $('view-positions').setAttribute('aria-pressed',String(positions));
+    $('view-signals').setAttribute('aria-pressed',String(!positions));
+    $('status-filter').hidden=positions;
+    $('status-label').hidden=positions;
+    set('signals-title',positions?'Verified open paper positions':'Genesis signal activity');
     const filter=$('status-filter').value,search=$('search').value.trim().toUpperCase();
-    const visible=records.filter(s=>(filter==='all'||(filter==='PAPER'?
-      s.paper_position_verified===true:s.stage===filter))&&s.asset.includes(search));
+    const visible=records.filter(s=>{
+      if(positions && (s.stage!=='PAPER_OPEN'||s.paper_position_verified!==true))return false;
+      if(!positions && filter!=='all' && s.stage!==filter)return false;
+      return s.asset.includes(search);
+    });
     const root=$('signal-cards');root.replaceChildren();
     if(!ready){
+      set('feed-message','The approved data connection is not active. The page never substitutes sample trades for private Genesis records.');
       const empty=node('div','empty');
-      empty.append(node('strong','','No approved Genesis signal feed yet'),
-        node('span','','The upstream paper-signal publisher is not verified or has not been enabled. No signals have been invented.'));
+      empty.append(node('strong','','Awaiting approved Genesis signal feed'),
+        node('span','','The read-only data source is disabled or stale. No trading details are exposed.'));
       root.append(empty);return;
     }
+    set('feed-message',positions?
+      'Only positions corroborated by Genesis’s paper ledger are shown here. Trigger and risk levels do not establish exchange fills or real-money P&L.':
+      'Qualified candidates and verified paper openings. A signal is not proof that Genesis opened a position.');
     if(!visible.length){
       const empty=node('div','empty');
-      empty.append(node('strong','','No signals match this view'),
-        node('span','','Try another filter. An empty scan is not a trading failure.'));
+      empty.append(node('strong','',positions?'No verified open paper positions match':'No signals match this view'),
+        node('span','',positions?'Try another coin or open All signal activity.':'Try another filter or coin.'));
       root.append(empty);return;
     }
     for(const s of visible)root.append(card(s));
@@ -244,23 +262,23 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
       const paper=records.filter(s=>s.paper_position_verified===true);
       set('all-count',records.length);
       set('qualified-count',records.filter(s=>s.stage==='QUALIFIED').length);
-      set('rejected-count',records.filter(s=>s.stage==='REJECTED').length);
+      set('mode-label','PAPER');
       set('paper-count',paper.length);
+      set('tab-open-count',paper.length);
+      set('tab-signal-count',records.length);
       $('feed-pill').className='feed-pill ok';set('feed-pill','VERIFIED PAPER FEED');
       set('last-update','Source generated '+stamp(data.generated_at));
-      set('feed-message',records.length?
-        'Showing approved, read-only Genesis signal observations. A qualified signal does not guarantee a trade.':
-        'Source current; no signals in the approved snapshot.');
       render();
     }catch{
       ready=false;records=[];
-      ['all-count','qualified-count','rejected-count','paper-count'].forEach(id=>set(id,'—'));
+      ['all-count','qualified-count','paper-count','mode-label','tab-open-count','tab-signal-count'].forEach(id=>set(id,'—'));
       $('feed-pill').className='feed-pill error';set('feed-pill','FEED NOT VERIFIED');
       set('last-update','No current approved signal snapshot');
-      set('feed-message','The Genesis signals publisher is unavailable, disabled, or stale. No private trade records are exposed.');
       render();
     }finally{busy=false;$('refresh').disabled=false;}
   }
+  $('view-positions').addEventListener('click',()=>{view='positions';render()});
+  $('view-signals').addEventListener('click',()=>{view='signals';render()});
   $('refresh').addEventListener('click',refresh);
   $('status-filter').addEventListener('change',render);
   $('search').addEventListener('input',render);
