@@ -215,7 +215,10 @@ def project(root, health, id_key, now=None):
             break
         opened = ledger[events[0]]
         trade_key = opened.get("trade_key")
-        if trade_key is not None and any(
+        if not isinstance(trade_key, str) or not trade_key:
+            verified_positions = False
+            break
+        if any(
             isinstance(event, dict) and event.get("event_type") == "CLOSED_RECORDED"
             and event.get("trade_key") == trade_key for event in ledger
         ):
@@ -298,23 +301,35 @@ class Handler(BaseHTTPRequestHandler):
     do_PUT = do_PATCH = do_DELETE = do_POST
 
 
+def run_check():
+    """Audit-only diagnostic. Never emits strategy records or secret values."""
+    try:
+        # Ephemeral, non-publishing key. No public IDs are printed or persisted.
+        data = project(ROOT, health(), b"DRY_RUN_ONLY_" + b"x"*32)
+        print("SIGNAL_COUNT=", len(data["signals"]))
+        print("VERIFIED_PAPER_OPEN=", sum(
+            x["stage"] == "PAPER_OPEN" for x in data["signals"]))
+        print("POSITION_VERIFICATION=", data["position_verification"])
+        if data["position_verification"] != "verified":
+            print("GENESIS_READONLY_PROJECTION=REQUIRES_REVIEW")
+            return 1
+        print("GENESIS_READONLY_PROJECTION=PASS")
+        return 0
+    except Exception as exc:
+        # Exception classes do not expose filenames, tokens, fingerprints or prices.
+        print("GENESIS_READONLY_PROJECTION=NOT_VERIFIED")
+        print("ERROR_TYPE=", type(exc).__name__)
+        return 1
+    finally:
+        print("FILES_MODIFIED=NONE")
+
+
 def main():
     p = argparse.ArgumentParser(description="Genesis read-only public signal publisher")
     p.add_argument("--check", action="store_true", help="Read-only local diagnostics; never print trades")
     args = p.parse_args()
     if args.check:
-        try:
-            # Check does not require publication secrets and prints counts only.
-            data = project(ROOT, health(), b"DRY_RUN_ONLY_" + b"x"*32)
-            print("GENESIS_READONLY_PROJECTION=PASS")
-            print("SIGNAL_COUNT=", len(data["signals"]))
-            print("VERIFIED_PAPER_OPEN=", sum(
-                x["stage"]=="PAPER_OPEN" for x in data["signals"]))
-            print("POSITION_VERIFICATION=", data["position_verification"])
-        except Exception:
-            print("GENESIS_READONLY_PROJECTION=NOT_VERIFIED")
-        print("FILES_MODIFIED=NONE")
-        return
+        raise SystemExit(run_check())
     ThreadingHTTPServer((HOST, PORT), Handler).serve_forever()
 
 
