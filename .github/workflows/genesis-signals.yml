@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - 'genesis-signals.html'
+      - 'assets/js/genesis-paper-mark.js'
+      - 'tests/genesis-paper-mark.test.js'
       - 'api/genesis/signals.js'
       - 'api/genesis/prices.js'
       - 'tests/genesis-market-prices.test.js'
@@ -38,6 +40,8 @@ on:
     branches: [main]
     paths:
       - 'genesis-signals.html'
+      - 'assets/js/genesis-paper-mark.js'
+      - 'tests/genesis-paper-mark.test.js'
       - 'api/genesis/signals.js'
       - 'api/genesis/prices.js'
       - 'tests/genesis-market-prices.test.js'
@@ -86,11 +90,13 @@ jobs:
         run: |
           node --check api/genesis/signals.js
           node --check api/genesis/prices.js
+          node --check assets/js/genesis-paper-mark.js
+          node --check tests/genesis-paper-mark.test.js
           node --check tests/genesis-market-prices.test.js
           node --check tests/genesis-public-signals.test.js
           node --check tests/genesis-signals-ui.test.js
       - name: Verify read-only API, safety and UI
-        run: node --test tests/genesis-public-signals.test.js tests/genesis-public-api.test.js tests/genesis-signals-ui.test.js tests/genesis-market-prices.test.js
+        run: node --test tests/genesis-public-signals.test.js tests/genesis-public-api.test.js tests/genesis-signals-ui.test.js tests/genesis-market-prices.test.js tests/genesis-paper-mark.test.js
       - name: Validate VPS publisher syntax
         run: python3 -m py_compile ops/genesis-public-signals-v1/publisher.py ops/genesis-public-signals-v1/test_publisher.py ops/genesis-public-signals-v1/install_disabled.py ops/genesis-public-signals-v1/test_install_disabled.py ops/genesis-public-signals-v1/stage_nginx_gateway.py ops/genesis-public-signals-v1/test_stage_nginx_gateway.py ops/genesis-public-signals-v1/export_snapshot.py ops/genesis-public-signals-v1/test_export_snapshot.py ops/genesis-public-signals-v1/credential_reader.py ops/genesis-public-signals-v1/test_credential_reader.py ops/genesis-public-signals-v1/install_credential_handoff.py ops/genesis-public-signals-v1/test_install_credential_handoff.py ops/genesis-public-signals-v1/refresh_snapshot.py ops/genesis-public-signals-v1/test_refresh_snapshot.py ops/genesis-public-signals-v1/refresh_cycle.py ops/genesis-public-signals-v1/test_refresh_cycle.py ops/genesis-public-signals-v1/install_refresh_timer.py ops/genesis-public-signals-v1/test_install_refresh_timer.py ops/genesis-public-signals-v1/test_approved_credential_reader.py ops/genesis-public-signals-v1/refresh_cycle_release.py ops/genesis-public-signals-v1/release_website_feed.py ops/genesis-public-signals-v1/test_release_website_feed.py
       - name: Test read-only publisher with offline fixtures

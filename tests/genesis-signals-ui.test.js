@@ -36,6 +36,11 @@ test('Genesis signals page is mobile-responsive, accessible and error-safe',()=>
   assert.match(html,/quoteFetchedAt/);
   assert.match(html,/Price stale/);
   assert.match(html,/Market prices unavailable/);
+  assert.match(html,/Gross unrealized movement/);
+  assert.match(html,/paper-pnl/);
+  assert.match(html,/GenesisPaperMark\.calculate/);
+  assert.match(html,/not total P&L/i);
+  assert.match(html,/genesis-paper-mark\.js\?v=1/);
   assert.match(html,/15000/);
   assert.match(html,/textContent=String\(text\)/);
   assert.equal(html.includes('<nav class="quicklinks"'),false,'Global navigation collision');

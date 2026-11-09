@@ -69,6 +69,14 @@ button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visi
 .market-quote strong{color:#f0f8ff;font-size:clamp(18px,2.4vw,23px);font-variant-numeric:tabular-nums}
 .market-quote .quote-meta{font-size:10px;color:#adc1d9;text-align:right;max-width:170px}
 .market-quote .quote-price{display:flex;flex-direction:column;gap:2px}
+.paper-pnl{margin:-5px 0 14px;padding:12px 14px;border:1px solid #435b77;border-radius:12px;background:#0a192c;display:flex;justify-content:space-between;align-items:center;gap:9px;flex-wrap:wrap}
+.paper-pnl small{font-size:11px;color:var(--muted);display:block}
+.paper-pnl strong{font-size:20px;font-variant-numeric:tabular-nums;display:block}
+.paper-pnl .pnl-meta{font-size:10px;color:#b9c9da;text-align:right;max-width:190px}
+.paper-pnl.positive strong{color:var(--green)}
+.paper-pnl.negative strong{color:var(--red)}
+.paper-pnl.neutral strong{color:#dce7ef}
+.paper-pnl.pending strong{color:#ffd6a3}
 .market-quote[data-state="stale"] strong,.market-quote[data-state="unavailable"] strong{color:#ffd6a3}
 .confidence{display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:12px;margin-top:12px}
 .confidence small{color:var(--muted)}
@@ -104,7 +112,7 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
     <a href="/results.html">Paper Results</a>
     <a href="/portfolio.html">Paper Portfolio</a>
   </div>
-  <div class="disclosure"><strong>Paper research, not live orders.</strong> A BUY or SELL signal is a candidate or decision—not proof of an executed trade. Only records independently linked to the canonical paper ledger can say <strong>Verified paper position</strong>. Current market quotes are indicative Hyperliquid perpetual mid-prices, not trade fills or executable bid/ask prices. Missing or stale data is never shown as current.</div>
+  <div class="disclosure"><strong>Paper research, not live orders.</strong> BUY/SELL signals are not exchange executions. Only canonical-ledger-linked records qualify as verified paper positions. Current quotes are indicative Hyperliquid perpetual mid-prices, not fills. Gross price movement is shown per coin and as a percentage of verified paper entry; it is <strong>not position-level dollar P&amp;L</strong> because trade size, fees and funding are not published. Missing or stale prices never produce P&amp;L.</div>
   <div class="statusbar" role="status" aria-live="polite">
     <span id="feed-pill" class="feed-pill">AWAITING APPROVED FEED</span>
     <span id="last-update">No verified signal snapshot yet</span>
@@ -141,10 +149,11 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
   </section>
   <section class="panel" aria-labelledby="meaning-title">
     <div class="panelhead"><h2 id="meaning-title">What the labels mean</h2></div>
-    <div class="helper"><strong>Qualified signal:</strong> Genesis passed its admission checks, but that does not mean a position opened. <strong>Verified open paper position:</strong> its opening was corroborated by the canonical paper ledger. <strong>Signal trigger:</strong> the planned price level, not a verified exchange fill. <strong>Stop loss and target:</strong> research levels, not guaranteed executions. The page is read-only, not a trading terminal, and it cannot place orders.</div>
+    <div class="helper"><strong>Qualified signal:</strong> Genesis passed its admission checks, but that does not mean a position opened. <strong>Verified open paper position:</strong> its opening was corroborated by the canonical paper ledger. <strong>Signal trigger:</strong> the planned price level, not a verified exchange fill. <strong>Stop loss and target:</strong> research levels, not guaranteed executions. <strong>Gross unrealized movement:</strong> paper entry versus current indicative mid, direction-aware, per coin and percent; not total trade P&amp;L. The page is read-only, not a trading terminal, and it cannot place orders.</div>
   </section>
 </main>
 <footer>TK Empire · Genesis Signals · Public-approved PAPER research only · No trading authority</footer>
+<script src="/assets/js/genesis-paper-mark.js?v=1"></script>
 <script>
 (() => {
   'use strict';
@@ -196,6 +205,15 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
     quotePrice.append(node('small','','Current market mid (USD)'),node('strong','quote-value','Checking…'));
     market.append(quotePrice,node('div','quote-meta','Hyperliquid perpetual · awaiting quote'));
     article.append(market);
+    if(s.stage==='PAPER_OPEN'&&s.paper_position_verified===true){
+      const pnl=node('div','paper-pnl pending');pnl.dataset.asset=s.asset;
+      pnl.dataset.side=s.side;pnl.dataset.entry=String(s.trigger??'');
+      const pnlValue=node('div');pnlValue.append(
+        node('small','','Gross unrealized movement · per coin'),
+        node('strong','pnl-value','Awaiting current quote'));
+      pnl.append(pnlValue,node('div','pnl-meta','Verified paper entry · size not published · not total P&L'));
+      article.append(pnl);
+    }
     const levels=node('div','levels');
     metric(levels,'Signal trigger',price(s.trigger),'');
     metric(levels,'Stop loss',price(s.stop_loss),'stop');
@@ -271,6 +289,27 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
         el.dataset.state=!fresh&&quoteFetchedAt?'stale':'unavailable';
         value.textContent=!fresh&&quoteFetchedAt?'Price stale':'Unavailable';
         meta.textContent='No verified fresh Hyperliquid quote · not a fill price';
+      }
+    });
+    document.querySelectorAll('.paper-pnl').forEach(el=>{
+      const value=el.querySelector('.pnl-value');
+      const meta=el.querySelector('.pnl-meta');
+      const quote=quotes[el.dataset.asset],entry=Number(el.dataset.entry);
+      const freshQuote=fresh&&Object.prototype.hasOwnProperty.call(quotes,el.dataset.asset);
+      const result=freshQuote&&window.GenesisPaperMark?
+        window.GenesisPaperMark.calculate({stage:'PAPER_OPEN',paper_position_verified:true,
+          side:el.dataset.side,trigger:entry},quote):null;
+      if(!result){
+        el.className='paper-pnl pending';
+        value.textContent='Unavailable';
+        meta.textContent='No fresh mark or verified entry · total position P&L not reported';
+      }else{
+        const sign=result.perCoinUsd>0?'+':result.perCoinUsd<0?'−':'';
+        const movement=Math.abs(result.perCoinUsd);
+        const change=Math.abs(result.priceReturnPct);
+        el.className='paper-pnl '+(result.perCoinUsd>0?'positive':result.perCoinUsd<0?'negative':'neutral');
+        value.textContent=sign+(movement===0?'$0':price(movement))+' / coin ('+sign+change.toFixed(2)+'%)';
+        meta.textContent='Gross entry-to-mid change · excludes fees and funding · NOT whole-position P&L';
       }
     });
   }
