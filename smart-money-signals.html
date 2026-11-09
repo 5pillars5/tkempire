@@ -5,4 +5,64 @@
 a{color:var(--blue)}header{border-bottom:1px solid var(--edge);background:#0a101c;padding:18px 5%}header div{max-width:1160px;margin:auto;display:flex;justify-content:space-between;gap:15px;align-items:center;flex-wrap:wrap}header a{color:var(--fg);text-decoration:none;font-weight:700}
 main{max-width:1160px;margin:auto;padding:32px 18px 60px}.eyebrow{font-size:11px;letter-spacing:.16em;color:var(--gold);font-weight:850}
 h1{font-size:clamp(32px,5vw,53px);letter-spacing:-.045em;line-height:1;margin:9px 0 12px}h1 span{color:var(--gold)}p{color:var(--muted)}.badge{display:inline-flex;background:#182a26;border:1px solid #34564c;color:var(--green);border-radius:99px;padding:6px 12px;font-size:11px;font-weight:750;margin-right:8px}.strip{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:18px 0 23px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stat,.panel{background:var(--panel);borde���q�^
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stat,.panel{background:var(--panel);border:1px solid var(--edge);border-radius:14px}.stat{padding:16px}.stat small{color:var(--muted);font-size:11px}.stat strong{display:block;font-size:25px;margin-top:4px}.panel{margin-top:17px;overflow:hidden}.panelhead{padding:17px 18px;border-bottom:1px solid var(--edge);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center}.panelhead h2{font-size:18px;margin:0}.info{padding:16px 18px;color:var(--muted)}
+button,select{background:#213550;color:var(--fg);border:1px solid #415d7c;border-radius:8px;padding:9px 13px;font:inherit;cursor:pointer}button:disabled{opacity:.55}
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:760px}th,td{padding:12px 14px;text-align:left;border-bottom:1px solid #29384a}th{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}td{font-size:13px}td.market{min-width:230px;max-width:430px}.good{color:var(--green)}.bad{color:var(--red)}.gold{color:var(--gold)}.muted{color:var(--muted)}.type{font-size:11px;font-weight:850}.sample{padding:10px 12px;background:#222318;border:1px solid #5b4b2e;border-radius:9px;color:#f5d899;margin:12px 0}
+.empty{padding:24px;color:var(--muted);text-align:center}.walletlist{font:11px/1.8 ui-monospace,monospace;word-break:break-all}.detail{display:none;padding:13px 17px;border-top:1px solid var(--edge);color:var(--muted);font-size:12px}.detail.visible{display:block}footer{max-width:1160px;margin:auto;padding:16px 18px 35px;color:var(--muted);font-size:11px}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}}
+</style><link rel="stylesheet" href="/assets/css/site-tabs.css?v=4"></head><body>
+<header><div><a href="/">TK EMPIRE / GENESIS</a><span><a href="/smart-money-flow.html">Flow Map</a> &nbsp;•&nbsp; <a href="/smart-money.html">Wallet Watch</a> &nbsp;•&nbsp; <a href="/dashboard.html">Dashboard</a></span></div></header>
+<main>
+<div class="eyebrow">GENESIS / PUBLIC WALLET OBSERVATIONS</div>
+<h1>Smart Money <span>Signals</span></h1>
+<p>Read-only detection of recent observed moves by top-ranked Polymarket crypto-market wallets. These alerts are not trade recommendations, guaranteed winners, Genesis execution commands, or evidence of verified skill.</p>
+<div class="strip"><span class="badge">PAPER RESEARCH ONLY • NO ORDERS</span><span id="lastUpdated" class="muted">Not refreshed yet</span><span class="muted">Refresh every 60 seconds while open</span></div>
+<div class="stats">
+<div class="stat"><small>Monitored wallets</small><strong id="wallets">—</strong></div>
+<div class="stat"><small>Trades scanned</small><strong id="trades">—</strong></div>
+<div class="stat"><small>Signals in current scan</small><strong id="signals">—</strong></div>
+<div class="stat"><small>Feed condition</small><strong id="health">Checking</strong></div>
+</div>
+<section class="panel">
+<div class="panelhead"><h2>Detected wallet moves</h2><div class="filters"><label for="filter">Filter</label><select id="filter"><option value="all">All signals</option><option value="SMART_MONEY_BUY">Smart money buys</option><option value="SMART_MONEY_SELL">Smart money sells</option><option value="WHALE_CONSENSUS">Multi-wallet consensus</option><option value="UNUSUAL_ACTIVITY">Unusual activity</option><option value="POSSIBLE_WALLET_REVERSAL">Possible reversal</option></select><button id="refresh">Refresh now</button><button id="notify">Enable browser alerts</button></div></div>
+<div class="info" id="status" role="status">Checking live public feeds. An empty signal table does not mean the scan failed.</div>
+<div class="tablewrap"><table><thead><tr><th>Observed at</th><th>Type</th><th>Market / outcome</th><th>Side</th><th>USDC observed</th><th>Wallets</th><th>Age</th><th>Evidence</th></tr></thead><tbody id="rows"><tr><td colspan="8" class="empty">Connecting to public data…</td></tr></tbody></table></div>
+</section>
+<section class="panel"><div class="panelhead"><h2>How this works</h2></div><div class="info">
+The scanner samples up to eight currently profitable, high-volume wallets from the public weekly crypto leaderboard, then scans each wallet's latest public trade events. It detects BUY and SELL observations above $250, unusually large trades relative to each wallet's sampled trade history, three-wallet same-market consensus within 30 minutes, and a possible opposing-outcome reversal. Repeated observations use stable event IDs. Signals older than 15 minutes are historical observations, not fresh alerts.
+<div class="sample">Browser notifications work only while this tab is open and permission is granted. There is no always-on backend scheduler, Telegram alert delivery, persistent paper trading, or automatic copy trading in this version.</div>
+Signals are withheld when source data cannot be validated. A failed source or unavailable wallet history is shown as a degraded feed, not as successful monitoring. No Genesis VPS configuration, execution service, maintenance gate or exchange wallet is accessed.
+</div></section>
+</main><footer>TK Empire Genesis • Smart Money Signals v1 • Research only • Public data only • Not investment advice</footer>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+let current=[],seen=new Set(),primed=false,inflight=false;
+const stamp=t=>{try{return new Date(t).toLocaleString()}catch(e){return '—'}};
+const usd=n=>typeof n==='number'&&Number.isFinite(n)?new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:2}).format(n):'—';
+function showStatus(t,error=false){$('status').textContent=t;$('status').style.color=error?'#ff91ab':'';}
+function shorten(w){return w?.length===42?w.slice(0,8)+'…'+w.slice(-6):w||'—'}
+function age(s){if(typeof s!=='number')return '—';return s<60?s+'s':s<3600?Math.round(s/60)+'m':Math.round(s/3600)+'h'}
+function render(){
+ const filter=$('filter').value;const rows=filter==='all'?current:current.filter(x=>x.type===filter);const target=$('rows');target.replaceChildren();
+ if(!rows.length){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=8;td.className='empty';td.textContent='No qualifying observations for this filter in the current scan.';tr.append(td);target.append(tr);return;}
+ for(const s of rows){const tr=document.createElement('tr');const data=[stamp(s.observed_at),s.type.replaceAll('_',' '),s.market+' / '+s.outcome,s.side,usd(s.amount_usdc),String(s.wallet_count),age(s.age_seconds),s.evidence];data.forEach((v,i)=>{const td=document.createElement('td');td.textContent=v;if(i===1)td.className='type '+(s.type==='WHALE_CONSENSUS'?'gold':'');if(i===2)td.className='market';if(i===3)td.className=s.side==='BUY'?'good':'bad';tr.append(td);});tr.title=(s.wallets||[]).map(shorten).join(', ');target.append(tr);}
+}
+function notifyFresh(signals){
+ if(!primed){signals.forEach(s=>seen.add(s.id));primed=true;return;}
+ for(const s of signals){if(seen.has(s.id))continue;seen.add(s.id);if(s.alert_fresh&&typeof Notification!=='undefined'&&Notification.permission==='granted'){try{new Notification('Genesis: '+s.type.replaceAll('_',' '),{body:s.market+' — '+s.outcome+' ('+s.wallet_count+' wallets)',tag:'genesis-'+s.id})}catch(e){}}}
+ if(seen.size>600)seen=new Set([...seen].slice(-350));
+}
+async function load(){
+ if(inflight)return;inflight=true;$('refresh').disabled=true;
+ try{
+  const r=await fetch('/api/smart-money-signals',{cache:'no-store',headers:{Accept:'application/json'}});const data=await r.json();if(!r.ok||!Array.isArray(data.signals)||!['ok','degraded'].includes(data.status))throw new Error('Live signal feed not verified.');
+  current=data.signals;$('wallets').textContent=String(data.monitored_wallets);$('trades').textContent=String(data.trades_scanned);$('signals').textContent=String(data.qualifying_signals);$('health').textContent=data.status.toUpperCase();$('health').style.color=data.status==='degraded'?'#efbe64':'#67e0bb';$('lastUpdated').textContent='Fetched '+stamp(data.generated_at);
+  showStatus('Public scan completed. '+data.successful_wallets+' wallet feeds returned; '+data.failed_wallets+' unavailable. Newest observed trade: '+(data.newest_trade_at?stamp(data.newest_trade_at):'none in sample')+'. These are observations, not verified opportunities.');
+  notifyFresh(current);render();
+ }catch(e){current=[];render();$('wallets').textContent='—';$('trades').textContent='—';$('signals').textContent='—';$('health').textContent='UNAVAILABLE';$('health').style.color='#ff91ab';showStatus('Live feed unavailable. No signals have been inferred. Check again later.',true);}
+ finally{inflight=false;$('refresh').disabled=false;}
+}
+$('refresh').addEventListener('click',load);$('filter').addEventListener('change',render);$('notify').addEventListener('click',async()=>{if(!('Notification' in window)){$('notify').textContent='Not supported';return;}const p=await Notification.requestPermission();$('notify').textContent=p==='granted'?'Browser alerts enabled':'Alerts denied or unavailable';});
+load();setInterval(()=>{if(!document.hidden)load()},60000);
+</script><script src="/assets/js/site-tabs.js?v=4" defer></script></body></html>
