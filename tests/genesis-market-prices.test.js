@@ -13,13 +13,22 @@ async function call(url,method='GET'){
 test.after(()=>{global.fetch=oldFetch;});
 test('request bounds, symbol validation, and no outbound request on invalid input',async()=>{
   global.fetch=()=>{throw Error('should not fetch')};
-  for(const suffix of ['','?assets=','?assets=SOL,../etc/passwd',
+  for(const suffix of ['?assets=','?assets=SOL,../etc/passwd',
     '?assets=%3Cscript%3E','?assets=SOL&other=x','?assets=SOL&assets=BNB',
     '?assets='+new Array(21).fill('SOL').join(',')]){
     const r=await call('/api/genesis/prices'+suffix);
     assert.equal(r.statusCode,400,suffix);
     assert.deepEqual(r.body.prices,{});
   }
+});
+test('default production route quotes the exact bounded Genesis asset universe',async()=>{
+  global.fetch=async()=>({ok:true,headers:{get:()=>null},
+    text:async()=>JSON.stringify({BNB:'675.50',SOL:'89.20',APT:'0.80',OTHER:'999'})});
+  const r=await call('/api/genesis/prices');
+  assert.equal(r.statusCode,200);
+  assert.deepEqual({...r.body.prices},{BNB:675.5,SOL:89.2,APT:0.8});
+  assert.equal(r.body.unavailable.length,0);
+  assert.ok(!JSON.stringify(r.body).includes('OTHER'));
 });
 test('bounded allMids mainnet request returns only requested valid mid-prices',async()=>{
   global.fetch=async(url,options)=>{

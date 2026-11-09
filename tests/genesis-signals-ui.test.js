@@ -31,7 +31,7 @@ test('Genesis signals page is mobile-responsive, accessible and error-safe',()=>
   assert.match(html,/new Date\(/);
   assert.match(html,/Current market mid \(USD\)/);
   assert.match(html,/HYPERLIQUID_PERP_MID/);
-  assert.match(html,/\/api\/genesis\/prices\?assets=/);
+  assert.match(html,/fetch\('\/api\/genesis\/prices'/);
   assert.match(html,/MARKET_INDICATION_NOT_EXECUTABLE_PRICE|Indicative Hyperliquid perpetual mid-prices/);
   assert.match(html,/quoteFetchedAt/);
   assert.match(html,/Price stale/);

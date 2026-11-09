@@ -280,7 +280,7 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
     if(!assets.length)return;
     quoteBusy=true;
     try{
-      const response=await fetch('/api/genesis/prices?assets='+encodeURIComponent(assets.join(',')),{
+      const response=await fetch('/api/genesis/prices',{
         cache:'no-store',headers:{Accept:'application/json'}
       });
       if(!response.ok)throw Error('Quote endpoint unavailable');
