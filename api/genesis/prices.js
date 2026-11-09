@@ -14,7 +14,10 @@ function send(res,code,body){
 function assetsFromRequest(req){
   const uri=new URL(req.url||'/api/genesis/prices','https://www.tkempire.io');
   const params=uri.searchParams;
-  if([...params.keys()].some(k=>k!=='assets')||params.getAll('assets').length!==1) return null;
+  // The live site routes through a domain alias. Avoid relying on query-string
+  // propagation for the current Genesis universe, which is explicitly bounded.
+  if([...params.keys()].some(k=>k!=='assets')||params.getAll('assets').length>1) return null;
+  if(!params.has('assets'))return ['BNB','SOL','APT'];
   const value=params.get('assets');
   if(!value||value.length>330)return null;
   const assets=value.split(',');
