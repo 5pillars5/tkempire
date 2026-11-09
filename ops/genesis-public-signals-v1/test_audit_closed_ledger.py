@@ -46,7 +46,7 @@ class ClosedAuditTests(unittest.TestCase):
 
     def test_mismatched_entry_or_trade_direction_rejected(self):
         for key,val in [("entry_price",102),("direction","BUY"),("exit_price",None),
-                        ("closed_at",stamp(200)),("opened_at",stamp(-500))]:
+                        ("closed_at",stamp(200)),("opened_at",stamp(-501))]:
             changed=close_event()
             changed[key]=val
             report=audit.summarize([open_event(),changed],now=NOW)
