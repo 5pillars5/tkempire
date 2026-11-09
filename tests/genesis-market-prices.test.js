@@ -11,14 +11,15 @@ async function call(url,method='GET'){
   const result=res();await handler({url,method},result);return result;
 }
 test.after(()=>{global.fetch=oldFetch;});
-test('request bounds, symbol validation, and no outbound request on invalid input',async()=>{
-  global.fetch=()=>{throw Error('should not fetch')};
-  for(const suffix of ['?assets=','?assets=SOL,../etc/passwd',
-    '?assets=%3Cscript%3E','?assets=SOL&other=x','?assets=SOL&assets=BNB',
-    '?assets='+new Array(21).fill('SOL').join(',')]){
-    const r=await call('/api/genesis/prices'+suffix);
-    assert.equal(r.statusCode,400,suffix);
-    assert.deepEqual(r.body.prices,{});
+test('fixed Genesis quote universe ignores all custom-domain parameters',async()=>{
+  global.fetch=async()=>({ok:true,headers:{get:()=>null},
+    text:async()=>JSON.stringify({BNB:'676',SOL:'89',APT:'0.8',SECRET:'999'})});
+  for(const uri of ['/api/genesis/prices','/api/genesis/prices?assets=XYZ',
+     '/api/genesis/prices?__vercel_protection_bypass=opaque']){
+    const r=await call(uri);
+    assert.equal(r.statusCode,200);
+    assert.deepEqual({...r.body.prices},{BNB:676,SOL:89,APT:0.8});
+    assert.equal(Object.hasOwn(r.body.prices,'SECRET'),false);
   }
 });
 test('default production route quotes the exact bounded Genesis asset universe',async()=>{
@@ -41,7 +42,7 @@ test('bounded allMids mainnet request returns only requested valid mid-prices',a
       text:async()=>JSON.stringify({BNB:'672.91',SOL:'86.125',APT:'2.102',
         OTHER:'123',invalid:'NaN'})};
   };
-  const r=await call('/api/genesis/prices?assets=SOL,BNB,SOL,APT');
+  const r=await call('/api/genesis/prices');
   assert.equal(r.statusCode,200);
   assert.equal(r.body.source,'HYPERLIQUID_PERP_MID');
   assert.equal(r.body.market,'hyperliquid_mainnet_perpetuals');
@@ -55,10 +56,10 @@ test('bounded allMids mainnet request returns only requested valid mid-prices',a
 test('no imaginary price for unavailable, zero, negative or invalid source data',async()=>{
   global.fetch=async()=>({ok:true,headers:{get:()=>null},
     text:async()=>JSON.stringify({BNB:'0',SOL:'-30',APT:'2.8'})});
-  const r=await call('/api/genesis/prices?assets=SOL,BNB,APT,XYZ');
+  const r=await call('/api/genesis/prices');
   assert.equal(r.statusCode,200);
   assert.deepEqual({...r.body.prices},{APT:2.8});
-  assert.deepEqual(r.body.unavailable,['SOL','BNB','XYZ']);
+  assert.deepEqual(r.body.unavailable,['BNB','SOL']);
 });
 test('network failure, non-200, oversized response and malformed JSON all fail closed',async()=>{
   const mocks=[
