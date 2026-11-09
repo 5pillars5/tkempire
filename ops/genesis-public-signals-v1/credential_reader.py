@@ -8,6 +8,7 @@ A separate reviewed release is required to change those invariants.
 """
 from __future__ import annotations
 
+import argparse
 from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
@@ -132,6 +133,81 @@ def read_credential(path):
     return validate(payload)
 
 
+def release_projection(payload, now=None):
+    """Project fresh, allowlisted PAPER data from a systemd credential."""
+    now = now or datetime.now(timezone.utc)
+    counts = validate(payload)
+    generated = timestamp(payload["generated_at"])
+    age = (now - generated).total_seconds()
+    require(-30 <= age <= 120, "credential_stale")
+    require(counts["paper_open"] <= counts["signal_count"], "count_inconsistent")
+    safe = {
+        "schema_version": 1,
+        "source": SOURCE,
+        "publication_scope": "PUBLIC_APPROVED",
+        "execution_authority": "none",
+        "generated_at": payload["generated_at"],
+        "engine": {"mode": "paper", "running": True},
+        "position_verification": "verified",
+        "signals": [
+            {k: item[k] for k in sorted(ITEM_KEYS) if k in item}
+            for item in payload["signals"]
+        ]
+    }
+    output = json.dumps(safe, separators=(",", ":"), allow_nan=False).encode()
+    require(len(output) <= MAX_BYTES, "public_projection_too_large")
+    return output
+
+
+class ApprovedHandler(BaseHTTPRequestHandler):
+    """No direct access to private Genesis files; credential-only."""
+    def log_message(self, *_args):
+        pass
+
+    def do_GET(self):
+        if self.path != "/signals":
+            body, code = b'{"status":"not_found"}', 404
+        else:
+            try:
+                path = credential_path()
+                fd = os.open(path, os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW)
+                try:
+                    st = os.fstat(fd)
+                    require(stat.S_ISREG(st.st_mode) and st.st_size <= MAX_BYTES,
+                            "credential_file_invalid")
+                    with os.fdopen(os.dup(fd), "rb") as stream:
+                        raw = stream.read(MAX_BYTES + 1)
+                    newer = os.fstat(fd)
+                    require(len(raw) <= MAX_BYTES and st.st_size == newer.st_size
+                            and st.st_mtime_ns == newer.st_mtime_ns,
+                            "credential_changed")
+                finally:
+                    os.close(fd)
+                body = release_projection(json.loads(raw))
+                code = 200
+            except Exception:
+                body, code = b'{"status":"feed_not_verified","signals":[]}', 503
+        self.send_response(code)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Cache-Control", "private, no-store, max-age=0")
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def do_POST(self):
+        body = b'{"status":"method_not_allowed","signals":[]}'
+        self.send_response(405)
+        self.send_header("Allow", "GET")
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Cache-Control", "no-store")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    do_PUT = do_PATCH = do_DELETE = do_POST
+
+
 class DisabledHandler(BaseHTTPRequestHandler):
     def log_message(self, *_args):
         pass
@@ -161,16 +237,35 @@ class DisabledHandler(BaseHTTPRequestHandler):
 
 
 def main():
-    # Never trust an env-only feature flag as public-release authorization.
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--public-readonly", action="store_true")
+    args = parser.parse_args()
+    # Both a reviewed ExecStart argument AND the deployment gate are required.
     require(os.environ.get("GENESIS_SIGNALS_PUBLISH_ENABLED") != "true",
-            "unsafe_publication_environment")
+            "unsafe_legacy_publication_environment")
+    release = args.public_readonly
+    if release:
+        require(os.environ.get("GENESIS_SIGNALS_PUBLICATION_APPROVED") == "true",
+                "release_gate_missing")
+    else:
+        require(os.environ.get("GENESIS_SIGNALS_PUBLICATION_APPROVED") != "true",
+                "release_argument_missing")
     numbers = read_credential(credential_path())
+    if release:
+        path = credential_path()
+        fd = os.open(path, os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW)
+        with os.fdopen(fd, "rb") as stream:
+            raw = stream.read(MAX_BYTES + 1)
+        require(len(raw) <= MAX_BYTES, "credential_too_large")
+        release_projection(json.loads(raw))
     print("CREDENTIAL_SNAPSHOT_LOAD=PASS", flush=True)
-    print("SNAPSHOT_SCOPE=STAGING_NOT_APPROVED", flush=True)
+    print("SNAPSHOT_SCOPE=" + ("PUBLIC_APPROVED" if release else "STAGING_NOT_APPROVED"), flush=True)
     print("SANITISED_SIGNAL_COUNT=" + str(numbers["signal_count"]), flush=True)
     print("VERIFIED_PAPER_OPEN=" + str(numbers["paper_open"]), flush=True)
-    print("PUBLICATION_ENABLED=NO", flush=True)
-    server = ThreadingHTTPServer((HOST, PORT), DisabledHandler)
+    print("PUBLICATION_ENABLED=" + ("YES_READ_ONLY" if release else "NO"), flush=True)
+    print("TRADING_AUTHORITY=NONE", flush=True)
+    server = ThreadingHTTPServer((HOST, PORT),
+                                 ApprovedHandler if release else DisabledHandler)
     server.serve_forever()
 
 
