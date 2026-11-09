@@ -11,7 +11,7 @@ test('Genesis signals page is mobile-responsive, accessible and error-safe',()=>
   assert.match(html,/<title>Genesis Signals \| TK Empire<\/title>/);
   for(const id of ['feed-pill','last-update','feed-message','signal-cards',
     'status-filter','search','refresh','all-count','qualified-count','paper-count',
-    'mode-label','view-positions','view-signals','tab-open-count','tab-signal-count']){
+    'mode-label','view-positions','view-signals','tab-open-count','tab-signal-count','price-feed-status']){
     assert.ok(html.includes('id="'+id+'"'),'missing '+id);
   }
   assert.match(html,/@media\(max-width:720px\)/);
@@ -29,6 +29,14 @@ test('Genesis signals page is mobile-responsive, accessible and error-safe',()=>
   assert.match(html,/data\.execution_authority!=='none'/);
   assert.match(html,/Awaiting approved Genesis signal feed/);
   assert.match(html,/new Date\(/);
+  assert.match(html,/Current market mid \(USD\)/);
+  assert.match(html,/HYPERLIQUID_PERP_MID/);
+  assert.match(html,/\/api\/genesis\/prices\?assets=/);
+  assert.match(html,/MARKET_INDICATION_NOT_EXECUTABLE_PRICE|Indicative Hyperliquid perpetual mid-prices/);
+  assert.match(html,/quoteFetchedAt/);
+  assert.match(html,/Price stale/);
+  assert.match(html,/Market prices unavailable/);
+  assert.match(html,/15000/);
   assert.match(html,/textContent=String\(text\)/);
   assert.equal(html.includes('<nav class="quicklinks"'),false,'Global navigation collision');
   const inline=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)]
