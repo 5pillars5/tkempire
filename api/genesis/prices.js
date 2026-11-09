@@ -11,19 +11,8 @@ function send(res,code,body){
   res.setHeader('X-Content-Type-Options','nosniff');
   return res.status(code).json({schema_version:1,...body});
 }
-function assetsFromRequest(req){
-  const uri=new URL(req.url||'/api/genesis/prices','https://www.tkempire.io');
-  const params=uri.searchParams;
-  // The live site routes through a domain alias. Avoid relying on query-string
-  // propagation for the current Genesis universe, which is explicitly bounded.
-  if([...params.keys()].some(k=>k!=='assets')||params.getAll('assets').length>1) return null;
-  if(!params.has('assets'))return ['BNB','SOL','APT'];
-  const value=params.get('assets');
-  if(!value||value.length>330)return null;
-  const assets=value.split(',');
-  if(assets.length>MAX_ASSETS||assets.some(asset=>!ASSET.test(asset)))return null;
-  return [...new Set(assets)];
-}
+const SUPPORTED_GENESIS_ASSETS=Object.freeze(['BNB','SOL','APT']);
+
 function finitePrice(value){
   if(typeof value!=='string'||!/^(?:[0-9]+)(?:\.[0-9]+)?$/.test(value))return null;
   const number=Number(value);
@@ -34,8 +23,9 @@ module.exports=async function indicativePrices(req,res){
     res.setHeader('Allow','GET');
     return send(res,405,{status:'method_not_allowed',source:SOURCE,prices:{}});
   }
-  const assets=assetsFromRequest(req);
-  if(!assets)return send(res,400,{status:'invalid_assets',source:SOURCE,prices:{}});
+  // Ignore URL query entirely: quote only the fixed vetted Genesis universe.
+  // No caller-provided symbol is ever fetched or used.
+  const assets=SUPPORTED_GENESIS_ASSETS;
   try{
     const response=await fetch(UPSTREAM,{
       method:'POST',redirect:'error',cache:'no-store',
