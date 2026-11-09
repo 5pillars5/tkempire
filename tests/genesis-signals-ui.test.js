@@ -10,10 +10,19 @@ test('Genesis signals page is mobile-responsive, accessible and error-safe',()=>
   const html=file('genesis-signals.html');
   assert.match(html,/<title>Genesis Signals \| TK Empire<\/title>/);
   for(const id of ['feed-pill','last-update','feed-message','signal-cards',
-    'status-filter','search','refresh','all-count','qualified-count','rejected-count','paper-count']){
+    'status-filter','search','refresh','all-count','qualified-count','paper-count',
+    'mode-label','view-positions','view-signals','tab-open-count','tab-signal-count']){
     assert.ok(html.includes('id="'+id+'"'),'missing '+id);
   }
   assert.match(html,/@media\(max-width:720px\)/);
+  assert.match(html,/aria-label="Choose Genesis view"/);
+  assert.match(html,/id="view-positions"[^>]*aria-pressed="true"/);
+  assert.match(html,/id="view-signals"[^>]*aria-pressed="false"/);
+  assert.match(html,/positions=view==='positions'/);
+  assert.match(html,/Only positions corroborated by Genesis/);
+  assert.match(html,/Signal trigger/);
+  assert.match(html,/paper_position_verified===true/);
+  assert.doesNotMatch(html,/id="rejected-count"/);
   assert.match(html,/site-tabs\.js\?v=4/);
   assert.match(html,/cache:'no-store'/);
   assert.match(html,/GENESIS_PUBLIC_SIGNAL_PROJECTION/);
