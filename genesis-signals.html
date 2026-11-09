@@ -153,6 +153,7 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
   </section>
 </main>
 <footer>TK Empire · Genesis Signals · Public-approved PAPER research only · No trading authority</footer>
+<script src="/assets/js/genesis-paper-mark.js?v=1"></script>
 <script>
 (() => {
   'use strict';
@@ -307,7 +308,7 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
         const movement=Math.abs(result.perCoinUsd);
         const change=Math.abs(result.priceReturnPct);
         el.className='paper-pnl '+(result.perCoinUsd>0?'positive':result.perCoinUsd<0?'negative':'neutral');
-        value.textContent=sign+price(movement)+' / coin ('+sign+change.toFixed(2)+'%)';
+        value.textContent=sign+(movement===0?'$0':price(movement))+' / coin ('+sign+change.toFixed(2)+'%)';
         meta.textContent='Gross entry-to-mid change · excludes fees and funding · NOT whole-position P&L';
       }
     });
@@ -392,7 +393,6 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
   setInterval(()=>{if(!document.hidden){refreshPrices();renderQuotes()}},15000);
 })();
 </script>
-<script src="/assets/js/genesis-paper-mark.js?v=1" defer></script>
 <script src="/assets/js/site-tabs.js?v=4" defer></script>
 </body>
 </html>
