@@ -19,6 +19,32 @@ select,input{background:#0b1321;border:1px solid #334158;color:var(--text);borde
 button{padding:11px 15px;border:1px solid #465670;border-radius:8px;background:#21324a;color:var(--text);font-weight:750;cursor:pointer}button:hover{background:#2b425f}button.primary{background:#5c4621;color:#ffe0a0;border-color:#a77f39}button:disabled{opacity:.5;cursor:default}.walletbar{display:flex;gap:9px;flex-wrap:wrap}.walletbar input{flex:1;min-width:240px}.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}.stat{background:var(--panel2);padding:17px;border:1px solid var(--edge);border-radius:12px}.stat small{display:block;color:var(--muted);font-size:11px}.stat strong{display:block;font-size:22px;margin:5px 0;overflow-wrap:anywhere}.stat span{color:var(--muted);font-size:11px}
 .tablewrap{overflow:auto}.grid{width:100%;border-collapse:collapse;white-space:nowrap}.grid th{font-size:11px;text-align:left;color:var(--muted);font-weight:750;letter-spacing:.045em;border-bottom:1px solid var(--edge);padding:12px 14px}.grid td{padding:13px 14px;border-bottom:1px solid #1f2a3a;font-size:13px}.grid tr:last-child td{border-bottom:none}.grid tbody tr[data-wallet]{cursor:pointer}.grid tbody tr[data-wallet]:hover{background:#1c2b41}.grid td.titlecell{white-space:normal;min-width:230px;max-width:460px}.green{color:var(--green)}.red{color:var(--red)}.muted{color:var(--muted)}.wallet{font-family:ui-monospace,Consolas,monospace;font-size:11px;color:var(--blue)}.empty{color:var(--muted);padding:23px 8px;text-align:center}.meta{color:var(--muted);font-size:12px;margin:8px 0 0}.tabs{display:flex;gap:8px}.tabs button{padding:8px 12px;font-size:12px}.tabs button.active{background:#4c3b22;border-color:#a77f39;color:#ffd993}.walletheading{font-family:ui-monospace,Consolas,monospace;overflow-wrap:anywhere;color:var(--blue);font-size:12px}.error{color:#ffb6c2}.hidden{display:none}footer{color:var(--muted);font-size:11px;max-width:1200px;margin:0 auto 25px;padding:0 20px}
 @media(max-width:650px){.summary{grid-template-columns:1fr}.card-head,.card-body{padding:16px}.back{font-size:11px}.brand{font-size:12px}main{padding:25px 12px}select{min-width:125px}.walletbar input{min-width:0;width:100%}.walletbar button{width:100%}}
+
+.wallet-switch{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:20px 0}
+.wallet-switch a{display:flex;gap:12px;justify-content:space-between;text-decoration:none;border:1px solid #3b4a63;border-radius:14px;padding:17px;background:#121e30;min-height:88px}
+.wallet-switch a.active{border-color:var(--gold);background:#2a241a}
+.wallet-switch strong{display:block;font-size:17px}.wallet-switch small{display:block;font-size:12px;color:var(--muted);margin-top:4px}
+.wallet-switch .arrow{font-size:20px;color:var(--gold)}
+.wallet-explain{border-left:3px solid var(--gold);border-radius:0 9px 9px 0;padding:14px 17px;background:#172133;color:#d0dded;margin:14px 0 22px;font-size:13px}
+.wallet-cards{padding:18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:14px}
+.wallet-card{border:1px solid #394962;border-radius:13px;background:linear-gradient(150deg,#1a293c,#101a2b);padding:18px;min-width:0}
+.wallet-card .top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.wallet-card .state{background:#22354a;border:1px solid #456581;border-radius:30px;padding:5px 9px;font-size:11px;font-weight:850;color:#d8ecff}
+.wallet-card .state.buy{color:#7af2ca;border-color:#326c55;background:#16352d}
+.wallet-card .state.sell{color:#ff9ba9;border-color:#743b4b;background:#381d27}
+.wallet-card h3{font-size:17px;line-height:1.35;margin:13px 0 7px;overflow-wrap:anywhere}
+.wallet-card .outcome{font-size:13px;color:#ccd9ed;margin:0 0 15px}
+.wallet-card .metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;border-top:1px solid #394961;padding-top:14px}
+.wallet-card .metrics small{display:block;color:var(--muted);font-size:11px}.wallet-card .metrics strong{font-size:18px;display:block;overflow-wrap:anywhere}
+.wallet-card details{border-top:1px solid #394961;margin-top:14px;padding-top:12px}
+.wallet-card summary{cursor:pointer;font-weight:800;font-size:13px;color:var(--gold)}
+.wallet-card dl{display:grid;grid-template-columns:minmax(100px,44%) minmax(0,1fr);gap:7px 10px;margin:12px 0 0;font-size:12px}
+.wallet-card dt{color:var(--muted)}.wallet-card dd{margin:0;overflow-wrap:anywhere}
+.wallet-card .marketlink{display:inline-block;margin-top:12px;text-decoration:none;border:1px solid #536d90;border-radius:8px;padding:9px 12px;font-size:12px;font-weight:750;color:#badbfa}
+.raw-positions{border-top:1px solid var(--edge);padding:10px 18px}
+.raw-positions summary{cursor:pointer;color:var(--muted);padding:10px 0;font-size:12px;font-weight:750}
+#walletCards .empty{grid-column:1/-1}
+@media(max-width:680px){.wallet-switch{grid-template-columns:1fr}.wallet-card{padding:15px}.wallet-cards{padding:12px}}
 </style>
 <link rel="stylesheet" href="/assets/css/site-tabs.css?v=4">
 </head>
@@ -28,6 +54,12 @@ button{padding:11px 15px;border:1px solid #465670;border-radius:8px;background:#
 <div class="eyebrow">PUBLIC MARKET INTELLIGENCE / RESEARCH</div>
 <h1>Smart Money <em>Watch</em></h1>
 <p class="intro">Explore public Polymarket leaderboard performance and inspect a wallet's most recent trades and open holdings. Rankings reflect reported results—not guaranteed skill, future returns, or copyable execution prices.</p>
+
+<div class="wallet-switch" aria-label="Switch research views">
+  <a href="/smart-money-signals.html"><span><strong>1 · Signals</strong><small>Understand a public wallet's detected trade.</small></span><span class="arrow" aria-hidden="true">↗</span></a>
+  <a href="/smart-money.html" class="active" aria-current="page"><span><strong>2 · Wallet positions</strong><small>See the public holdings, market price and reported P&amp;L.</small></span><span class="arrow" aria-hidden="true">●</span></a>
+</div>
+<div class="wallet-explain"><strong>These are public Polymarket wallet positions—not your Genesis paper positions.</strong> Genesis keeps private execution-level positions behind server authorization. No wallet connection or trade action is performed by this page.</div>
 <div class="strip"><span class="chip">READ ONLY • EXECUTION DISABLED</span><span class="stamp" id="refreshTime">Data not loaded</span><span class="warning">Refreshes every 60 seconds while page is open</span></div>
 
 <div class="summary">
@@ -47,13 +79,13 @@ button{padding:11px 15px;border:1px solid #465670;border-radius:8px;background:#
 </section>
 
 <section class="card" aria-label="Wallet activity">
-<div class="card-head"><h2>Wallet inspector</h2><div class="tabs"><button class="active" id="tabTrades">Recent trades</button><button id="tabPositions">Open positions</button></div></div>
+<div class="card-head"><h2>Wallet inspector</h2><div class="tabs"><button id="tabTrades">Recent trades</button><button class="active" id="tabPositions">Open positions</button></div></div>
 <div class="card-body">
 <div class="walletbar"><input id="walletInput" placeholder="0x… Paste a public Polymarket wallet address" aria-label="Public wallet address" maxlength="42" autocomplete="off" spellcheck="false"><button id="inspect">Inspect wallet</button></div>
 <p class="meta">Selected: <span class="walletheading" id="walletHeading">No wallet selected</span></p>
 <p class="meta" id="walletStatus" role="status">Select a leaderboard trader or enter a wallet address. No connection to a private wallet is needed.</p>
 </div>
-<div class="tablewrap"><table class="grid"><thead id="activityHead"><tr><th>Market</th><th>Outcome</th><th>Side</th><th>Shares</th><th>Price</th><th>Time</th></tr></thead><tbody id="activity"><tr><td colspan="6" class="empty">Choose a trader to view public activity.</td></tr></tbody></table></div>
+<div id="walletCards" class="wallet-cards" aria-label="Wallet position and trade cards"><div class="empty">Choose a public wallet to see its positions.</div></div><details class="raw-positions"><summary>Show compact data table</summary><div class="tablewrap"><table class="grid"><thead id="activityHead"><tr><th>Market</th><th>Outcome</th><th>Side</th><th>Shares</th><th>Price</th><th>Time</th></tr></thead><tbody id="activity"><tr><td colspan="6" class="empty">Choose a trader to view public activity.</td></tr></tbody></table></div></details>
 </section>
 <div class="warning">This independent research view is not investment advice. The leaderboard is a selected sample, not an audited performance record. Wallets may hedge or trade elsewhere. Data may lag; if upstream data is unavailable, this page shows an error rather than simulated numbers. No trading or Genesis engine connection is present.</div>
 </main>
@@ -61,7 +93,7 @@ button{padding:11px 15px;border:1px solid #465670;border-radius:8px;background:#
 <script>
 'use strict';
 const $=id=>document.getElementById(id);
-const state={wallet:null,view:'trades',lastFetched:null,board:[]};
+const state={wallet:null,view:'positions',lastFetched:null,board:[]};
 const formatUsd=n=>typeof n==='number'&&Number.isFinite(n)?new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:2}).format(n):'—';
 const formatNumber=n=>typeof n==='number'&&Number.isFinite(n)?new Intl.NumberFormat('en-US',{maximumFractionDigits:2}).format(n):'—';
 const shorten=s=>s&&s.length===42?s.slice(0,8)+'…'+s.slice(-6):s||'—';
@@ -100,7 +132,7 @@ async function loadBoard(){
 }
 function chooseWallet(wallet){
  if(!/^0x[a-fA-F0-9]{40}$/.test(wallet))return;
- state.wallet=wallet;$('walletInput').value=wallet;$('selectedShort').textContent=shorten(wallet);$('walletHeading').textContent=wallet;loadActivity();
+ state.wallet=wallet;$('walletInput').value=wallet;$('selectedShort').textContent=shorten(wallet);$('walletHeading').textContent=wallet;loadActivity();const inspector=document.querySelector('[aria-label="Wallet activity"]');if(inspector)inspector.scrollIntoView({behavior:'smooth',block:'start'});
 }
 function setView(view){
  state.view=view;$('tabTrades').classList.toggle('active',view==='trades');$('tabPositions').classList.toggle('active',view==='positions');
@@ -112,12 +144,82 @@ function formatTime(value){
  if(typeof value!=='number'||!Number.isFinite(value)||value<=0)return '—';
  const ms=value<100000000000?value*1000:value;const d=new Date(ms);return Number.isNaN(d.getTime())?'—':d.toLocaleString();
 }
+
+function walletNode(tag,cls,value){
+ const el=document.createElement(tag);
+ if(cls)el.className=cls;
+ if(value!==undefined)el.textContent=String(value);
+ return el;
+}
+function walletMetric(box,label,value,color=''){
+ const d=walletNode('div');d.append(walletNode('small','',label),walletNode('strong',color,value));box.append(d);
+}
+function walletDetail(box,label,value){
+ box.append(walletNode('dt','',label),walletNode('dd','',value));
+}
+function formatPrice(n){
+ return typeof n==='number'&&Number.isFinite(n)?'$'+n.toFixed(4)+'/share':'Not reported';
+}
+function renderWalletCards(records){
+ const root=$('walletCards');root.replaceChildren();
+ if(!records.length){root.append(walletNode('div','empty','No public '+state.view+' reported for this wallet. This does not confirm a Genesis position.'));return;}
+ for(const record of records){
+  const card=walletNode('article','wallet-card');
+  const heading=walletNode('div','top');
+  const isPosition=state.view==='positions';
+  const stateValue=isPosition?String(record.status||'UNVERIFIED'):String(record.side||'OBSERVED');
+  const stateClass=record.side==='BUY'?'buy':record.side==='SELL'?'sell':'';
+  heading.append(walletNode('span','state '+stateClass,isPosition?'PUBLIC WALLET · '+stateValue:stateValue+' · PUBLIC TRADE'));
+  card.append(heading);
+  card.append(walletNode('h3','',record.title||'Market not labeled'));
+  card.append(walletNode('p','outcome','Outcome: '+String(record.outcome||'Not labeled')));
+  const metrics=walletNode('div','metrics');
+  if(isPosition){
+   walletMetric(metrics,'Shares held',formatNumber(record.current_size));
+   walletMetric(metrics,'Current value',formatUsd(record.current_value));
+   walletMetric(metrics,'Reported total P&L',formatUsd(record.total_pnl),positive(record.total_pnl));
+   walletMetric(metrics,'Reported price',formatPrice(record.current_price));
+  }else{
+   walletMetric(metrics,'Trade size',formatNumber(record.size_shares)+' shares');
+   walletMetric(metrics,'Executed price',formatPrice(record.price));
+   walletMetric(metrics,'Observed at',formatTime(record.timestamp));
+   walletMetric(metrics,'Action',record.side||'Not labeled');
+  }
+  card.append(metrics);
+  const detail=walletNode('details');
+  detail.append(walletNode('summary','','View '+(isPosition?'position':'trade')+' details'));
+  const facts=walletNode('dl');
+  if(isPosition){
+   walletDetail(facts,'Average entry',formatPrice(record.avg_price));
+   walletDetail(facts,'Last reported price',formatPrice(record.current_price));
+   walletDetail(facts,'Holding (shares)',formatNumber(record.current_size));
+   walletDetail(facts,'Reported position value',formatUsd(record.current_value));
+   walletDetail(facts,'Reported total P&L',formatUsd(record.total_pnl));
+   walletDetail(facts,'Status',String(record.status||'Unknown'));
+  }else{
+   walletDetail(facts,'Action',String(record.side||'Unknown'));
+   walletDetail(facts,'Trade price',formatPrice(record.price));
+   walletDetail(facts,'Shares',formatNumber(record.size_shares));
+   walletDetail(facts,'Observed at',formatTime(record.timestamp));
+  }
+  walletDetail(facts,'Source','Public Polymarket Data API');
+  walletDetail(facts,'Genesis trade?', 'No — independent wallet observation');
+  detail.append(facts);
+  if(typeof record.event_slug==='string'&&/^[a-z0-9-]{1,180}$/.test(record.event_slug)){
+   const a=walletNode('a','marketlink','Open original market');
+   a.href='https://polymarket.com/event/'+encodeURIComponent(record.event_slug);
+   a.target='_blank';a.rel='noopener noreferrer';detail.append(a);
+  }
+  card.append(detail);root.append(card);
+ }
+}
+
 async function loadActivity(){
- if(!state.wallet){empty($('activity'),6,'Choose a trader to view public activity.');return;}
+ if(!state.wallet){empty($('activity'),6,'Choose a trader to view public activity.');renderWalletCards([]);return;}
  $('walletStatus').textContent='Loading '+state.view+'…';
  try{
   const rows=await getData({view:state.view,wallet:state.wallet});
-  const tbody=$('activity');clear(tbody);
+  renderWalletCards(rows);const tbody=$('activity');clear(tbody);
   if(!rows.length)empty(tbody,6,'No public '+state.view+' returned for this wallet.');
   rows.forEach(r=>{
    const tr=document.createElement('tr');
@@ -129,7 +231,7 @@ async function loadActivity(){
   });
   $('walletStatus').textContent=rows.length+' public '+state.view+' returned; latest fetch '+new Date(state.lastFetched).toLocaleTimeString()+'. Not a complete trade ledger.';
   $('walletStatus').className='meta';
- }catch(e){empty($('activity'),6,'Public wallet data unavailable.');$('walletStatus').textContent='Public activity unavailable; no records inferred.';$('walletStatus').className='meta error';}
+ }catch(e){renderWalletCards([]);empty($('activity'),6,'Public wallet data unavailable.');$('walletStatus').textContent='Public activity unavailable; no records inferred.';$('walletStatus').className='meta error';}
 }
 $('period').addEventListener('change',loadBoard);$('category').addEventListener('change',loadBoard);
 $('refresh').addEventListener('click',()=>{loadBoard();if(state.wallet)loadActivity();});
@@ -141,6 +243,7 @@ $('inspect').addEventListener('click',()=>{
 $('walletInput').addEventListener('keydown',e=>{if(e.key==='Enter')$('inspect').click();});
 $('tabTrades').addEventListener('click',()=>setView('trades'));
 $('tabPositions').addEventListener('click',()=>setView('positions'));
+const deepLink=new URLSearchParams(location.search);const linkedWallet=deepLink.get('wallet');if(linkedWallet&&/^0x[a-fA-F0-9]{40}$/.test(linkedWallet)){state.view=deepLink.get('view')==='trades'?'trades':'positions';setView(state.view);chooseWallet(linkedWallet);}else{setView('positions');}
 loadBoard();setInterval(()=>{if(!document.hidden){loadBoard();if(state.wallet)loadActivity();}},60000);
 </script>
 <script src="/assets/js/site-tabs.js?v=4" defer></script>
