@@ -9,9 +9,10 @@ Public website release is a SEPARATE step after this boundary test.
 """
 from __future__ import annotations
 
+import argparse
 from datetime import datetime, timezone
 import hashlib
-import http.client
+import http.client as http_client
 import json
 import os
 from pathlib import Path
@@ -109,7 +110,7 @@ def service_ok(unit):
 
 
 def http(path="/signals", port=5097, method="GET"):
-    conn=http.client.HTTPConnection("127.0.0.1",port,timeout=5)
+    conn=http_client.HTTPConnection("127.0.0.1",port,timeout=5)
     try:
         conn.request(method,path)
         resp=conn.getresponse()
