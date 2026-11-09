@@ -99,15 +99,20 @@ def port_bindings():
     ]
 
 
-def check_disabled_route():
+def check_disabled_route(*, post_install=False):
     status, raw = probe(5097, "/signals")
     require(status == 503, "PUBLISHER_NOT_DISABLED")
     payload = json.loads(raw)
-    require(payload.get("status") == "publication_disabled" and payload.get("signals") == [],
-            "PUBLISHER_MAY_EXPOSE_DATA")
+    if post_install:
+        # Replacement reader always returns this exact deny-only schema.
+        expected = {"schema_version": 1, "status": "publication_disabled", "signals": []}
+    else:
+        # Original verified publisher returned only the status key.
+        expected = {"status": "publication_disabled"}
+    require(payload == expected, "PUBLISHER_MAY_EXPOSE_DATA")
 
 
-def verify_services():
+def verify_services(*, post_install=False):
     for name in ("tkempire.service", "nginx.service", UNIT_NAME):
         require(run("systemctl", "is-active", "--quiet", name).returncode == 0,
                 "REQUIRED_SERVICE_NOT_ACTIVE")
@@ -115,7 +120,7 @@ def verify_services():
     require(run("systemctl", "is-enabled", UNIT_NAME).stdout.strip() == "disabled",
             "STAGING_UNIT_ENABLED_AT_BOOT")
     require(port_bindings() == ["127.0.0.1:5097"], "STAGING_BIND_NOT_LOOPBACK")
-    check_disabled_route()
+    check_disabled_route(post_install=post_install)
     require(probe(5097, "/private")[0] == 404, "UNEXPECTED_PRIVATE_ROUTE")
     require(probe(5097, "/signals", "POST")[0] == 405, "POST_NOT_REJECTED")
     require(probe(5000, "/health")[0] == 200, "GENESIS_LOCAL_HEALTH_FAILED")
@@ -170,7 +175,7 @@ def write_exclusive(path, content, mode):
 
 
 def verify_credential_handoff():
-    verify_services()
+    verify_services(post_install=True)
     unit = run("systemctl", "cat", UNIT_NAME)
     require(unit.returncode == 0, "UNIT_READBACK_FAILED")
     exact = "LoadCredential=genesis-signal-snapshot:" + str(SNAPSHOT)
@@ -286,4 +291,24 @@ if __name__ == "__main__":
     except Exception as exc:
         print("CREDENTIAL_HANDOFF=BLOCKED")
         print("ERROR_TYPE=" + type(exc).__name__)
+        if type(exc) is RuntimeError:
+            # Only fixed, allowlisted failure codes from require().
+            allowed_codes = {
+                "BACKUP_ROOT_MISSING", "ROOT_REQUIRED", "UNIT_PATH_UNEXPECTED",
+                "UNIT_CHANGED_SINCE_AUDIT", "PUBLISHER_PATH_UNEXPECTED",
+                "CURRENT_PUBLISHER_HASH_MISMATCH", "APP_DIR_UNEXPECTED",
+                "READER_ALREADY_PRESENT", "DROPIN_DIRECTORY_ALREADY_PRESENT",
+                "SNAPSHOT_DIR_INVALID", "SNAPSHOT_INVALID",
+                "SNAPSHOT_PERMISSIONS_CHANGED", "SNAPSHOT_HASH_CHANGED",
+                "UNIT_CONFIG_UNAVAILABLE", "UNIT_HAS_EXISTING_CREDENTIAL_DIRECTIVES",
+                "STAGING_SAFETY_FLAGS_CHANGED", "REQUIRED_SERVICE_NOT_ACTIVE",
+                "NGINX_CONFIG_INVALID", "STAGING_UNIT_ENABLED_AT_BOOT",
+                "STAGING_BIND_NOT_LOOPBACK", "PUBLISHER_NOT_DISABLED",
+                "PUBLISHER_MAY_EXPOSE_DATA", "UNEXPECTED_PRIVATE_ROUTE",
+                "POST_NOT_REJECTED", "GENESIS_LOCAL_HEALTH_FAILED",
+                "PORT80_DEFAULT_PROXY_REGRESSION", "NGINX_CONFIG_HASH_CHANGED",
+                "SOCKET_INVENTORY_FAILED",
+            }
+            if str(exc) in allowed_codes:
+                print("ERROR_CODE=" + str(exc))
         raise SystemExit(1)
