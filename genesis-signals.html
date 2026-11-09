@@ -64,6 +64,12 @@ button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visi
 .levels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:14px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
 .levels div{min-width:0}.levels small{display:block;color:var(--muted);font-size:10px}.levels strong{display:block;margin-top:4px;font-size:15px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .levels .stop{color:var(--red)}.levels .target{color:var(--green)}
+.market-quote{margin:0 0 14px;padding:12px 14px;border:1px solid #456681;border-radius:12px;background:#0a2035;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.market-quote small{color:#a9c5df;font-size:11px;display:block}
+.market-quote strong{color:#f0f8ff;font-size:clamp(18px,2.4vw,23px);font-variant-numeric:tabular-nums}
+.market-quote .quote-meta{font-size:10px;color:#adc1d9;text-align:right;max-width:170px}
+.market-quote .quote-price{display:flex;flex-direction:column;gap:2px}
+.market-quote[data-state="stale"] strong,.market-quote[data-state="unavailable"] strong{color:#ffd6a3}
 .confidence{display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:12px;margin-top:12px}
 .confidence small{color:var(--muted)}
 .confbar{height:5px;border-radius:9px;background:#253b4f;overflow:hidden;margin-top:6px}
@@ -98,12 +104,13 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
     <a href="/results.html">Paper Results</a>
     <a href="/portfolio.html">Paper Portfolio</a>
   </div>
-  <div class="disclosure"><strong>Paper research, not live orders.</strong> A BUY or SELL signal is a candidate or decision—not proof of an executed trade. Only records independently linked to the canonical paper ledger can say <strong>Verified paper position</strong>. Missing or stale data is never shown as current.</div>
+  <div class="disclosure"><strong>Paper research, not live orders.</strong> A BUY or SELL signal is a candidate or decision—not proof of an executed trade. Only records independently linked to the canonical paper ledger can say <strong>Verified paper position</strong>. Current market quotes are indicative Hyperliquid perpetual mid-prices, not trade fills or executable bid/ask prices. Missing or stale data is never shown as current.</div>
   <div class="statusbar" role="status" aria-live="polite">
     <span id="feed-pill" class="feed-pill">AWAITING APPROVED FEED</span>
     <span id="last-update">No verified signal snapshot yet</span>
     <span>Auto-refreshes every 30 seconds while this page is open</span>
   </div>
+  <div class="statusbar" aria-live="polite"><span id="price-feed-status">Market prices: checking…</span><span>Indicative Hyperliquid perpetual mid-prices · refreshed about every 15 seconds</span></div>
   <section class="stats" aria-label="Genesis signal overview">
     <div class="stat"><small>Signals in snapshot</small><strong id="all-count">—</strong></div>
     <div class="stat"><small>Qualified candidates</small><strong id="qualified-count" class="qualified">—</strong></div>
@@ -143,6 +150,7 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
   'use strict';
   const $=id=>document.getElementById(id);
   let records=[],ready=false,busy=false,view="positions";
+  let quotes=Object.create(null),quoteAt=0,quoteFetchedAt=0,quoteBusy=false;
   const STAGES=new Set(['QUALIFIED','PAPER_OPEN']);
   const REASONS={
     CHECKS_PASSED:'Qualification checks passed',
@@ -183,6 +191,11 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
     const stage=node('span','tag '+(s.stage==='PAPER_OPEN'?'paper':s.stage.toLowerCase()),s.stage==='PAPER_OPEN'?'VERIFIED OPEN PAPER':'QUALIFIED SIGNAL');
     top.append(side,stage);article.append(top);
     article.append(node('h3','',s.asset),node('p','subtitle','Observed '+stamp(s.observed_at)+' · '+age(s.observed_at)));
+    const market=node('div','market-quote');market.dataset.asset=s.asset;market.dataset.state='unavailable';
+    const quotePrice=node('div','quote-price');
+    quotePrice.append(node('small','','Current market mid (USD)'),node('strong','quote-value','Checking…'));
+    market.append(quotePrice,node('div','quote-meta','Hyperliquid perpetual · awaiting quote'));
+    article.append(market);
     const levels=node('div','levels');
     metric(levels,'Signal trigger',price(s.trigger),'');
     metric(levels,'Stop loss',price(s.stop_loss),'stop');
@@ -242,6 +255,57 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
       root.append(empty);return;
     }
     for(const s of visible)root.append(card(s));
+    renderQuotes();
+  }
+  function renderQuotes(){
+    const now=Date.now(),age=now-quoteFetchedAt;
+    const fresh=quoteFetchedAt>0&&age>=0&&age<=45000&&Math.abs(quoteAt-quoteFetchedAt)<=30000;
+    document.querySelectorAll('.market-quote').forEach(el=>{
+      const value=el.querySelector('.quote-value'),meta=el.querySelector('.quote-meta');
+      const has=Object.prototype.hasOwnProperty.call(quotes,el.dataset.asset);
+      if(fresh&&has){
+        el.dataset.state='fresh';
+        value.textContent=price(quotes[el.dataset.asset]);
+        meta.textContent='Hyperliquid perp mid · checked '+new Date(quoteFetchedAt).toLocaleTimeString([],{hour:'numeric',minute:'2-digit',second:'2-digit'});
+      }else{
+        el.dataset.state=!fresh&&quoteFetchedAt?'stale':'unavailable';
+        value.textContent=!fresh&&quoteFetchedAt?'Price stale':'Unavailable';
+        meta.textContent='No verified fresh Hyperliquid quote · not a fill price';
+      }
+    });
+  }
+  async function refreshPrices(){
+    if(quoteBusy||!ready)return;
+    const assets=[...new Set(records.map(s=>s.asset))].slice(0,20);
+    if(!assets.length)return;
+    quoteBusy=true;
+    try{
+      const response=await fetch('/api/genesis/prices?assets='+encodeURIComponent(assets.join(',')),{
+        cache:'no-store',headers:{Accept:'application/json'}
+      });
+      if(!response.ok)throw Error('Quote endpoint unavailable');
+      const data=await response.json(),checked=Date.parse(data.retrieved_at);
+      const difference=Date.now()-checked;
+      if(data.schema_version!==1||data.status!=='ok'||
+        data.source!=='HYPERLIQUID_PERP_MID'||
+        data.market!=='hyperliquid_mainnet_perpetuals'||
+        data.quote_type!=='indicative_mid_usd'||
+        !Number.isFinite(checked)||difference< -30000||difference>30000||
+        !data.prices||typeof data.prices!=='object'||Array.isArray(data.prices))
+        throw Error('Unverified quote data');
+      const fresh=Object.create(null);
+      for(const asset of assets){
+        const v=data.prices[asset];
+        if(typeof v==='number'&&Number.isFinite(v)&&v>0&&v<=1e9)fresh[asset]=v;
+      }
+      quotes=fresh;quoteAt=checked;quoteFetchedAt=Date.now();
+      set('price-feed-status','Market prices: '+Object.keys(fresh).length+' / '+assets.length+' quoted · '+new Date(checked).toLocaleTimeString([],{hour:'numeric',minute:'2-digit',second:'2-digit'}));
+    }catch{
+      quotes=Object.create(null);quoteAt=0;quoteFetchedAt=0;
+      set('price-feed-status','Market prices unavailable · no estimates shown');
+    }finally{
+      quoteBusy=false;renderQuotes();
+    }
   }
   async function refresh(){
     if(busy)return;busy=true;$('refresh').disabled=true;
@@ -269,8 +333,11 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
       $('feed-pill').className='feed-pill ok';set('feed-pill','VERIFIED PAPER FEED');
       set('last-update','Source generated '+stamp(data.generated_at));
       render();
+      await refreshPrices();
     }catch{
       ready=false;records=[];
+      quotes=Object.create(null);quoteAt=0;quoteFetchedAt=0;
+      set('price-feed-status','Market prices unavailable · no estimates shown');
       ['all-count','qualified-count','paper-count','mode-label','tab-open-count','tab-signal-count'].forEach(id=>set(id,'—'));
       $('feed-pill').className='feed-pill error';set('feed-pill','FEED NOT VERIFIED');
       set('last-update','No current approved signal snapshot');
@@ -282,7 +349,9 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
   $('refresh').addEventListener('click',refresh);
   $('status-filter').addEventListener('change',render);
   $('search').addEventListener('input',render);
-  refresh();setInterval(()=>{if(!document.hidden)refresh()},30000);
+  refresh();
+  setInterval(()=>{if(!document.hidden)refresh()},30000);
+  setInterval(()=>{if(!document.hidden){refreshPrices();renderQuotes()}},15000);
 })();
 </script>
 <script src="/assets/js/site-tabs.js?v=4" defer></script>
