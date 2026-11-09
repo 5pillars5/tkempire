@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080d18">
+<meta name="description" content="Read-only Genesis PAPER signals, lifecycle decisions, confidence and verified position status.">
+<title>Genesis Signals | TK Empire</title>
+<link rel="icon" type="image/jpeg" href="https://i.imgur.com/Kf99eJt.jpeg">
+<link rel="stylesheet" href="/assets/css/site-tabs.css?v=4">
+<style>
+:root{color-scheme:dark;--bg:#080d18;--panel:#111b2b;--surface:#122238;--border:#32475e;--fg:#eef5ff;--muted:#a8b8cf;--gold:#efbe64;--blue:#8fc7ff;--green:#67e0bb;--red:#ff91ab}
+*{box-sizing:border-box}
+body{margin:0;color:var(--fg);background:radial-gradient(circle at 75% -15%,#18354d,transparent 48%),var(--bg);font:14px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--blue);text-underline-offset:3px}
+main{width:min(1160px,calc(100% - 28px));margin:auto;padding:28px 0 70px}
+.eyebrow{font-size:11px;letter-spacing:.15em;font-weight:850;color:var(--gold)}
+h1{font-size:clamp(34px,5vw,54px);letter-spacing:-.04em;line-height:1.06;margin:9px 0 12px}h1 span{color:var(--gold)}
+.intro{max-width:760px;color:var(--muted);font-size:15px;margin:0}
+.top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.quicklinks{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}
+.quicklinks a{border:1px solid var(--border);padding:10px 12px;border-radius:9px;text-decoration:none;font-weight:750;font-size:12px}
+.quicklinks a[aria-current="page"]{border-color:var(--gold);background:#2a2519;color:var(--gold)}
+.disclosure{margin:22px 0 18px;padding:13px 15px;border-left:3px solid var(--gold);background:#1a202a;border-radius:0 10px 10px 0;color:#d3dfed;font-size:12px}
+.disclosure strong{color:var(--gold)}
+.statusbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0 20px;color:var(--muted);font-size:12px}
+.feed-pill{font-size:11px;font-weight:900;letter-spacing:.03em;border-radius:24px;padding:6px 10px;border:1px solid #6a5037;color:#ffd6a3;background:#302216}
+.feed-pill.ok{border-color:#3a7960;background:#123d2b;color:#87f5cf}
+.feed-pill.error{border-color:#a65264;background:#421a28;color:#ffc5d1}
+button,input,select{font:inherit}button{cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.refresh{padding:10px 16px;color:#f5faff;background:#254263;border:1px solid #5078a0;border-radius:9px;font-weight:800}
+.refresh:disabled{opacity:.5;cursor:wait}
+.view-tabs{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 4px}
+.view-tabs button{min-height:46px;display:flex;align-items:center;gap:9px;background:#102135;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:#c7d6e8;font-weight:800}
+.view-tabs button[aria-pressed="true"]{background:#283f50;color:#fff;border-color:var(--gold);box-shadow:inset 0 -3px 0 var(--gold)}
+.view-tabs .count{font-variant-numeric:tabular-nums;background:#223952;border:1px solid #4b6887;color:#fff;border-radius:999px;padding:1px 8px;font-size:11px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.stat{min-width:0;background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px}
+.stat small{display:block;color:var(--muted);font-size:11px}
+.stat strong{display:block;font-size:clamp(21px,3vw,30px);font-variant-numeric:tabular-nums;margin-top:5px}
+.stat strong.qualified{color:var(--green)}
+.stat strong.rejected{color:var(--red)}
+.stat strong.paper{color:var(--gold)}
+.panel{margin-top:18px;background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.panelhead{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:18px;border-bottom:1px solid var(--border)}
+.panelhead h2{font-size:18px;margin:0}
+.controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.controls label{font-size:12px;color:var(--muted);font-weight:750}
+.controls select,.controls input{background:#0b192a;color:var(--fg);border:1px solid #46627b;border-radius:9px;padding:10px 12px;min-height:41px}
+.controls input{width:min(220px,100%)}
+.feed-message{padding:13px 18px;font-size:12px;color:var(--muted)}
+.signal-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:14px;padding:18px}
+.signal-card{min-width:0;border:1px solid #3d526b;background:linear-gradient(145deg,#17293d,#101b2b);border-radius:14px;padding:18px;box-shadow:0 6px 20px #0003}
+.signal-card .topline{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.tag{display:inline-block;border-radius:25px;padding:5px 10px;border:1px solid #57708a;color:#c8e8ff;background:#17314a;font-size:11px;font-weight:850}
+.tag.buy,.tag.qualified{background:#123328;border-color:#346857;color:#7af2cb}
+.tag.sell,.tag.rejected{background:#371821;border-color:#723747;color:#ffa6ba}
+.tag.paper{background:#3d301a;border-color:#8a6633;color:#ffdd99}
+.tag.expired,.tag.detected{background:#1c2b41;border-color:#4a5c75;color:#cfdbef}
+.age{color:var(--muted);font-size:11px}
+.signal-card h3{font-size:25px;margin:15px 0 4px;letter-spacing:-.03em}
+.subtitle{color:#d8e8f6;margin:0 0 13px;font-size:12px}
+.levels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:14px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.levels div{min-width:0}.levels small{display:block;color:var(--muted);font-size:10px}.levels strong{display:block;margin-top:4px;font-size:15px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.levels .stop{color:var(--red)}.levels .target{color:var(--green)}
+.confidence{display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:12px;margin-top:12px}
+.confidence small{color:var(--muted)}
+.confbar{height:5px;border-radius:9px;background:#253b4f;overflow:hidden;margin-top:6px}
+.confbar span{display:block;height:100%;background:var(--gold);max-width:100%}
+.verification{font-size:11px;margin:12px 0;color:#bdcce0}
+.signal-card details{border-top:1px solid var(--border);padding-top:12px;margin-top:12px}
+.signal-card summary{cursor:pointer;color:var(--gold);font-weight:850;font-size:12px}
+.signal-card dl{display:grid;grid-template-columns:100px 1fr;gap:7px 12px;font-size:12px;margin:12px 0 0}
+.signal-card dt{color:var(--muted)}.signal-card dd{margin:0;overflow-wrap:anywhere}
+.empty{grid-column:1/-1;text-align:center;border:1px dashed #44576f;border-radius:12px;padding:35px 20px;color:var(--muted)}
+.empty strong{display:block;color:var(--fg);font-size:16px;margin-bottom:5px}
+.helper{padding:18px;font-size:12px;line-height:1.7;color:var(--muted)}
+.helper strong{color:#e4ecf8}
+footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);font-size:11px;border-top:1px solid #233346}
+@media(max-width:720px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.controls{width:100%}.controls input{flex:1}.signal-cards{padding:12px}.signal-card{padding:16px}}
+@media(max-width:390px){.levels{grid-template-columns:repeat(3,minmax(0,1fr))}.levels strong{font-size:12px}.controls label{width:100%}}
+</style>
+</head>
+<body>
+<main>
+  <div class="top">
+    <div>
+      <div class="eyebrow">TK EMPIRE / GENESIS PAPER ENGINE</div>
+      <h1>Genesis <span>Signals</span></h1>
+      <p class="intro">See verified open paper positions first, then inspect the signals that Genesis qualified. Clear entry triggers, risk levels, and evidence—without confusing a signal with a trade.</p>
+    </div>
+    <button class="refresh" id="refresh" type="button">Refresh signals</button>
+  </div>
+  <div class="quicklinks" role="navigation" aria-label="Signal views">
+    <a href="/genesis-signals.html" aria-current="page">Genesis Signals</a>
+    <a href="/smart-money-signals.html">Smart Money Signals</a>
+    <a href="/results.html">Paper Results</a>
+    <a href="/portfolio.html">Paper Portfolio</a>
+  </div>
+  <div class="disclosure"><strong>Paper research, not live orders.</strong> A BUY or SELL signal is a candidate or decision—not proof of an executed trade. Only records independently linked to the canonical paper ledger can say <strong>Verified paper position</strong>. Missing or stale data is never shown as current.</div>
+  <div class="statusbar" role="status" aria-live="polite">
+    <span id="feed-pill" class="feed-pill">AWAITING APPROVED FEED</span>
+    <span id="last-update">No verified signal snapshot yet</span>
+    <span>Auto-refreshes every 30 seconds while this page is open</span>
+  </div>
+  <section class="stats" aria-label="Genesis signal overview">
+    <div class="stat"><small>Signals in snapshot</small><strong id="all-count">—</strong></div>
+    <div class="stat"><small>Qualified candidates</small><strong id="qualified-count" class="qualified">—</strong></div>
+    <div class="stat"><small>Engine mode</small><strong id="mode-label">—</strong></div>
+    <div class="stat"><small>Verified paper positions</small><strong id="paper-count" class="paper">—</strong></div>
+  </section>
+  <div class="view-tabs" role="group" aria-label="Choose Genesis view">
+    <button id="view-positions" type="button" aria-pressed="true" aria-controls="signals-panel">Open paper positions <span class="count" id="tab-open-count">—</span></button>
+    <button id="view-signals" type="button" aria-pressed="false" aria-controls="signals-panel">All signal activity <span class="count" id="tab-signal-count">—</span></button>
+  </div>
+  <section class="panel" id="signals-panel" aria-labelledby="signals-title">
+    <div class="panelhead">
+      <h2 id="signals-title">Verified open paper positions</h2>
+      <div class="controls">
+        <label id="status-label" for="status-filter" hidden>Show</label>
+        <select id="status-filter" aria-label="Filter by signal stage" hidden>
+          <option value="all">All activity</option>
+          <option value="QUALIFIED">Qualified candidates</option>
+          <option value="PAPER_OPEN">Verified open positions</option>
+        </select>
+        <input id="search" type="search" placeholder="Search coin e.g. SOL" aria-label="Search signals by asset">
+      </div>
+    </div>
+    <div id="feed-message" class="feed-message" role="status">Checking for a vetted Genesis signal feed.</div>
+    <div id="signal-cards" class="signal-cards" aria-live="polite">
+      <div class="empty"><strong>Awaiting approved Genesis data</strong> The private trading engine is not exposed by this page.</div>
+    </div>
+  </section>
+  <section class="panel" aria-labelledby="meaning-title">
+    <div class="panelhead"><h2 id="meaning-title">What the labels mean</h2></div>
+    <div class="helper"><strong>Qualified signal:</strong> Genesis passed its admission checks, but that does not mean a position opened. <strong>Verified open paper position:</strong> its opening was corroborated by the canonical paper ledger. <strong>Signal trigger:</strong> the planned price level, not a verified exchange fill. <strong>Stop loss and target:</strong> research levels, not guaranteed executions. The page is read-only, not a trading terminal, and it cannot place orders.</div>
+  </section>
+</main>
+<footer>TK Empire · Genesis Signals · Public-approved PAPER research only · No trading authority</footer>
+<script>
+(() => {
+  'use strict';
+  const $=id=>document.getElementById(id);
+  let records=[],ready=false,busy=false,view="positions";
+  const STAGES=new Set(['QUALIFIED','PAPER_OPEN']);
+  const REASONS={
+    CHECKS_PASSED:'Qualification checks passed',
+    CONFIDENCE_TOO_LOW:'Confidence below required threshold',
+    RISK_LIMIT:'Risk or exposure limit blocked admission',
+    MEMORY_BLOCK:'Setup blocked by learning memory',
+    MARKET_DATA_STALE:'Market data was too old',
+    ENTRY_NOT_TRIGGERED:'Entry trigger was not reached',
+    OTHER:'Reason not publicly available'
+  };
+  const node=(tag,cls,text)=>{
+    const el=document.createElement(tag);
+    if(cls)el.className=cls;
+    if(text!==undefined)el.textContent=String(text);
+    return el;
+  };
+  const stamp=value=>{
+    const d=new Date(value);
+    return Number.isFinite(d.getTime())?d.toLocaleString([], {dateStyle:'medium',timeStyle:'short'}):'Unknown time';
+  };
+  const price=n=>typeof n==='number'&&Number.isFinite(n)&&n>0?
+    '$'+new Intl.NumberFormat('en-US',{maximumFractionDigits:8}).format(n):'Not provided';
+  const age=s=>{
+    const a=Math.max(0,Math.floor((Date.now()-Date.parse(s))/1000));
+    return a<60?'Just observed':a<3600?Math.floor(a/60)+'m ago':a<86400?Math.floor(a/3600)+'h ago':Math.floor(a/86400)+'d ago';
+  };
+  function set(id,text){$(id).textContent=String(text);}
+  function metric(parent,title,value,cls){
+    const b=node('div');b.append(node('small','',title),node('strong',cls,value));parent.append(b);
+  }
+  function fact(parent,title,value){
+    parent.append(node('dt','',title),node('dd','',value));
+  }
+  function card(s){
+    const article=node('article','signal-card');
+    const top=node('div','topline');
+    const side=node('span','tag '+(s.side==='BUY'?'buy':'sell'),s.side);
+    const stage=node('span','tag '+(s.stage==='PAPER_OPEN'?'paper':s.stage.toLowerCase()),s.stage==='PAPER_OPEN'?'VERIFIED OPEN PAPER':'QUALIFIED SIGNAL');
+    top.append(side,stage);article.append(top);
+    article.append(node('h3','',s.asset),node('p','subtitle','Observed '+stamp(s.observed_at)+' · '+age(s.observed_at)));
+    const levels=node('div','levels');
+    metric(levels,'Signal trigger',price(s.trigger),'');
+    metric(levels,'Stop loss',price(s.stop_loss),'stop');
+    metric(levels,'Target',price(s.target),'target');
+    article.append(levels);
+    const confidence=node('div','confidence');
+    const label=node('small','', 'Confidence at signal');
+    const number=typeof s.confidence==='number'?s.confidence.toFixed(1)+' / 100':'Not published';
+    confidence.append(label,node('strong','',number));article.append(confidence);
+    if(typeof s.confidence==='number'){
+      const bar=node('div','confbar');const fill=node('span');
+      fill.style.width=Math.max(0,Math.min(100,s.confidence))+'%';bar.append(fill);article.append(bar);
+    }
+    const verified=s.paper_position_verified===true;
+    article.append(node('p','verification',verified?
+      '✓ Verified paper position · Not a real-money order':
+      'Signal observation only · No verified position is implied'));
+    const details=node('details');details.append(node('summary','','View signal evidence'));
+    const list=node('dl');
+    fact(list,'Record ID',s.id);
+    fact(list,'Stage',s.stage.replaceAll('_',' '));
+    fact(list,'Observed',stamp(s.observed_at));
+    fact(list,'Source','Genesis approved paper-signal projection');
+    fact(list,'Reason',REASONS[s.reason_code]||REASONS.OTHER);
+    fact(list,'Execution','None — read-only website');
+    details.append(list);article.append(details);
+    return article;
+  }
+  function render(){
+    const positions=view==='positions';
+    $('view-positions').setAttribute('aria-pressed',String(positions));
+    $('view-signals').setAttribute('aria-pressed',String(!positions));
+    $('status-filter').hidden=positions;
+    $('status-label').hidden=positions;
+    set('signals-title',positions?'Verified open paper positions':'Genesis signal activity');
+    const filter=$('status-filter').value,search=$('search').value.trim().toUpperCase();
+    const visible=records.filter(s=>{
+      if(positions && (s.stage!=='PAPER_OPEN'||s.paper_position_verified!==true))return false;
+      if(!positions && filter!=='all' && s.stage!==filter)return false;
+      return s.asset.includes(search);
+    });
+    const root=$('signal-cards');root.replaceChildren();
+    if(!ready){
+      set('feed-message','The approved data connection is not active. The page never substitutes sample trades for private Genesis records.');
+      const empty=node('div','empty');
+      empty.append(node('strong','','Awaiting approved Genesis signal feed'),
+        node('span','','The read-only data source is disabled or stale. No trading details are exposed.'));
+      root.append(empty);return;
+    }
+    set('feed-message',positions?
+      'Only positions corroborated by Genesis’s paper ledger are shown here. Trigger and risk levels do not establish exchange fills or real-money P&L.':
+      'Qualified candidates and verified paper openings. A signal is not proof that Genesis opened a position.');
+    if(!visible.length){
+      const empty=node('div','empty');
+      empty.append(node('strong','',positions?'No verified open paper positions match':'No signals match this view'),
+        node('span','',positions?'Try another coin or open All signal activity.':'Try another filter or coin.'));
+      root.append(empty);return;
+    }
+    for(const s of visible)root.append(card(s));
+  }
+  async function refresh(){
+    if(busy)return;busy=true;$('refresh').disabled=true;
+    try{
+      const response=await fetch('/api/genesis/signals',{cache:'no-store',headers:{Accept:'application/json'}});
+      const data=await response.json();
+      if(!response.ok||data.status!=='ok'||data.source!=='GENESIS_PUBLIC_SIGNAL_PROJECTION'||
+        data.mode!=='PAPER'||data.execution_authority!=='none'||!Array.isArray(data.signals))
+        throw new Error('Feed not publicly verified');
+      const at=Date.parse(data.generated_at),difference=Date.now()-at;
+      if(!Number.isFinite(at)||difference< -30000||difference>120000)
+        throw new Error('Stale feed');
+      records=data.signals.filter(s=>s&&typeof s.id==='string'&&
+        typeof s.asset==='string'&&/^[A-Z0-9]{2,15}$/.test(s.asset)&&
+        (s.side==='BUY'||s.side==='SELL')&&STAGES.has(s.stage)&&
+        typeof s.observed_at==='string'&&Number.isFinite(Date.parse(s.observed_at)));
+      ready=true;
+      const paper=records.filter(s=>s.paper_position_verified===true);
+      set('all-count',records.length);
+      set('qualified-count',records.filter(s=>s.stage==='QUALIFIED').length);
+      set('mode-label','PAPER');
+      set('paper-count',paper.length);
+      set('tab-open-count',paper.length);
+      set('tab-signal-count',records.length);
+      $('feed-pill').className='feed-pill ok';set('feed-pill','VERIFIED PAPER FEED');
+      set('last-update','Source generated '+stamp(data.generated_at));
+      render();
+    }catch{
+      ready=false;records=[];
+      ['all-count','qualified-count','paper-count','mode-label','tab-open-count','tab-signal-count'].forEach(id=>set(id,'—'));
+      $('feed-pill').className='feed-pill error';set('feed-pill','FEED NOT VERIFIED');
+      set('last-update','No current approved signal snapshot');
+      render();
+    }finally{busy=false;$('refresh').disabled=false;}
+  }
+  $('view-positions').addEventListener('click',()=>{view='positions';render()});
+  $('view-signals').addEventListener('click',()=>{view='signals';render()});
+  $('refresh').addEventListener('click',refresh);
+  $('status-filter').addEventListener('change',render);
+  $('search').addEventListener('input',render);
+  refresh();setInterval(()=>{if(!document.hidden)refresh()},30000);
+})();
+</script>
+<script src="/assets/js/site-tabs.js?v=4" defer></script>
+</body>
+</html>
