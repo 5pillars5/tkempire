@@ -27,7 +27,7 @@ test('Genesis signals page is mobile-responsive, accessible and error-safe',()=>
   assert.match(html,/cache:'no-store'/);
   assert.match(html,/GENESIS_PUBLIC_SIGNAL_PROJECTION/);
   assert.match(html,/data\.execution_authority!=='none'/);
-  assert.match(html,/No approved Genesis signal feed yet/);
+  assert.match(html,/Awaiting approved Genesis signal feed/);
   assert.match(html,/new Date\(/);
   assert.match(html,/textContent=String\(text\)/);
   assert.equal(html.includes('<nav class="quicklinks"'),false,'Global navigation collision');
