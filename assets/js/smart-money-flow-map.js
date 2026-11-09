@@ -37,6 +37,7 @@
   markets.sort((a,b)=>Math.abs(net(b))-Math.abs(net(a))||b.observed_gross_usdc-a.observed_gross_usdc||a.market_id.localeCompare(b.market_id));
   if(!markets.length){target.append(el('div','empty',ui.markets.length?'No observed markets match this filter.':'No verified sampled market activity available.'));return}
   for(const m of markets.slice(0,25)){
+   const entry=el('div','flowentry');
    const row=el('button','flowrow'+(ui.selected===m.market_id?' active':''));
    row.type='button';row.setAttribute('aria-pressed',ui.selected===m.market_id?'true':'false');
    const top=el('div','flowtop'),label=el('div'),title=el('div','flowtitle',m.title);
@@ -52,7 +53,19 @@
     m.wallets_net_buying+' net buyers / '+m.wallets_net_selling+' net sellers'));
    row.append(top,track,mini);
    row.addEventListener('click',()=>selectMarket(m.market_id));
-   target.append(row);
+   const route=window.empireCoinbasePredictionsRoute?.(m.title);
+   const actions=el('div','flowactions');
+   if(route&&/^https:\/\/www\.coinbase\.com\/predictions(?:\/|$)/.test(route.url)){
+    const link=el('a','coinbaseflowlink',route.label+' ↗');
+    link.href=route.url;
+    link.target='_blank';
+    link.rel='noopener noreferrer';
+    link.setAttribute('aria-label',route.label+' (new tab; matching market not confirmed)');
+    actions.append(link);
+   }
+   actions.append(el('span','flowactionnote','Coinbase may list a different contract or expiry'));
+   entry.append(row,actions);
+   target.append(entry);
   }
   $('listNote').textContent='Showing '+Math.min(markets.length,25)+' of '+markets.length+
    ' sampled outcomes, sorted by absolute '+(ui.window===900?'15-minute':ui.window===3600?'60-minute':'24-hour')+
