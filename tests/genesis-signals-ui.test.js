@@ -11,13 +11,21 @@ test('Genesis signals page is mobile-responsive, accessible and error-safe',()=>
   assert.match(html,/<title>Genesis Signals \| TK Empire<\/title>/);
   for(const id of ['feed-pill','last-update','feed-message','signal-cards',
     'status-filter','search','refresh','all-count','qualified-count','paper-count',
-    'mode-label','view-positions','view-signals','tab-open-count','tab-signal-count','price-feed-status']){
+    'mode-label','view-positions','view-closed','view-signals','tab-open-count','tab-closed-count','tab-signal-count','price-feed-status']){
     assert.ok(html.includes('id="'+id+'"'),'missing '+id);
   }
   assert.match(html,/@media\(max-width:720px\)/);
   assert.match(html,/aria-label="Choose Genesis view"/);
   assert.match(html,/id="view-positions"[^>]*aria-pressed="true"/);
   assert.match(html,/id="view-signals"[^>]*aria-pressed="false"/);
+  assert.match(html,/id="view-closed"[^>]*aria-pressed="false"/);
+  assert.match(html,/view==='closed'/);
+  assert.match(html,/Verified closed paper trades/);
+  assert.match(html,/No verified closed-trade results available/);
+  assert.match(html,/Close|Closed trades/);
+  assert.match(html,/realized_pnl/);
+  assert.match(html,/CANONICAL_CLOSED_PAPER_LEDGER|canonical close/i);
+  assert.match(html,/No result is inferred from disappearing positions/i);
   assert.match(html,/positions=view==='positions'/);
   assert.match(html,/Only positions corroborated by Genesis/);
   assert.match(html,/Signal trigger/);

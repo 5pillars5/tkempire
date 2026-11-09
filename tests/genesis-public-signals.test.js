@@ -88,7 +88,11 @@ test('accepts a verified paper position only with canonical evidence',async()=>{
     sample({id:'POSITION_OPEN_001',stage:'PAPER_OPEN'}),
     sample({id:'QUALIFIED_000001'}),
     sample({id:'QUALIFIED_000001'}),
-    sample({id:'POSITION_CLOSED_001',stage:'PAPER_CLOSED',position_evidence:'CANONICAL_PAPER_LEDGER'}),
+    sample({id:'POSITION_CLOSED_001',stage:'PAPER_CLOSED',
+      position_evidence:'CANONICAL_PAPER_LEDGER',
+      close_evidence:'CANONICAL_CLOSED_PAPER_LEDGER',
+      closed_at:new Date().toISOString(),exit_price:165,
+      realized_pnl:2.75,pnl_unit:'PAPER_UNITS',close_reason:'TAKE_PROFIT'}),
     sample({id:'BAD_SIDE_000001',side:'HOLD'}),
     sample({id:'BAD_SYMBOL_001',asset:'<script>'})
   ]}));
@@ -96,6 +100,46 @@ test('accepts a verified paper position only with canonical evidence',async()=>{
   assert.equal(r.code,200);
   assert.deepEqual(r.body.signals.map(s=>s.id).sort(),['POSITION_CLOSED_001','QUALIFIED_000001']);
   assert.equal(r.body.signals.find(s=>s.id==='POSITION_CLOSED_001').paper_position_verified,true);
+});
+test('closed paper trades require attested close, exit timestamp and realized amount',async()=>{
+  setup();
+  const valid=sample({id:'CLOSED_ATTESTED_001',stage:'PAPER_CLOSED',
+    position_evidence:'CANONICAL_PAPER_LEDGER',
+    close_evidence:'CANONICAL_CLOSED_PAPER_LEDGER',
+    closed_at:new Date().toISOString(),exit_price:164,
+    realized_pnl:-1.25,pnl_unit:'PAPER_UNITS',close_reason:'STOP_LOSS'});
+  const invalid=[
+    {...valid,id:'INVALID_CLOSE_01',close_evidence:undefined},
+    {...valid,id:'INVALID_CLOSE_02',closed_at:undefined},
+    {...valid,id:'INVALID_CLOSE_03',exit_price:undefined},
+    {...valid,id:'INVALID_CLOSE_04',realized_pnl:undefined},
+    {...valid,id:'INVALID_CLOSE_05',pnl_unit:'USD'},
+    {...valid,id:'INVALID_CLOSE_06',realized_pnl:NaN},
+    {...valid,id:'INVALID_CLOSE_07',closed_at:new Date(Date.now()+3600000).toISOString()}
+  ];
+  mock(upstream({signals:[valid,...invalid]}));
+  const r=await run();
+  assert.equal(r.code,200);
+  assert.equal(r.body.signals.length,1);
+  assert.equal(r.body.signals[0].id,valid.id);
+  assert.equal(r.body.signals[0].result,'LOSS');
+  assert.equal(r.body.signals[0].realized_pnl,-1.25);
+  assert.equal(r.body.signals[0].pnl_unit,'PAPER_UNITS');
+  assert.equal(r.body.signals[0].close_reason,'STOP_LOSS');
+});
+test('zero and positive canonical paper outcomes are breakeven and win',async()=>{
+  setup();
+  const fields={stage:'PAPER_CLOSED',position_evidence:'CANONICAL_PAPER_LEDGER',
+    close_evidence:'CANONICAL_CLOSED_PAPER_LEDGER',
+    closed_at:new Date().toISOString(),exit_price:175.1,
+    pnl_unit:'SIMULATED_USDC',close_reason:'TRAILING_STOP'};
+  mock(upstream({signals:[
+    sample({...fields,id:'BREAKEVEN_PAPER_01',realized_pnl:0}),
+    sample({...fields,id:'WIN_PAPER_TRADE_01',realized_pnl:4.6})
+  ]}));
+  const r=await run();
+  assert.equal(r.code,200);
+  assert.deepEqual(r.body.signals.map(x=>x.result).sort(),['BREAKEVEN','WIN']);
 });
 test('rejects unapproved publication scope, execution authority and non-paper mode',async()=>{
   setup();

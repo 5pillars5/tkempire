@@ -77,6 +77,13 @@ button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visi
 .paper-pnl.negative strong{color:var(--red)}
 .paper-pnl.neutral strong{color:#dce7ef}
 .paper-pnl.pending strong{color:#ffd6a3}
+.closed-result{margin:12px 0 15px;padding:15px;border:1px solid #45617d;border-radius:12px;background:#0b1d2f;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.closed-result small{display:block;font-size:10px;color:var(--muted)}
+.closed-result strong{display:block;font-size:18px;font-variant-numeric:tabular-nums}
+.closed-result.positive strong{color:var(--green)}
+.closed-result.negative strong{color:var(--red)}
+.closed-result.neutral strong{color:#e4edf6}
+.closed-result .closed-pnl{text-align:right}
 .market-quote[data-state="stale"] strong,.market-quote[data-state="unavailable"] strong{color:#ffd6a3}
 .confidence{display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:12px;margin-top:12px}
 .confidence small{color:var(--muted)}
@@ -127,6 +134,7 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
   </section>
   <div class="view-tabs" role="group" aria-label="Choose Genesis view">
     <button id="view-positions" type="button" aria-pressed="true" aria-controls="signals-panel">Open paper positions <span class="count" id="tab-open-count">—</span></button>
+    <button id="view-closed" type="button" aria-pressed="false" aria-controls="signals-panel">Closed trades <span class="count" id="tab-closed-count">—</span></button>
     <button id="view-signals" type="button" aria-pressed="false" aria-controls="signals-panel">All signal activity <span class="count" id="tab-signal-count">—</span></button>
   </div>
   <section class="panel" id="signals-panel" aria-labelledby="signals-title">
@@ -138,6 +146,7 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
           <option value="all">All activity</option>
           <option value="QUALIFIED">Qualified candidates</option>
           <option value="PAPER_OPEN">Verified open positions</option>
+          <option value="PAPER_CLOSED">Verified closed trades</option>
         </select>
         <input id="search" type="search" placeholder="Search coin e.g. SOL" aria-label="Search signals by asset">
       </div>
@@ -149,7 +158,7 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
   </section>
   <section class="panel" aria-labelledby="meaning-title">
     <div class="panelhead"><h2 id="meaning-title">What the labels mean</h2></div>
-    <div class="helper"><strong>Qualified signal:</strong> Genesis passed its admission checks, but that does not mean a position opened. <strong>Verified open paper position:</strong> its opening was corroborated by the canonical paper ledger. <strong>Signal trigger:</strong> the planned price level, not a verified exchange fill. <strong>Stop loss and target:</strong> research levels, not guaranteed executions. <strong>Gross unrealized movement:</strong> paper entry versus current indicative mid, direction-aware, per coin and percent; not total trade P&amp;L. The page is read-only, not a trading terminal, and it cannot place orders.</div>
+    <div class="helper"><strong>Qualified signal:</strong> Genesis passed its admission checks, but that does not mean a position opened. <strong>Verified open paper position:</strong> its opening was corroborated by the canonical paper ledger. <strong>Signal trigger:</strong> the planned price level, not a verified exchange fill. <strong>Stop loss and target:</strong> research levels, not guaranteed executions. <strong>Gross unrealized movement:</strong> paper entry versus current indicative mid, direction-aware, per coin and percent; not total trade P&amp;L. <strong>Closed trade:</strong> a canonical close with recorded exit, close timestamp and realized outcome in its explicitly labeled paper accounting units; no result is guessed from market prices. The page is read-only, not a trading terminal, and it cannot place orders.</div>
   </section>
 </main>
 <footer>TK Empire · Genesis Signals · Public-approved PAPER research only · No trading authority</footer>
@@ -160,7 +169,7 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
   const $=id=>document.getElementById(id);
   let records=[],ready=false,busy=false,view="positions";
   let quotes=Object.create(null),quoteAt=0,quoteFetchedAt=0,quoteBusy=false;
-  const STAGES=new Set(['QUALIFIED','PAPER_OPEN']);
+  const STAGES=new Set(['QUALIFIED','PAPER_OPEN','PAPER_CLOSED']);
   const REASONS={
     CHECKS_PASSED:'Qualification checks passed',
     CONFIDENCE_TOO_LOW:'Confidence below required threshold',
@@ -197,9 +206,38 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
     const article=node('article','signal-card');
     const top=node('div','topline');
     const side=node('span','tag '+(s.side==='BUY'?'buy':'sell'),s.side);
-    const stage=node('span','tag '+(s.stage==='PAPER_OPEN'?'paper':s.stage.toLowerCase()),s.stage==='PAPER_OPEN'?'VERIFIED OPEN PAPER':'QUALIFIED SIGNAL');
+    const stage=node('span','tag '+(s.stage.startsWith('PAPER_')?'paper':s.stage.toLowerCase()),s.stage==='PAPER_OPEN'?'VERIFIED OPEN PAPER':s.stage==='PAPER_CLOSED'?'VERIFIED CLOSED PAPER':'QUALIFIED SIGNAL');
     top.append(side,stage);article.append(top);
     article.append(node('h3','',s.asset),node('p','subtitle','Observed '+stamp(s.observed_at)+' · '+age(s.observed_at)));
+    if(s.stage==='PAPER_CLOSED'){
+      const final=node('div','closed-result');
+      const label=node('small','','Final PAPER result');
+      const result=node('strong','',s.result);
+      final.className='closed-result '+(s.result==='WIN'?'positive':s.result==='LOSS'?'negative':'neutral');
+      const heading=node('div');heading.append(label,result);final.append(heading);
+      const pnl=node('div','closed-pnl');
+      const sign=s.realized_pnl>0?'+':s.realized_pnl<0?'−':'';
+      const amount=new Intl.NumberFormat('en-US',{maximumFractionDigits:8}).format(Math.abs(s.realized_pnl));
+      pnl.append(node('strong','',sign+amount+' '+(s.pnl_unit==='SIMULATED_USDC'?'simulated USDC':'paper units')),
+        node('small','','Verified recorded realized P&L · no market-price inference'));
+      final.append(pnl);article.append(final);
+      const closure=node('div','levels');
+      metric(closure,'Paper entry',price(s.trigger),'');
+      metric(closure,'Recorded exit',price(s.exit_price),'');
+      metric(closure,'Closed at',stamp(s.closed_at),'');
+      article.append(closure);
+      article.append(node('p','verification','✓ Canonical closed-paper ledger · final recorded outcome'));
+      const details=node('details');details.append(node('summary','','View closing evidence'));
+      const list=node('dl');
+      fact(list,'Record ID',s.id);
+      fact(list,'Exit reason',s.close_reason.replaceAll('_',' '));
+      fact(list,'P&L units',s.pnl_unit==='SIMULATED_USDC'?'Simulated USDC':'Paper units');
+      fact(list,'Closed',stamp(s.closed_at));
+      fact(list,'Evidence','Canonical paper close + realized accounting');
+      fact(list,'Execution','None — read-only website');
+      details.append(list);article.append(details);
+      return article;
+    }
     const market=node('div','market-quote');market.dataset.asset=s.asset;market.dataset.state='unavailable';
     const quotePrice=node('div','quote-price');
     quotePrice.append(node('small','','Current market mid (USD)'),node('strong','quote-value','Checking…'));
@@ -243,16 +281,18 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
     return article;
   }
   function render(){
-    const positions=view==='positions';
+    const positions=view==='positions',closed=view==='closed';
     $('view-positions').setAttribute('aria-pressed',String(positions));
-    $('view-signals').setAttribute('aria-pressed',String(!positions));
-    $('status-filter').hidden=positions;
-    $('status-label').hidden=positions;
-    set('signals-title',positions?'Verified open paper positions':'Genesis signal activity');
+    $('view-closed').setAttribute('aria-pressed',String(closed));
+    $('view-signals').setAttribute('aria-pressed',String(!positions&&!closed));
+    $('status-filter').hidden=positions||closed;
+    $('status-label').hidden=positions||closed;
+    set('signals-title',positions?'Verified open paper positions':closed?'Verified closed paper trades':'Genesis signal activity');
     const filter=$('status-filter').value,search=$('search').value.trim().toUpperCase();
     const visible=records.filter(s=>{
       if(positions && (s.stage!=='PAPER_OPEN'||s.paper_position_verified!==true))return false;
-      if(!positions && filter!=='all' && s.stage!==filter)return false;
+      if(closed && (s.stage!=='PAPER_CLOSED'||s.paper_position_verified!==true))return false;
+      if(!positions&&!closed && filter!=='all' && s.stage!==filter)return false;
       return s.asset.includes(search);
     });
     const root=$('signal-cards');root.replaceChildren();
@@ -265,11 +305,12 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
     }
     set('feed-message',positions?
       'Only positions corroborated by Genesis’s paper ledger are shown here. Trigger and risk levels do not establish exchange fills or real-money P&L.':
-      'Qualified candidates and verified paper openings. A signal is not proof that Genesis opened a position.');
+      closed?'Final results require canonical close evidence with recorded exit, timestamp, and realized paper P&L. No result is inferred from disappearing positions.':
+      'Qualified candidates and verified paper openings/closings. A signal is not proof that Genesis opened a position.');
     if(!visible.length){
       const empty=node('div','empty');
-      empty.append(node('strong','',positions?'No verified open paper positions match':'No signals match this view'),
-        node('span','',positions?'Try another coin or open All signal activity.':'Try another filter or coin.'));
+      empty.append(node('strong','',positions?'No verified open paper positions match':closed?'No verified closed-trade results available':'No signals match this view'),
+        node('span','',positions?'Try another coin or open All signal activity.':closed?'Genesis has not published a canonical close record with complete final accounting. Open positions will not be relabeled as wins or losses.':'Try another filter or coin.'));
       root.append(empty);return;
     }
     for(const s of visible)root.append(card(s));
@@ -360,14 +401,22 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
       records=data.signals.filter(s=>s&&typeof s.id==='string'&&
         typeof s.asset==='string'&&/^[A-Z0-9]{2,15}$/.test(s.asset)&&
         (s.side==='BUY'||s.side==='SELL')&&STAGES.has(s.stage)&&
-        typeof s.observed_at==='string'&&Number.isFinite(Date.parse(s.observed_at)));
+        typeof s.observed_at==='string'&&Number.isFinite(Date.parse(s.observed_at))&&
+        (s.stage!=='PAPER_CLOSED'||(s.paper_position_verified===true&&
+          ['WIN','LOSS','BREAKEVEN'].includes(s.result)&&
+          typeof s.closed_at==='string'&&Number.isFinite(Date.parse(s.closed_at))&&
+          typeof s.exit_price==='number'&&s.exit_price>0&&
+          typeof s.realized_pnl==='number'&&Number.isFinite(s.realized_pnl)&&
+          ['PAPER_UNITS','SIMULATED_USDC'].includes(s.pnl_unit))));
       ready=true;
-      const paper=records.filter(s=>s.paper_position_verified===true);
+      const paper=records.filter(s=>s.stage==='PAPER_OPEN'&&s.paper_position_verified===true);
+      const closed=records.filter(s=>s.stage==='PAPER_CLOSED'&&s.paper_position_verified===true);
       set('all-count',records.length);
       set('qualified-count',records.filter(s=>s.stage==='QUALIFIED').length);
       set('mode-label','PAPER');
       set('paper-count',paper.length);
       set('tab-open-count',paper.length);
+      set('tab-closed-count',closed.length);
       set('tab-signal-count',records.length);
       $('feed-pill').className='feed-pill ok';set('feed-pill','VERIFIED PAPER FEED');
       set('last-update','Source generated '+stamp(data.generated_at));
@@ -377,13 +426,14 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
       ready=false;records=[];
       quotes=Object.create(null);quoteAt=0;quoteFetchedAt=0;
       set('price-feed-status','Market prices unavailable · no estimates shown');
-      ['all-count','qualified-count','paper-count','mode-label','tab-open-count','tab-signal-count'].forEach(id=>set(id,'—'));
+      ['all-count','qualified-count','paper-count','mode-label','tab-open-count','tab-closed-count','tab-signal-count'].forEach(id=>set(id,'—'));
       $('feed-pill').className='feed-pill error';set('feed-pill','FEED NOT VERIFIED');
       set('last-update','No current approved signal snapshot');
       render();
     }finally{busy=false;$('refresh').disabled=false;}
   }
   $('view-positions').addEventListener('click',()=>{view='positions';render()});
+  $('view-closed').addEventListener('click',()=>{view='closed';render()});
   $('view-signals').addEventListener('click',()=>{view='signals';render()});
   $('refresh').addEventListener('click',refresh);
   $('status-filter').addEventListener('change',render);
