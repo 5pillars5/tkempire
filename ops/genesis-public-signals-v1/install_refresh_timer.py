@@ -191,7 +191,11 @@ def preflight():
             "REFRESH_SERVICE_ALREADY_REGISTERED")
     require(run("systemctl", "cat", TIMER_NAME).returncode != 0,
             "REFRESH_TIMER_ALREADY_REGISTERED")
-    assert_root_dir(BACKUP_ROOT, 0o700)
+    require(BACKUP_ROOT.is_dir() and not BACKUP_ROOT.is_symlink(),
+            "BACKUP_ROOT_INVALID")
+    bst = BACKUP_ROOT.stat()
+    require(bst.st_uid == 0 and not (stat.S_IMODE(bst.st_mode) & 0o022),
+            "BACKUP_ROOT_WRITABLE_BY_OTHERS")
     check_config()
     service_health()
     print("PRIVATE_TIMER_PREFLIGHT=PASS", flush=True)
