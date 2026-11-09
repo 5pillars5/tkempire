@@ -27,7 +27,7 @@ async function run(){
  const js=fs.readFileSync(path.join(ROOT,'assets/js/site-tabs.js'),'utf8');
  const css=fs.readFileSync(path.join(ROOT,'assets/css/site-tabs.css'),'utf8');
  const sitemap=fs.readFileSync(path.join(ROOT,'sitemap.xml'),'utf8');
- for(const name of ['Flow Map','Smart Money','Live Signals','Genesis Signals'])assert.ok(js.includes("['"+name+"'"),name+' missing');
+ for(const name of ['Flow Map','Smart Money Positions','Live Signals','Genesis Signals'])assert.ok(js.includes("['"+name+"'"),name+' missing');
  for(const file of FILES){
   const source=fs.readFileSync(path.join(ROOT,file),'utf8');
   assert.match(source,/site-tabs\.js\?v=4/,file+' must load current navigation JS');
@@ -54,10 +54,10 @@ async function run(){
    const nav=page.locator('nav.empire-global-nav[aria-label="Main navigation"]');
    await nav.waitFor({timeout:12000});
    assert.equal(await nav.count(),1,file+' navigation count');
-   for(const name of ['Flow Map','Smart Money','Live Signals','Genesis Signals']){
+   for(const name of ['Flow Map','Smart Money Positions','Live Signals','Genesis Signals']){
     const a=nav.getByRole('link',{name,exact:true});
     assert.equal(await a.count(),1,file+' missing '+name);
-    assert.equal(await a.getAttribute('href'),name==='Smart Money'?'/smart-money.html':name==='Flow Map'?'/smart-money-flow.html':name==='Genesis Signals'?'/genesis-signals.html':'/smart-money-signals.html');
+    assert.equal(await a.getAttribute('href'),name==='Smart Money Positions'?'/smart-money.html':name==='Flow Map'?'/smart-money-flow.html':name==='Genesis Signals'?'/genesis-signals.html':'/smart-money-signals.html');
    }
    if(file==='dashboard.html')for(const id of ['modePill','lastUpdated','genesis-nav-status'])
     assert.equal(await page.locator('#'+id).count(),1,'dashboard status removed: '+id);
