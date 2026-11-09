@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
-import http.client
+import http.client as http_client
 import json
 import os
 from pathlib import Path
@@ -86,7 +86,7 @@ def sha256(raw):
 
 
 def http(port, path, method="GET", host="127.0.0.1"):
-    conn = http.client.HTTPConnection("127.0.0.1", port, timeout=3)
+    conn = http_client.HTTPConnection("127.0.0.1", port, timeout=3)
     try:
         conn.request(method, path, headers={"Host": host})
         response = conn.getresponse()
