@@ -53,17 +53,16 @@
     m.wallets_net_buying+' net buyers / '+m.wallets_net_selling+' net sellers'));
    row.append(top,track,mini);
    row.addEventListener('click',()=>selectMarket(m.market_id));
-   const route=window.empireCoinbasePredictionsRoute?.(m.title);
    const actions=el('div','flowactions');
-   if(route&&/^https:\/\/www\.coinbase\.com\/predictions(?:\/|$)/.test(route.url)){
-    const link=el('a','coinbaseflowlink',route.label+' ↗');
-    link.href=route.url;
+   if(typeof m.condition_id==='string'&&/^0x[a-f0-9]{64}$/i.test(m.condition_id)){
+    const link=el('a','polymarketflowlink','Open original market on Polymarket ↗');
+    link.href='/api/smart-money-polymarket-link?condition='+encodeURIComponent(m.condition_id);
     link.target='_blank';
     link.rel='noopener noreferrer';
-    link.setAttribute('aria-label',route.label+' (new tab; matching market not confirmed)');
+    link.setAttribute('aria-label','Open verified original Polymarket event in a new tab');
     actions.append(link);
    }
-   actions.append(el('span','flowactionnote','Coinbase may list a different contract or expiry'));
+   actions.append(el('span','flowactionnote','Exact market is checked before redirecting · Expired markets may be unavailable'));
    entry.append(row,actions);
    target.append(entry);
   }
