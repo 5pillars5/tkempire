@@ -48,11 +48,31 @@ class CredentialHandoffTests(TestCase):
             with self.assertRaises(RuntimeError):
                 mod.check_disabled_route()
 
-    def test_good_disabled_route(self):
+    def test_good_legacy_disabled_route_in_preflight(self):
+        with patch.object(mod, "probe", return_value=(
+            503, b'{"status":"publication_disabled"}'
+        )):
+            mod.check_disabled_route()
+
+    def test_strict_disabled_route_after_install(self):
+        with patch.object(mod, "probe", return_value=(
+            503, b'{"schema_version":1,"status":"publication_disabled","signals":[]}'
+        )):
+            mod.check_disabled_route(post_install=True)
+
+    def test_post_install_rejects_legacy_schema(self):
+        with patch.object(mod, "probe", return_value=(
+            503, b'{"status":"publication_disabled"}'
+        )):
+            with self.assertRaises(RuntimeError):
+                mod.check_disabled_route(post_install=True)
+
+    def test_preflight_rejects_extra_fields(self):
         with patch.object(mod, "probe", return_value=(
             503, b'{"status":"publication_disabled","signals":[]}'
         )):
-            mod.check_disabled_route()
+            with self.assertRaises(RuntimeError):
+                mod.check_disabled_route()
 
 
 if __name__ == "__main__":
