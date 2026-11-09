@@ -28,10 +28,30 @@ function signal(s,now){
   if(paper&&s.position_evidence!=='CANONICAL_PAPER_LEDGER')return null;
   const confidence=typeof s.confidence==='number'&&Number.isFinite(s.confidence)&&s.confidence>=0&&s.confidence<=100?
     Number(s.confidence.toFixed(2)):null;
+  // Closed paper outcomes require an additional canonical close attestation,
+  // a verified close price/time and a signed realized amount with explicit unit.
+  // A missing position is NEVER converted to a "closed" trade on this website.
+  let close=null;
+  if(s.stage==='PAPER_CLOSED'){
+    if(s.close_evidence!=='CANONICAL_CLOSED_PAPER_LEDGER')return null;
+    const closed_at=at(s.closed_at,now,90*86400000);
+    const exit_price=price(s.exit_price);
+    const entry_price=price(s.trigger);
+    if(!closed_at||!exit_price||!entry_price||
+      Date.parse(closed_at)<Date.parse(observed_at)||
+      typeof s.realized_pnl!=='number'||!Number.isFinite(s.realized_pnl)||
+      Math.abs(s.realized_pnl)>1e9||
+      !['PAPER_UNITS','SIMULATED_USDC'].includes(s.pnl_unit))return null;
+    const close_reason=['TAKE_PROFIT','STOP_LOSS','TRAILING_STOP','TIME_EXIT','OTHER']
+      .includes(s.close_reason)?s.close_reason:'OTHER';
+    close={closed_at,exit_price,realized_pnl:Number(s.realized_pnl.toFixed(8)),
+      pnl_unit:s.pnl_unit,close_reason,
+      result:s.realized_pnl>0?'WIN':s.realized_pnl<0?'LOSS':'BREAKEVEN'};
+  }
   return {id:s.id,asset:s.asset,side:s.side,stage:s.stage,observed_at,confidence,
     trigger:price(s.trigger),stop_loss:price(s.stop_loss),target:price(s.target),
     reason_code:REASONS.has(s.reason_code)?s.reason_code:'OTHER',
-    paper_position_verified:paper};
+    paper_position_verified:paper,...(close||{})};
 }
 module.exports=async function publicSignals(req,res){
   if(req.method!=='GET'){res.setHeader('Allow','GET');return send(res,405,{status:'method_not_allowed',signals:[]});}
