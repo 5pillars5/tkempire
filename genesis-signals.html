@@ -98,6 +98,13 @@ button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visi
 .empty strong{display:block;color:var(--fg);font-size:16px;margin-bottom:5px}
 .helper{padding:18px;font-size:12px;line-height:1.7;color:var(--muted)}
 .helper strong{color:#e4ecf8}
+.history-progress{padding:12px 18px;border-top:1px solid var(--border);font-size:12px;color:#d5e0ec}
+.history-progress strong{color:var(--gold)}
+.history-actions{padding:0 18px 18px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.history-actions button{min-height:44px;padding:10px 18px;background:#233e59;color:white;border:1px solid #68829a;border-radius:9px;font-weight:800}
+.history-actions button:disabled{opacity:.5}
+.history-actions span{font-size:11px;color:var(--muted)}
+.history-actions[hidden],.history-progress[hidden],#history-load[hidden]{display:none!important}
 footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);font-size:11px;border-top:1px solid #233346}
 @media(max-width:720px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.controls{width:100%}.controls input{flex:1}.signal-cards{padding:12px}.signal-card{padding:16px}}
 @media(max-width:390px){.levels{grid-template-columns:repeat(3,minmax(0,1fr))}.levels strong{font-size:12px}.controls label{width:100%}}
@@ -134,7 +141,7 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
   </section>
   <div class="view-tabs" role="group" aria-label="Choose Genesis view">
     <button id="view-positions" type="button" aria-pressed="true" aria-controls="signals-panel">Open paper positions <span class="count" id="tab-open-count">—</span></button>
-    <button id="view-closed" type="button" aria-pressed="false" aria-controls="signals-panel">Closed trades <span class="count" id="tab-closed-count">—</span></button>
+    <button id="view-closed" type="button" aria-pressed="false" aria-controls="signals-panel">Full trading history <span class="count" id="tab-closed-count">—</span></button>
     <button id="view-signals" type="button" aria-pressed="false" aria-controls="signals-panel">All signal activity <span class="count" id="tab-signal-count">—</span></button>
   </div>
   <section class="panel" id="signals-panel" aria-labelledby="signals-title">
@@ -155,6 +162,11 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
     <div id="signal-cards" class="signal-cards" aria-live="polite">
       <div class="empty"><strong>Awaiting approved Genesis data</strong> The private trading engine is not exposed by this page.</div>
     </div>
+    <div id="history-progress" class="history-progress" role="status" aria-live="polite" hidden>Closed history not yet published.</div>
+    <div id="history-actions" class="history-actions" hidden>
+      <button id="history-load" type="button" hidden>Load next 50 verified closes</button>
+      <span>Search applies to loaded records only. Load more to see older trades.</span>
+    </div>
   </section>
   <section class="panel" aria-labelledby="meaning-title">
     <div class="panelhead"><h2 id="meaning-title">What the labels mean</h2></div>
@@ -167,7 +179,8 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
 (() => {
   'use strict';
   const $=id=>document.getElementById(id);
-  let records=[],closedRows=[],closedReady=false,ready=false,busy=false,view="positions";
+  let records=[],closedRows=[],closedReady=false,ready=false,busy=false,view=location.hash==="#history"?"closed":"positions";
+  let closedPage=0,closedMore=false,closedRevision='',closedTotal=0,closedExcluded=0,closedBusy=false;
   let quotes=Object.create(null),quoteAt=0,quoteFetchedAt=0,quoteBusy=false;
   const STAGES=new Set(['QUALIFIED','PAPER_OPEN','PAPER_CLOSED']);
   const REASONS={
@@ -282,6 +295,15 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
   }
   function render(){
     const positions=view==='positions',closed=view==='closed';
+    $('history-progress').hidden=!closed;
+    $('history-actions').hidden=!closed;
+    $('history-load').hidden=!closed||!closedReady||!closedMore;
+    $('history-load').disabled=closedBusy;
+    if(closed){
+      set('history-progress',closedReady?
+        'Verified '+closedTotal+' of '+(closedTotal+closedExcluded)+' recorded closes · '+closedExcluded+' excluded (unverified) · loaded '+closedRows.length+' · P&L ledger units UNVERIFIED':
+        'Full closed-trade history is not yet approved for publication. Nothing is inferred from missing positions.');
+    }
     $('view-positions').setAttribute('aria-pressed',String(positions));
     $('view-closed').setAttribute('aria-pressed',String(closed));
     $('view-signals').setAttribute('aria-pressed',String(!positions&&!closed));
@@ -296,7 +318,7 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
       return s.asset.includes(search);
     });
     const root=$('signal-cards');root.replaceChildren();
-    if(!ready){
+    if(!ready && !closed){
       set('feed-message','The approved data connection is not active. The page never substitutes sample trades for private Genesis records.');
       const empty=node('div','empty');
       empty.append(node('strong','','Awaiting approved Genesis signal feed'),
@@ -305,7 +327,7 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
     }
     set('feed-message',positions?
       'Only positions corroborated by Genesis’s paper ledger are shown here. Trigger and risk levels do not establish exchange fills or real-money P&L.':
-      closed?(closedReady?'Verified closing records from the authenticated read-only canonical projection. P&L units remain unverified.':'Closed-trade feed not verified or not yet published. No result is inferred from disappearing positions.'):
+      closed?(closedReady?'Paginated verified closes from the canonical PAPER ledger. P&L units remain unverified; older closes appear when you load more.':'Full closed-history feed not verified or not yet published. No result is inferred from disappearing positions.'):
       'Qualified candidates and verified paper openings/closings. A signal is not proof that Genesis opened a position.');
     if(!visible.length){
       const empty=node('div','empty');
@@ -387,36 +409,86 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
       quoteBusy=false;renderQuotes();
     }
   }
+  async function fetchHistoryPage(page){
+    const response=await fetch('/api/genesis/trade-history?page='+page,{
+      cache:'no-store',headers:{Accept:'application/json'}});
+    if(!response.ok)throw Error('History not approved');
+    const data=await response.json(),t=Date.parse(data.generated_at);
+    if(data.schema_version!==1||data.status!=='ok'||
+      data.source!=='GENESIS_VERIFIED_PAPER_HISTORY_V1'||
+      data.execution_authority!=='none'||data.mode!=='PAPER'||
+      data.pnl_unit!=='LEDGER_UNIT_UNVERIFIED'||
+      typeof data.revision!=='string'||!/^[a-f0-9]{64}$/.test(data.revision)||
+      !Number.isFinite(t)||Date.now()-t>120000||Date.now()-t < -30000||
+      data.page!==page||data.page_size!==50||
+      !Number.isSafeInteger(data.verified_count)||data.verified_count<0||
+      !Number.isSafeInteger(data.excluded_count)||data.excluded_count<0||
+      data.total_closed_count!==data.verified_count+data.excluded_count||
+      typeof data.has_more!=='boolean'||!Array.isArray(data.closed_trades)||
+      data.closed_trades.length!==Math.max(0,Math.min(50,data.verified_count-(page-1)*50)))
+      throw Error('History projection invalid');
+    const ids=new Set();
+    for(const s of data.closed_trades){
+      if(!s||typeof s.id!=='string'||ids.has(s.id)||
+        s.stage!=='PAPER_CLOSED'||s.paper_position_verified===false||
+        s.position_evidence!=='CANONICAL_PAPER_LEDGER'||
+        s.close_evidence!=='CANONICAL_CLOSED_PAPER_LEDGER'||
+        !['WIN','LOSS','BREAKEVEN'].includes(s.result)||
+        s.pnl_unit!=='LEDGER_UNIT_UNVERIFIED'||
+        !['BUY','SELL'].includes(s.side)||!/^[A-Z0-9]{2,15}$/.test(s.asset)||
+        typeof s.realized_pnl!=='number'||!Number.isFinite(s.realized_pnl)||
+        typeof s.exit_price!=='number'||s.exit_price<=0||
+        typeof s.trigger!=='number'||s.trigger<=0||
+        !Number.isFinite(Date.parse(s.closed_at))||
+        !Number.isFinite(Date.parse(s.observed_at))||
+        Date.parse(s.closed_at)<Date.parse(s.observed_at))
+        throw Error('Invalid verified closed trade');
+      ids.add(s.id);
+    }
+    return data;
+  }
   async function refreshClosed(){
-    closedReady=false;closedRows=[];
+    if(closedBusy)return;
+    closedBusy=true;
     try{
-      const response=await fetch('/api/genesis/closed-trades',{
-        cache:'no-store',headers:{Accept:'application/json'}});
-      if(!response.ok)throw Error('Closed projection not approved');
-      const data=await response.json(),t=Date.parse(data.generated_at);
-      if(data.status!=='ok'||data.source!=='GENESIS_VERIFIED_CLOSED_PAPER_PROJECTION'||
-        data.execution_authority!=='none'||data.mode!=='PAPER'||
-        data.pnl_unit!=='LEDGER_UNIT_UNVERIFIED'||
-        !Number.isFinite(t)||Date.now()-t>120000||Date.now()-t < -30000||
-        !Array.isArray(data.closed_trades)||data.closed_trades.length>50)
-        throw Error('Closed projection invalid');
-      const ids=new Set();
-      for(const s of data.closed_trades){
-        if(!s||typeof s.id!=='string'||ids.has(s.id)||
-          s.stage!=='PAPER_CLOSED'||s.paper_position_verified!==true||
-          !['WIN','LOSS','BREAKEVEN'].includes(s.result)||
-          s.pnl_unit!=='LEDGER_UNIT_UNVERIFIED'||
-          !['BUY','SELL'].includes(s.side)||!/^[A-Z0-9]{2,15}$/.test(s.asset)||
-          typeof s.realized_pnl!=='number'||!Number.isFinite(s.realized_pnl)||
-          typeof s.exit_price!=='number'||s.exit_price<=0||
-          typeof s.trigger!=='number'||s.trigger<=0||
-          !Number.isFinite(Date.parse(s.closed_at)))
-          throw Error('Closed record invalid');
-        ids.add(s.id);
+      const data=await fetchHistoryPage(1);
+      // A changed ledger invalidates all previously downloaded pages.
+      if(data.revision===closedRevision&&closedReady){
+        closedRows=[...data.closed_trades,...closedRows.slice(50)];
+      }else{
+        closedRows=data.closed_trades;
+        closedPage=1;
       }
-      closedRows=data.closed_trades;closedReady=true;
-    }catch{closedRows=[];closedReady=false;}
-    set('tab-closed-count',closedReady?closedRows.length:'—');
+      closedRevision=data.revision;
+      closedTotal=data.verified_count;closedExcluded=data.excluded_count;
+      closedMore=closedRows.length<closedTotal;
+      closedReady=true;
+    }catch{
+      closedRows=[];closedReady=false;closedRevision='';closedTotal=0;
+      closedExcluded=0;closedPage=0;closedMore=false;
+    }finally{
+      closedBusy=false;
+      set('tab-closed-count',closedReady?closedTotal:'—');
+      render();
+    }
+  }
+  async function loadMoreClosed(){
+    if(closedBusy||!closedReady||!closedMore)return;
+    closedBusy=true;$('history-load').disabled=true;
+    try{
+      const page=closedPage+1,data=await fetchHistoryPage(page);
+      if(data.revision!==closedRevision||data.verified_count!==closedTotal||
+        data.excluded_count!==closedExcluded||
+        data.closed_trades.some(s=>closedRows.some(r=>r.id===s.id)))
+        throw Error('History ledger changed while paging');
+      closedRows.push(...data.closed_trades);
+      closedPage=page;closedMore=data.has_more;
+    }catch{
+      closedReady=false;closedRows=[];closedPage=0;closedMore=false;
+      closedRevision='';closedTotal=0;closedExcluded=0;
+    }finally{
+      closedBusy=false;render();
+    }
   }
   async function refresh(){
     if(busy)return;busy=true;$('refresh').disabled=true;
@@ -465,7 +537,8 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
     }finally{busy=false;$('refresh').disabled=false;}
   }
   $('view-positions').addEventListener('click',()=>{view='positions';render()});
-  $('view-closed').addEventListener('click',()=>{view='closed';render()});
+  $('view-closed').addEventListener('click',()=>{view='closed';history.replaceState(null,'','#history');render()});
+  $('history-load').addEventListener('click',loadMoreClosed);
   $('view-signals').addEventListener('click',()=>{view='signals';render()});
   $('refresh').addEventListener('click',refresh);
   $('status-filter').addEventListener('change',render);

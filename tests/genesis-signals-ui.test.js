@@ -26,7 +26,7 @@ test('Genesis signals page is mobile-responsive, accessible and error-safe',()=>
   assert.match(html,/realized_pnl/);
   assert.match(html,/CANONICAL_CLOSED_PAPER_LEDGER|canonical close/i);
   assert.match(html,/No result is inferred from disappearing positions/i);
-  assert.match(html,/fetch\('\/api\/genesis\/closed-trades'/);
+  assert.match(html,/fetch\('\/api\/genesis\/trade-history\?page='/);
   assert.match(html,/LEDGER_UNIT_UNVERIFIED/);
   assert.match(html,/positions=view==='positions'/);
   assert.match(html,/Only positions corroborated by Genesis/);
@@ -58,6 +58,21 @@ test('Genesis signals page is mobile-responsive, accessible and error-safe',()=>
     .map(m=>m[1]).filter(Boolean);
   assert.equal(inline.length,1);
   new vm.Script(inline[0],{filename:'genesis-signals-inline.js'});
+});
+test('complete verified PAPER history is separate, paginated and fail closed',()=>{
+  const html=file('genesis-signals.html');
+  for(const id of ['history-progress','history-actions','history-load']){
+    assert.match(html,new RegExp('id="'+id+'"'));
+  }
+  assert.match(html,/fetch\('\/api\/genesis\/trade-history\?page='/);
+  assert.match(html,/GENESIS_VERIFIED_PAPER_HISTORY_V1/);
+  assert.match(html,/LEDGER_UNIT_UNVERIFIED/);
+  assert.match(html,/closedTotal\+closedExcluded/);
+  assert.match(html,/history-load'\)\.addEventListener\('click',loadMoreClosed/);
+  assert.match(html,/History ledger changed while paging/);
+  assert.match(html,/Search applies to loaded records only/);
+  assert.match(html,/Full closed-history feed not verified/);
+  assert.doesNotMatch(html,/fetch\('\/api\/genesis\/closed-trades'/);
 });
 test('public Genesis signals entry is included in global navigation and sitemap',()=>{
   const tabs=file('assets/js/site-tabs.js');
