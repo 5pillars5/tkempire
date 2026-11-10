@@ -26,7 +26,7 @@ test('Genesis signals page is mobile-responsive, accessible and error-safe',()=>
   assert.match(html,/realized_pnl/);
   assert.match(html,/CANONICAL_CLOSED_PAPER_LEDGER|canonical close/i);
   assert.match(html,/No result is inferred from disappearing positions/i);
-  assert.match(html,/fetch\('\/api\/genesis\/closed-trades'/);
+  assert.match(html,/fetch\('\/api\/genesis\/trade-history\?page='/);
   assert.match(html,/LEDGER_UNIT_UNVERIFIED/);
   assert.match(html,/positions=view==='positions'/);
   assert.match(html,/Only positions corroborated by Genesis/);
