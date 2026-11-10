@@ -36,7 +36,7 @@ function row(s,now){
     (s.realized_pnl>0&&s.result!=='WIN')||
     (s.realized_pnl<0&&s.result!=='LOSS')||
     (s.realized_pnl===0&&s.result!=='BREAKEVEN'))return null;
-  return Object.fromEntries([...ROW_KEYS].map(k=>[k,s[k]]));
+  return {...Object.fromEntries([...ROW_KEYS].map(k=>[k,s[k]])),paper_position_verified:true};
 }
 module.exports=async function tradeHistory(req,res){
   if(req.method!=='GET'){res.setHeader('Allow','GET');return send(res,405,{status:'method_not_allowed',closed_trades:[]});}
