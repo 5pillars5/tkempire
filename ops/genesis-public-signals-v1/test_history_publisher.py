@@ -34,7 +34,7 @@ class HistoryTests(unittest.TestCase):
         result=project(events)
         self.assertEqual(result["verified_count"],2)
         self.assertEqual(result["excluded_count"],0)
-        self.assertEqual(result["closed_trades"][1]["observed_at"],stamp(-110*86400))
+        self.assertEqual(result["closed_trades"][1]["observed_at"],history.iso(history.timestamp(stamp(-110*86400))))
         self.assertEqual(result["closed_trades"][1]["pnl_unit"],"LEDGER_UNIT_UNVERIFIED")
         self.assertNotIn("PRIVATE_MASTER_WALLET",json.dumps(result))
         self.assertNotIn("PRIVATE_FINGERPRINT",json.dumps(result))
