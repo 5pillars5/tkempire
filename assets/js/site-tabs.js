@@ -72,7 +72,14 @@
         if (wasOpen) toggle.focus();
       }
     });
-    inner.append(brand,toggle,links);
+    // On phones the full nav is collapsed. Keep the PAPER trades link visible.
+    const genesisShortcut = document.createElement('a');
+    genesisShortcut.className = 'empire-global-nav__shortcut';
+    genesisShortcut.href = '/genesis-signals.html';
+    genesisShortcut.textContent = 'Genesis Signals';
+    genesisShortcut.setAttribute('aria-label','Open Genesis Signals — paper positions');
+    if (current === 'genesis-signals.html') genesisShortcut.setAttribute('aria-current','page');
+    inner.append(brand,genesisShortcut,toggle,links);
     nav.appendChild(inner);
     if (statusNodes.length) {
       const status = document.createElement('div');

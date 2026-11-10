@@ -19,6 +19,19 @@ test('phone navigation has an accessible menu and responsive layout', () => {
   assert.match(nav,/Smart Money/);
   assert.match(nav,/Live Signals/);
 });
+test('Genesis Signals remains visible outside the collapsed mobile menu and in trading pages', () => {
+  const nav=read('assets/js/site-tabs.js'),css=read('assets/css/site-tabs.css');
+  const home=read('index.html'),dash=read('dashboard.html'),testnet=read('testnet.html');
+  assert.match(nav,/genesisShortcut\.href = '\/genesis-signals\.html'/);
+  assert.match(nav,/inner\.append\(brand,genesisShortcut,toggle,links\)/);
+  assert.match(css,/\.empire-global-nav__shortcut\{display:inline-flex/);
+  assert.match(css,/\.empire-global-nav__shortcut\{display:none\}/);
+  assert.match(home,/href="genesis-signals\.html"/);
+  assert.match(dash,/href="\/genesis-signals\.html"/);
+  assert.match(testnet,/href="\/genesis-signals\.html"/);
+  assert.match(testnet,/Genesis Signals — Current PAPER Trades/);
+  assert.match(testnet,/separate from exchange P&amp;L/);
+});
 test('Genesis pipeline reads only public filtered APIs', () => {
   const brain=read('assets/js/genesis-brain.js');
   const dashboard=read('dashboard.html');

@@ -32,6 +32,10 @@ button{font:800 13px system-ui;border:1px solid #7461a7;border-radius:9px;backgr
 .table-scroll{overflow-x:auto}.grid-table{width:100%;border-collapse:collapse;text-align:left;font-size:12px}.grid-table th{padding:11px 13px;color:#a9aac2;background:#101229;font-size:10px;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}.grid-table td{padding:12px 13px;border-bottom:1px solid #2b2b48;white-space:nowrap;font-variant-numeric:tabular-nums}.grid-table tr:last-child td{border-bottom:none}.empty{padding:24px 10px;color:#a6abc5;text-align:center}
 .kv{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 2px;border-bottom:1px solid #2a2a49}.kv:last-child{border:0}.kv span{color:var(--muted)}.kv strong{font-variant-numeric:tabular-nums;text-align:right}
 .chart-wrap{margin-top:5px}.chart-wrap svg{width:100%;height:220px;display:block;overflow:visible}.chart-wrap .axis{fill:#9c9fbc;font-size:10px}.chart-wrap .path{stroke:var(--purple);stroke-width:2.5;fill:none;stroke-linejoin:round;stroke-linecap:round}.chart-wrap .baseline{stroke:#40415f;stroke-dasharray:3 5}.chart-wrap .fill{fill:#9e76ff15}
+.genesis-entry{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:16px 0 4px}
+.genesis-entry a{display:inline-flex;align-items:center;min-height:44px;padding:11px 15px;border:1px solid #a78bfa;border-radius:10px;background:#291a48;color:#fff;font-size:13px;font-weight:800;text-decoration:none}
+.genesis-entry a:hover,.genesis-entry a:focus-visible{background:#3b2860}
+.genesis-entry span{font-size:12px;color:#b7b9d4}
 .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}.actions a{display:inline-block;padding:11px 14px;text-decoration:none;border:1px solid #615588;background:#1a1531;border-radius:10px;font-size:12px;font-weight:800}
 footer{padding:28px 15px;border-top:1px solid #242443;font-size:11px;color:#969bb8;text-align:center}
 @media(max-width:930px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.twocol{grid-template-columns:1fr}}
@@ -49,6 +53,10 @@ footer{padding:28px 15px;border-top:1px solid #242443;font-size:11px;color:#969b
     </div>
     <div class="pill" id="connectionPill" role="status">NOT CONNECTED</div>
   </header>
+  <div class="genesis-entry" aria-label="Genesis paper-trade navigation">
+    <a href="/genesis-signals.html">Genesis Signals — Current PAPER Trades</a>
+    <span>View SOL/BNB paper positions and estimated price movement; separate from exchange P&amp;L.</span>
+  </div>
   <div class="note"><strong>Simulation environment.</strong> This page reads actual TESTNET exchange records. It does not show Genesis internal paper positions, and it does not submit orders. Mock USDC and TESTNET P&amp;L have no real-money value.</div>
   <section class="form-panel" aria-label="Read-only account connection">
     <form id="walletForm">
@@ -112,6 +120,7 @@ footer{padding:28px 15px;border-top:1px solid #242443;font-size:11px;color:#969b
     <p class="small" id="fillsNote">History is capped by the exchange API; this dashboard is not a complete accounting ledger.</p>
   </section>
   <div class="actions">
+    <a href="/genesis-signals.html">Genesis Signals — PAPER trades</a>
     <a href="/portfolio.html">Genesis paper Portfolio Lab</a>
     <a href="/results.html">Research results</a>
     <a href="https://app.hyperliquid-testnet.xyz" rel="noopener noreferrer" target="_blank">Hyperliquid TESTNET</a>
