@@ -104,6 +104,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visi
 .history-actions button{min-height:44px;padding:10px 18px;background:#233e59;color:white;border:1px solid #68829a;border-radius:9px;font-weight:800}
 .history-actions button:disabled{opacity:.5}
 .history-actions span{font-size:11px;color:var(--muted)}
+.history-actions[hidden],.history-progress[hidden],#history-load[hidden]{display:none!important}
 footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);font-size:11px;border-top:1px solid #233346}
 @media(max-width:720px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.controls{width:100%}.controls input{flex:1}.signal-cards{padding:12px}.signal-card{padding:16px}}
 @media(max-width:390px){.levels{grid-template-columns:repeat(3,minmax(0,1fr))}.levels strong{font-size:12px}.controls label{width:100%}}
@@ -140,7 +141,7 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
   </section>
   <div class="view-tabs" role="group" aria-label="Choose Genesis view">
     <button id="view-positions" type="button" aria-pressed="true" aria-controls="signals-panel">Open paper positions <span class="count" id="tab-open-count">—</span></button>
-    <button id="view-closed" type="button" aria-pressed="false" aria-controls="signals-panel">Closed trades <span class="count" id="tab-closed-count">—</span></button>
+    <button id="view-closed" type="button" aria-pressed="false" aria-controls="signals-panel">Full trading history <span class="count" id="tab-closed-count">—</span></button>
     <button id="view-signals" type="button" aria-pressed="false" aria-controls="signals-panel">All signal activity <span class="count" id="tab-signal-count">—</span></button>
   </div>
   <section class="panel" id="signals-panel" aria-labelledby="signals-title">
@@ -178,7 +179,7 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
 (() => {
   'use strict';
   const $=id=>document.getElementById(id);
-  let records=[],closedRows=[],closedReady=false,ready=false,busy=false,view="positions";
+  let records=[],closedRows=[],closedReady=false,ready=false,busy=false,view=location.hash==="#history"?"closed":"positions";
   let closedPage=0,closedMore=false,closedRevision='',closedTotal=0,closedExcluded=0,closedBusy=false;
   let quotes=Object.create(null),quoteAt=0,quoteFetchedAt=0,quoteBusy=false;
   const STAGES=new Set(['QUALIFIED','PAPER_OPEN','PAPER_CLOSED']);
@@ -536,7 +537,7 @@ footer{max-width:1160px;margin:auto;padding:20px 14px 40px;color:var(--muted);fo
     }finally{busy=false;$('refresh').disabled=false;}
   }
   $('view-positions').addEventListener('click',()=>{view='positions';render()});
-  $('view-closed').addEventListener('click',()=>{view='closed';render()});
+  $('view-closed').addEventListener('click',()=>{view='closed';history.replaceState(null,'','#history');render()});
   $('history-load').addEventListener('click',loadMoreClosed);
   $('view-signals').addEventListener('click',()=>{view='signals';render()});
   $('refresh').addEventListener('click',refresh);
