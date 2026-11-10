@@ -35,6 +35,7 @@ button,select{background:#213550;color:var(--fg);border:1px solid #415d7c;border
 .raw-table{border-top:1px solid var(--edge);padding:10px 18px 0}.raw-table summary{cursor:pointer;color:var(--muted);padding:11px 0;font-weight:750}
 #signalCards .empty{grid-column:1/-1}
 @media(max-width:680px){.signal-switch{grid-template-columns:1fr}.signal-cards{padding:12px}.signal-card{padding:16px}.signal-values{gap:5px}}
+.assessment{border-top:1px solid #354960;margin:14px 0;padding-top:14px}.assessment label{display:block;color:var(--muted);font-size:12px}.assessment input{width:90px;background:#080d18;color:var(--fg);border:1px solid #415d7c;border-radius:6px;padding:8px;margin:6px 8px 10px 0}.assessment-result{font-size:12px;overflow-wrap:anywhere}.assessment-result strong{display:block;color:var(--gold);font-size:14px;margin:10px 0}.assessment-result dl{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:10px 0}.assessment-result dd{margin:0}.assessment-result dt{color:var(--muted)}.assessment-result p{margin:9px 0}
 </style><link rel="stylesheet" href="/assets/css/site-tabs.css?v=4"></head><body>
 <header><div><a href="/">TK EMPIRE / GENESIS</a><span><a href="/smart-money-flow.html">Flow Map</a> &nbsp;•&nbsp; <a href="/smart-money.html">Wallet Watch</a> &nbsp;•&nbsp; <a href="/dashboard.html">Dashboard</a></span></div></header>
 <main>
@@ -46,7 +47,7 @@ button,select{background:#213550;color:var(--fg);border:1px solid #415d7c;border
   <a href="/smart-money-signals.html" class="active" aria-current="page"><span><strong>1 · Signals</strong><small>See what public wallets bought or sold and inspect the source.</small></span><span class="arrow" aria-hidden="true">●</span></a>
   <a href="/smart-money.html"><span><strong>2 · Wallet positions</strong><small>View a public trader's current shares, prices, and reported profit or loss.</small></span><span class="arrow" aria-hidden="true">↗</span></a>
 </div>
-<div class="signal-note"><strong>Know the difference:</strong> A signal is an observed transaction, not an open Genesis trade. Public wallet holdings are on the Wallet Positions page. Genesis private PAPER position details are not exposed here.</div>
+<div class="signal-note"><strong>Know the difference:</strong> Use <strong>Check current prices</strong> on a card to compare the wallet’s historical fill with current bids and asks, available size, and a matched YES/NO pair. Checks run only when requested. A signal is an observed transaction, not an open Genesis trade. Public wallet holdings are on the Wallet Positions page. Genesis private PAPER position details are not exposed here.</div>
 <div class="strip"><span class="badge">PAPER RESEARCH ONLY • NO ORDERS</span><span id="lastUpdated" class="muted">Not refreshed yet</span><span class="muted">Refresh every 60 seconds while open</span></div>
 <div class="stats">
 <div class="stat"><small>Monitored wallets</small><strong id="wallets">—</strong></div>
@@ -94,6 +95,59 @@ function signalMetric(box,label,value){
 function signalFact(box,label,value){
  box.append(cardNode('dt','',label),cardNode('dd','',value));
 }
+
+const ASSESSMENT_LABELS={potential_pair_gap:'Potential pair gap — verify both legs',no_pair_gap:'No pair gap at this size',fees_unverified:'Gross gap only — fees unverified',stale_quotes:'Stale quotes — check again',insufficient_liquidity:'Insufficient ask liquidity',below_minimum_size:'Below market minimum size',inconsistent_book:'Inconsistent book — do not rely on quotes',market_unavailable:'Expired, closed, or not accepting orders',insufficient_evidence:'Insufficient evidence'};
+const cents=n=>typeof n==='number'&&Number.isFinite(n)?(n*100).toFixed(2)+'¢':'Unavailable';
+function appendAssessment(card,s){
+ const box=cardNode('section','assessment');
+ if(!/^[a-z0-9-]{1,160}$/.test(s.event_slug||'')||!/^0x[a-f0-9]{64}$/i.test(s.condition_id||'')){box.append(cardNode('p','muted','Insufficient evidence: market identifier unavailable.'));card.append(box);return;}
+ const label=cardNode('label','','Shares of EACH outcome to check');
+ const input=cardNode('input');input.type='number';input.min='1';input.max='10000';input.step='1';input.value='10';label.append(input);
+ const button=cardNode('button','','Check current prices');button.type='button';
+ const result=cardNode('div','assessment-result');result.setAttribute('role','status');
+ result.append(cardNode('p','','Not checked. Historical fills are not current offers.'));
+ box.append(label,button,result);card.append(box);
+ button.addEventListener('click',async()=>{
+  const quantity=Number(input.value);if(!Number.isInteger(quantity)||quantity<1||quantity>10000){result.replaceChildren(cardNode('p','','Enter 1–10,000 whole shares per outcome.'));return;}
+  button.disabled=true;result.replaceChildren(cardNode('p','','Checking market identity, books, depth and fees…'));
+  try{
+   const args=new URLSearchParams({event:s.event_slug,condition:s.condition_id,shares:String(quantity)});
+   const r=await fetch('/api/smart-money-assessment?'+args,{cache:'no-store',headers:{Accept:'application/json'}}),d=await r.json();
+   if(!r.ok||d.execution_enabled!==false||!ASSESSMENT_LABELS[d.status])throw Error('unavailable');
+   result.replaceChildren(cardNode('strong','',ASSESSMENT_LABELS[d.status]));
+   const facts=cardNode('dl');
+   signalFact(facts,'Market end (not settlement)',d.end_at?stamp(d.end_at):'Unavailable');
+   if(d.end_at)signalFact(facts,'Time to market end',Math.max(0,Math.ceil((Date.parse(d.end_at)-Date.now())/3600000))+' hours');
+   if(d.yes&&d.no){
+    const chosen=String(s.outcome).toLowerCase()==='yes'?d.yes:String(s.outcome).toLowerCase()==='no'?d.no:null;
+    signalFact(facts,'YES bid / ask',cents(d.yes.best_bid)+' / '+cents(d.yes.best_ask));
+    signalFact(facts,'NO bid / ask',cents(d.no.best_bid)+' / '+cents(d.no.best_ask));
+    signalFact(facts,'YES / NO best-ask size',d.yes.ask_size_at_best+' / '+d.no.ask_size_at_best+' shares');
+    signalFact(facts,'YES / NO total ask depth',d.yes.ask_depth_shares.toFixed(2)+' / '+d.no.ask_depth_shares.toFixed(2)+' shares');
+    signalFact(facts,'YES / NO bid–ask spread',cents(d.yes.bid_ask_spread)+' / '+cents(d.no.bid_ask_spread));
+    signalFact(facts,'Pair cost for '+quantity+' each',usd(d.pair_cost));
+    signalFact(facts,'Pair cost per YES + NO',cents(d.pair_cost_per_share));
+    signalFact(facts,'Gross gap before costs',usd(d.gross_gap));
+    signalFact(facts,'Trading fees',d.fee_status==='zero_trading_fee_reported'?'Source reports zero':'Unverified; net gap withheld');
+    if(d.gap_after_reported_trading_fees!==null)signalFact(facts,'Gap after reported trading fees',usd(d.gap_after_reported_trading_fees));
+    if(chosen){
+     const compare=s.side==='SELL'?chosen.best_bid:chosen.best_ask;
+     signalFact(facts,s.side==='SELL'?'Current sell bid':'Current buy ask',cents(compare));
+     if(typeof compare==='number'&&typeof s.representative_price==='number'){const delta=compare-s.representative_price;signalFact(facts,'Change from historical fill',(delta*100).toFixed(2)+'¢/share (not profit or probability edge)');signalFact(facts,'Entry comparison',Math.abs(delta)<0.000001?'At the historical fill':delta>0?'Price moved higher':'Price moved lower');}
+    }
+    signalFact(facts,'YES book timestamp',d.yes.book_at?stamp(d.yes.book_at):'Unavailable');
+    signalFact(facts,'NO book timestamp',d.no.book_at?stamp(d.no.book_at):'Unavailable');
+    signalFact(facts,'Checked',stamp(d.checked_at));
+   }
+   result.append(facts);
+   result.append(cardNode('p','',d.caveat||'Market cannot currently be assessed. No opportunity inferred.'));
+   if(d.rules){const rules=cardNode('details');rules.append(cardNode('summary','','Market resolution rules'),cardNode('p','',d.rules));result.append(rules);}
+   if(d.checked_at){const checked=Date.parse(d.checked_at);setTimeout(()=>{if(result.isConnected&&Date.now()-checked>=60000)result.prepend(cardNode('strong','','Quote check expired — check again before relying on it.'));},61000);}
+  }catch{result.replaceChildren(cardNode('strong','','Insufficient evidence'),cardNode('p','','Current prices could not be verified. Try checking again; no spread or price has been inferred.'));}
+  finally{button.disabled=false;button.textContent='Recheck current prices';}
+ });
+}
+
 function renderCards(records){
  const root=$('signalCards');root.replaceChildren();
  if(!records.length){root.append(cardNode('div','empty','No observations match the current filter. Try All signals or refresh the public feed.'));return;}
@@ -103,16 +157,18 @@ function renderCards(records){
   const top=cardNode('div','signal-top');
   const side=s.side==='BUY'?'BUY':s.side==='SELL'?'SELL':'OBSERVED';
   const kind=cardNode('span','signal-kind '+(side==='BUY'?'buy':side==='SELL'?'sell':''),side+' · '+String(s.type||'OBSERVATION').replaceAll('_',' '));
-  const isRecent=s.alert_fresh===true && Number.isFinite(s.age_seconds) && s.age_seconds<=900;
-  const freshness=cardNode('span','signal-age'+(isRecent?' fresh':''),isRecent?'Recent observation':'Older observation');
+  const elapsed=Math.max(0,Math.floor((Date.now()-Date.parse(s.observed_at))/1000));
+  const isRecent=Number.isFinite(elapsed)&&elapsed<=900;
+  const freshness=cardNode('span','signal-age'+(isRecent?' fresh':''),(isRecent?'Fresh · ':'Older · ')+age(elapsed));
   top.append(kind,freshness);card.append(top);
   card.append(cardNode('h3','',s.market||'Market not labeled'));
   card.append(cardNode('p','signal-outcome','Outcome: '+String(s.outcome||'Not labeled')));
   const values=cardNode('div','signal-values');
   signalMetric(values,'Observed size',usd(s.amount_usdc));
-  signalMetric(values,'Trade price',typeof s.representative_price==='number'&&Number.isFinite(s.representative_price)?usd(s.representative_price)+'/share':'—');
+  signalMetric(values,'Wallet historical fill',typeof s.representative_price==='number'&&Number.isFinite(s.representative_price)?usd(s.representative_price)+'/share':'—');
   signalMetric(values,'Wallets',Number.isInteger(s.wallet_count)?String(s.wallet_count):'—');
   card.append(values);
+  appendAssessment(card,s);
   const detail=cardNode('details');
   detail.append(cardNode('summary','','View signal evidence'));
   detail.append(cardNode('p','signal-help',SIGNAL_EXPLANATIONS[s.type]||'Research observation. Not a trade recommendation or execution instruction.'));
