@@ -10,7 +10,21 @@ function status(message,mode){set('status-text',message);const e=$('connection')
 function render(d){
   set('positions-count',d.positions.length);set('orders-count',d.open_order_count);set('daily-pnl',money(d.today_net_pnl_usd));
   $('daily-pnl').className=d.today_net_pnl_usd>0?'positive':d.today_net_pnl_usd<0?'negative':'';
-  set('worker-state',d.service_state==='NOT_CONNECTED'?'Not connected':d.service_state);
+  set('worker-state',d.worker?.connected===true ? d.worker.service.state : 'Not verified');
+  set('worker-freshness',d.worker?.connected===true?'Worker heartbeat '+stamp(d.worker.service.heartbeat_at):'Worker feed: '+String(d.worker?.status||'NOT_CONNECTED'));
+  set('worker-entries',d.worker?.connected===true?d.worker.counters.entries_filled:'—');
+  set('worker-exits',d.worker?.connected===true?d.worker.counters.exits_reconciled:'—');
+  set('worker-errors',d.worker?.connected===true?d.worker.counters.errors:'—');
+  const events=$('worker-events');events.replaceChildren();
+  if(d.worker?.connected===true){
+    for(const e of d.worker.events){
+      const tr=node('tr');
+      for(const val of [stamp(e.at),e.coin,e.side,e.stage,e.reason_code,e.realized_pnl_usd===undefined?'—':money(e.realized_pnl_usd)])
+        tr.append(node('td',val));
+      events.append(tr);
+    }
+  }
+  $('worker-events-empty').hidden=d.worker?.connected===true&&d.worker.events.length>0;
   set('updated','Checked '+stamp(d.checked_at));
   const cards=$('position-cards');cards.replaceChildren();
   if(!d.positions.length)cards.append(node('div','No open APT or BNB positions on Hyperliquid testnet.','empty'));
@@ -28,7 +42,7 @@ function render(d){
     fills.append(tr);
   }
   $('monitor').hidden=false;$('auth-panel').hidden=true;$('refresh').hidden=false;
-  status('Exchange data verified. Genesis worker-event feed is not connected yet.','good');
+  status(d.worker?.connected===true?'Exchange and Genesis Auto worker feeds verified.':'Exchange verified; Genesis worker feed not independently verified.','good');
 }
 async function refresh(){
   if(busy||!key||document.hidden)return;busy=true;
