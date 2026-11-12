@@ -124,6 +124,7 @@ footer{width:min(1120px,94vw);margin:0 auto;border-top:1px solid #252341;padding
       <div class="composition">
         <span class="win" id="composition-wins">Wins —</span>
         <span class="loss" id="composition-losses">Losses —</span>
+        <span id="composition-other" class="metric-sub">Other / unclassified —</span>
       </div>
       <div class="ratio-track" id="ratio-track" role="img" aria-label="Win-loss composition unavailable">
         <span class="ratio-win" id="ratio-win"></span>
@@ -204,7 +205,7 @@ footer{width:min(1120px,94vw);margin:0 auto;border-top:1px solid #252341;padding
     var p = d.performance || {};
     var trades = count(p.trades), wins = count(p.wins), losses = count(p.losses);
     var wr = number(p.win_rate), pnl = number(p.total_pnl);
-    if (trades === null || wins === null || losses === null || wins + losses !== trades ||
+    if (trades === null || wins === null || losses === null || wins + losses > trades ||
         wr === null || wr < 0 || wr > 100) throw new Error('invalid_status');
     set('statWR',wr.toFixed(2)+'%');
     set('statTotal',trades);
@@ -213,8 +214,9 @@ footer{width:min(1120px,94vw);margin:0 auto;border-top:1px solid #252341;padding
     set('statPnl',pnl === null ? '—' : (pnl >= 0 ? '+' : '') + pnl.toFixed(2));
     set('composition-wins','Wins '+wins);
     set('composition-losses','Losses '+losses);
-    $('ratio-win').style.width = wr.toFixed(2)+'%';
-    $('ratio-track').setAttribute('aria-label', wins+' wins and '+losses+' losses across '+trades+' completed paper trades');
+    set('composition-other','Other / unclassified '+(trades-wins-losses));
+    $('ratio-win').style.width = (trades>0?(100*wins/trades):0).toFixed(2)+'%';
+    $('ratio-track').setAttribute('aria-label', wins+' wins, '+losses+' losses and '+(trades-wins-losses)+' other or unclassified outcomes across '+trades+' recorded paper trades');
     set('aggregate-timestamp','Aggregate updated '+at(d.updated_at));
     return true;
   }
@@ -242,7 +244,7 @@ footer{width:min(1120px,94vw);margin:0 auto;border-top:1px solid #252341;padding
     set('results-state-text',aggregate && health ? 'Both sources current' : (aggregate || health ? 'Partial data available' : 'Data unavailable'));
     set('results-updated','Last checked '+new Date().toLocaleTimeString([], {hour:'numeric',minute:'2-digit'}));
     if (!aggregate) {
-      ['statWR','statTotal','statWins','statLoss','statPnl','composition-wins','composition-losses'].forEach(function (id) { set(id,'—'); });
+      ['statWR','statTotal','statWins','statLoss','statPnl','composition-wins','composition-losses','composition-other'].forEach(function (id) { set(id,'—'); });
       set('aggregate-timestamp','Fresh aggregate not available');
       $('ratio-win').style.width='0%';
       $('ratio-track').setAttribute('aria-label','Win-loss composition unavailable');
