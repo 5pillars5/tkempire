@@ -23,5 +23,7 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: '22'
+      - name: Run local semantic regression tests
+        run: node --test tests/sitewide-consistency.test.js
       - name: Audit the live public website and public API routes, GET only
         run: node tests/sitewide-live-source-audit.cjs
