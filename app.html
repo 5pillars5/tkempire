@@ -9,6 +9,7 @@
 <link rel="icon" type="image/jpeg" href="https://i.imgur.com/Kf99eJt.jpeg">
 <link rel="manifest" href="/manifest.json">
 <link rel="stylesheet" href="/assets/css/site-tabs.css?v=4">
+<link rel="stylesheet" href="/assets/css/empire-overview.css?v=1">
 <style>
 :root{color-scheme:dark;--bg:#080815;--panel:#101226;--line:#292a48;--muted:#a5abc4;--purple:#c4b5fd;--gold:#f5c66a;--green:#67e8b4}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{background:radial-gradient(circle at 80% 0%,#21123c,transparent 35%),var(--bg);color:#f4f3ff;margin:0;font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
@@ -54,23 +55,28 @@ footer{border-top:1px solid #292742;color:#8990aa;font-size:11px;padding:23px 0 
 </style>
 <script src="/assets/js/genesis-live.js?v=1" defer></script>
 </head>
-<body>
-<main>
+<body class="empire-overview">
+<main id="main">
   <header class="overview-head">
     <div>
-      <div class="eyebrow">TK EMPIRE · GENESIS</div>
-      <h1>Command overview</h1>
-      <p class="lead">A clear, source-verified look at the research engine—paper trading only. Individual strategies and trade details remain private.</p>
+      <div class="eyebrow">TK EMPIRE / COMMAND OVERVIEW</div>
+      <h1>Your Empire.<br>One clear view.</h1>
+      <p class="lead">Start with verified status. Explore signals, performance, and wallet intelligence without mixing paper research with testnet activity.</p>
     </div>
     <span id="appConnectionBadge" class="api-pill" data-state="warn" aria-live="polite">Checking paper API</span>
   </header>
 
+  <section class="intro-callout" aria-label="Operating mode">
+    <div><strong>Genesis research is in PAPER mode</strong><p>This public overview is read-only. Exchange activity and private TESTNET monitoring are separate.</p></div>
+    <span class="mode-chip">PAPER · VALIDATION</span>
+  </section>
+
   <section aria-label="Genesis paper overview">
-    <h2 class="section-title">Current paper status</h2>
+    <h2 class="section-title">01 / VERIFIED PAPER SNAPSHOT</h2>
     <div class="overview-grid">
-      <div class="metric"><small>Engine</small><strong id="appEngine" class="green">—</strong><span id="appMode">Mode unverified</span></div>
-      <div class="metric"><small>Open paper positions</small><strong id="appOpenCount" class="purple">—</strong><span id="appPaperState">Position status not verified</span></div>
-      <div class="metric"><small>Paper win rate</small><strong id="appWinRate" class="gold">—</strong><span>Source-reported outcomes</span></div>
+      <div class="metric"><small>Engine health</small><strong id="appEngine" class="green">—</strong><span id="appMode">Mode unverified</span></div>
+      <div class="metric"><small>Open paper positions</small><strong id="appOpenCount">—</strong><span id="appPaperState">Position status not verified</span></div>
+      <div class="metric"><small>Paper win rate</small><strong id="appWinRate">—</strong><span>Source-reported historical outcomes</span></div>
       <div class="metric"><small>Completed paper trades</small><strong id="appTrades">—</strong><span>Separate aggregate dataset</span></div>
     </div>
     <div class="source-band">
@@ -79,34 +85,68 @@ footer{border-top:1px solid #292742;color:#8990aa;font-size:11px;padding:23px 0 
     </div>
   </section>
 
-  <div class="info-panel">
-    <h2>What the public overview shows</h2>
-    <p>Engine health and aggregate paper performance are available through filtered read-only APIs. Trade reasoning, entries, risk controls, and private strategy telemetry are intentionally withheld. A connected API is not evidence of real-money execution.</p>
-  </div>
-
-  <section aria-labelledby="actions-heading">
-    <h2 id="actions-heading" class="section-title">Explore TK Empire</h2>
-    <div class="actions">
-      <a class="action" href="/dashboard.html"><span class="action-icon">⚡</span><strong>Command Center</strong><small>Engine stages and health</small></a>
-      <a class="action" href="/results.html"><span class="action-icon">📊</span><strong>Paper Results</strong><small>Aggregates and archive</small></a>
-      <a class="action" href="/testnet.html"><span class="action-icon">📈</span><strong>TESTNET Portfolio</strong><small>Exchange fills, positions and P&amp;L</small></a>
-      <a class="action" href="/smart-money-signals.html"><span class="action-icon">🔎</span><strong>Signal Viewer</strong><small>Tap a signal to see the evidence</small></a>
-      <a class="action" href="/smart-money.html"><span class="action-icon">📋</span><strong>Public Wallet Positions</strong><small>Open holdings, entry price and P&amp;L</small></a>
-      <a class="action" href="/community.html"><span class="action-icon">👑</span><strong>Community Access</strong><small>Telegram and updates</small></a>
-      <a class="action" href="/join.html"><span class="action-icon">💎</span><strong>Private Beta</strong><small>Validation access information</small></a>
+  <section class="ux-section" aria-labelledby="choose-heading">
+    <div class="ux-heading">
+      <h2 id="choose-heading">02 / Where do you want to go?</h2>
+      <p>Three clear paths to the data.</p>
+    </div>
+    <div class="mission-grid">
+      <a class="mission" href="/genesis-signals.html">
+        <span class="mission-kicker">PAPER · GENESIS</span>
+        <strong>Genesis Signals</strong>
+        <small>View current paper positions, confidence, decisions, and trade history. Paper results are not exchange fills.</small>
+        <span class="mission-open">View paper signals →</span>
+      </a>
+      <a class="mission" href="/smart-money-signals.html">
+        <span class="mission-kicker">PUBLIC RESEARCH · POLYMARKET</span>
+        <strong>Smart Money</strong>
+        <small>Track observed wallet moves and inspect the related market and flow evidence, without treating observations as predictions.</small>
+        <span class="mission-open">Explore wallet signals →</span>
+      </a>
+      <a class="mission" href="/testnet.html">
+        <span class="mission-kicker">SIMULATED EXCHANGE · HYPERLIQUID</span>
+        <strong>Testnet Positions</strong>
+        <small>Inspect separate exchange-sourced positions and fills. Testnet performance is not real-money P&amp;L.</small>
+        <span class="mission-open">View testnet account →</span>
+      </a>
     </div>
   </section>
 
-  <section class="info-panel telegram" aria-labelledby="telegram-heading">
+  <section class="ux-section ux-duo" aria-label="More tools and data explanations">
+    <div class="ux-panel">
+      <h2>03 / Results and deeper tools</h2>
+      <p>The important information first. Advanced reports stay one tap away.</p>
+      <div class="ux-links">
+        <a href="/results.html">Paper Results</a>
+        <a href="/smart-money.html">Smart Money Positions</a>
+        <a href="/smart-money-flow.html">Flow Map</a>
+        <a href="/dashboard.html">Advanced Command Center</a>
+        <a href="/research.html">Research Library</a>
+        <a href="/learn.html">Learn the System</a>
+      </div>
+    </div>
+    <div class="ux-panel">
+      <h2>Understand what you're seeing</h2>
+      <p>A status badge says where information came from, not whether it is profitable.</p>
+      <div class="mode-guide">
+        <div><b>PAPER</b><span>Simulated Genesis trades and performance records.</span></div>
+        <div><b>TESTNET</b><span>Exchange-verified activity using simulated exchange funds.</span></div>
+        <div><b>RESEARCH</b><span>Observed wallet and market activity, not trading instructions.</span></div>
+        <div><b>UNVERIFIED</b><span>Missing or stale data. No healthy status is assumed.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ux-panel telegram" aria-labelledby="telegram-heading">
     <div class="telegram-body">
-      <h2 id="telegram-heading">🔔 Telegram &amp; signal updates</h2>
-      <p>Browser push-signal subscriptions are not configured on this website. You can open the TK Empire Telegram bot for currently available updates and notification options. Telegram delivery is not guaranteed by this button.</p>
+      <h2 id="telegram-heading">Updates through Telegram</h2>
+      <p>Browser push-signal subscriptions are not configured on this website. Open the Telegram bot to see currently available update options; delivery is not guaranteed by this link.</p>
     </div>
     <a class="telegram-link" href="https://t.me/tkempirebot" target="_blank" rel="noopener noreferrer">Open Telegram bot</a>
   </section>
-  <p class="honesty-note">Research mode: no real-money trading authority, no guaranteed signal delivery or profitability, and no invented live-performance claims.</p>
+  <p class="honesty-note">Research mode: no real-money trading authority, no guaranteed signal delivery or profitability, and no invented live-performance claims. Private operator dashboards require separate authorization.</p>
   <button type="button" id="installApp" class="install-btn" hidden>Install TK Empire on this device</button>
-  <footer>TK Empire · Built for Legacy · Paper research and public validation overview</footer>
+  <footer>TK Empire · Built for Legacy · Verified data before conclusions</footer>
 </main>
 <script>
 (function () {
