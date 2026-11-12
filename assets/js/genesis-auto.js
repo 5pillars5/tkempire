@@ -42,7 +42,9 @@ function render(d){
     fills.append(tr);
   }
   $('monitor').hidden=false;$('auth-panel').hidden=true;$('refresh').hidden=false;
-  status(d.worker?.connected===true?'Exchange and Genesis Auto worker feeds verified.':'Exchange verified; Genesis worker feed not independently verified.','good');
+  // Surface the fail-closed worker status above the fold on mobile. Never hide it behind a generic badge.
+  const workerStatus=d.worker?.connected===true?'VERIFIED':String(d.worker?.status||'NOT_CONNECTED').replace(/[^A-Z_]/g,'').slice(0,40);
+  status(d.worker?.connected===true?'Exchange and Genesis Auto worker feeds verified.':'Exchange verified; Genesis worker feed: '+workerStatus+'.','good');
 }
 async function refresh(){
   if(busy||!key||document.hidden)return;busy=true;
