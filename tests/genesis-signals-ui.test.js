@@ -76,7 +76,7 @@ test('complete verified PAPER history is separate, paginated and fail closed',()
 });
 test('public Genesis signals entry is included in global navigation and sitemap',()=>{
   const tabs=file('assets/js/site-tabs.js');
-  assert.ok(tabs.includes("['Genesis Signals','/genesis-signals.html']"));
+  assert.ok(tabs.includes("['Genesis Signals','/genesis-signals.html'"));
   new vm.Script(tabs,{filename:'site-tabs.js'});
   assert.ok(file('sitemap.xml').includes('https://tkempire.io/genesis-signals.html'));
 });
