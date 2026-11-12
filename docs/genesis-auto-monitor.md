@@ -15,3 +15,6 @@ A separate, authenticated, loopback-only VPS publisher can project the auto-work
 ## Verification
 
 Run `node --test tests/genesis-auto-monitor.test.js` in the repository. In preview, test missing/mistyped key, no positions, open positions and fills, stale/unavailable exchange, mobile rendering and no public data exposure. This branch must not alter production PAPER mode or existing Genesis AUTO execution.
+## Preview deployment
+
+The Vercel preview must have its own `GENESIS_AUTO_VIEW_KEY` and `GENESIS_AUTO_TESTNET_ACCOUNT` values; after editing environment variables create a new preview deployment so they take effect. The preview is intentionally not the production website. Do not set the independent private view key on the production project until privacy and authenticated exchange response checks pass.
