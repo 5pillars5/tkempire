@@ -2,7 +2,8 @@
 // Allowlisted, read-only bridge from the private VPS Genesis Auto worker publisher.
 // This file has NO exchange order, signing, approval, or wallet-writing methods.
 const UPSTREAM='https://api.tkempire.io/internal/genesis/auto-monitor';
-const EXPECTED_STATUS_URL='https://api.tkempire.io/internal/genesis/health';
+// The upstream HTTPS host and exact read-only path are pinned in UPSTREAM above.
+// Legacy health URL env configuration is unrelated to this fixed monitor route.
 const MAX_BYTES=32768;
 const COINS=new Set(['APT','BNB']);
 const SIDES=new Set(['BUY','SELL']);
@@ -73,7 +74,6 @@ async function fetchWorkerFeed(){
   const token=process.env.GENESIS_STATUS_TOKEN;
   const username=process.env.GENESIS_STATUS_USERNAME||'tkempire-site';
   // Return non-secret configuration diagnostics only to the viewer-key-protected API.
-  if(process.env.GENESIS_STATUS_URL!==EXPECTED_STATUS_URL)return unavailable('CONFIG_STATUS_URL');
   if(!['tkempire-site','tkempire-prod'].includes(username))return unavailable('CONFIG_USERNAME');
   if(typeof token!=='string'||token.length<32||token.length>256||/[\r\n]/.test(token))
     return unavailable('CONFIG_STATUS_TOKEN');
