@@ -1,0 +1,150 @@
+/* TK EMPIRE | 2026 interface system. Layout only: no API, trading or auth changes. */
+:root{
+ --emp-bg:#080f1b; --emp-surface:#101c2c; --emp-surface2:#142438;
+ --emp-border:#30445c; --emp-gold:#e9bb71; --emp-gold-lite:#ffe1a8;
+ --emp-text:#edf5ff; --emp-muted:#a9bdd2; --emp-green:#85ddba; --emp-red:#ff9dae;
+}
+html{scroll-padding-top:90px}
+body.empire-modern:not(.empire-overview){
+ color:var(--emp-text);
+ background:radial-gradient(ellipse at 82% -15%,rgba(24,61,91,.55),transparent 42%),linear-gradient(#08111f,#080f1b) !important;
+ font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+ line-height:1.55;
+}
+body.empire-modern *{box-sizing:border-box}
+body.empire-modern h1{font-size:clamp(30px,4.9vw,53px);line-height:1.08;letter-spacing:-.035em;overflow-wrap:break-word}
+body.empire-modern h2{letter-spacing:-.018em;line-height:1.2}
+body.empire-modern .eyebrow,body.empire-modern .kicker,body.empire-modern .section-label{
+ font-size:11px;letter-spacing:.12em;color:var(--emp-gold);font-weight:800;
+}
+body.empire-modern .lead,body.empire-modern .intro,body.empire-modern .sub,body.empire-modern .section-copy{
+ color:#b1c4d8;font-size:clamp(13px,1.65vw,16px);line-height:1.7;
+}
+body.empire-modern :is(button,a,input,select,textarea):focus-visible{
+ outline:2px solid var(--emp-gold-lite)!important;outline-offset:3px
+}
+body.empire-modern button,body.empire-modern a{touch-action:manipulation}
+body.empire-modern .empire-global-nav__toggle{color:#f5e6cb}
+body.empire-modern :is(.panel,.card,.metric,.stat,.stat-card,.status-card,.status-tile,.proof-card,.v3-panel,.v3-metric,.ops-status-card,.dash-card,.section,.info-panel,.position,.summary,.form-panel,.result-card,.link-card,.research-card,.system-tile,.safety-card){
+ border-color:var(--emp-border);border-radius:15px;
+ box-shadow:none;
+}
+body.empire-modern :is(.panel,.card,.metric,.stat,.stat-card,.status-card,.status-tile,.v3-panel,.ops-status-card,.dash-card,.section,.info-panel,.position,.summary,.form-panel,.system-tile){
+ background-color:var(--emp-surface);
+}
+body.empire-modern :is(.panel,.card,.metric,.stat,.v3-panel,.ops-status-card) :is(.label,.k,.hint,small){
+ color:#b4c8db;
+}
+body.empire-modern :is(.panel,.card,.metric,.stat,.stat-card,.status-card) :is(strong,.value,.v){
+ font-variant-numeric:tabular-nums;
+}
+body.empire-modern :is(.statusbar,.disclosure,.notice,.warning,.risk,.source-band,.statusline,.signal-note){
+ border-radius:12px;line-height:1.6;
+}
+body.empire-modern :is(button,.btn,.primary,.refresh,.ref-button,.filter-btn,.pillink,.back){
+ min-height:40px;border-radius:10px;
+}
+body.empire-modern :is(input,select,textarea){
+ min-height:41px;border-radius:9px;color-scheme:dark;
+}
+body.empire-modern table{border-collapse:collapse}
+body.empire-modern th{
+ font-size:11px;letter-spacing:.055em;text-transform:uppercase;color:#b3c7da;
+}
+body.empire-modern td{font-variant-numeric:tabular-nums}
+body.empire-modern :is(.tablewrap,.table-wrap,.table-scroll,.raw-table,.grid-table){
+ max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;
+}
+body.empire-modern .empire-section-rail{
+ width:min(1160px,calc(100% - 32px));margin:18px auto 2px;padding:14px 17px;
+ display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+ border:1px solid #28435a;border-radius:12px;background:rgba(14,30,48,.92);
+ position:relative;z-index:1;
+}
+body.empire-modern .empire-rail-context{display:flex;align-items:center;gap:9px;flex-wrap:wrap;min-width:0}
+body.empire-modern .empire-rail-context a{color:#a9bfd7;font-size:11px;text-decoration:none;font-weight:700}
+body.empire-modern .empire-rail-divider{color:#6985a0}
+body.empire-modern .empire-rail-title{color:#fff;font-size:12px;font-weight:800}
+body.empire-modern .empire-rail-mode{
+ font-size:10px;letter-spacing:.085em;font-weight:850;padding:6px 10px;
+ border-radius:8px;border:1px solid #997649;background:#34291d;color:#ffdf9e;
+}
+body.empire-modern .empire-rail-mode[data-type="research"]{color:#b4daf6;background:#142d41;border-color:#3b6986}
+body.empire-modern .empire-rail-mode[data-type="testnet"]{color:#b4efdf;background:#18362f;border-color:#427d6a}
+body.empire-modern .empire-rail-near{display:flex;align-items:center;flex-wrap:wrap;gap:7px}
+body.empire-modern .empire-rail-near a{
+ padding:7px 10px;border:1px solid #334d64;border-radius:8px;
+ color:#d9e7f6;text-decoration:none;font-size:11px;font-weight:700;
+}
+body.empire-modern .empire-rail-near a:hover{border-color:var(--emp-gold)}
+/* Reduce duplicated legacy page navigation when shared top navigation is present. */
+body.empire-modern[data-empire-page="smart-money"] > header,
+body.empire-modern[data-empire-page="smart-money-signals"] > header{display:none}
+body.empire-modern[data-empire-page="index"] .hero{padding-top:64px}
+body.empire-modern[data-empire-page="index"] .hero h1{font-size:clamp(38px,6.5vw,73px)}
+body.empire-modern[data-empire-page="index"] .hero .command,
+body.empire-modern[data-empire-page="index"] .cards .card{
+ background:#101d2e;border-color:#30485f;
+}
+body.empire-modern[data-empire-page="index"] .link-card{background:#111e2e;border:1px solid #324a62}
+body.empire-modern .empire-home-paths{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:25px;
+}
+body.empire-modern .empire-home-paths a{
+ display:flex;flex-direction:column;gap:10px;padding:22px;
+ background:linear-gradient(140deg,#162d43,#101c2c);border:1px solid #3c5971;
+ border-radius:16px;color:#eff7ff;text-decoration:none;
+}
+body.empire-modern .empire-home-paths a:hover{border-color:var(--emp-gold)}
+body.empire-modern .empire-home-paths b{font-size:20px}
+body.empire-modern .empire-home-paths span{font-size:12px;color:#b7c9da;line-height:1.65}
+body.empire-modern .empire-home-paths small{font-size:11px;color:var(--emp-gold);font-weight:850;margin-top:auto}
+body.empire-modern .empire-all-links{margin-top:17px;border:1px solid #354a60;border-radius:13px;background:#101c2b;padding:15px 18px}
+body.empire-modern .empire-all-links summary{cursor:pointer;font-size:13px;color:#ead0a0;font-weight:850}
+body.empire-modern .empire-all-links .links-grid{margin-top:17px}
+body.empire-modern[data-empire-page="dashboard"] .v3-wrap{
+ background:transparent;border:0;box-shadow:none;
+}
+body.empire-modern[data-empire-page="dashboard"] .v3-hero .v3-title{font-size:clamp(30px,4.8vw,48px);line-height:1.09;letter-spacing:-.035em}
+body.empire-modern[data-empire-page="dashboard"] .v3-panel{
+ border-color:#344d65;background:#101d2e;
+}
+body.empire-modern[data-empire-page="dashboard"] .v3-metric{background:#14263a;border-color:#30475c}
+body.empire-modern[data-empire-page="dashboard"] .eai-command-center{background:#0b1523!important;border-color:#30445c!important}
+body.empire-modern[data-empire-page="dashboard"] .ops-status-card{
+ border-color:#344d64;background:#122439;
+}
+body.empire-modern[data-empire-page="dashboard"] .empire-context{width:min(1150px,calc(100% - 32px));margin:14px auto}
+body.empire-modern[data-empire-page="dashboard"] .empire-context a{color:#edc17c;text-decoration:none}
+body.empire-modern[data-empire-page="learn"] .sidebar{
+ border-right-color:#30475d;background:#0b1929;
+}
+body.empire-modern[data-empire-page="learn"] .content{max-width:100%;overflow-wrap:anywhere}
+body.empire-modern[data-empire-page="learn"] .sidebar-link{min-height:38px}
+body.empire-modern[data-empire-page="about"] .manifesto-hero{
+ background:radial-gradient(circle at 60% 10%,#173855,#080f1b 65%);
+}
+body.empire-modern :is(.metric-grid,.stats,.status-grid,.overview-grid){
+ gap:12px;
+}
+@media(max-width:900px){
+ body.empire-modern .empire-home-paths{grid-template-columns:1fr}
+ body.empire-modern .empire-home-paths a{padding:18px}
+ body.empire-modern .empire-all-links .links-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ body.empire-modern .empire-section-rail{margin-top:10px}
+}
+@media(max-width:620px){
+ body.empire-modern .empire-section-rail{width:calc(100% - 24px);padding:12px;gap:10px}
+ body.empire-modern .empire-rail-near{width:100%}
+ body.empire-modern .empire-rail-near a{flex:1 1 auto;text-align:center}
+ body.empire-modern .empire-all-links .links-grid{grid-template-columns:1fr}
+ body.empire-modern :is(.metrics,.stats,.status-grid,.metric-grid,.overview-grid,.proof-grid){
+  grid-template-columns:repeat(2,minmax(0,1fr));
+ }
+ body.empire-modern .hero{padding-top:44px}
+ body.empire-modern .card,body.empire-modern .panel{min-width:0}
+ body.empire-modern[data-empire-page="dashboard"] .v3-hero .v3-title{font-size:30px}
+}
+@media(prefers-reduced-motion:reduce){
+ body.empire-modern *{scroll-behavior:auto!important;transition:none!important;animation:none!important}
+}
