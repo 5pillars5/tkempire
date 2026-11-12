@@ -71,12 +71,11 @@ function parseSnapshot(data,now=Date.now()){
 }
 async function fetchWorkerFeed(){
   if(process.env.GENESIS_AUTO_WORKER_FEED_ENABLED!=='true')return unavailable('DISABLED');
-  const token=process.env.GENESIS_STATUS_TOKEN;
-  const username=process.env.GENESIS_STATUS_USERNAME||'tkempire-site';
-  // Return non-secret configuration diagnostics only to the viewer-key-protected API.
-  if(!['tkempire-site','tkempire-prod'].includes(username))return unavailable('CONFIG_USERNAME');
+  // Independent monitor-only credential; legacy health gateway secrets are untouched.
+  const token=process.env.GENESIS_AUTO_MONITOR_TOKEN;
+  const username='tkempire-auto-monitor';
   if(typeof token!=='string'||token.length<32||token.length>256||/[\r\n]/.test(token))
-    return unavailable('CONFIG_STATUS_TOKEN');
+    return unavailable('CONFIG_MONITOR_TOKEN');
   try{
     const auth='Basic '+Buffer.from(username+':'+token,'utf8').toString('base64');
     const r=await fetch(UPSTREAM,{method:'GET',redirect:'error',cache:'no-store',
