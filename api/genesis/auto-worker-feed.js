@@ -72,14 +72,16 @@ async function fetchWorkerFeed(){
   if(process.env.GENESIS_AUTO_WORKER_FEED_ENABLED!=='true')return unavailable('DISABLED');
   const token=process.env.GENESIS_STATUS_TOKEN;
   const username=process.env.GENESIS_STATUS_USERNAME||'tkempire-site';
-  if(process.env.GENESIS_STATUS_URL!==EXPECTED_STATUS_URL||
-     !['tkempire-site','tkempire-prod'].includes(username)||
-     typeof token!=='string'||token.length<32||token.length>256||/[\r\n]/.test(token))
-    return unavailable('NOT_CONFIGURED');
+  // Return non-secret configuration diagnostics only to the viewer-key-protected API.
+  if(process.env.GENESIS_STATUS_URL!==EXPECTED_STATUS_URL)return unavailable('CONFIG_STATUS_URL');
+  if(!['tkempire-site','tkempire-prod'].includes(username))return unavailable('CONFIG_USERNAME');
+  if(typeof token!=='string'||token.length<32||token.length>256||/[\r\n]/.test(token))
+    return unavailable('CONFIG_STATUS_TOKEN');
   try{
     const auth='Basic '+Buffer.from(username+':'+token,'utf8').toString('base64');
     const r=await fetch(UPSTREAM,{method:'GET',redirect:'error',cache:'no-store',
       headers:{Accept:'application/json',Authorization:auth},signal:AbortSignal.timeout(4000)});
+    if(r.status===401||r.status===403)return unavailable('UPSTREAM_AUTH_FAILED');
     if(!r.ok||Number(r.headers.get('content-length'))>MAX_BYTES)return unavailable('UPSTREAM_UNAVAILABLE');
     const body=await r.text();
     if(Buffer.byteLength(body,'utf8')>MAX_BYTES)return unavailable('INVALID_PAYLOAD');
