@@ -36,7 +36,8 @@ button,select{background:#213550;color:var(--fg);border:1px solid #415d7c;border
 #signalCards .empty{grid-column:1/-1}
 @media(max-width:680px){.signal-switch{grid-template-columns:1fr}.signal-cards{padding:12px}.signal-card{padding:16px}.signal-values{gap:5px}}
 .assessment{border-top:1px solid #354960;margin:14px 0;padding-top:14px}.assessment label{display:block;color:var(--muted);font-size:12px}.assessment input{width:90px;background:#080d18;color:var(--fg);border:1px solid #415d7c;border-radius:6px;padding:8px;margin:6px 8px 10px 0}.assessment-result{font-size:12px;overflow-wrap:anywhere}.assessment-result strong{display:block;color:var(--gold);font-size:14px;margin:10px 0}.assessment-result dl{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:10px 0}.assessment-result dd{margin:0}.assessment-result dt{color:var(--muted)}.assessment-result p{margin:9px 0}
-</style><link rel="stylesheet" href="/assets/css/site-tabs.css?v=4"></head><body>
+</style><link rel="stylesheet" href="/assets/css/site-tabs.css?v=4"><link rel="stylesheet" href="/assets/css/empire-unified.css?v=1">
+</head><body>
 <header><div><a href="/">TK EMPIRE / GENESIS</a><span><a href="/smart-money-flow.html">Flow Map</a> &nbsp;•&nbsp; <a href="/smart-money.html">Wallet Watch</a> &nbsp;•&nbsp; <a href="/dashboard.html">Dashboard</a></span></div></header>
 <main>
 <div class="eyebrow">GENESIS / PUBLIC WALLET OBSERVATIONS</div>
@@ -223,4 +224,5 @@ async function load(){
 }
 $('refresh').addEventListener('click',load);$('filter').addEventListener('change',render);$('notify').addEventListener('click',async()=>{if(!('Notification' in window)){$('notify').textContent='Not supported';return;}const p=await Notification.requestPermission();$('notify').textContent=p==='granted'?'Browser alerts enabled':'Alerts denied or unavailable';});
 load();setInterval(()=>{if(!document.hidden)load()},60000);
-</script><script src="/assets/js/site-tabs.js?v=4" defer></script></body></html>
+</script><script src="/assets/js/site-tabs.js?v=4" defer></script><script src="/assets/js/empire-unified.js?v=1" defer></script>
+</body></html>

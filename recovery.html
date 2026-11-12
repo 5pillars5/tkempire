@@ -31,6 +31,7 @@ footer{padding:30px 0;color:#66667d;font-size:10px}
 @media(max-width:950px){.grid,.scenario-grid{grid-template-columns:1fr}.summary-grid,.genesis-grid,.milestones{grid-template-columns:1fr 1fr}.scenario-controls{grid-template-columns:1fr 1fr}.stepper{grid-template-columns:1fr 1fr 1fr}.safety-grid{grid-template-columns:1fr}}
 @media(max-width:600px){.field-grid,.summary-grid,.genesis-grid,.milestones,.scenario-controls,.stepper{grid-template-columns:1fr}.progress-meta{flex-direction:column}}
 </style>
+<link rel="stylesheet" href="/assets/css/empire-unified.css?v=1">
 </head>
 <body>
 <nav></nav>
@@ -319,5 +320,6 @@ function attachGenesis(){if(window.GenesisLive){window.GenesisLive.subscribe(syn
 loadPlan();syncSliderLabels();calculateAll();attachGenesis();
 </script>
 <script src="/assets/js/site-tabs.js?v=4" defer></script>
+<script src="/assets/js/empire-unified.js?v=1" defer></script>
 </body>
 </html>

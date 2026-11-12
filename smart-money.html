@@ -47,6 +47,7 @@ button{padding:11px 15px;border:1px solid #465670;border-radius:8px;background:#
 @media(max-width:680px){.wallet-switch{grid-template-columns:1fr}.wallet-card{padding:15px}.wallet-cards{padding:12px}}
 </style>
 <link rel="stylesheet" href="/assets/css/site-tabs.css?v=4">
+<link rel="stylesheet" href="/assets/css/empire-unified.css?v=1">
 </head>
 <body>
 <header><div class="inner"><a href="/" class="brand"><img class="crest" src="https://i.imgur.com/Kf99eJt.jpeg" alt=""><span>TK EMPIRE<small>GENESIS INTELLIGENCE</small></span></a><span style="display:flex;gap:9px;flex-wrap:wrap"><a class="back" href="/smart-money-flow.html" style="color:#f8bf54;border-color:#8b6e3a">Flow Map</a><a class="back" href="/smart-money-signals.html" style="color:#f8bf54;border-color:#8b6e3a">Live Signals</a><a class="back" href="/dashboard.html">← Genesis Dashboard</a></span></div></header>
@@ -249,4 +250,5 @@ const deepLink=new URLSearchParams(location.search);const linkedWallet=deepLink.
 loadBoard();setInterval(()=>{if(!document.hidden){loadBoard();if(state.wallet)loadActivity();}},60000);
 </script>
 <script src="/assets/js/site-tabs.js?v=4" defer></script>
+<script src="/assets/js/empire-unified.js?v=1" defer></script>
 </body></html>

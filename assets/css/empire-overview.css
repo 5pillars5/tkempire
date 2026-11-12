@@ -1,0 +1,53 @@
+/* TK Empire unified overview: mobile-first, deliberately quiet, status-first. */
+:root{color-scheme:dark}
+body.empire-overview{--bg:#08111e;--panel:#101e30;--line:#293d53;--muted:#aabbcf;--gold:#dfb66e;--green:#80e0b6;background:radial-gradient(ellipse at 72% 0,#12304a 0,transparent 42%),#08111e;color:#eaf3ff}
+body.empire-overview main{width:min(1140px,calc(100% - 36px));margin:auto;padding:36px 0 76px}
+body.empire-overview a{text-decoration:none}
+body.empire-overview .eyebrow{color:#e9bc74;letter-spacing:.16em;font-size:11px}
+body.empire-overview h1{font-size:clamp(35px,6.5vw,62px);line-height:1.04;margin:9px 0 15px;max-width:740px}
+body.empire-overview .lead{max-width:670px;color:#b5c6d9;font-size:15px;line-height:1.7}
+body.empire-overview .overview-head{align-items:center;margin:0 0 27px;padding-bottom:22px;border-bottom:1px solid #2b3d51}
+body.empire-overview .api-pill{border-radius:10px;min-height:42px;font-size:11px}
+body.empire-overview .intro-callout{display:flex;gap:18px;justify-content:space-between;align-items:center;flex-wrap:wrap;padding:19px 22px;background:#15243a;border:1px solid #39506a;border-radius:15px;margin-bottom:30px}
+body.empire-overview .intro-callout strong{display:block;font-size:15px}
+body.empire-overview .intro-callout p{color:#adbed3;font-size:12px;margin:5px 0 0}
+body.empire-overview .mode-chip{display:inline-block;background:#2e2a24;border:1px solid #8c714a;color:#f0d6a3;border-radius:8px;padding:7px 11px;font-size:11px;font-weight:800;white-space:nowrap}
+body.empire-overview .section-title{color:#ebc486;margin:0 0 13px;font-size:11px;letter-spacing:.15em}
+body.empire-overview .overview-grid{gap:13px}
+body.empire-overview .metric{padding:20px;background:#111f31;border:1px solid #2b4056;border-radius:14px;box-shadow:none}
+body.empire-overview .metric small{letter-spacing:0;text-transform:none;color:#b9c9db;font-size:12px}
+body.empire-overview .metric strong{color:#f4f7ff;font-size:clamp(27px,3.5vw,34px);margin:10px 0 6px}
+body.empire-overview .metric span{font-size:11px;color:#95aac1}
+body.empire-overview .metric strong.green{color:#85e0b8}
+body.empire-overview .source-band{font-size:11px;border-top:1px solid #2c3e53;margin-top:13px;padding-top:13px}
+body.empire-overview .ux-section{margin:35px 0}
+body.empire-overview .ux-heading{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+body.empire-overview .ux-heading h2{font-size:21px;margin:0;letter-spacing:-.025em}
+body.empire-overview .ux-heading p{margin:0;color:#a8bacf;font-size:12px}
+body.empire-overview .mission-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+body.empire-overview .mission{padding:22px;min-width:0;background:#101e2e;border:1px solid #33485f;border-radius:15px;display:flex;flex-direction:column;align-items:flex-start;gap:10px;transition:border-color .15s,transform .15s;color:#eef5ff}
+body.empire-overview .mission:hover{border-color:#dfb66e;transform:translateY(-2px)}
+body.empire-overview .mission .mission-kicker{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#deb978;font-weight:800}
+body.empire-overview .mission strong{font-size:20px;letter-spacing:-.02em;line-height:1.18}
+body.empire-overview .mission small{font-size:12px;color:#b0c0d2;line-height:1.65;min-height:59px}
+body.empire-overview .mission .mission-open{font-size:12px;color:#e9c17b;font-weight:850;margin-top:auto}
+body.empire-overview .ux-duo{display:grid;grid-template-columns:1.12fr .88fr;gap:14px}
+body.empire-overview .ux-panel{background:#101d2d;border:1px solid #2e4258;border-radius:15px;padding:23px}
+body.empire-overview .ux-panel h2{font-size:17px;margin:0 0 9px;color:#f0f5fc}
+body.empire-overview .ux-panel p{font-size:12px;color:#aebdd1;line-height:1.65;margin:0 0 13px}
+body.empire-overview .ux-links{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+body.empire-overview .ux-links a{display:flex;align-items:center;min-height:48px;padding:12px;border:1px solid #31485f;border-radius:10px;background:#14283b;color:#dfedff;font-size:12px;font-weight:750}
+body.empire-overview .ux-links a:hover{border-color:#d8b272}
+body.empire-overview .mode-guide{display:grid;gap:9px}
+body.empire-overview .mode-guide div{display:grid;grid-template-columns:70px 1fr;gap:10px;align-items:start;padding:10px 0;border-bottom:1px solid #273a50}
+body.empire-overview .mode-guide div:last-child{border:0}
+body.empire-overview .mode-guide b{color:#eac17d;font-size:11px}
+body.empire-overview .mode-guide span{color:#b0bfd2;font-size:12px}
+body.empire-overview .telegram{display:block;background:#102a35;border-color:#2e6172;margin-top:15px}
+body.empire-overview .telegram-link{display:inline-block;margin-top:8px;background:#d8b06c;color:#122338}
+body.empire-overview .honesty-note{font-size:12px;border-color:#a37d4d;color:#aebed1;margin:25px 0}
+body.empire-overview .install-btn{background:#243749;color:#f1d7a4}
+body.empire-overview footer{margin-top:25px}
+@media(max-width:800px){body.empire-overview .mission-grid{grid-template-columns:1fr}body.empire-overview .mission small{min-height:0}body.empire-overview .ux-duo{grid-template-columns:1fr}body.empire-overview .overview-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){body.empire-overview main{width:calc(100% - 28px);padding-top:26px}body.empire-overview .overview-head{align-items:flex-start}body.empire-overview .metric{padding:15px}body.empire-overview .metric strong{font-size:25px}body.empire-overview .intro-callout{padding:17px}body.empire-overview .ux-links{grid-template-columns:1fr}body.empire-overview .ux-panel{padding:17px}body.empire-overview .source-band{flex-direction:column;align-items:flex-start}body.empire-overview .mission{padding:18px}}
+@media(prefers-reduced-motion:reduce){body.empire-overview *{animation:none!important;transition:none!important}}

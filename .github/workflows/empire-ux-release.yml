@@ -1,0 +1,53 @@
+name: TK Empire UI release verification
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '*.html'
+      - 'assets/css/**'
+      - 'assets/js/site-tabs.js'
+      - 'assets/js/empire-unified.js'
+      - 'tests/empire-ux-navigation.test.js'
+      - '.github/workflows/empire-ux-release.yml'
+  push:
+    branches: [main]
+    paths:
+      - '*.html'
+      - 'assets/css/**'
+      - 'assets/js/site-tabs.js'
+      - 'assets/js/empire-unified.js'
+      - 'tests/empire-ux-navigation.test.js'
+      - '.github/workflows/empire-ux-release.yml'
+permissions:
+  contents: read
+jobs:
+  offline-ui:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+      - name: Check browser JavaScript syntax
+        run: |
+          node --check assets/js/site-tabs.js
+          node --check assets/js/empire-unified.js
+      - name: Verify no routes or data rendering were dropped
+        run: |
+          node --test tests/empire-ux-navigation.test.js tests/genesis-site-ui.test.js
+      - name: Verify sitewide shared resources on every public page
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs');
+          const pages=['index','dashboard','results','research','smart-money','smart-money-signals','smart-money-flow','smart-money-market','genesis-signals','testnet','portfolio','learn','recovery','about','join','community'];
+          for(const page of pages){
+            const text=fs.readFileSync(page+'.html','utf8');
+            if(!text.includes('empire-unified.css?v=1')||!text.includes('empire-unified.js?v=1')){
+              throw Error('Missing shared UI resources: '+page);
+            }
+          }
+          console.log('PUBLIC_PAGES_VERIFIED='+pages.length);
+          NODE

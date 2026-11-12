@@ -88,7 +88,7 @@ test('accepts a verified paper position only with canonical evidence',async()=>{
     sample({id:'POSITION_OPEN_001',stage:'PAPER_OPEN'}),
     sample({id:'QUALIFIED_000001'}),
     sample({id:'QUALIFIED_000001'}),
-    sample({id:'POSITION_CLOSED_001',stage:'PAPER_CLOSED',
+    sample({id:'POSITION_CLOSED_001',stage:'PAPER_CLOSED',observed_at:new Date(Date.now()-1000).toISOString(),
       position_evidence:'CANONICAL_PAPER_LEDGER',
       close_evidence:'CANONICAL_CLOSED_PAPER_LEDGER',
       closed_at:new Date().toISOString(),exit_price:165,
@@ -103,7 +103,7 @@ test('accepts a verified paper position only with canonical evidence',async()=>{
 });
 test('closed paper trades require attested close, exit timestamp and realized amount',async()=>{
   setup();
-  const valid=sample({id:'CLOSED_ATTESTED_001',stage:'PAPER_CLOSED',
+  const valid=sample({id:'CLOSED_ATTESTED_001',stage:'PAPER_CLOSED',observed_at:new Date(Date.now()-1000).toISOString(),
     position_evidence:'CANONICAL_PAPER_LEDGER',
     close_evidence:'CANONICAL_CLOSED_PAPER_LEDGER',
     closed_at:new Date().toISOString(),exit_price:164,
@@ -129,7 +129,7 @@ test('closed paper trades require attested close, exit timestamp and realized am
 });
 test('zero and positive canonical paper outcomes are breakeven and win',async()=>{
   setup();
-  const fields={stage:'PAPER_CLOSED',position_evidence:'CANONICAL_PAPER_LEDGER',
+  const fields={stage:'PAPER_CLOSED',observed_at:new Date(Date.now()-1000).toISOString(),position_evidence:'CANONICAL_PAPER_LEDGER',
     close_evidence:'CANONICAL_CLOSED_PAPER_LEDGER',
     closed_at:new Date().toISOString(),exit_price:175.1,
     pnl_unit:'SIMULATED_USDC',close_reason:'TRAILING_STOP'};

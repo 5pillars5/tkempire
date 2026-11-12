@@ -54,6 +54,10 @@ async function run(){
    const nav=page.locator('nav.empire-global-nav[aria-label="Main navigation"]');
    await nav.waitFor({timeout:12000});
    assert.equal(await nav.count(),1,file+' navigation count');
+   // Redesigned desktop navigation is intentionally collapsed until the user opens it.
+   const menu=nav.getByRole('button',{name:/menu/i});
+   await menu.click();
+   assert.equal(await menu.getAttribute('aria-expanded'),'true',file+' menu did not open');
    for(const name of ['Flow Map','Smart Money Positions','Live Signals','Genesis Signals']){
     const a=nav.getByRole('link',{name,exact:true});
     assert.equal(await a.count(),1,file+' missing '+name);

@@ -47,6 +47,7 @@ footer{padding:36px 0;background:#05050b;border-top:1px solid #151524}.footer{di
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 </style>
 <link rel="stylesheet" href="/assets/css/site-tabs.css?v=4"/>
+<link rel="stylesheet" href="/assets/css/empire-unified.css?v=1">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -155,11 +156,7 @@ footer{padding:36px 0;background:#05050b;border-top:1px solid #151524}.footer{di
   </div>
 </section>
 
-<section>
-  <div class="shell">
-    <div class="section-label">Explore the Empire</div>
-    <h2 class="section-title">One system. Clear paths.</h2>
-    <div class="links-grid">
+<section aria-labelledby="empire-paths-title"><div class="shell"><div class="section-label">Explore the Empire</div><h2 class="section-title" id="empire-paths-title">Start with what matters.</h2><p class="section-copy">Three clear paths: Genesis paper trading, observed Smart Money activity, and simulated testnet exchange data.</p><div class="empire-home-paths"><a href="app.html"><small>01 / START HERE</small><b>Command Overview</b><span>Check verified status and understand what is happening with Genesis today.</span><small>Open overview →</small></a><a href="genesis-signals.html"><small>02 / PAPER ENGINE</small><b>Genesis Signals</b><span>Inspect paper positions, qualified signals, and recorded history. Not live orders.</span><small>View signals →</small></a><a href="smart-money-signals.html"><small>03 / PUBLIC RESEARCH</small><b>Smart Money</b><span>Explore wallet activity, reported positions, and observation evidence.</span><small>Explore research →</small></a></div><details class="empire-all-links"><summary>All Empire tools and research pages</summary><div class="links-grid">
       <a class="link-card" href="dashboard.html"><b>Command Center</b><span>Genesis status, observations, diagnostics and decision timeline.</span></a>
       <a class="link-card" href="results.html"><b>Validation Results</b><span>Documented signal outcomes and descriptive performance data.</span></a>
       <a class="link-card" href="research.html"><b>Research Feed</b><span>Higher-risk external and experimental market observations.</span></a>
@@ -173,9 +170,7 @@ footer{padding:36px 0;background:#05050b;border-top:1px solid #151524}.footer{di
       <a class="link-card" href="recovery.html"><b>Recovery Lab</b><span>Scenario planning and drawdown education without return promises.</span></a>
       <a class="link-card" href="about.html"><b>Empire Manifesto</b><span>Why TK Empire exists and how the operating principles fit together.</span></a>
       <a class="link-card" href="join.html"><b>Imperian Private Beta</b><span>Current access posture. No payment required during validation.</span></a>
-    </div>
-  </div>
-</section>
+    </div></details></div></section>
 
 <section class="cta-section">
   <div class="shell">
@@ -222,5 +217,6 @@ setInterval(syncHomepageCanonical,5000);
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));}
 </script>
 <script src="/assets/js/site-tabs.js?v=4" defer></script>
+<script src="/assets/js/empire-unified.js?v=1" defer></script>
 </body>
 </html>

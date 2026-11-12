@@ -29,7 +29,7 @@ function verify(files){
  assert.ok(files['/assets/js/smart-money-flow-map.js?v=2'].includes("'/api/smart-money-flow'"),'deployed Flow Map missing real public endpoint');
  const js=files['/assets/js/site-tabs.js?v=4'];
  assert.ok(js.includes("['Flow Map','/smart-money-flow.html']"),'live JS missing Flow Map navigation');
- assert.ok(js.includes("['Smart Money','/smart-money.html']"),'live JS missing wallet link');
+ assert.ok(js.includes("['Smart Money Positions','/smart-money.html']"),'live JS missing wallet link');
  assert.ok(js.includes("['Live Signals','/smart-money-signals.html']"),'live JS missing signals link');
  assert.ok(js.includes('statusNodes'),'live JS missing dashboard status preservation');
  const css=files['/assets/css/site-tabs.css?v=4'];
