@@ -18,3 +18,46 @@ Run `node --test tests/genesis-auto-monitor.test.js` in the repository. In previ
 ## Preview deployment
 
 The Vercel preview must have its own `GENESIS_AUTO_VIEW_KEY` and `GENESIS_AUTO_TESTNET_ACCOUNT` values; after editing environment variables create a new preview deployment so they take effect. The preview is intentionally not the production website. Do not set the independent private view key on the production project until privacy and authenticated exchange response checks pass.
+
+## Worker-journal bridge (VPS deployment contract)
+
+The frontend now supports a **separate** optional VPS publisher with a strict contract and a fail-closed gate. The publisher is not installed by these GitHub changes. Do not treat Hyperliquid exchange fills as confirmed Genesis worker executions.
+
+**Required VPS installation by operator/Codex:**
+
+1. Inspect the exact current schema of \`/root/tkempire/isolated/genesis_testnet_auto_worker/\` and the journal/execution state it actually writes. Capture a consistent SQLite read-only snapshot (\`file:...?mode=ro\`, immutable only if the journal is quiescent, never copy SQLite WAL without consistency safeguards). Do not mutate the trading database or import code that initializes it.
+2. Implement a separate read-only publisher. Run as an unprivileged user with only read access to approved worker data (or a separate root-owned read-only snapshot producer). Serve **127.0.0.1 only**, with a bounded GET status response, no commands, no secrets, no raw DB, no write methods.
+3. Emit this allowlisted JSON v1 only when independently verified:
+\`\`\`json
+{
+  "schema_version": 1,
+  "source": "GENESIS_AUTO_TESTNET_MONITOR",
+  "publication_scope": "PRIVATE_READ_ONLY",
+  "execution_authority": "none",
+  "network": "TESTNET_ONLY",
+  "generated_at": "2026-11-12T16:00:00Z",
+  "service": {
+    "state": "RUNNING",
+    "heartbeat_at": "2026-11-12T16:00:00Z",
+    "restarts": 0,
+    "production_mode": "PAPER",
+    "mainnet_authorized": false,
+    "auto_testnet_enabled": true
+  },
+  "counters": {
+    "signals_eligible": 0,
+    "signals_blocked": 0,
+    "entries_submitted": 0,
+    "entries_filled": 0,
+    "exits_reconciled": 0,
+    "errors": 0
+  },
+  "events": []
+}
+\`\`\`
+Counters must be based on reconciled journal evidence with documented window/scope; never set unsupported fields to zero just to satisfy schema. Events (at most 30, newest first) contain only \`id\` (opaque SHA-256 truncated hex generated using a private salt and nonpublic event identifier), \`at\` (UTC), \`coin\` (APT or BNB), \`side\` (BUY or SELL), \`stage\` (QUALIFIED, REJECTED, AUTHORIZED, BLOCKED, ORDER_SUBMITTED, ENTRY_FILLED, PROTECTED, EXIT_FILLED, CLOSED, ERROR), \`reason_code\` from the public allowlist, and optional verified numeric \`entry_price\`, \`exit_price\`, \`size\`, \`realized_pnl_usd\`, \`fees_usd\`. No fingerprint, cloid, key, wallet address, internal risk policy, raw strategy observations, source paths or private trade identifiers.
+4. Add an **exact** authenticated HTTPS Nginx route \`/internal/genesis/auto-monitor\` on \`api.tkempire.io\`. Match the existing \`/internal/genesis/health\` Basic-Auth identity and credentials, GET-only, no-store, no redirects, no fallback route, loopback-only upstream; validate Nginx configuration and preserve rollback.
+5. Validate 401 without credentials, 200 with approved identity and valid schema, stale heartbeat rejection, 405 mutation requests, and no public access to loopback publisher. Verify the existing Genesis Auto worker and production PAPER service remain untouched and running.
+6. After the gateway works, set \`GENESIS_AUTO_WORKER_FEED_ENABLED=true\` in Vercel for **preview only**, and redeploy preview. The endpoint's \`auto-worker-feed.js\` adapter rejects stale or malformed payloads. Do not change production secrets or merge the PR until end-to-end validation and mobile QA pass.
+
+**Important**: This dashboard is read-only. Nothing on the public website must submit, authorize, cancel, stop or restart exchange orders. The emergency stop stays in VPS operations tooling, not in a browser action.
