@@ -8,7 +8,7 @@ test('homepage does not confuse completed paper trades with independent signal c
  assert.match(s,/id="metricSignals"/);assert.match(s,/id="proofSignals"/);
  assert.match(s,/>Completed paper trades<\/div>/);
  assert.doesNotMatch(s,/>Signals tracked<\/div>/);
- assert.match(s,/d\.source==='GENESIS_PAPER_AGGREGATE'/);
+ assert.match(s,/d\?\.source==='GENESIS_PAPER_AGGREGATE'/);
  assert.match(s,/age<=120000/);
  assert.doesNotMatch(s,/Number\.isFinite\(Number\(p\.win_rate\)\)/);
  assert.doesNotMatch(s,/signals\|\|'—'/);
