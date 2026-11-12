@@ -19,7 +19,6 @@
     ['Recovery','/recovery.html','learn'],
     ['About','/about.html','learn'],
     ['Community','/community.html','connect'],
-    ['App','/app.html','connect'],
     ['Private Beta','/join.html','connect']
   ];
   const groups = [
