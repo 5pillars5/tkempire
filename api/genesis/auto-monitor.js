@@ -1,6 +1,7 @@
 'use strict';
 // Private read-only Hyperliquid TESTNET observation, never an execution API.
 const {createHash,timingSafeEqual}=require('node:crypto');
+const {fetchWorkerFeed}=require('./auto-worker-feed');
 const API='https://api.hyperliquid-testnet.xyz/info';
 const COINS=new Set(['APT','BNB']);
 const LIMIT=131072;
@@ -59,8 +60,11 @@ module.exports=async function autoMonitor(req,res){
   if(typeof key!=='string'||key.length<32||key.length>256||!/^0x[0-9a-fA-F]{40}$/.test(address||''))return send(res,503,{status:'not_configured'});
   if(!authorized(req.headers['x-genesis-view-key'],key))return send(res,401,{status:'unauthorized'});
   try{
-    const [state,orders,fills]=await Promise.all([info('clearinghouseState',address),info('frontendOpenOrders',address),info('userFills',address)]);
-    return send(res,200,{status:'ok',source:'HYPERLIQUID_TESTNET_EXCHANGE',network:'TESTNET_ONLY',checked_at:new Date().toISOString(),service_state:'NOT_CONNECTED',execution_attribution:'UNVERIFIED_WORKER_SOURCE',risk_policy:{target_notional_usd:12,max_exposure_usd:15,maximum_positions:1,leverage:1},...project(state,orders,fills)});
+    const [state,orders,fills,worker]=await Promise.all([info('clearinghouseState',address),info('frontendOpenOrders',address),info('userFills',address),fetchWorkerFeed()]);
+    return send(res,200,{status:'ok',source:'HYPERLIQUID_TESTNET_EXCHANGE',network:'TESTNET_ONLY',checked_at:new Date().toISOString(),
+      service_state:worker.connected?worker.service.state:'NOT_VERIFIED',
+      execution_attribution:worker.connected?'WORKER_EVENTS_SEPARATE_FROM_EXCHANGE_FILLS':'UNVERIFIED_WORKER_SOURCE',
+      worker,risk_policy:{target_notional_usd:12,max_exposure_usd:15,maximum_positions:1,leverage:1},...project(state,orders,fills)});
   }catch{return send(res,502,{status:'exchange_unavailable'});}
 };
 module.exports._test={authorized,project,number};
