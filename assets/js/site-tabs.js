@@ -57,7 +57,7 @@
     toggle.textContent = 'Explore menu';
     toggle.setAttribute('aria-expanded','false');
     toggle.setAttribute('aria-controls','empire-nav-links');
-    toggle.setAttribute('aria-label','Explore all TK Empire pages');
+    toggle.setAttribute('aria-label','Explore menu: all TK Empire pages');
 
     const links = document.createElement('div');
     links.id = 'empire-nav-links';
