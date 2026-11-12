@@ -39,3 +39,43 @@
 
 .empire-global-nav__status{display:flex;justify-content:flex-end;gap:12px;align-items:center;flex-wrap:wrap;width:min(1440px,96vw);margin:-3px auto 5px;padding:0 14px;color:#a7a7bd;font:600 11px/1.4 system-ui,sans-serif}
 @media(max-width:1120px){.empire-global-nav__status{width:100%;justify-content:center;padding:2px 10px 5px;gap:8px}}
+
+
+/* 2026 command navigation refresh — grouped, calm, and phone-first. */
+.empire-global-nav{background:rgba(7,14,26,.97)!important;border-bottom-color:rgba(164,184,212,.15)!important}
+.empire-global-nav__inner{width:min(1320px,calc(100% - 32px));min-height:70px;gap:16px}
+.empire-global-nav__brand img{border-color:rgba(231,182,92,.45)!important}
+.empire-global-nav__brand small{color:#e8c17b!important;font-size:9px!important;letter-spacing:.15em}
+.empire-global-nav__links{display:none!important;position:absolute;top:calc(100% + 2px);right:max(16px,calc((100vw - 1320px)/2));width:min(720px,calc(100vw - 32px));max-height:min(78dvh,700px);overflow-y:auto;scrollbar-width:thin;margin:0;padding:20px;flex-wrap:wrap;align-items:stretch;gap:16px;z-index:1500;background:#0d192a;border:1px solid #30465d;border-radius:0 0 18px 18px;box-shadow:0 24px 65px #000a}
+.empire-global-nav__links.is-open{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))}
+.empire-global-nav__group{display:flex;flex-direction:column;min-width:0;gap:5px;padding:12px;border:1px solid rgba(150,175,207,.11);border-radius:12px;background:rgba(255,255,255,.015)}
+.empire-global-nav__group.is-primary{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-content:start;gap:5px}
+.empire-global-nav__group.is-primary .empire-global-nav__group-title{grid-column:1/-1}
+.empire-global-nav__group-title{font:800 10px/1.5 system-ui,sans-serif;letter-spacing:.13em;text-transform:uppercase;color:#e9ba6b;padding:3px 8px 8px}
+.empire-global-nav__link{display:flex;align-items:center;min-height:42px;padding:12px 13px!important;color:#d3e1f1!important;font:650 13px/1.3 system-ui,sans-serif!important;border-radius:9px!important;white-space:normal!important}
+.empire-global-nav__link:hover{background:#1b2d44!important;border-color:#385775!important}
+.empire-global-nav__link.is-active{background:#28394c!important;border-color:#dcaf67!important;color:#fff!important}
+.empire-global-nav__toggle{display:inline-flex!important;margin-left:auto;min-height:43px;padding:10px 16px!important;background:#17283b!important;border-color:#41546b!important;color:#f8e7c8!important;font-size:13px!important;letter-spacing:.01em}
+.empire-global-nav__toggle:hover{border-color:#deb66f!important;background:#263a50!important}
+.empire-global-nav__toggle[aria-expanded="true"]{background:#283a4e!important;border-color:#e0bc7b!important}
+.empire-global-nav__shortcut{display:none!important}
+@media(max-width:1120px){
+  .empire-global-nav__inner{width:100%;min-height:64px;padding:9px 14px;gap:9px;flex-wrap:nowrap}
+  .empire-global-nav__brand span{display:block!important;font-size:12px}
+  .empire-global-nav__brand small{font-size:8px!important}
+  .empire-global-nav__shortcut{display:inline-flex!important;margin-left:auto;min-height:41px;padding:9px 11px;background:#202d3d!important;border:1px solid #68768b!important;color:#f4e1bd!important}
+  .empire-global-nav__toggle{margin-left:0!important}
+  .empire-global-nav__links{top:100%;left:0;right:0;width:100vw;max-height:calc(100dvh - 72px);border-radius:0 0 16px 16px;padding:12px;gap:10px}
+  .empire-global-nav__links.is-open{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:620px){
+  .empire-global-nav__inner{gap:7px}
+  .empire-global-nav__brand img{width:34px!important;height:34px!important}
+  .empire-global-nav__brand span{font-size:11px}
+  .empire-global-nav__brand small{letter-spacing:.07em;font-size:7px!important}
+  .empire-global-nav__shortcut{font-size:11px!important;padding:8px!important}
+  .empire-global-nav__toggle{font-size:12px!important;padding:9px 11px!important}
+  .empire-global-nav__links.is-open{grid-template-columns:1fr}
+  .empire-global-nav__group.is-primary{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(prefers-reduced-motion:reduce){.empire-global-nav *{transition:none!important}}
