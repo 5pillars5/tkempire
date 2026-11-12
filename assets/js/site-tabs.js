@@ -32,10 +32,11 @@
 
   function build() {
     const current = file(location.pathname);
-    let nav = document.querySelector('nav');
+    let nav = document.querySelector('body > nav.empire-global-nav, body > nav');
     if (!nav) { nav = document.createElement('nav'); document.body.prepend(nav); }
     nav.className = 'empire-global-nav';
     nav.setAttribute('aria-label','Main navigation');
+    // Never replace an in-page navigation such as the Smart Money Flow Map links.
     // Command-center scripts update these existing status nodes by ID.
     const statusNodes = [...nav.querySelectorAll('#genesis-nav-status, #modePill, #lastUpdated')];
     nav.replaceChildren();
