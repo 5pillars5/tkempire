@@ -47,9 +47,18 @@ function render(d){
 async function refresh(){
   if(busy||!key||document.hidden)return;busy=true;
   try{
-    const response=await fetch('/api/genesis/auto-monitor',{method:'GET',headers:{'X-Genesis-View-Key':key},cache:'no-store',credentials:'omit'});
+    const response=await fetch('/api/genesis/auto-monitor',{method:'GET',headers:{'X-Genesis-View-Key':key},cache:'no-store',credentials:'same-origin'});
+    // Protected Vercel previews require the same-origin deployment-auth cookie.
+    // An HTML login response is NOT proof that the independent viewer key failed.
+    const contentType=(response.headers.get('content-type')||'').toLowerCase();
+    if(!contentType.includes('application/json')){
+      status(response.status===401||response.status===403
+        ?'Preview session expired. Reopen the protected preview link; your Genesis key has not been checked.'
+        :'Monitor API returned an unexpected response.','bad');
+      return;
+    }
     const data=await response.json();
-    if(response.status===401){key='';$('auth-panel').hidden=false;$('monitor').hidden=true;$('refresh').hidden=true;status('Access key rejected. Try again.','bad');return}
+    if(response.status===401){key='';$('auth-panel').hidden=false;$('monitor').hidden=true;$('refresh').hidden=true;status('Genesis viewer key rejected. Use the current private viewer key.','bad');return}
     if(!response.ok||data.status!=='ok'||data.network!=='TESTNET_ONLY'||!Array.isArray(data.positions)||!Array.isArray(data.recent_fills))throw Error('Unavailable');
     render(data);
   }catch{status('Exchange feed unavailable; last verified snapshot may be stale.','bad')}
