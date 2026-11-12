@@ -20,7 +20,7 @@ async function fetchChecked(path,retries=5){
 }
 (async()=>{
  const page=await fetchChecked('/smart-money-flow.html');
- const version=page.text.match(/smart-money-flow-map\.js\?v=(2|3)/)?.[1];
+ const version=page.text.match(/smart-money-flow-map\.js\?v=([1-9]\d*)/)?.[1];
  assert.ok(version,'Live Flow Map asset version not found');
  const [client,api]=await Promise.all([
   fetchChecked('/assets/js/smart-money-flow-map.js?v='+version),

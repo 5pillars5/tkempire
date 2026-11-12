@@ -5,7 +5,7 @@ const assert=require('node:assert/strict');
 const BASE='https://www.tkempire.io';
 const SLEEP_MS=4000,MAX_ATTEMPTS=35;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-const paths=['/','/research.html','/dashboard.html','/smart-money.html','/smart-money-signals.html','/smart-money-flow.html','/assets/js/site-tabs.js?v=4','/assets/css/site-tabs.css?v=4','/assets/js/smart-money-flow-map.js?v=2'];
+const paths=['/','/research.html','/dashboard.html','/smart-money.html','/smart-money-signals.html','/smart-money-flow.html','/assets/js/site-tabs.js?v=4','/assets/css/site-tabs.css?v=4'];
 async function pull(p){
  const r=await fetch(BASE+p+(p.includes('?')?'&':'?')+'ci_check='+Date.now(),
    {cache:'no-store',redirect:'error',headers:{Accept:'text/html, text/css, application/javascript'},signal:AbortSignal.timeout(15000)});
@@ -24,13 +24,14 @@ function verify(files){
   assert.ok(research.includes(needle),'research page missing '+needle);
   assert.ok(dash.includes(needle),'dashboard page missing '+needle);
  }
- assert.match(files['/smart-money-flow.html'],/smart-money-flow-map\.js\?v=(2|3)/,'flow map missing interactive visualization');
+ const version=files['/smart-money-flow.html'].match(/smart-money-flow-map\.js\?v=([1-9]\d*)/)?.[1];
+ assert.ok(version,'flow map missing interactive visualization');
  // The production domain may not have received a preview branch yet; verify new history in the post-deploy check.
- assert.ok(files['/assets/js/smart-money-flow-map.js?v=2'].includes("'/api/smart-money-flow'"),'deployed Flow Map missing real public endpoint');
+ assert.ok(files['/assets/js/smart-money-flow-map.js?v='+version].includes("'/api/smart-money-flow'"),'deployed Flow Map missing real public endpoint');
  const js=files['/assets/js/site-tabs.js?v=4'];
- assert.ok(js.includes("['Flow Map','/smart-money-flow.html']"),'live JS missing Flow Map navigation');
- assert.ok(js.includes("['Smart Money Positions','/smart-money.html']"),'live JS missing wallet link');
- assert.ok(js.includes("['Live Signals','/smart-money-signals.html']"),'live JS missing signals link');
+ assert.ok(js.includes("['Flow Map','/smart-money-flow.html'"),'live JS missing Flow Map navigation');
+ assert.ok(js.includes("['Smart Money Positions','/smart-money.html'"),'live JS missing wallet link');
+ assert.ok(js.includes("['Live Signals','/smart-money-signals.html'"),'live JS missing signals link');
  assert.ok(js.includes('statusNodes'),'live JS missing dashboard status preservation');
  const css=files['/assets/css/site-tabs.css?v=4'];
  assert.ok(css.includes('@media(max-width:1120px)'), 'live CSS missing tablet menu');
@@ -42,6 +43,10 @@ async function main(){
   try{
    const files={};
    for(const p of paths) files[p]=await pull(p);
+   const version=files['/smart-money-flow.html'].match(/smart-money-flow-map\.js\?v=([1-9]\d*)/)?.[1];
+   if(!version)throw Error('Flow Map asset version absent');
+   const asset='/assets/js/smart-money-flow-map.js?v='+version;
+   files[asset]=await pull(asset);
    verify(files);
    console.log('PRODUCTION_NAVIGATION_ATTEMPT='+attempt+' VERIFIED_LIVE_DOMAIN='+BASE);
    return;

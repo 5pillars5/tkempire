@@ -14,13 +14,14 @@ async function html(path){
  return r.text();
 }
 (async()=>{
- const [page,js,status]=await Promise.all([
+ const [page,status]=await Promise.all([
   html('/smart-money-flow.html'),
-  html('/assets/js/smart-money-flow-map.js?v=3'),
   json('/api/smart-money-legacy-history')
  ]);
  assert.ok(page.includes('id="legacyImportStatus"'),'missing original VPS import status element');
- assert.ok(page.includes('smart-money-flow-map.js?v=3'),'wrong Flow Map JS version');
+ const version=page.match(/smart-money-flow-map\.js\?v=([1-9]\d*)/)?.[1];
+ assert.ok(version,'Flow Map asset version missing');
+ const js=await html('/assets/js/smart-money-flow-map.js?v='+version);
  assert.ok(js.includes("'/api/smart-money-legacy-history'"),'live JS not linked to import readback API');
  assert.equal(status.execution_authority,'none');
  assert.equal(status.trade_profit,null);
