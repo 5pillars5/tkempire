@@ -95,7 +95,7 @@ footer{padding:36px 0;background:#05050b;border-top:1px solid #151524}.footer{di
       <div class="command-grid">
         <div class="metric"><div class="k">Market observation</div><div class="v green">24/7</div></div>
         <div class="metric"><div class="k">Execution authority</div><div class="v gold">GATED</div></div>
-        <div class="metric"><div class="k">Signal sample</div><div class="v" id="metricSignals">Loading</div></div>
+        <div class="metric"><div class="k">Completed paper trades</div><div class="v" id="metricSignals">Loading</div></div>
         <div class="metric"><div class="k">Validation win rate</div><div class="v purple" id="metricWinRate">Loading</div></div>
       </div>
       <div class="flow">
@@ -147,7 +147,7 @@ footer{padding:36px 0;background:#05050b;border-top:1px solid #151524}.footer{di
     <h2 class="section-title">Show the sample. Show the limits.</h2>
     <p class="section-copy">Numbers shown here are validation statistics, not promises of future performance. The sample can change as new observations are added.</p>
     <div class="proof-grid">
-      <div class="proof-card"><div class="label">Signals tracked</div><div class="value" id="proofSignals">—</div><div class="sub">Current validation dataset</div></div>
+      <div class="proof-card"><div class="label">Completed paper trades</div><div class="value" id="proofSignals">—</div><div class="sub">Current validation dataset</div></div>
       <div class="proof-card"><div class="label">Wins</div><div class="value green" id="proofWins">—</div><div class="sub">Recorded outcomes</div></div>
       <div class="proof-card"><div class="label">Losses</div><div class="value" id="proofLosses">—</div><div class="sub">Recorded outcomes</div></div>
       <div class="proof-card"><div class="label">Win rate</div><div class="value gold" id="proofWinRate">—</div><div class="sub">Descriptive, not predictive</div></div>
@@ -198,19 +198,27 @@ footer{padding:36px 0;background:#05050b;border-top:1px solid #151524}.footer{di
 <script>
 document.getElementById('year').textContent=new Date().getFullYear();
 async function syncHomepageCanonical(){
+  const fields=['metricSignals','metricWinRate','proofSignals','proofWins','proofLosses','proofWinRate'];
+  const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};
+  const unavailable=()=>fields.forEach(id=>set(id,'—'));
   try{
     const r=await fetch('/api/genesis/status?ts='+Date.now(),{cache:'no-store'});
-    if(!r.ok) throw new Error('canonical status unavailable');
+    if(!r.ok)throw new Error('PAPER_AGGREGATE_UNAVAILABLE');
     const d=await r.json();
-    const p=d.performance||{};
-    const signals=Number(p.trades||0),wins=Number(p.wins||0),losses=Number(p.losses||0);
-    const wr=Number.isFinite(Number(p.win_rate))?Number(p.win_rate):null;
-    const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v};
-    set('metricSignals',signals||'—'); set('proofSignals',signals||'—'); set('proofWins',wins||'—'); set('proofLosses',losses||'—');
-    set('metricWinRate',wr!==null?wr.toFixed(2)+'%':'—'); set('proofWinRate',wr!==null?wr.toFixed(2)+'%':'—');
-  }catch(e){
-    ['metricSignals','metricWinRate','proofSignals','proofWins','proofLosses','proofWinRate'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='Validation'});
-  }
+    const p=d?.performance||{};
+    const t=Date.parse(d?.updated_at),age=Date.now()-t;
+    const count=n=>Number.isSafeInteger(n)&&n>=0&&n<=1e8;
+    const valid=d?.schema_version===1&&d?.source==='GENESIS_PAPER_AGGREGATE'&&
+      d?.engine?.mode==='paper'&&Number.isFinite(t)&&age>=-30000&&age<=120000&&
+      count(p.trades)&&count(p.wins)&&count(p.losses)&&
+      p.wins+p.losses<=p.trades&&
+      typeof p.win_rate==='number'&&Number.isFinite(p.win_rate)&&p.win_rate>=0&&p.win_rate<=100;
+    if(!valid)throw new Error('PAPER_AGGREGATE_INVALID');
+    set('metricSignals',p.trades);set('proofSignals',p.trades);
+    set('proofWins',p.wins);set('proofLosses',p.losses);
+    set('metricWinRate',p.win_rate.toFixed(2)+'%');
+    set('proofWinRate',p.win_rate.toFixed(2)+'%');
+  }catch(e){unavailable();}
 }
 syncHomepageCanonical();
 setInterval(syncHomepageCanonical,5000);
