@@ -72,6 +72,21 @@ test('delayed and duplicate quotes never erase newer observations or rewind the 
  assert.deepEqual(advanced.SOL.map(x=>x.t),[base,base+10000,base+20000,base+30000]);
  assert.equal(core.metrics(advanced.SOL,base+30000).last,100.5);
 });
+test('rapid manual refresh is ignored without displacing the valid READY trio',()=>{
+ let s={};
+ for(const t of [base,base+10000,base+20000])s=core.addQuote(s,core.parseQuote(quote(100,t),t));
+ assert.equal(core.metrics(s.SOL,base+20000).state,'READY');
+ const quick=core.parseQuote(quote(100.8,base+25000),base+25000);
+ assert.strictEqual(core.addQuote(s,quick),s);
+ assert.equal(core.metrics(s.SOL,base+25000).state,'READY');
+ s=core.addQuote(s,core.parseQuote(quote(101,base+30000),base+30000));
+ assert.equal(core.metrics(s.SOL,base+30000).state,'READY');
+ s=core.addQuote(s,core.parseQuote(quote(101.3,base+37000),base+37000));
+ assert.equal(core.metrics(s.SOL,base+37000).state,'READY');
+ assert.strictEqual(core.addQuote(s,core.parseQuote(quote(101.4,base+40000),base+40000)),s);
+ s=core.addQuote(s,core.parseQuote(quote(101.6,base+50000),base+50000));
+ assert.equal(core.metrics(s.SOL,base+50000).state,'READY');
+});
 test('a partial older feed cannot backfill stale asset data or rewind another asset',()=>{
  const initial=core.parseQuote({...quote(100,base),prices:{SOL:100,BNB:600}},base);
  const current=core.parseQuote({...quote(101,base+10000),prices:{SOL:101,BNB:601}},base+10000);
@@ -92,7 +107,7 @@ test('UI is mobile-safe, read-only, correctly labels source and parses',()=>{
    assert.ok(html.includes(v),'missing '+v);
  }
  assert.doesNotMatch(html,/placeOrder|createOrder|privateKey|execution_authority:\s*['"]enabled/i);
- assert.match(html,/Delayed or duplicate quote ignored/);
+ assert.match(html,/Delayed, duplicate, or too-soon quote ignored/);
  const scripts=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)]
    .map(x=>x[1]).filter(Boolean);
  assert.equal(scripts.length,1);
