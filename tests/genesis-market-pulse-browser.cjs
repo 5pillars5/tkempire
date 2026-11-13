@@ -73,8 +73,9 @@ async function check(browser,base,name,viewport,kind){
     assert.equal(await sol.locator('.state').textContent(),'READY');
    }
    if(kind==='expires_after_ready'){
-    // At t=40s the last accepted sample is exactly 20s old (still READY).
-    // The t=50s timer must expire it without a newer accepted price.
+    // Simulate a hidden tab: timer still renders, while refresh correctly
+    // suppresses network requests. Last accepted quote must expire to STALE.
+    await page.evaluate(()=>Object.defineProperty(document,'hidden',{configurable:true,get:()=>true}));
     await page.clock.runFor(20000);
     await page.waitForFunction(()=>[...document.querySelectorAll('.card .state')].every(n=>n.textContent==='STALE'),null,{timeout:6000});
    }
