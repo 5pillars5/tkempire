@@ -72,7 +72,7 @@ async function check(browser,base,name,viewport,kind){
    if(kind!=='fresh'){
     await page.clock.runFor(10000);
     await page.locator('#refresh').click({timeout:6000});
-    await page.waitForFunction(()=>document.querySelector('#feed').textContent.includes('Delayed or duplicate'),null,{timeout:6000});
+    await page.waitForFunction(()=>document.querySelector('#feed').textContent.includes('Delayed, duplicate, or too-soon'),null,{timeout:6000});
     assert.equal(await sol.locator('.state').textContent(),'READY');
    }
    if(kind==='expires_after_ready'){
