@@ -81,9 +81,11 @@ test('rapid manual refresh is ignored without displacing the valid READY trio',(
  assert.equal(core.metrics(s.SOL,base+25000).state,'READY');
  s=core.addQuote(s,core.parseQuote(quote(101,base+30000),base+30000));
  assert.equal(core.metrics(s.SOL,base+30000).state,'READY');
- s=core.addQuote(s,core.parseQuote(quote(101.3,base+37000),base+37000));
+ const shortWindow=core.parseQuote(quote(101.3,base+37000),base+37000);
+ assert.strictEqual(core.addQuote(s,shortWindow),s,'new sample creating a sub-18s span must be ignored');
  assert.equal(core.metrics(s.SOL,base+37000).state,'READY');
- assert.strictEqual(core.addQuote(s,core.parseQuote(quote(101.4,base+40000),base+40000)),s);
+ s=core.addQuote(s,core.parseQuote(quote(101.4,base+40000),base+40000));
+ assert.equal(core.metrics(s.SOL,base+40000).state,'READY');
  s=core.addQuote(s,core.parseQuote(quote(101.6,base+50000),base+50000));
  assert.equal(core.metrics(s.SOL,base+50000).state,'READY');
 });
