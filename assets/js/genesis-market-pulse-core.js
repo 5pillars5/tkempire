@@ -41,7 +41,9 @@
         if(sample&&Number.isFinite(sample.t))watermark=Math.max(watermark,sample.t);
       }
     }
-    if(quote.timestamp<=watermark)return previous;
+    // Ignore too-soon off-cycle clicks: they otherwise displace the last valid
+    // 10-second sample trio and force READY back to COLLECTING.
+    if(quote.timestamp<=watermark||quote.timestamp-watermark<6000)return previous;
     const next={};
     for(const asset of ASSETS){
       const prev=Array.isArray(previous[asset])?previous[asset]:[];
