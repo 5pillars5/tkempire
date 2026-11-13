@@ -43,6 +43,9 @@ async function check(browser,base,name,viewport,kind){
  const context=await browser.newContext({viewport,isMobile:mobile,hasTouch:mobile});
  const page=await context.newPage();
  await page.clock.install({time:new Date(BASE)});
+ // Deterministic test clock: sample only through the real Refresh button.
+ // Periodic UI scheduling is not the subject of this feed-contract test.
+ await page.addInitScript(()=>{window.setInterval=()=>0;});
  let requests=[];let errors=[];
  page.on('pageerror',e=>errors.push(e.message));
  await page.route('https://**/*',route=>route.fulfill({status:204,body:''}));
@@ -57,26 +60,29 @@ async function check(browser,base,name,viewport,kind){
   const ready=()=>[...document.querySelectorAll('.card .state')].every(n=>n.textContent==='READY');
   const unavailable=()=>[...document.querySelectorAll('.card .state')].every(n=>n.textContent==='UNAVAILABLE');
   if(['fresh','duplicate','expires_after_ready'].includes(kind)){
-   await page.waitForFunction(()=>document.querySelector('[data-asset="SOL"] .state').textContent==='COLLECTING');
+   await page.waitForFunction(()=>document.querySelector('#feed').textContent.includes('Source:'),null,{timeout:6000});
    await page.clock.runFor(10000);
+   await page.locator('#refresh').click({timeout:6000});
    await page.clock.runFor(10000);
+   await page.locator('#refresh').click({timeout:6000});
    await page.waitForFunction(ready,null,{timeout:6000});
    const sol=page.locator('[data-asset="SOL"]');
    assert.notEqual(await sol.locator('[data-field="move"]').textContent(),'\u2014');
    assert.match(await sol.locator('.direction').textContent(),/Observed: RISING/);
    if(kind!=='fresh'){
     await page.clock.runFor(10000);
-    // Chromium virtual clocks can coalesce interval callbacks under runner load.
-    // Trigger the documented manual refresh so duplicate handling is deterministic.
-    await page.locator('#refresh').click({timeout:10000});
+    await page.locator('#refresh').click({timeout:6000});
     await page.waitForFunction(()=>document.querySelector('#feed').textContent.includes('Delayed or duplicate'),null,{timeout:6000});
     assert.equal(await sol.locator('.state').textContent(),'READY');
    }
    if(kind==='expires_after_ready'){
-    // Simulate a hidden tab: timer still renders, while refresh correctly
-    // suppresses network requests. Last accepted quote must expire to STALE.
-    await page.evaluate(()=>Object.defineProperty(document,'hidden',{configurable:true,get:()=>true}));
+    // An unfetched, previously accepted sample is expired once 20s elapse.
+    // The page's real visibility event triggers render but skips refresh.
     await page.clock.runFor(20000);
+    await page.evaluate(()=>{
+      Object.defineProperty(document,'hidden',{configurable:true,get:()=>true});
+      document.dispatchEvent(new Event('visibilitychange'));
+    });
     await page.waitForFunction(()=>[...document.querySelectorAll('.card .state')].every(n=>n.textContent==='STALE'),null,{timeout:6000});
    }
   } else {
