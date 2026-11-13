@@ -50,6 +50,40 @@ test('flat markets, duplicate timestamps, stale data and irregular windows fail 
  const irregular=[{t:base,p:100},{t:base+2000,p:101},{t:base+20000,p:102}];
  assert.equal(core.metrics(irregular,base+20000).state,'COLLECTING');
 });
+test('delayed and duplicate quotes never erase newer observations or rewind the computed window',()=>{
+ let history={};
+ for(const [i,price] of [100,100.1,100.4].entries()){
+   const t=base+i*10000;
+   history=core.addQuote(history,core.parseQuote(quote(price,t),t));
+ }
+ const original=JSON.stringify(history);
+ const previous=core.metrics(history.SOL,base+20000);
+ assert.equal(previous.state,'READY');
+ const delayed=core.parseQuote(quote(97,base+15000),base+21000);
+ const rejected=core.addQuote(history,delayed);
+ assert.strictEqual(rejected,history,'older quote must be ignored without rebuilding history');
+ assert.equal(JSON.stringify(history),original,'existing accepted timestamps and prices must survive');
+ assert.deepEqual(core.metrics(history.SOL,base+21000).moveBps,previous.moveBps);
+ const duplicate=core.parseQuote(quote(999,base+20000),base+21000);
+ assert.strictEqual(core.addQuote(history,duplicate),history,'same timestamp must not overwrite a verified sample');
+ const fresh=core.parseQuote(quote(100.5,base+30000),base+30000);
+ const advanced=core.addQuote(history,fresh);
+ assert.notStrictEqual(advanced,history,'a strictly newer quote should advance the window');
+ assert.deepEqual(advanced.SOL.map(x=>x.t),[base,base+10000,base+20000,base+30000]);
+ assert.equal(core.metrics(advanced.SOL,base+30000).last,100.5);
+});
+test('a partial older feed cannot backfill stale asset data or rewind another asset',()=>{
+ const initial=core.parseQuote({...quote(100,base),prices:{SOL:100,BNB:600}},base);
+ const current=core.parseQuote({...quote(101,base+10000),prices:{SOL:101,BNB:601}},base+10000);
+ let history=core.addQuote({},initial);
+ history=core.addQuote(history,current);
+ const delayed=core.parseQuote(quote(99,base+5000),base+11000);
+ assert.ok(delayed,'out-of-order source data can still satisfy freshness validation');
+ assert.strictEqual(core.addQuote(history,delayed),history,'watermark must apply across the entire multi-asset snapshot');
+ assert.deepEqual(history.APT,[]);
+ assert.deepEqual(history.SOL.map(x=>x.p),[100,101]);
+ assert.deepEqual(history.BNB.map(x=>x.p),[600,601]);
+});
 test('UI is mobile-safe, read-only, correctly labels source and parses',()=>{
  const html=fs.readFileSync(path.join(root,'genesis-market-pulse.html'),'utf8');
  for(const v of ['data-asset="SOL"','data-asset="BNB"','data-asset="APT"',
@@ -58,6 +92,7 @@ test('UI is mobile-safe, read-only, correctly labels source and parses',()=>{
    assert.ok(html.includes(v),'missing '+v);
  }
  assert.doesNotMatch(html,/placeOrder|createOrder|privateKey|execution_authority:\s*['"]enabled/i);
+ assert.match(html,/Delayed or duplicate quote ignored/);
  const scripts=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)]
    .map(x=>x[1]).filter(Boolean);
  assert.equal(scripts.length,1);
