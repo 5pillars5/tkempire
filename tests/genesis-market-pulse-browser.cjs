@@ -129,6 +129,42 @@ async function check(browser,base,name,viewport,kind){
   console.log('PULSE_BROWSER_PASS '+name+' '+kind+' calls='+requests.length+' states='+states.join(',')+' overflow=0');
  }finally{await context.close();}
 }
+async function checkStalledRefreshRedacts(browser,base){
+ const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
+ const page=await context.newPage();
+ const errors=[];
+ let calls=0;
+ page.on('pageerror',e=>errors.push(e.message));
+ await page.clock.install({time:new Date(BASE)});
+ await page.route('https://**/*',route=>route.fulfill({status:204,body:''}));
+ await page.route('**/api/genesis/prices',route=>{
+  calls++;
+  if(calls>3)return; // Deliberately stall the next refresh without a server response.
+  const item=fixtures('fresh')[calls-1];
+  return route.fulfill({status:200,contentType:'application/json',headers:{'cache-control':'no-store'},body:JSON.stringify(item)});
+ });
+ try{
+  await page.goto(base+'/genesis-market-pulse.html',{waitUntil:'domcontentloaded',timeout:30000});
+  await page.waitForFunction(()=>document.querySelector('#feed').textContent.includes('Source:'),null,{timeout:6000});
+  await page.clock.runFor(10000);
+  await page.clock.runFor(10000);
+  await page.waitForFunction(()=>[...document.querySelectorAll('.card .state')].every(n=>n.textContent==='READY'),null,{timeout:6000});
+  assert.deepEqual(await page.locator('.card .state').allTextContents(),['READY','READY','READY']);
+  // The newest sample is 20s old at t=40s, and >20s old at t=41s.
+  // Independent rendering must mask stale metrics by t=41s, not wait until t=50s.
+  await page.clock.runFor(21001);
+  assert.deepEqual(await page.locator('.card .state').allTextContents(),['STALE','STALE','STALE']);
+  for(const asset of ['SOL','BNB','APT']){
+   const card=page.locator('[data-asset="'+asset+'"]');
+   assert.equal(await card.locator('.price').textContent(),'\u2014');
+   assert.equal(await card.locator('[data-field="move"]').textContent(),'\u2014');
+   assert.match(await card.locator('.direction').textContent(),/Market sample expired/);
+  }
+  assert.ok(calls>=4,'stalled network refresh never started');
+  assert.equal(errors.length,0,'browser runtime errors: '+JSON.stringify(errors));
+  console.log('PULSE_BROWSER_STALLED_REFRESH=PASS states=STALE,STALE,STALE');
+ }finally{await context.close();}
+}
 async function main(){
  const server=http.createServer(serve);
  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
@@ -146,7 +182,8 @@ async function main(){
     await check(browser,base,name,viewport,kind);
    }
   }
-  console.log('PULSE_BROWSER_QA=PASS cases=28 viewports=4 scenarios=7');
+  await checkStalledRefreshRedacts(browser,base);
+  console.log('PULSE_BROWSER_QA=PASS cases=29 viewports=4 scenarios=7 plus_stalled_refresh=1');
  }finally{
   if(browser)await browser.close();
   await new Promise(resolve=>server.close(resolve));
