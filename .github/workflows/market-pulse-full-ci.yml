@@ -7,6 +7,7 @@ on:
       - 'assets/js/genesis-market-pulse-core.js'
       - 'assets/js/site-tabs.js'
       - 'tests/genesis-market-pulse.test.js'
+      - 'tests/genesis-market-pulse-browser.cjs'
       - '.github/workflows/market-pulse-full-ci.yml'
   pull_request:
     branches: [main]
@@ -15,6 +16,7 @@ on:
       - 'assets/js/genesis-market-pulse-core.js'
       - 'assets/js/site-tabs.js'
       - 'tests/genesis-market-pulse.test.js'
+      - 'tests/genesis-market-pulse-browser.cjs'
       - '.github/workflows/market-pulse-full-ci.yml'
 permissions:
   contents: read
@@ -46,3 +48,20 @@ jobs:
           persist-credentials: false
       - name: Run publisher regression suite
         run: python3 -m unittest discover -s ops/genesis-public-signals-v1 -p 'test_*.py' -v
+  browser-qa:
+    name: Market Pulse real Chromium responsive and feed QA
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+      - name: Install pinned browser automation
+        run: npm install --no-save --ignore-scripts playwright-core@1.56.1
+      - name: Validate Market Pulse browser test syntax
+        run: node --check tests/genesis-market-pulse-browser.cjs
+      - name: Verify responsive fresh, stale, invalid and duplicate quote handling in Chromium
+        run: node tests/genesis-market-pulse-browser.cjs
