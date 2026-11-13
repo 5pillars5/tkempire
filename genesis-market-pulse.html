@@ -75,8 +75,15 @@ async function refresh(){
    if(!r.ok)throw new Error('feed unavailable');
    const raw=await r.json(),quote=core.parseQuote(raw,Date.now());
    if(!quote)throw new Error('unverified or stale quote source');
-   series=core.addQuote(series,quote);
-   lastError='';node('feed').textContent='Source: '+quote.source+' · sampled at '+new Date(quote.timestamp).toLocaleTimeString()+' · refresh 10s while open';
+   const next=core.addQuote(series,quote);
+   const accepted=next!==series;
+   if(accepted)series=next;
+   lastError='';
+   if(accepted){
+     node('feed').textContent='Source: '+quote.source+' · sampled at '+new Date(quote.timestamp).toLocaleTimeString()+' · refresh 10s while open';
+   }else{
+     node('feed').textContent='Delayed or duplicate quote ignored. Previous accepted sample retained; age checks remain active.';
+   }
  }catch{
    lastError='Feed unavailable or not verified. No momentum decision is shown.';
  }finally{busy=false;node('refresh').disabled=false;render();}
