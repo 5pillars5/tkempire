@@ -71,21 +71,23 @@ async function check(browser,base,name,viewport,kind){
    }
    if(kind==='expires_after_ready'){
     await page.clock.runFor(10000);
-    await page.waitForFunction(unavailable,{timeout:6000});
+    await page.waitForFunction(()=>[...document.querySelectorAll('.card .state')].every(n=>n.textContent==='STALE'),{timeout:6000});
    }
   } else {
    await page.waitForFunction(unavailable,{timeout:6000});
   }
   const states=await page.locator('.card .state').allTextContents();
   if(['fresh','duplicate'].includes(kind))assert.deepEqual(states,['READY','READY','READY']);
+  else if(kind==='expires_after_ready')assert.deepEqual(states,['STALE','STALE','STALE']);
   else assert.deepEqual(states,['UNAVAILABLE','UNAVAILABLE','UNAVAILABLE']);
   if(!['fresh','duplicate'].includes(kind)){
    for(const asset of ['BNB','SOL','APT']){
     const card=page.locator('[data-asset="'+asset+'"]');
-    assert.equal(await card.locator('.price').textContent(),'\u2014');
+    if(kind!=='expires_after_ready')assert.equal(await card.locator('.price').textContent(),'\u2014');
     assert.equal(await card.locator('[data-field="move"]').textContent(),'\u2014');
    }
-   assert.match(await page.locator('#feed').textContent(),/not verified/i);
+   if(kind!=='expires_after_ready')assert.match(await page.locator('#feed').textContent(),/not verified/i);
+   else assert.match(await page.locator('[data-asset="SOL"] .direction').textContent(),/Market sample expired/i);
   }
   const layout=await page.evaluate(()=>{
    const cards=[...document.querySelectorAll('.card')].map(c=>{
