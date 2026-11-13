@@ -82,7 +82,7 @@ async function refresh(){
    if(accepted){
      node('feed').textContent='Source: '+quote.source+' · sampled at '+new Date(quote.timestamp).toLocaleTimeString()+' · refresh 10s while open';
    }else{
-     node('feed').textContent='Delayed or duplicate quote ignored. Previous accepted sample retained; age checks remain active.';
+     node('feed').textContent='Delayed, duplicate, or too-soon quote ignored. Previous accepted sample retained; age checks remain active.';
    }
  }catch{
    lastError='Feed unavailable or not verified. No momentum decision is shown.';
