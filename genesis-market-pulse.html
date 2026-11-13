@@ -90,7 +90,10 @@ async function refresh(){
 }
 node('refresh').addEventListener('click',refresh);
 document.addEventListener('visibilitychange',()=>{render();if(!document.hidden)refresh();});
-setInterval(()=>{render();refresh();},10000);
+// Render once per second so expired prices are hidden promptly even if a fetch stalls.
+// Quote requests remain on the independent ten-second cadence.
+setInterval(render,1000);
+setInterval(refresh,10000);
 refresh();
 })();
 </script>
