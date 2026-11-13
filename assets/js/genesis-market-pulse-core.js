@@ -44,6 +44,15 @@
     // Ignore too-soon off-cycle clicks: they otherwise displace the last valid
     // 10-second sample trio and force READY back to COLLECTING.
     if(quote.timestamp<=watermark||quote.timestamp-watermark<6000)return previous;
+    // Every third sample must span at least 18 seconds, even after an
+    // off-cycle manual refresh. Reject too-short windows rather than publish
+    // an irregular trio or lose a previously READY result.
+    for(const asset of ASSETS){
+      if(!validPrice(quote.prices[asset]))continue;
+      const existing=Array.isArray(previous[asset])?previous[asset]:[];
+      if(existing.length>=2&&quote.timestamp-existing[existing.length-2].t<18000)
+        return previous;
+    }
     const next={};
     for(const asset of ASSETS){
       const prev=Array.isArray(previous[asset])?previous[asset]:[];
