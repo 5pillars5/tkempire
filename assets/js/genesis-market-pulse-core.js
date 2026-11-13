@@ -29,9 +29,22 @@
     return {timestamp:t,prices,source:SOURCE};
   }
   function addQuote(series,quote){
+    // One chronological watermark across the whole snapshot. A late or repeated
+    // response must never erase newer observations or backfill missing assets.
+    const previous=series&&typeof series==='object'&&!Array.isArray(series)?series:{};
+    if(!quote||!Number.isFinite(quote.timestamp)||!quote.prices||
+      typeof quote.prices!=='object'||Array.isArray(quote.prices))return previous;
+    let watermark=-Infinity;
+    for(const asset of ASSETS){
+      const samples=Array.isArray(previous[asset])?previous[asset]:[];
+      for(const sample of samples){
+        if(sample&&Number.isFinite(sample.t))watermark=Math.max(watermark,sample.t);
+      }
+    }
+    if(quote.timestamp<=watermark)return previous;
     const next={};
     for(const asset of ASSETS){
-      const prev=Array.isArray(series&&series[asset])?series[asset]:[];
+      const prev=Array.isArray(previous[asset])?previous[asset]:[];
       let history=prev.filter(x=>x&&Number.isFinite(x.t)&&validPrice(x.p)&&
         x.t<=quote.timestamp&&quote.timestamp-x.t<=MAX_SAMPLE_AGE_MS);
       if(validPrice(quote.prices[asset])&&(!history.length||history[history.length-1].t<quote.timestamp)){
