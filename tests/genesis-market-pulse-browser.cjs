@@ -70,7 +70,9 @@ async function check(browser,base,name,viewport,kind){
     assert.equal(await sol.locator('.state').textContent(),'READY');
    }
    if(kind==='expires_after_ready'){
-    await page.clock.runFor(10000);
+    // At t=40s the last accepted sample is exactly 20s old (still READY).
+    // The t=50s timer must expire it without a newer accepted price.
+    await page.clock.runFor(20000);
     await page.waitForFunction(()=>[...document.querySelectorAll('.card .state')].every(n=>n.textContent==='STALE'),{timeout:6000});
    }
   } else {
