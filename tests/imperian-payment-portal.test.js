@@ -88,3 +88,37 @@ test('preview has no payable address, active purchase or trading execution',()=>
  assert.doesNotMatch(script,/eth_sendTransaction|wallet_sendCalls|placeOrder|sendRawTransaction/);
  assert.doesNotMatch(html,/0x3c499c542cef|BEGIN PRIVATE KEY/);
 });
+
+
+test('EOA login verifies exact signed challenge and never grants paid access',async()=>{
+ const {Wallet}=require('ethers');
+ const prev={secret:process.env.IMPERIAN_SESSION_SECRET,hosts:process.env.IMPERIAN_ALLOWED_HOSTS};
+ process.env.IMPERIAN_SESSION_SECRET='z'.repeat(72);
+ process.env.IMPERIAN_ALLOWED_HOSTS='tkempire.io';
+ try{
+  const w=Wallet.createRandom();
+  const ch=res();
+  await challenge({method:'POST',headers:{host:'tkempire.io',origin:'https://tkempire.io'}},ch);
+  assert.equal(ch.code,200);
+  const token=ch.headers['Set-Cookie'].split(';')[0];
+  const payload={address:w.address,message:auth.message(ch.data.challenge,w.address)};
+  payload.signature=await w.signMessage(payload.message);
+  const result=res();
+  await session({method:'POST',headers:{host:'tkempire.io',origin:'https://tkempire.io',cookie:token},body:payload},result);
+  assert.equal(result.code,200);
+  assert.equal(result.data.entitlement,'NOT_ENABLED');
+  assert.equal(result.data.address,w.address.toLowerCase());
+  const cookie=result.headers['Set-Cookie'].find(s=>s.startsWith('imperian_session=')).split(';')[0];
+  const readback=res();
+  await session({method:'GET',headers:{host:'tkempire.io',cookie}},readback);
+  assert.equal(readback.data.status,'wallet_authenticated');
+  assert.equal(readback.data.entitlement,'NOT_ENABLED');
+  const wrong=res();
+  await session({method:'POST',headers:{host:'tkempire.io',origin:'https://tkempire.io',cookie:token},
+    body:{...payload,address:'0x'+'1'.repeat(40)}},wrong);
+  assert.notEqual(wrong.code,200);
+ }finally{
+  if(prev.secret===undefined)delete process.env.IMPERIAN_SESSION_SECRET;else process.env.IMPERIAN_SESSION_SECRET=prev.secret;
+  if(prev.hosts===undefined)delete process.env.IMPERIAN_ALLOWED_HOSTS;else process.env.IMPERIAN_ALLOWED_HOSTS=prev.hosts;
+ }
+});
