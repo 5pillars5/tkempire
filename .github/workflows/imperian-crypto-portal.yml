@@ -1,0 +1,40 @@
+name: Verify Imperian Crypto Portal (No Payments)
+on:
+  pull_request:
+    paths:
+      - 'imperian.html'
+      - 'join.html'
+      - 'lib/imperian-*.js'
+      - 'api/imperian/**'
+      - 'assets/js/imperian-portal.js'
+      - 'tests/imperian-*.test.js'
+      - 'docs/imperian-*.md'
+      - 'package.json'
+      - '.github/workflows/imperian-crypto-portal.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-crypto-portal:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+      - name: Install fixed wallet verification dependency
+        run: npm install --ignore-scripts --no-audit --no-fund
+      - name: Check syntax
+        run: |
+          node --check lib/imperian-auth.js
+          node --check lib/imperian-settlement.js
+          node --check lib/imperian-pricing-policy.js
+          node --check api/imperian/challenge.js
+          node --check api/imperian/session.js
+          node --check api/imperian/availability.js
+          node --check assets/js/imperian-portal.js
+      - name: Verify isolated pricing, wallet sign-in and settlement proofs
+        run: node --test tests/imperian-pricing-policy.test.js tests/imperian-payment-portal.test.js
