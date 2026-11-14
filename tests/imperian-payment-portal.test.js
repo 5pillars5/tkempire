@@ -122,3 +122,26 @@ test('EOA login verifies exact signed challenge and never grants paid access',as
   if(prev.hosts===undefined)delete process.env.IMPERIAN_ALLOWED_HOSTS;else process.env.IMPERIAN_ALLOWED_HOSTS=prev.hosts;
  }
 });
+
+
+test('pricing explanation distinguishes new joiner bands from an existing member ceiling',()=>{
+ const page=fs.readFileSync(path.join(__dirname,'../imperian.html'),'utf8');
+ const rule=fs.readFileSync(path.join(__dirname,'../lib/imperian-pricing-policy.js'),'utf8');
+ for(const token of ['What NEW members would pay','Your original rate becomes your ceiling',
+   'Your renewal may drop','99 USDC ceiling never increases','future renewals only',
+   'EXAMPLE · NOT A LIVE PRICE','not</strong> been activated']){
+   assert.ok(page.includes(token),'Missing pricing explanation: '+token);
+ }
+ for(const [floor,rate] of [[0,30],[55,49],[60,99],[65,199],[70,300]]){
+   assert.equal(require('../lib/imperian-pricing-policy.js').rateForWinRate(floor),rate);
+ }
+ for(const exact of [
+  '<td>Genesis improves</td><td>199 USDC</td><td>99 USDC</td>',
+  '<td>Genesis declines</td><td>49 USDC</td><td>49 USDC</td>',
+  '<td>Genesis later recovers</td><td>300 USDC</td><td>99 USDC</td>'
+ ])assert.ok(page.includes(exact),'Missing renewal example '+exact);
+ assert.ok(page.includes('No payment required or accepted')||
+           page.includes('no payment required or accepted'));
+ assert.ok(!page.includes('id="checkout-pay"'));
+ assert.match(rule,/Math\.min\(member\.locked_max_rate_usdc/);
+});
