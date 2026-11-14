@@ -6,6 +6,7 @@
     ['Home','/','primary'],
     ['Overview','/app.html','primary'],
     ['Genesis Signals','/genesis-signals.html','primary'],
+    ['Market Pulse','/genesis-market-pulse.html','genesis'],
     ['Live Signals','/smart-money-signals.html','primary'],
     ['Results','/results.html','primary'],
     ['Dashboard','/dashboard.html','genesis'],

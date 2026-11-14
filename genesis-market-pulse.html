@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080d18">
+<meta name="description" content="Read-only short-window market momentum research for Genesis. No trade signals or forecasts.">
+<title>Genesis Market Pulse | TK Empire</title>
+<link rel="stylesheet" href="/assets/css/site-tabs.css?v=4">
+<style>
+:root{color-scheme:dark;--bg:#080d18;--panel:#101d30;--border:#304960;--fg:#edf4fc;--muted:#b2c3d5;--gold:#efbe64;--blue:#9ad0ff;--green:#77e2bd;--red:#ffa2ad}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 65% -15%,#16334c,transparent 48%),var(--bg);color:var(--fg);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1120px;width:calc(100% - 28px);margin:auto;padding:28px 0 65px}
+a{color:var(--blue);text-underline-offset:3px}.eyebrow{color:var(--gold);font-size:11px;letter-spacing:.15em;font-weight:800}h1{font-size:clamp(33px,6vw,54px);line-height:1.07;letter-spacing:-.04em;margin:8px 0 12px}h1 span{color:var(--gold)}
+.lead{max-width:750px;color:var(--muted);margin:0}.links{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}.links a{padding:9px 12px;text-decoration:none;border:1px solid var(--border);border-radius:9px;font-weight:750;font-size:13px}
+.notice{border-left:3px solid var(--gold);padding:13px 16px;border-radius:0 10px 10px 0;background:#22221b;margin:17px 0 22px;font-size:13px}.notice strong{color:#ffe1a2}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;margin:20px 0 13px}.feed{color:var(--muted);font-size:13px}.feed strong{color:#fff}
+button{background:#264760;color:var(--fg);border:1px solid #7397b3;border-radius:9px;padding:10px 17px;min-height:44px;font-weight:800;font:inherit;cursor:pointer}button:disabled{opacity:.5;cursor:wait}button:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.card{border:1px solid var(--border);background:linear-gradient(145deg,#14263c,#0e1929);border-radius:16px;padding:20px;min-width:0}
+.card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.asset{font-size:24px;font-weight:850;letter-spacing:-.03em}.state{padding:4px 9px;border-radius:30px;border:1px solid #607085;font-size:10px;letter-spacing:.03em;font-weight:800;color:#d3e4f6}
+.price{font-size:clamp(24px,4vw,35px);font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.025em;margin:14px 0}.metric-list{display:grid;grid-template-columns:1fr 1fr;gap:12px;border-top:1px solid #34506a;padding-top:16px}.metric small{display:block;color:var(--muted);font-size:11px}.metric strong{display:block;font-size:18px;margin-top:3px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.direction{font-size:12px;color:var(--muted);margin:14px 0 0}.up{color:var(--green)!important}.down{color:var(--red)!important}.flat{color:var(--fg)!important}
+.methods{border:1px solid var(--border);border-radius:16px;background:var(--panel);padding:20px;margin:20px 0}.methods h2{font-size:19px;margin:0 0 10px}.methods p{font-size:13px;color:var(--muted);margin:10px 0}.methods strong{color:#dceafe}footer{margin-top:26px;border-top:1px solid var(--border);padding:18px 0;color:var(--muted);font-size:12px}
+@media(max-width:850px){.cards{grid-template-columns:1fr}.metric-list{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:470px){.metric-list{grid-template-columns:1fr 1fr}.card{padding:17px}}
+</style>
+<link rel="stylesheet" href="/assets/css/empire-unified.css?v=1">
+</head><body>
+<main>
+<div class="eyebrow">TK EMPIRE / GENESIS RESEARCH</div>
+<h1>Market <span>Pulse</span></h1>
+<p class="lead">Understand what the market is doing right now. Observe short-window price speed and acceleration, then compare them with verified outcomes before allowing any trading decision.</p>
+<div class="links"><a href="/genesis-signals.html">Genesis Signals</a><a href="/smart-money-signals.html">Smart Money Signals</a><a href="/smart-money-flow.html">Flow Map</a><a href="/results.html">Paper Results</a></div>
+<div class="notice"><strong>Read-only research — no orders or forecasts.</strong> This samples indicative Hyperliquid perpetual mid-prices only while this page is open. It does not use Polymarket settlement prices, does not calculate prediction-market odds, and cannot establish a winning trade. No made-up percentages or 99.9% win claims.</div>
+<div class="toolbar"><div id="feed" class="feed" role="status" aria-live="polite"><strong>Connecting</strong> · Collecting market samples</div><button id="refresh" type="button">Refresh sample</button></div>
+<div class="cards" id="cards" aria-label="Observed market momentum">
+<article class="card" data-asset="BNB"><div class="card-head"><span class="asset">BNB</span><span class="state">COLLECTING</span></div><div class="price">—</div><div class="metric-list"><div class="metric"><small>Observed window</small><strong data-field="window">—</strong></div><div class="metric"><small>Observed change</small><strong data-field="move">—</strong></div><div class="metric"><small>Latest speed</small><strong data-field="speed">—</strong></div><div class="metric"><small>Acceleration</small><strong data-field="acceleration">—</strong></div></div><p class="direction">Waiting for three time-separated samples.</p></article>
+<article class="card" data-asset="SOL"><div class="card-head"><span class="asset">SOL</span><span class="state">COLLECTING</span></div><div class="price">—</div><div class="metric-list"><div class="metric"><small>Observed window</small><strong data-field="window">—</strong></div><div class="metric"><small>Observed change</small><strong data-field="move">—</strong></div><div class="metric"><small>Latest speed</small><strong data-field="speed">—</strong></div><div class="metric"><small>Acceleration</small><strong data-field="acceleration">—</strong></div></div><p class="direction">Waiting for three time-separated samples.</p></article>
+<article class="card" data-asset="APT"><div class="card-head"><span class="asset">APT</span><span class="state">COLLECTING</span></div><div class="price">—</div><div class="metric-list"><div class="metric"><small>Observed window</small><strong data-field="window">—</strong></div><div class="metric"><small>Observed change</small><strong data-field="move">—</strong></div><div class="metric"><small>Latest speed</small><strong data-field="speed">—</strong></div><div class="metric"><small>Acceleration</small><strong data-field="acceleration">—</strong></div></div><p class="direction">Waiting for three time-separated samples.</p></article>
+</div>
+<section class="methods" aria-labelledby="method"><h2 id="method">What each number means</h2><p><strong>Observed change:</strong> actual log return in basis points (1 bp = 0.01%) over approximately 20 seconds. <strong>Latest speed:</strong> price-change rate in basis points per second during the newest interval. <strong>Acceleration:</strong> difference between recent and earlier speed, divided by the time between the interval midpoints. None of these is a future-price forecast.</p><p><strong>Data gates:</strong> Feed source, timestamp and market must match the allowlist. Need at least three samples with a valid observed window. Missing, delayed or irregular data displays COLLECTING or STALE, not a signal. Data collected in one browser session is not a persistent backtest.</p><p><strong>Next research step:</strong> Independently timestamp Polymarket's active BTC Up/Down markets, reference/settlement feed and executable YES/NO quotes. Then log hypothetical decisions and settled outcomes after fees. Only a statistically meaningful out-of-sample edge should be considered for the Genesis admission process.</p></section>
+<footer>Genesis Market Pulse · Hyperliquid indicative perpetual midpoint · No trading authority · Prices may not match Polymarket's reference or settlement source.</footer>
+</main>
+<script src="/assets/js/genesis-market-pulse-core.js?v=1"></script>
+<script>
+(()=>{
+'use strict';
+const core=globalThis.GenesisMarketPulse;
+const node=id=>document.getElementById(id);
+const cards={};for(const asset of core.ASSETS)cards[asset]=document.querySelector('[data-asset="'+asset+'"]');
+let series={},busy=false,lastError='';
+const fmt=(n,d=2)=>Number.isFinite(n)?n.toFixed(d):'—';
+const signed=(n,d=2)=>(n>0?'+':'')+fmt(n,d);
+function render(){
+ const now=Date.now();
+ for(const asset of core.ASSETS){
+   const card=cards[asset],m=lastError?{state:'UNAVAILABLE'}:core.metrics(series[asset],now);
+   const state=card.querySelector('.state');state.textContent=m.state;
+   card.querySelector('.price').textContent=m.last===undefined?'—':m.last.toLocaleString('en-US',{style:'currency',currency:'USD',maximumFractionDigits:5});
+   const set=(field,value)=>{card.querySelector('[data-field="'+field+'"]').textContent=value;};
+   set('window',m.state==='READY'?fmt(m.windowSeconds,1)+' s':'—');
+   set('move',m.state==='READY'?signed(m.moveBps)+' bp':'—');
+   set('speed',m.state==='READY'?signed(m.speedBpsPerSec,3)+' bp/s':'—');
+   set('acceleration',m.state==='READY'?signed(m.accelerationBpsPerSec2,4)+' bp/s²':'—');
+   const label=card.querySelector('.direction');
+   label.className='direction';
+   if(m.state==='READY'){
+     label.textContent='Observed: '+m.direction+' · not a buy/sell signal';
+     label.classList.add(m.direction==='RISING'?'up':m.direction==='FALLING'?'down':'flat');
+   }else label.textContent=m.state==='UNAVAILABLE'?'Feed unavailable. Metrics hidden.':m.state==='STALE'?'Market sample expired. Metrics hidden.':'Waiting for three valid time-separated samples.';
+ }
+ if(lastError)node('feed').textContent=lastError;
+}
+async function refresh(){
+ if(busy||document.hidden)return;
+ busy=true;node('refresh').disabled=true;
+ try{
+   const r=await fetch('/api/genesis/prices',{cache:'no-store',headers:{Accept:'application/json'}});
+   if(!r.ok)throw new Error('feed unavailable');
+   const raw=await r.json(),quote=core.parseQuote(raw,Date.now());
+   if(!quote)throw new Error('unverified or stale quote source');
+   const next=core.addQuote(series,quote);
+   const accepted=next!==series;
+   if(accepted)series=next;
+   lastError='';
+   if(accepted){
+     node('feed').textContent='Source: '+quote.source+' · sampled at '+new Date(quote.timestamp).toLocaleTimeString()+' · refresh 10s while open';
+   }else{
+     node('feed').textContent='Delayed, duplicate, or too-soon quote ignored. Previous accepted sample retained; age checks remain active.';
+   }
+ }catch{
+   lastError='Feed unavailable or not verified. No momentum decision is shown.';
+ }finally{busy=false;node('refresh').disabled=false;render();}
+}
+node('refresh').addEventListener('click',refresh);
+document.addEventListener('visibilitychange',()=>{render();if(!document.hidden)refresh();});
+// Render once per second so expired prices are hidden promptly even if a fetch stalls.
+// Quote requests remain on the independent ten-second cadence.
+setInterval(render,1000);
+setInterval(refresh,10000);
+refresh();
+})();
+</script>
+<script src="/assets/js/site-tabs.js?v=4" defer></script>
+<script src="/assets/js/empire-unified.js?v=1" defer></script>
+</body></html>
