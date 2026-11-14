@@ -40,6 +40,25 @@ h1 em{font-style:normal;color:var(--gold)}
 .divider{height:1px;background:var(--line);margin:22px 0}
 .price{font-size:35px;color:var(--gold);font-weight:900}
 .price span{font-size:14px;color:#acb2ce;font-weight:500}
+.price-guide{padding-top:5px}
+.guide-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin:20px 0}
+.guide-card{background:#121527;border:1px solid var(--line);border-radius:13px;padding:19px}
+.guide-card .tag{font-size:11px;font-weight:800;letter-spacing:.07em;color:var(--gold);text-transform:uppercase}
+.guide-card h3{font-size:16px;margin:9px 0 7px}
+.guide-card p{font-size:13px;color:#b5b9d2;line-height:1.65;margin:0}
+.example-box{background:linear-gradient(135deg,#1c1d39,#101829);border:1px solid #5a5187;border-radius:16px;padding:23px;margin-top:19px}
+.example-box h3{font-size:20px;margin:0 0 7px}
+.example-table{width:100%;border-collapse:collapse;text-align:left;margin:16px 0}
+.example-table th{color:#aeb5d0;font-size:11px;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid #52546d;padding:10px 9px}
+.example-table td{padding:12px 9px;border-bottom:1px solid #34364d;font-size:13px;line-height:1.45}
+.example-table td:last-child{color:#eac76d;font-weight:800;white-space:nowrap}
+.example-table th:last-child{text-align:right}
+.example-table td:last-child{text-align:right}
+.example-box .emphasis{color:#dcf4e9;font-weight:750}
+.rule-details{margin-top:19px;border:1px solid var(--line);border-radius:12px;background:#111427;padding:16px 18px}
+.rule-details summary{cursor:pointer;font-weight:800;font-size:13px;color:#e4d9ff}
+.rule-details p{margin:13px 0 0}
+@media(max-width:810px){.guide-cards{grid-template-columns:1fr}.guide-card{padding:16px}}
 .methods{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
 .method{background:#101627;color:#f3f0ff;min-height:152px;text-align:left;cursor:pointer;border:1px solid #333854;border-radius:13px;padding:16px}
 .method.selected{border-color:#af90ff;box-shadow:inset 0 0 0 1px #af90ff;background:#1e1a37}
@@ -95,20 +114,51 @@ footer{border-top:1px solid var(--line);padding:25px 0;font-size:12px;color:#9c9
       <div class="fact"><span class="key">Charges authorized</span><span class="value" style="color:#65deb4">None</span></div>
     </section>
     <section class="panel" aria-labelledby="pricing-title">
-      <div class="pill">THE IMPERIAN GUARANTEE</div>
-      <h2 id="pricing-title" style="margin-top:15px">Your maximum never rises</h2>
-      <p class="small">Every member receives the same core features. Your rate is determined when your first payment is independently verified, not when you merely connect.</p>
-      <div class="price">$30 <span>USDC / month · opening rate</span></div>
-      <p class="small">Opening price is illustrative until membership launch approval. New-join rates later increase only with sustained, verified Genesis results.</p>
+      <div class="pill">ONE MEMBERSHIP · PROTECTED PRICE</div>
+      <h2 id="pricing-title" style="margin-top:15px">Join early. Keep your price ceiling.</h2>
+      <p class="small"><strong>Everyone gets the same membership features.</strong> The price for <strong>new members</strong> may increase as Genesis proves its performance. Your price is locked as a maximum when your first payment is verified, not simply when you connect a wallet.</p>
+      <div class="price">30 <span>USDC / month · proposed opening rate</span></div>
+      <p class="small">Not currently available for purchase. The public rate below is a proposed schedule, not a live quote.</p>
       <div class="divider"></div>
-      <div class="fact"><span class="key">Below 55% win rate</span><span class="value">30 USDC</span></div>
-      <div class="fact"><span class="key">55% to below 60%</span><span class="value">49 USDC</span></div>
-      <div class="fact"><span class="key">60% to below 65%</span><span class="value">99 USDC</span></div>
-      <div class="fact"><span class="key">65% to below 70%</span><span class="value">199 USDC</span></div>
-      <div class="fact"><span class="key">70% and higher</span><span class="value">300 USDC</span></div>
-      <p class="small"><strong>Renewal charge = lower of your locked original price or the current verified public price.</strong> Payment and automatic adjustment are disabled until production verification.</p>
+      <p class="small"><strong>What NEW members would pay at each verified Genesis win rate:</strong></p>
+      <div class="fact"><span class="key">Below 55% wins</span><span class="value">30 USDC / month</span></div>
+      <div class="fact"><span class="key">55% to under 60%</span><span class="value">49 USDC / month</span></div>
+      <div class="fact"><span class="key">60% to under 65%</span><span class="value">99 USDC / month</span></div>
+      <div class="fact"><span class="key">65% to under 70%</span><span class="value">199 USDC / month</span></div>
+      <div class="fact"><span class="key">70% or higher</span><span class="value">300 USDC / month</span></div>
+      <p class="small"><strong>Already a member?</strong> A higher public rate does not increase your personal maximum. If the rate drops below your maximum, your next renewal gets the lower rate.</p>
     </section>
   </div>
+  <section class="section price-guide" aria-labelledby="price-guide-title">
+    <div class="kicker">HOW THE RATES REALLY WORK</div>
+    <h2 id="price-guide-title">The price moves for new members. Your maximum stays protected.</h2>
+    <p class="small">Genesis performance is reviewed using independently verified, <strong>closed</strong> trade results. Prices do not change after each trade or each winning streak. Everyone gets the same features; the schedule changes only what new subscribers may pay and whether current subscribers qualify for a lower renewal.</p>
+    <div class="guide-cards">
+      <div class="guide-card"><div class="tag">01 · When you join</div><h3>Your original rate becomes your ceiling</h3><p>After your first confirmed payment, that monthly price is your personal maximum for the membership while you stay eligible.</p></div>
+      <div class="guide-card"><div class="tag">02 · If Genesis performs better</div><h3>New subscribers may pay more</h3><p>Higher rates require sustained verified results, positive net performance and risk checks. You never pay above your original maximum.</p></div>
+      <div class="guide-card"><div class="tag">03 · If Genesis performs worse</div><h3>Your renewal may drop</h3><p>When a verified review lowers the public rate, you pay that lower rate at your next renewal. Your original maximum remains yours if results recover.</p></div>
+    </div>
+    <div class="example-box" aria-labelledby="example-title">
+      <div class="pill">EXAMPLE · NOT A LIVE PRICE</div>
+      <h3 id="example-title" style="margin-top:12px">Suppose you joined at 99 USDC per month</h3>
+      <p class="small">Your protected maximum is <strong>99 USDC</strong>. Here is what your next monthly charge would look like as the public rate changes:</p>
+      <table class="example-table">
+        <thead><tr><th scope="col">What happens</th><th scope="col">New-member public rate</th><th scope="col">You pay</th></tr></thead>
+        <tbody>
+          <tr><td>You join at the 60% band</td><td>99 USDC</td><td>99 USDC</td></tr>
+          <tr><td>Genesis improves</td><td>199 USDC</td><td>99 USDC</td></tr>
+          <tr><td>Genesis declines</td><td>49 USDC</td><td>49 USDC</td></tr>
+          <tr><td>Genesis later recovers</td><td>300 USDC</td><td>99 USDC</td></tr>
+        </tbody>
+      </table>
+      <p class="small emphasis">Your original 99 USDC ceiling never increases. A temporary discount can end when results improve, but your price still cannot exceed 99 USDC.</p>
+      <p class="small">Price changes would affect <strong>future renewals only</strong> — never an already-paid month. Your locked ceiling remains associated with your verified membership wallet.</p>
+    </div>
+    <details class="rule-details">
+      <summary>How does Genesis qualify for a price change?</summary>
+      <p class="small">The staged monitoring design reviews roughly 28–31 days of independently reconciled closed PAPER trades, with at least 100 decisive wins/losses. An increase requires two separate qualifying reviews about a week apart, positive verified net P&amp;L after fees, and approved risk checks. A lower band can be proposed after one verified review. Missing or unverified evidence means no new rate decision. These review thresholds and automated billing have <strong>not</strong> been activated or approved for production.</p>
+    </details>
+  </section>
   <section class="section" aria-labelledby="method-title">
     <div class="kicker">STEP 02 / SETTLEMENT OPTIONS</div>
     <h2 id="method-title">Choose how you prefer to pay</h2>
