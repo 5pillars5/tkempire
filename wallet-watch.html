@@ -275,8 +275,8 @@ button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(
     if (loading) return;
     loading = true; $('refresh').disabled = true;
     state('Checking public wallet activity…','');
+    const requestMode = cohortMode, requestGeneration = generation;
     try {
-      const requestMode = cohortMode, requestGeneration = generation;
       const response = await fetch('/api/wallet-watch?cohort=' + encodeURIComponent(requestMode),{cache:'no-store',headers:{Accept:'application/json'}});
       const body = await response.json();
       if (requestGeneration !== generation) return;
@@ -304,6 +304,7 @@ button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(
       render();
     } finally {
       loading = false; $('refresh').disabled = false;
+      if (requestGeneration !== generation) load();
     }
   }
   $('fixedMode').addEventListener('click',()=>setCohort('fixed'));
