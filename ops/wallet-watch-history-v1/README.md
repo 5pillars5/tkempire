@@ -6,7 +6,7 @@ This subsystem is independent from Genesis execution. It monitors PUBLIC Polymar
 
 - GitHub Actions workflow: .github/workflows/wallet-watch-history.yml
 - Runs on main after validated CI; best-effort every 10 minutes at 03,13,23,33,43,53 UTC. Not a continuous WebSocket or guaranteed schedule.
-- Three cursor-paginated pages of up to 200 recent activities per watched wallet, last 24 hours. Missing events remain possible.
+- First run or after long outages: up to 24-hour public backfill, at most three cursor-paginated pages of 200 activities per wallet. Routine runs overlap at least the last 60 minutes (or more for delayed runs), reducing high-activity truncation. Missing observations remain possible and truncated scans are explicitly flagged.
 - Writes compressed append-only-by-event archives to data/wallet-watch-history-v1/YYYY-MM-DD.json.gz, plus LATEST.json for scan metadata and per-wallet coverage. After write, independently reads back and checks SHA-256.
 - View verified history via /api/wallet-watch-history?days=3&limit=60 with an optional wallet address. Max 7 days, 100 rows; limited sample, not exhaustive.
 - PR jobs validate code and cannot write. The separate singlewriter concurrency guard prevents overlapping scheduled collectors. No direct VPS connection.
