@@ -354,12 +354,8 @@ button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(
     if($('viewMode').value==='history')loadHistory();else load();
   });
   document.addEventListener('visibilitychange',()=>{if(!document.hidden && Date.now()-lastGoodAt>25000)load();});
-  setInterval(()=>{
-    if(!document.hidden){
-      load();
-      if($('viewMode').value==='history')loadHistory();
-    }
-  },60000);
+  setInterval(()=>{if(!document.hidden)load();},30000);
+  setInterval(()=>{if(!document.hidden&&$('viewMode').value==='history')loadHistory();},60000);
   setInterval(()=>{if(snapshot)$('latestAge').textContent=age(snapshot.newest_trade_at);},15000);
   load();
 })();
