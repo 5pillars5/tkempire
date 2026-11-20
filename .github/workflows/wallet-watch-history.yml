@@ -1,0 +1,63 @@
+name: Wallet Watch persistent observer (read-only source)
+on:
+  pull_request:
+    paths:
+      - 'ops/wallet-watch-history-v1/**'
+      - 'api/wallet-watch-history.js'
+      - 'tests/wallet-watch-history.test.js'
+      - 'wallet-watch.html'
+      - '.github/workflows/wallet-watch-history.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'ops/wallet-watch-history-v1/**'
+      - 'api/wallet-watch-history.js'
+      - 'tests/wallet-watch-history.test.js'
+      - '.github/workflows/wallet-watch-history.yml'
+  schedule:
+    - cron: '3,13,23,33,43,53 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+      - name: Syntax and deterministic safety regression
+        run: |
+          node --check ops/wallet-watch-history-v1/history-core.js
+          node --check ops/wallet-watch-history-v1/collect.js
+          node --check api/wallet-watch-history.js
+          node --check tests/wallet-watch-history.test.js
+          node --test tests/wallet-watch-history.test.js tests/wallet-watch.test.js
+  collect:
+    needs: verify
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    concurrency:
+      group: wallet-watch-history-singlewriter
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+      - name: Archive public wallet transactions; opt-in alert delivery only
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          WALLET_WATCH_ALERTS_ENABLED: ${{ vars.WALLET_WATCH_ALERTS_ENABLED }}
+          WALLET_WATCH_TELEGRAM_BOT_TOKEN: ${{ secrets.WALLET_WATCH_TELEGRAM_BOT_TOKEN }}
+          WALLET_WATCH_TELEGRAM_CHAT_ID: ${{ secrets.WALLET_WATCH_TELEGRAM_CHAT_ID }}
+        run: node ops/wallet-watch-history-v1/collect.js
