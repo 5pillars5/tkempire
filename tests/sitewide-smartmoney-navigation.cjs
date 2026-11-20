@@ -7,7 +7,7 @@ const assert=require('node:assert/strict');
 const {execFileSync}=require('node:child_process');
 const {chromium}=require('playwright-core');
 const ROOT=path.resolve(__dirname,'..');
-const FILES=['index.html','research.html','dashboard.html','smart-money.html','smart-money-signals.html','smart-money-flow.html','genesis-signals.html','results.html','learn.html','portfolio.html','recovery.html','testnet.html','about.html','join.html','community.html','app.html'];
+const FILES=['index.html','research.html','dashboard.html','smart-money.html','smart-money-signals.html','smart-money-flow.html','wallet-watch.html','genesis-signals.html','results.html','learn.html','portfolio.html','recovery.html','testnet.html','about.html','join.html','community.html','app.html'];
 const mime={'.html':'text/html','.js':'application/javascript','.css':'text/css','.png':'image/png','.svg':'image/svg+xml','.json':'application/json'};
 function serve(req,res){
  const url=new URL(req.url,'http://localhost');
@@ -27,13 +27,13 @@ async function run(){
  const js=fs.readFileSync(path.join(ROOT,'assets/js/site-tabs.js'),'utf8');
  const css=fs.readFileSync(path.join(ROOT,'assets/css/site-tabs.css'),'utf8');
  const sitemap=fs.readFileSync(path.join(ROOT,'sitemap.xml'),'utf8');
- for(const name of ['Flow Map','Smart Money Positions','Live Signals','Genesis Signals'])assert.ok(js.includes("['"+name+"'"),name+' missing');
+ for(const name of ['Flow Map','Smart Money Positions','Live Signals','Genesis Signals','Wallet Watch'])assert.ok(js.includes("['"+name+"'"),name+' missing');
  for(const file of FILES){
   const source=fs.readFileSync(path.join(ROOT,file),'utf8');
   assert.match(source,/site-tabs\.js\?v=4/,file+' must load current navigation JS');
   assert.match(source,/site-tabs\.css\?v=4/,file+' must load current navigation CSS');
  }
- for(const file of ['smart-money.html','smart-money-signals.html','smart-money-flow.html','genesis-signals.html'])assert.ok(sitemap.includes(file));
+ for(const file of ['smart-money.html','smart-money-signals.html','smart-money-flow.html','wallet-watch.html','genesis-signals.html'])assert.ok(sitemap.includes(file));
  assert.match(css,/@media\(max-width:1120px\)/);
  console.log('STATIC_SITE_NAVIGATION=PASS files='+FILES.length);
  const server=http.createServer(serve);
@@ -58,14 +58,14 @@ async function run(){
    const menu=nav.getByRole('button',{name:/menu/i});
    await menu.click();
    assert.equal(await menu.getAttribute('aria-expanded'),'true',file+' menu did not open');
-   for(const name of ['Flow Map','Smart Money Positions','Live Signals','Genesis Signals']){
+   for(const name of ['Flow Map','Smart Money Positions','Live Signals','Genesis Signals','Wallet Watch']){
     const a=nav.getByRole('link',{name,exact:true});
     assert.equal(await a.count(),1,file+' missing '+name);
-    assert.equal(await a.getAttribute('href'),name==='Smart Money Positions'?'/smart-money.html':name==='Flow Map'?'/smart-money-flow.html':name==='Genesis Signals'?'/genesis-signals.html':'/smart-money-signals.html');
+    assert.equal(await a.getAttribute('href'),name==='Smart Money Positions'?'/smart-money.html':name==='Flow Map'?'/smart-money-flow.html':name==='Genesis Signals'?'/genesis-signals.html':name==='Wallet Watch'?'/wallet-watch.html':'/smart-money-signals.html');
    }
    if(file==='dashboard.html')for(const id of ['modePill','lastUpdated','genesis-nav-status'])
     assert.equal(await page.locator('#'+id).count(),1,'dashboard status removed: '+id);
-   if(file.startsWith('smart-money')){
+   if(file.startsWith('smart-money') || file==='wallet-watch.html'){
     const active=nav.locator('a[aria-current="page"]');
     assert.equal(await active.count(),1,file+' active count');
     assert.equal(await active.getAttribute('href'),'/'+file);
@@ -75,7 +75,7 @@ async function run(){
   }
   await desktop.close();
   const mobile=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
-  for(const file of ['index.html','dashboard.html','research.html','smart-money.html','smart-money-signals.html','smart-money-flow.html','genesis-signals.html']){
+  for(const file of ['index.html','dashboard.html','research.html','smart-money.html','smart-money-signals.html','smart-money-flow.html','wallet-watch.html','genesis-signals.html']){
    const page=await mobile.newPage();
    await page.goto(base+'/'+file,{waitUntil:'domcontentloaded'});
    const nav=page.locator('nav.empire-global-nav');
