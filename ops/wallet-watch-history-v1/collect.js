@@ -141,7 +141,7 @@ async function fetchWallet(wallet,now){
    cursor=data.pagination.next_cursor;seenCursors.add(cursor);
    complete=false;
  }
- return {wallet,events,complete,pages:pages+1};
+ return {wallet,events,complete,pages:Math.min(MAX_PAGES,pages+1)};
 }
 async function readJson(path,token){
  const data=await readGithub(path,token,400000);
