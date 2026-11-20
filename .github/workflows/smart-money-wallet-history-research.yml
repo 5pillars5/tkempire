@@ -3,6 +3,10 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  pull_request:
+    paths:
+      - 'research/smart-money-wallet-history-20261106.js'
+      - '.github/workflows/smart-money-wallet-history-research.yml'
 permissions:
   contents: read
 jobs:
