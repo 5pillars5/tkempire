@@ -6,6 +6,7 @@
    results:['Paper Results','paper',[['Genesis Signals','/genesis-signals.html'],['Trade history','/genesis-signals.html#history'],['Overview','/app.html']]],
    research:['Research','research',[['Smart Money','/smart-money-signals.html'],['Flow Map','/smart-money-flow.html'],['Learn','/learn.html']]],
    'genesis-signals':['Genesis Signals','paper',[['Paper Results','/results.html'],['Testnet Portfolio','/testnet.html'],['Smart Money','/smart-money-signals.html']]],
+   'wallet-watch':['Wallet Watch','research',[['Wallet positions','/smart-money.html'],['Live signals','/smart-money-signals.html'],['Flow map','/smart-money-flow.html']]],
    'smart-money':['Wallet Positions','research',[['Wallet signals','/smart-money-signals.html'],['Flow Map','/smart-money-flow.html'],['Market outcomes','/smart-money-market.html']]],
    'smart-money-signals':['Wallet Signals','research',[['Wallet Positions','/smart-money.html'],['Flow Map','/smart-money-flow.html'],['Market outcomes','/smart-money-market.html']]],
    'smart-money-flow':['Flow Map','research',[['Wallet signals','/smart-money-signals.html'],['Wallet Positions','/smart-money.html'],['Market outcomes','/smart-money-market.html']]],
