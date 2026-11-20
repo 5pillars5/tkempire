@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "cohort_id": "empire_polymarket_20261120_v1",
+  "captured_at_utc": "2026-11-20T20:02:42.474Z",
+  "source": "Polymarket public Data API v2, weekly crypto leader selection",
+  "policy": "Public read-only wallet observations. Fixed addresses; no claim of identity, historical performance, or future returns.",
+  "wallets": [
+    {
+      "wallet": "0x76eca4109d0dfe8649d5e3861dfccac67ae7d630",
+      "label": "hqb.prediction",
+      "source_username": "hqb.prediction"
+    },
+    {
+      "wallet": "0x93fb8127a1b21a112b11af936361225df0563e4a",
+      "label": "LlamaLoco0000",
+      "source_username": "LlamaLoco0000"
+    },
+    {
+      "wallet": "0xf705fa045201391d9632b7f3cde06a5e24453ca7",
+      "label": "0xf705fa…3ca7",
+      "source_username": "0xf705fa045201391d9632b7f3cde06a5e24453ca7"
+    },
+    {
+      "wallet": "0xa19cbababc312f9df185e49d7004c249ed1ade6b",
+      "label": "Tokor",
+      "source_username": "Tokor"
+    },
+    {
+      "wallet": "0x646404ea0d3bd89a4c96af6f155a20b2545186bc",
+      "label": "CleanCoinFlip",
+      "source_username": "CleanCoinFlip"
+    },
+    {
+      "wallet": "0xb392b0234600393289f7a5a0dc32af604ea0fc73",
+      "label": "Berkaja",
+      "source_username": "Berkaja"
+    },
+    {
+      "wallet": "0x027e587a1086809d1a00f22216bef6a808f1c97f",
+      "label": "AndreasSchm",
+      "source_username": "AndreasSchm"
+    },
+    {
+      "wallet": "0x82aad706e75a6cd9dac807109649a6ded01d2777",
+      "label": "0x82aad7…2777",
+      "source_username": "0x82aad706e75a6cd9dac807109649a6ded01d2777-1794136139118"
+    }
+  ]
+}
