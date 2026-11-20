@@ -344,7 +344,11 @@ button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(
   $('fixedMode').addEventListener('click',()=>setCohort('fixed'));
   $('leadersMode').addEventListener('click',()=>setCohort('leaders'));
   $('viewMode').addEventListener('change',()=>{
-    page=0;historyGeneration++;render();
+    page=0;historyGeneration++;
+    if($('viewMode').value==='history'&&cohortMode!=='fixed'){
+      setCohort('fixed');return; // only the fixed watched addresses are archived
+    }
+    render();
     if($('viewMode').value==='history')loadHistory();
   });
   $('sideFilter').addEventListener('change',()=>{page=0;drawTrades();});
