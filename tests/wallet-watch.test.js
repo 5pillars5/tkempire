@@ -5,7 +5,7 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 const path = require('node:path');
 const ROOT = path.join(__dirname, '..');
-const { selectWallets, normalizeTrade } = require('../api/wallet-watch');
+const { selectWallets, normalizeTrade } = require('../api/wallet-watch')._test;
 const wallet = i => '0x' + String(i).padStart(40, '0');
 const tx = i => '0x' + String(i).padStart(64, 'a');
 const now = 1795180000;
