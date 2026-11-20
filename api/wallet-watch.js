@@ -8,6 +8,7 @@
  */
 const crypto = require('node:crypto');
 const { normalizeWallets } = require('./smart-money-core');
+const cohort = require('../data/wallet-watchlist-v1.json');
 
 const ORIGIN = 'https://data-api.polymarket.com';
 const WALLET_RE = /^0x[a-f0-9]{40}$/i;
@@ -61,6 +62,24 @@ function selectWallets(leaderRows) {
   }));
 }
 
+function fixedWallets(source = cohort) {
+  if (!source || source.schema_version !== 1 || !Array.isArray(source.wallets) ||
+      source.wallets.length < 1 || source.wallets.length > 12) throw Error('INVALID_COHORT');
+  const seen = new Set();
+  return source.wallets.map(item => {
+    const wallet = string(item.wallet, 42).toLowerCase();
+    if (!WALLET_RE.test(wallet) || seen.has(wallet)) throw Error('INVALID_COHORT_WALLET');
+    seen.add(wallet);
+    return {
+      wallet,
+      name: string(item.label, 70) || wallet.slice(0, 9),
+      selection: 'fixed_watchlist',
+      rank: null,
+      window_pnl_usdc: null
+    };
+  });
+}
+
 function normalizeTrade(row, wallet, now) {
   if (!row || row.type !== 'TRADE') return null;
   if (string(row.proxy_wallet, 42).toLowerCase() !== wallet) return null;
@@ -101,29 +120,49 @@ async function handler(req, res) {
   }
   const fetched = new Date().toISOString();
   const now = Math.floor(Date.now() / 1000);
-  let leaderboard;
-  try {
-    leaderboard = await upstream('/v2/leaderboard', {
-      time_period: 'week', category: 'crypto', sort_by: 'PNL', limit: 20
-    });
-  } catch (_) {
-    return respond(res, 503, {
-      schema_version: 1, status: 'unavailable', fetched_at: fetched,
-      source: 'Polymarket public Data API v2',
-      scope: 'current_weekly_crypto_leader_sample',
-      execution_authority: 'none', wallets: [], trades: [],
-      message: 'Current monitored wallets could not be verified. No transactions inferred.'
+  const cohortMode = req.query && req.query.cohort;
+  const mode = cohortMode === undefined ? 'fixed' : cohortMode;
+  if (mode !== 'fixed' && mode !== 'leaders') {
+    return respond(res, 400, {
+      schema_version: 2, status: 'invalid_cohort',
+      available_cohorts: ['fixed','leaders'], wallets: [], trades: []
     });
   }
-  const wallets = selectWallets(leaderboard);
-  if (!wallets.length) {
-    return respond(res, 503, {
-      schema_version: 1, status: 'unavailable', fetched_at: fetched,
-      source: 'Polymarket public Data API v2',
-      scope: 'current_weekly_crypto_leader_sample',
-      execution_authority: 'none', wallets: [], trades: [],
-      message: 'No qualifying current weekly crypto wallets could be verified.'
-    });
+  let wallets;
+  if (mode === 'fixed') {
+    try { wallets = fixedWallets(); }
+    catch (_) {
+      return respond(res, 503, {
+        schema_version: 2, status: 'unavailable', fetched_at: fetched,
+        source: 'Empire source-controlled public wallet cohort',
+        execution_authority: 'none', wallets: [], trades: [],
+        message: 'Verified fixed watchlist unavailable. No activity inferred.'
+      });
+    }
+  } else {
+    let leaderboard;
+    try {
+      leaderboard = await upstream('/v2/leaderboard', {
+        time_period: 'week', category: 'crypto', sort_by: 'PNL', limit: 20
+      });
+    } catch (_) {
+      return respond(res, 503, {
+        schema_version: 2, status: 'unavailable', fetched_at: fetched,
+        source: 'Polymarket public Data API v2',
+        scope: 'current_weekly_crypto_leader_sample',
+        execution_authority: 'none', wallets: [], trades: [],
+        message: 'Current weekly leaders unavailable. Fixed watchlist remains independent.'
+      });
+    }
+    wallets = selectWallets(leaderboard);
+    if (!wallets.length) {
+      return respond(res, 503, {
+        schema_version: 2, status: 'unavailable', fetched_at: fetched,
+        source: 'Polymarket public Data API v2',
+        execution_authority: 'none', wallets: [], trades: [],
+        message: 'No qualified weekly leaders found.'
+      });
+    }
   }
   const reads = await Promise.allSettled(wallets.map(w => upstream('/v2/activity', {
     user: w.wallet,
@@ -158,26 +197,29 @@ async function handler(req, res) {
   trades.sort((a, b) => b.timestamp - a.timestamp || a.id.localeCompare(b.id));
   if (!successful) {
     return respond(res, 503, {
-      schema_version: 1, status: 'unavailable', fetched_at: fetched,
+      schema_version: 2, status: 'unavailable', fetched_at: fetched,
       source: 'Polymarket public Data API v2',
-      scope: 'current_weekly_crypto_leader_sample',
+      scope: mode === 'fixed' ? 'persistent_source_controlled_watchlist' : 'current_weekly_crypto_leader_sample',
       execution_authority: 'none',
       wallets: [], trades: [],
       message: 'Public activity could not be verified. No transactions inferred.'
     });
   }
   return respond(res, 200, {
-    schema_version: 1,
+    schema_version: 2,
     status: failed ? 'degraded' : 'ok',
     fetched_at: fetched,
     source: 'Polymarket public Data API v2',
-    scope: 'current_weekly_crypto_leader_sample',
-    selection: 'Current positive-PnL 7-day crypto leaderboard sample; membership can change.',
+    scope: mode === 'fixed' ? 'persistent_source_controlled_watchlist' : 'current_weekly_crypto_leader_sample',
+    cohort: mode,
+    cohort_id: mode === 'fixed' ? cohort.cohort_id : null,
+    cohort_captured_at: mode === 'fixed' ? cohort.captured_at_utc : null,
+    selection: mode === 'fixed' ? 'Source-controlled fixed wallet addresses captured from verified public leaderboard; rank and performance are not continuously recalculated.' : 'Current positive-PnL 7-day crypto leaderboard sample; membership can change.',
     market_scope: 'Public Polymarket trades across all market categories for the selected wallets',
     execution_authority: 'none',
     refresh_seconds: 30,
     window_hours: 24,
-    leaderboard_available: true,
+    leaderboard_available: mode === 'leaders',
     monitored_wallets: wallets.length,
     successful_wallets: successful,
     failed_wallets: failed,
@@ -190,4 +232,4 @@ async function handler(req, res) {
 }
 
 module.exports = handler;
-module.exports._test = { selectWallets, normalizeTrade };
+module.exports._test = { selectWallets, fixedWallets, normalizeTrade };
