@@ -126,6 +126,8 @@ button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(
       <div class="panel-header">
         <div><h2>Latest transactions</h2><div class="small" id="coverage">Public trades · Last 24 hours</div></div>
         <div class="controls">
+          <label for="viewMode">View</label>
+          <select id="viewMode" aria-label="Transaction view"><option value="live">Recent activity</option><option value="history">Saved history</option></select>
           <label for="sideFilter">Show</label>
           <select id="sideFilter" aria-label="Trade direction"><option value="ALL">All trades</option><option value="BUY">Buys only</option><option value="SELL">Sells only</option></select>
           <button id="refresh" type="button">Refresh</button>
@@ -139,7 +141,7 @@ button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(
       </div>
     </section>
   </div>
-  <p class="note">READ ONLY · Polls approximately every 30 seconds while open; not a streaming trade tape. Permanent watchlist membership does not change with leaderboard rankings; weekly leaders are a separate discovery view. Up to 40 recent activities per wallet are sampled, so this is not exhaustive. Reported leaderboard profit is not a verified win rate. No Genesis trade execution.</p>
+  <p class="note">READ ONLY · Polls approximately every 30 seconds while open; not a streaming trade tape. Permanent watchlist membership does not change with leaderboard rankings; weekly leaders are a separate discovery view. Saved history records independent periodic observations, not a complete exchange ledger. Collection may be delayed or incomplete. Reported leaderboard profit is not a verified win rate. No Genesis trade execution.</p>
 </main>
 <script>
 'use strict';
@@ -149,6 +151,7 @@ button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(
   const ADDRESS = /^0x[a-f0-9]{40}$/i;
   let snapshot = null, activeWallet = 'ALL', page = 0, loading = false, lastGoodAt = 0;
   let cohortMode = 'fixed', generation = 0, lastSeen = new Map(), freshIds = new Set();
+  let historyRows = null, historyStatus = 'not_yet_archived', historyCoverage = '', historyGeneration=0;
   const money = value => typeof value === 'number' && Number.isFinite(value) ?
     new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(value) : '—';
   function age(isoOrSeconds) {
@@ -184,10 +187,13 @@ button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(
     $('cohortNote').textContent = mode === 'fixed'
       ? 'Fixed verified public addresses; weekly rank changes do not remove wallets.'
       : 'Discovery view: positive-PnL weekly crypto leaders. Membership may change.';
+    historyRows=null; historyStatus='not_yet_archived'; historyGeneration++;
     render(); load();
+    if ($('viewMode').value==='history')loadHistory();
   }
   function selectedTrades() {
-    let rows = Array.isArray(snapshot?.trades) ? snapshot.trades : [];
+    let rows = $('viewMode').value==='history' ? (historyRows||[]) :
+      (Array.isArray(snapshot?.trades) ? snapshot.trades : []);
     const side = $('sideFilter').value;
     if (activeWallet !== 'ALL') rows = rows.filter(r => r.wallet === activeWallet);
     if (side !== 'ALL') rows = rows.filter(r => r.side === side);
@@ -208,7 +214,10 @@ button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(
       who.append(el('strong','',name),el('small','',desc));
       b.append(rank,who);
       if (typeof pnl === 'number') b.append(el('span','pnl',money(pnl)));
-      b.addEventListener('click',() => {activeWallet=addr;page=0;render();});
+      b.addEventListener('click',() => {
+        activeWallet=addr;page=0;render();
+        if($('viewMode').value==='history')loadHistory();
+      });
       box.append(b);
     }
     walletButton('All watched wallets','ALL','Combined activity',null);
@@ -230,11 +239,14 @@ button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(
     $('next').disabled = page >= pages - 1;
     const target = $('trades'); target.replaceChildren();
     if (!rows.length) {
-      target.append(el('div','empty',snapshot ? 'No matching observed public trades in this sample.' : 'Feed unavailable; no trade activity can be verified.'));
+      target.append(el('div','empty',$('viewMode').value==='history'
+        ? (historyStatus==='not_yet_archived'?'No saved history yet. The scheduled collector must write its first verified archive.':
+          historyStatus==='unavailable'?'Saved history is unavailable. No transactions inferred.':'No matching saved observations.')
+        : snapshot ? 'No matching observed public trades in this sample.' : 'Feed unavailable; no trade activity can be verified.'));
       return;
     }
     for (const item of rows.slice(page*PAGE_SIZE,(page+1)*PAGE_SIZE)) {
-      const newTrade = freshIds.has(item.id);
+      const newTrade = $('viewMode').value==='live' && freshIds.has(item.id);
       const trade = el('article','trade' + (newTrade ? ' new-trade' : ''));
       const identity = el('div','identity');
       identity.append(el('span','name',nameOf(item.wallet)),el('span','address',item.wallet.slice(0,7)+'…'+item.wallet.slice(-4)));
@@ -266,10 +278,32 @@ button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(
     $('buyCount').textContent = snapshot ? String(all.filter(t=>t.side==='BUY').length) : '—';
     $('sellCount').textContent = snapshot ? String(all.filter(t=>t.side==='SELL').length) : '—';
     $('latestAge').textContent = snapshot ? age(snapshot.newest_trade_at) : '—';
-    $('coverage').textContent = snapshot ? 'Last 24h · ' + snapshot.successful_wallets + '/' + snapshot.monitored_wallets +
+    $('coverage').textContent = $('viewMode').value==='history'
+      ? 'Saved observed history · '+historyCoverage
+      : snapshot ? 'Last 24h · ' + snapshot.successful_wallets + '/' + snapshot.monitored_wallets +
       ' wallet feeds · sampled' : 'Public activity unavailable';
     drawWallets();
     drawTrades();
+  }
+  async function loadHistory() {
+    const requestGeneration=++historyGeneration;
+    const chosenWallet=activeWallet;
+    historyRows=null;historyStatus='loading';historyCoverage='loading';page=0;render();
+    const query=new URLSearchParams({days:'3',limit:'100'});
+    if(chosenWallet!=='ALL')query.set('wallet',chosenWallet);
+    try {
+      const r=await fetch('/api/wallet-watch-history?'+query.toString(),{cache:'no-store',headers:{Accept:'application/json'}});
+      const body=await r.json();
+      if(requestGeneration!==historyGeneration||$('viewMode').value!=='history')return;
+      if(!r.ok||!['ok','degraded','not_yet_archived'].includes(body.status)||!Array.isArray(body.rows)||
+         !body.rows.every(t=>ADDRESS.test(t.wallet)&&['BUY','SELL'].includes(t.side)))throw Error('INVALID_HISTORY');
+      historyRows=body.rows; historyStatus=body.status;
+      historyCoverage=body.available_days+'/'+body.requested_days+' UTC days archived · '+body.status;
+      render();
+    }catch(_){
+      if(requestGeneration!==historyGeneration)return;
+      historyRows=[];historyStatus='unavailable';historyCoverage='source unavailable';render();
+    }
   }
   async function load() {
     if (loading) return;
@@ -309,12 +343,23 @@ button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(
   }
   $('fixedMode').addEventListener('click',()=>setCohort('fixed'));
   $('leadersMode').addEventListener('click',()=>setCohort('leaders'));
+  $('viewMode').addEventListener('change',()=>{
+    page=0;historyGeneration++;render();
+    if($('viewMode').value==='history')loadHistory();
+  });
   $('sideFilter').addEventListener('change',()=>{page=0;drawTrades();});
   $('prev').addEventListener('click',()=>{if(page>0){page--;drawTrades();}});
   $('next').addEventListener('click',()=>{if((page+1)*PAGE_SIZE<selectedTrades().length){page++;drawTrades();}});
-  $('refresh').addEventListener('click',load);
+  $('refresh').addEventListener('click',()=>{
+    if($('viewMode').value==='history')loadHistory();else load();
+  });
   document.addEventListener('visibilitychange',()=>{if(!document.hidden && Date.now()-lastGoodAt>25000)load();});
-  setInterval(()=>{if(!document.hidden)load();},30000);
+  setInterval(()=>{
+    if(!document.hidden){
+      load();
+      if($('viewMode').value==='history')loadHistory();
+    }
+  },60000);
   setInterval(()=>{if(snapshot)$('latestAge').textContent=age(snapshot.newest_trade_at);},15000);
   load();
 })();
