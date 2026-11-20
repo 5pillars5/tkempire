@@ -11,6 +11,7 @@
     ['Dashboard','/dashboard.html','genesis'],
     ['TESTNET P&L','/testnet.html','genesis'],
     ['Portfolio','/portfolio.html','genesis'],
+    ['Wallet Watch','/wallet-watch.html','smart'],
     ['Smart Money Positions','/smart-money.html','smart'],
     ['Flow Map','/smart-money-flow.html','smart'],
     ['Market Outcomes','/smart-money-market.html','smart'],
