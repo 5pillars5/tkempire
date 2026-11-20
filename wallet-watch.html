@@ -30,6 +30,13 @@ h1{font-size:clamp(27px,4vw,38px);margin:3px 0 5px;letter-spacing:-.035em}
 .panel-header h2{font-size:13px;margin:0;font-weight:820}
 .small{font-size:11px;color:var(--muted)}
 .wallets{display:grid;gap:0}
+.cohort-tabs{display:flex;gap:5px;background:#0a1727;border:1px solid var(--border);padding:4px;border-radius:10px}
+.cohort-tabs button{border:0;background:transparent;border-radius:7px;padding:7px 10px;color:var(--muted);font-size:11px;font-weight:800}
+.cohort-tabs button[aria-pressed="true"]{background:#24435f;color:#fff}
+.new-trade{border-left:3px solid var(--green);background:#12352e36}
+.new-mark{display:inline-block;color:var(--green);font-size:10px;font-weight:900;margin-left:6px}
+.cohort-message{color:var(--muted);font-size:10px;margin:8px 0 12px}
+@media(max-width:720px){.cohort-tabs{width:100%}.cohort-tabs button{flex:1}}
 .wallet{display:flex;gap:9px;align-items:center;width:100%;text-align:left;background:transparent;border:0;border-bottom:1px solid #26384c;color:var(--fg);padding:11px 13px;min-height:60px}
 .wallet:hover,.wallet.selected{background:#1a344d}
 .wallet.selected{box-shadow:inset 3px 0 var(--gold)}
@@ -95,7 +102,7 @@ button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(
     <div>
       <div class="eyebrow">TK EMPIRE / SMART MONEY INTELLIGENCE</div>
       <h1>Wallet Watch</h1>
-      <p class="subtitle">Recent public Polymarket trades from the current weekly crypto profit leaders. See who's buying and selling without digging through charts.</p>
+      <p class="subtitle">Public wallet activity from a permanent monitored cohort, with a separate view for weekly leaders. Trades are observations, not recommendations.</p>
     </div>
     <div class="status" role="status" aria-live="polite"><span class="dot" id="sourceDot"></span><span id="statusText">Connecting to public feed…</span></div>
   </div>
@@ -105,9 +112,14 @@ button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(
     <div class="stat"><span>Observed sells (24h)</span><strong id="sellCount">—</strong></div>
     <div class="stat"><span>Most recent trade</span><strong id="latestAge">—</strong></div>
   </div>
+  <div class="cohort-tabs" role="group" aria-label="Wallet monitoring mode">
+    <button type="button" id="fixedMode" aria-pressed="true">Permanent watchlist</button>
+    <button type="button" id="leadersMode" aria-pressed="false">Weekly leaders</button>
+  </div>
+  <p class="cohort-message" id="cohortNote">Fixed public wallet addresses, captured from an observed leaderboard snapshot. These wallets stay on the list even when rankings change.</p>
   <div class="layout">
     <section class="panel" aria-label="Monitored wallets">
-      <div class="panel-header"><h2>Watching now</h2><span class="small">Weekly leaders</span></div>
+      <div class="panel-header"><h2>Watching now</h2><span class="small" id="listType">Permanent watchlist</span></div>
       <div id="wallets" class="wallets"><p class="empty">Checking current wallets…</p></div>
     </section>
     <section class="panel" aria-label="Observed trade activity">
@@ -127,7 +139,7 @@ button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(
       </div>
     </section>
   </div>
-  <p class="note">READ ONLY · Polls approximately every 30 seconds while open; not a streaming trade tape. Wallet selection changes with the weekly Polymarket leaderboard. Up to 40 recent activities per wallet are sampled, so this is not exhaustive. Reported leaderboard profit is not a verified win rate. No Genesis trade execution.</p>
+  <p class="note">READ ONLY · Polls approximately every 30 seconds while open; not a streaming trade tape. Permanent watchlist membership does not change with leaderboard rankings; weekly leaders are a separate discovery view. Up to 40 recent activities per wallet are sampled, so this is not exhaustive. Reported leaderboard profit is not a verified win rate. No Genesis trade execution.</p>
 </main>
 <script>
 'use strict';
@@ -136,6 +148,7 @@ button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(
   const PAGE_SIZE = 6;
   const ADDRESS = /^0x[a-f0-9]{40}$/i;
   let snapshot = null, activeWallet = 'ALL', page = 0, loading = false, lastGoodAt = 0;
+  let cohortMode = 'fixed', generation = 0, lastSeen = new Map(), freshIds = new Set();
   const money = value => typeof value === 'number' && Number.isFinite(value) ?
     new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(value) : '—';
   function age(isoOrSeconds) {
@@ -161,6 +174,18 @@ button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(
     const w = snapshot?.wallets?.find(x => x.wallet === wallet);
     return w?.name || wallet.slice(0,7) + '…' + wallet.slice(-4);
   }
+  function setCohort(mode) {
+    if (mode === cohortMode) return;
+    cohortMode = mode; generation++; snapshot = null; activeWallet = 'ALL'; page = 0;
+    lastSeen = new Map(); freshIds = new Set();
+    $('fixedMode').setAttribute('aria-pressed',String(mode === 'fixed'));
+    $('leadersMode').setAttribute('aria-pressed',String(mode === 'leaders'));
+    $('listType').textContent = mode === 'fixed' ? 'Permanent watchlist' : 'Weekly leaders';
+    $('cohortNote').textContent = mode === 'fixed'
+      ? 'Fixed verified public addresses; weekly rank changes do not remove wallets.'
+      : 'Discovery view: positive-PnL weekly crypto leaders. Membership may change.';
+    render(); load();
+  }
   function selectedTrades() {
     let rows = Array.isArray(snapshot?.trades) ? snapshot.trades : [];
     const side = $('sideFilter').value;
@@ -178,7 +203,7 @@ button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(
       const b = el('button','wallet' + (activeWallet === addr ? ' selected' : ''));
       b.type = 'button';
       b.setAttribute('aria-pressed',String(activeWallet === addr));
-      const rank = el('span','rank',addr === 'ALL' ? '◎' : '#' + (snapshot.wallets.find(w => w.wallet === addr)?.rank ?? '—'));
+      const rank = el('span','rank',addr === 'ALL' ? '◎' : cohortMode === 'fixed' ? '●' : '#' + (snapshot.wallets.find(w => w.wallet === addr)?.rank ?? '—'));
       const who = el('span','who');
       who.append(el('strong','',name),el('small','',desc));
       b.append(rank,who);
@@ -209,9 +234,11 @@ button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(
       return;
     }
     for (const item of rows.slice(page*PAGE_SIZE,(page+1)*PAGE_SIZE)) {
-      const trade = el('article','trade');
+      const newTrade = freshIds.has(item.id);
+      const trade = el('article','trade' + (newTrade ? ' new-trade' : ''));
       const identity = el('div','identity');
       identity.append(el('span','name',nameOf(item.wallet)),el('span','address',item.wallet.slice(0,7)+'…'+item.wallet.slice(-4)));
+      if (newTrade) identity.append(el('span','new-mark','NEW'));
       const direction = el('div','direction');
       direction.append(el('span','side ' + (item.side === 'BUY'?'buy':'sell'),item.side));
       const subject = el('div','subject');
@@ -249,13 +276,19 @@ button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(
     loading = true; $('refresh').disabled = true;
     state('Checking public wallet activity…','');
     try {
-      const response = await fetch('/api/wallet-watch',{cache:'no-store',headers:{Accept:'application/json'}});
+      const requestMode = cohortMode, requestGeneration = generation;
+      const response = await fetch('/api/wallet-watch?cohort=' + encodeURIComponent(requestMode),{cache:'no-store',headers:{Accept:'application/json'}});
       const body = await response.json();
+      if (requestGeneration !== generation) return;
       if (!response.ok || !['ok','degraded'].includes(body.status) ||
           !Array.isArray(body.wallets) || !Array.isArray(body.trades)) throw Error('UNAVAILABLE');
       // Fail closed for invalid source rows, never render malformed wallet or side.
       if (!body.wallets.every(w=>ADDRESS.test(w.wallet)) ||
           !body.trades.every(t=>ADDRESS.test(t.wallet)&&['BUY','SELL'].includes(t.side))) throw Error('INVALID_SOURCE');
+      // NEW identifies observations arriving since the last successful fetch in this tab.
+      const previous = lastSeen.get(requestMode);
+      freshIds = previous ? new Set(body.trades.filter(t => !previous.has(t.id)).map(t => t.id)) : new Set();
+      lastSeen.set(requestMode,new Set(body.trades.map(t => t.id)));
       snapshot = body;
       lastGoodAt = Date.now();
       if (activeWallet !== 'ALL' && !snapshot.wallets.some(w=>w.wallet===activeWallet)) activeWallet='ALL';
@@ -264,6 +297,7 @@ button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(
       render();
     } catch (_) {
       // Never misrepresent a cached screen as the current source.
+      if (requestGeneration !== generation) return;
       snapshot = null;
       state('Feed unavailable · no verified live data','bad');
       $('coverage').textContent = 'Public activity unavailable';
@@ -272,6 +306,8 @@ button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(
       loading = false; $('refresh').disabled = false;
     }
   }
+  $('fixedMode').addEventListener('click',()=>setCohort('fixed'));
+  $('leadersMode').addEventListener('click',()=>setCohort('leaders'));
   $('sideFilter').addEventListener('change',()=>{page=0;drawTrades();});
   $('prev').addEventListener('click',()=>{if(page>0){page--;drawTrades();}});
   $('next').addEventListener('click',()=>{if((page+1)*PAGE_SIZE<selectedTrades().length){page++;drawTrades();}});
