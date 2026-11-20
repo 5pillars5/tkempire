@@ -151,3 +151,13 @@ test('history API fails closed, bounds input and never imports execution credent
  assert.match(html,/api\/wallet-watch-history/);
  assert.match(html,/id="viewMode"/);
 });
+
+
+test('adaptive lookback overlaps routine polls and restores full capture after long gaps',()=>{
+ const prev={schema_version:1,cohort_id:cohort.cohort_id,at:new Date(now*1000).toISOString()};
+ assert.equal(collector.nextWindow(null,now+600),86400);
+ assert.equal(collector.nextWindow(prev,now+600),3600);
+ assert.equal(collector.nextWindow(prev,now+4000),4900);
+ assert.equal(collector.nextWindow(prev,now+7300),86400);
+ assert.equal(collector.nextWindow({...prev,cohort_id:'wrong'},now+600),86400);
+});
