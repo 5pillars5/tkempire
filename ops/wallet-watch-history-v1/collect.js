@@ -102,12 +102,21 @@ async function mergeWriteDay(day,trades,at,token){
  }
  throw Error('ARCHIVE_CONFLICT_RETRIES_EXHAUSTED');
 }
-async function fetchWallet(wallet,now){
+function nextWindow(previous,now) {
+  if(!previous || previous.schema_version!==1 || previous.cohort_id!==cohort.cohort_id ||
+     typeof previous.at!=='string')return WINDOW_SECONDS;
+  const last=Date.parse(previous.at);
+  const elapsed=(now*1000-last)/1000;
+  if(!Number.isFinite(elapsed)||elapsed<0||elapsed>7200)return WINDOW_SECONDS;
+  // Overlap by at least 60 minutes to recover late reports and delayed jobs.
+  return Math.min(WINDOW_SECONDS,Math.max(3600,Math.ceil(elapsed)+900));
+}
+async function fetchWallet(wallet,now,lookback=WINDOW_SECONDS){
  const seenCursors=new Set(),events=[],seen=new Set();
  let cursor=null,complete=true,pages=0;
  for(;pages<MAX_PAGES;pages++){
    const url=new URL(ORIGIN);
-   const params={user:wallet,type:'TRADE',limit:PAGE_LIMIT,start:now-WINDOW_SECONDS,
+   const params={user:wallet,type:'TRADE',limit:PAGE_LIMIT,start:now-lookback,
      end:now+90,sort_by:'TIMESTAMP',sort_direction:'DESC'};
    for(const [k,v] of Object.entries(params))url.searchParams.set(k,String(v));
    if(cursor)url.searchParams.set('cursor',cursor);
@@ -173,7 +182,12 @@ async function run({env=process.env,now=Math.floor(Date.now()/1000)}={}){
  const capturedAt=new Date(now*1000).toISOString();
  const wallets=fixedWallets();
  if(wallets.length>12)throw Error('COHORT_LIMIT');
- const reads=await Promise.allSettled(wallets.map(w=>fetchWallet(w.wallet,now)));
+ const previous=await readJson(PREFIX+'LATEST.json',token);
+ const routineWindow=nextWindow(previous,now);
+ const prevStatus=new Map((Array.isArray(previous?.coverage)?previous.coverage:[])
+   .filter(x=>x && typeof x.wallet==='string').map(x=>[x.wallet,x.status]));
+ const reads=await Promise.allSettled(wallets.map(w=>
+   fetchWallet(w.wallet,now,prevStatus.get(w.wallet)==='unavailable'?WINDOW_SECONDS:routineWindow)));
  const gathered=[],coverage=[];
  for(let i=0;i<reads.length;i++){
    if(reads[i].status==='fulfilled'){
@@ -202,7 +216,7 @@ async function run({env=process.env,now=Math.floor(Date.now()/1000)}={}){
    successful_wallets:successes,monitored_wallets:wallets.length,
    incomplete:coverage.some(x=>x.status!=='ok'),
    coverage,scan_trades:unique.size,execution_authority:'none',
-   collection_window_seconds:WINDOW_SECONDS,
+   collection_window_seconds:routineWindow,
    history_limitations:'Up to 3 keyset pages of 200 activities per wallet per scan; missed observations are possible.'
  };
  const headFile=PREFIX+'LATEST.json';
@@ -262,4 +276,4 @@ if(require.main===module)run().catch(e=>{
  console.error('WALLET_WATCH_COLLECTOR=FAIL '+allowed);
  process.exitCode=1;
 });
-module.exports={run,fetchWallet,mergeWriteDay,notifyTelegram};
+module.exports={run,fetchWallet,mergeWriteDay,notifyTelegram,nextWindow};
