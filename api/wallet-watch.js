@@ -3,8 +3,8 @@
 /*
  * TK Empire Wallet Watch: public observation only.
  * No exchange authentication, wallet signing, VPS access, or order submission.
- * Source: Polymarket public Data API v2. One fixed curated pair plus the
- * same positive-PnL weekly crypto-leader sample used by Smart Money Signals.
+ * Source: Polymarket public Data API v2. Same current positive-PnL
+ * weekly crypto-leader sample used by Smart Money Signals.
  */
 const crypto = require('node:crypto');
 const { normalizeWallets } = require('./smart-money-core');
@@ -16,10 +16,6 @@ const SLUG_RE = /^[a-z0-9-]{1,180}$/;
 const MAX_BYTES = 550000;
 const SAMPLE_LIMIT = 8;
 const HOURS_24 = 86400;
-const PINNED = Object.freeze([
-  { wallet: '0xa19cbababc312f9df185e49d7004c249ed1ade6b', name: 'Tokor' },
-  { wallet: '0x3a8aa345d5db7ec5138298c8c4f4540259be7699', name: 'TheReturnOfDarthMaul' }
-]);
 
 function number(x) {
   return typeof x === 'number' && Number.isFinite(x) ? x : null;
@@ -56,33 +52,13 @@ async function upstream(path, params) {
 }
 
 function selectWallets(leaderRows) {
-  const current = normalizeWallets(leaderRows, 18);
-  const list = PINNED.map(x => ({
-    wallet: x.wallet,
-    name: x.name,
-    selection: 'pinned',
-    rank: null,
-    window_pnl_usdc: null
+  return normalizeWallets(leaderRows, SAMPLE_LIMIT).map(row => ({
+    wallet: row.wallet,
+    name: row.name,
+    selection: 'weekly_crypto',
+    rank: row.rank,
+    window_pnl_usdc: row.window_pnl_usdc
   }));
-  const byAddress = new Map(list.map(x => [x.wallet, x]));
-  for (const row of current) {
-    const matched = byAddress.get(row.wallet);
-    if (matched) {
-      matched.rank = row.rank;
-      matched.window_pnl_usdc = row.window_pnl_usdc;
-    } else if (list.length < SAMPLE_LIMIT) {
-      const added = {
-        wallet: row.wallet,
-        name: row.name,
-        selection: 'weekly_crypto',
-        rank: row.rank,
-        window_pnl_usdc: row.window_pnl_usdc
-      };
-      byAddress.set(row.wallet, added);
-      list.push(added);
-    }
-  }
-  return list;
 }
 
 function normalizeTrade(row, wallet, now) {
@@ -125,17 +101,30 @@ async function handler(req, res) {
   }
   const fetched = new Date().toISOString();
   const now = Math.floor(Date.now() / 1000);
-  let leaderboardOk = false;
-  let leaderboard = [];
+  let leaderboard;
   try {
     leaderboard = await upstream('/v2/leaderboard', {
       time_period: 'week', category: 'crypto', sort_by: 'PNL', limit: 20
     });
-    leaderboardOk = true;
   } catch (_) {
-    // Curated public wallet addresses can still be checked if the leaderboard fails.
+    return respond(res, 503, {
+      schema_version: 1, status: 'unavailable', fetched_at: fetched,
+      source: 'Polymarket public Data API v2',
+      scope: 'current_weekly_crypto_leader_sample',
+      execution_authority: 'none', wallets: [], trades: [],
+      message: 'Current monitored wallets could not be verified. No transactions inferred.'
+    });
   }
   const wallets = selectWallets(leaderboard);
+  if (!wallets.length) {
+    return respond(res, 503, {
+      schema_version: 1, status: 'unavailable', fetched_at: fetched,
+      source: 'Polymarket public Data API v2',
+      scope: 'current_weekly_crypto_leader_sample',
+      execution_authority: 'none', wallets: [], trades: [],
+      message: 'No qualifying current weekly crypto wallets could be verified.'
+    });
+  }
   const reads = await Promise.allSettled(wallets.map(w => upstream('/v2/activity', {
     user: w.wallet,
     type: 'TRADE',
@@ -171,7 +160,7 @@ async function handler(req, res) {
     return respond(res, 503, {
       schema_version: 1, status: 'unavailable', fetched_at: fetched,
       source: 'Polymarket public Data API v2',
-      scope: 'two_pinned_wallets_plus_weekly_crypto_leader_sample',
+      scope: 'current_weekly_crypto_leader_sample',
       execution_authority: 'none',
       wallets: [], trades: [],
       message: 'Public activity could not be verified. No transactions inferred.'
@@ -179,16 +168,16 @@ async function handler(req, res) {
   }
   return respond(res, 200, {
     schema_version: 1,
-    status: failed || !leaderboardOk ? 'degraded' : 'ok',
+    status: failed ? 'degraded' : 'ok',
     fetched_at: fetched,
     source: 'Polymarket public Data API v2',
-    scope: 'two_pinned_wallets_plus_weekly_crypto_leader_sample',
-    selection: 'Two curated public Polymarket wallet addresses plus current positive-PnL 7-day crypto leaders; membership can change.',
+    scope: 'current_weekly_crypto_leader_sample',
+    selection: 'Current positive-PnL 7-day crypto leaderboard sample; membership can change.',
     market_scope: 'Public Polymarket trades across all market categories for the selected wallets',
     execution_authority: 'none',
     refresh_seconds: 30,
     window_hours: 24,
-    leaderboard_available: leaderboardOk,
+    leaderboard_available: true,
     monitored_wallets: wallets.length,
     successful_wallets: successful,
     failed_wallets: failed,
