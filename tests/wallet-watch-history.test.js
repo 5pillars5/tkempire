@@ -84,7 +84,7 @@ test('end-to-end dry-run: archive readback, silent first alert cycle, single sen
    const u=new URL(String(url));
    if(u.hostname==='data-api.polymarket.com'){
      const isActive=u.searchParams.get('user')===wallet;
-     const rows=isActive?[rawTrade(1,now-20),...(showSecond?[rawTrade(2,tick-5,475)]:[])]:[];
+     const rows=isActive?[rawTrade(1,now-20),...(showSecond?[rawTrade(2,now+55,475)]:[])]:[];
      return {ok:true,status:200,headers:new Headers(),text:async()=>JSON.stringify({
        data:rows,pagination:{has_more:false,next_cursor:null}
      })};
