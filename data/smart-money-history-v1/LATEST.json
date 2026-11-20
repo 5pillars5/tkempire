@@ -6,27 +6,26 @@
     "/api/smart-money-signals"
   ],
   "latest_day": "2026-11-20",
-  "latest_bucket_utc": 1795194900,
-  "written_at": "2026-11-20T17:21:01.060Z",
+  "latest_bucket_utc": 1795215600,
+  "written_at": "2026-11-20T23:11:18.112Z",
   "flow_status": "ok",
   "coverage": {
     "selected": 8,
     "received": 8,
     "failed": 0,
     "truncated": 5,
-    "events": 407,
-    "markets_total": 79,
-    "markets_stored": 79,
+    "events": 388,
+    "markets_total": 82,
+    "markets_stored": 80,
     "incomplete": true
   },
   "signal_count_current_read": 60,
-  "archived_snapshots_this_day": 3,
-  "archived_signals_this_day": 174,
+  "archived_snapshots_this_day": 4,
+  "archived_signals_this_day": 234,
   "archive_path": "data/smart-money-history-v1/2026-11-20.json.gz",
-  "archive_sha256": "94e7fd73f2e3fe3dc8fe3dff168f60c26513d765727b6f882e2c90758405cd16",
+  "archive_sha256": "800b59706b2a27267c259f38e06524d1aacf2428060ef98a4178570c75c94d1d",
   "legacy_vps_sqlite_import": "NOT_YET_CONNECTED",
-  "outcome_matching": "CTF_PAYOUTS_RECONCILED_WHEN_TOKEN_AND_TIME_VERIFIED",
+  "outcome_matching": "NOT_SCORED_WITHOUT_TOKEN_CATALOG",
   "trading_authority": "none",
-  "market_probability_calibration": "NOT_VERIFIED",
-  "outcome_evidence_checked_at": "2026-11-20T20:21:41.356Z"
+  "market_probability_calibration": "NOT_VERIFIED"
 }
