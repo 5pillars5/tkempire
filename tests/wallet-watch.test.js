@@ -70,3 +70,77 @@ test('read-only API does not invoke exchange order or VPS execution paths', () =
   assert.match(api,/Promise.allSettled/);
   assert.match(api,/upstream_unavailable|unavailable/);
 });
+
+
+test('fixed cohort contains eight distinct durable source-verified public wallet addresses', () => {
+  const { fixedWallets } = require('../api/wallet-watch')._test;
+  const source = require('../data/wallet-watchlist-v1.json');
+  const fixed = fixedWallets();
+  assert.equal(source.schema_version, 1);
+  assert.match(source.cohort_id, /^empire_polymarket_/);
+  assert.equal(fixed.length, 8);
+  assert.deepEqual(fixed.map(w=>w.wallet),source.wallets.map(w=>w.wallet));
+  assert.ok(fixed.every(w=>w.selection==='fixed_watchlist'&&w.rank===null&&w.window_pnl_usdc===null));
+  assert.throws(()=>fixedWallets({...source,wallets:[source.wallets[0],source.wallets[0]]}),/INVALID_COHORT_WALLET/);
+  assert.throws(()=>fixedWallets({...source,wallets:[{wallet:'bad'}]}),/INVALID_COHORT_WALLET/);
+});
+test('fixed cohort remains separate from moving weekly leaders; fail-closed API', async () => {
+  const handler = require('../api/wallet-watch');
+  const liveFetch = global.fetch;
+  const originalNow = Date.now;
+  let leaderboardCalls = 0, activityCalls = 0;
+  global.fetch = async url => {
+    const value = String(url);
+    if (value.includes('leaderboard')) {
+      leaderboardCalls++;
+      return {ok:true,headers:new Headers(),text:async()=>JSON.stringify({data:[
+        {user_id:wallet(1),user_name:'Weekly newcomer',pnl:1000,volume:1200,rank:1}
+      ]})};
+    }
+    activityCalls++;
+    return {ok:true,headers:new Headers(),text:async()=>JSON.stringify({data:[]})};
+  };
+  const response = () => ({
+    statusCode: 200,
+    headers:{},
+    setHeader(key,val){this.headers[key]=val;},
+    status(code){this.statusCode=code;return this;},
+    json(value){this.body=value;return this;}
+  });
+  try {
+    Date.now = () => now*1000;
+    const fixed = response();
+    await handler({method:'GET',query:{cohort:'fixed'}},fixed);
+    assert.equal(fixed.statusCode,200);
+    assert.equal(fixed.body.cohort,'fixed');
+    assert.equal(fixed.body.wallets.length,8);
+    assert.equal(leaderboardCalls,0,'Fixed mode must not depend on leaderboard availability');
+    assert.equal(activityCalls,8);
+    const leader = response();
+    await handler({method:'GET',query:{cohort:'leaders'}},leader);
+    assert.equal(leader.statusCode,200);
+    assert.equal(leader.body.cohort,'leaders');
+    assert.equal(leader.body.wallets.length,1);
+    assert.equal(leaderboardCalls,1);
+    const invalid = response();
+    await handler({method:'GET',query:{cohort:'invalid'}},invalid);
+    assert.equal(invalid.statusCode,400);
+    global.fetch = async () => {throw Error('UPSTREAM_DOWN')};
+    const fail = response();
+    await handler({method:'GET',query:{cohort:'fixed'}},fail);
+    assert.equal(fail.statusCode,503);
+    assert.equal(fail.body.trades.length,0);
+  } finally {
+    global.fetch = liveFetch; Date.now = originalNow;
+  }
+});
+test('watch page has mode controls and per-session new observation markers', () => {
+  const html=fs.readFileSync(path.join(ROOT,'wallet-watch.html'),'utf8');
+  assert.match(html,/id="fixedMode"/);
+  assert.match(html,/id="leadersMode"/);
+  assert.match(html,/requestGeneration !== generation/);
+  assert.match(html,/freshIds/);
+  assert.match(html,/new Set\(body\.trades/);
+  assert.match(html,/Permanent watchlist/);
+  assert.match(html,/weekly leaders are a separate discovery view/i);
+});
