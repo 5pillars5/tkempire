@@ -2,21 +2,21 @@
   "schema_version": 1,
   "source": "PUBLIC_POLYMARKET_WALLET_WATCH",
   "cohort_id": "empire_polymarket_20261120_v1",
-  "at": "2026-11-21T01:48:35.000Z",
+  "at": "2026-11-21T08:51:19.000Z",
   "archive_days": [
     {
       "day": "2026-11-20",
       "file": "data/wallet-watch-history-v1/2026-11-20.json.gz",
       "sha256": "f751c63f0649eef49693194fc26ddfc50bd1d93ff3e0e6a31bae2f64e2732f99",
       "count": 2507,
-      "new_events": 372
+      "new_events": 0
     },
     {
       "day": "2026-11-21",
       "file": "data/wallet-watch-history-v1/2026-11-21.json.gz",
-      "sha256": "4f970c49a63742bd738a3a27aa07c1911fc895c5128987590bc08502ea8d4707",
-      "count": 190,
-      "new_events": 190
+      "sha256": "02f9b600e07fd7ee81e3281710653495417bdcdfdb266944e22d2ea82cdfef92",
+      "count": 1779,
+      "new_events": 1589
     }
   ],
   "successful_wallets": 8,
@@ -27,37 +27,37 @@
       "wallet": "0x76eca4109d0dfe8649d5e3861dfccac67ae7d630",
       "status": "ok",
       "pages": 1,
-      "sampled": 24
+      "sampled": 33
     },
     {
       "wallet": "0x93fb8127a1b21a112b11af936361225df0563e4a",
       "status": "ok",
       "pages": 1,
-      "sampled": 10
+      "sampled": 49
     },
     {
       "wallet": "0xf705fa045201391d9632b7f3cde06a5e24453ca7",
-      "status": "ok",
+      "status": "truncated",
       "pages": 3,
-      "sampled": 417
+      "sampled": 600
     },
     {
       "wallet": "0xa19cbababc312f9df185e49d7004c249ed1ade6b",
-      "status": "ok",
+      "status": "truncated",
       "pages": 3,
-      "sampled": 434
+      "sampled": 600
     },
     {
       "wallet": "0x646404ea0d3bd89a4c96af6f155a20b2545186bc",
       "status": "truncated",
       "pages": 3,
-      "sampled": 598
+      "sampled": 600
     },
     {
       "wallet": "0xb392b0234600393289f7a5a0dc32af604ea0fc73",
       "status": "ok",
       "pages": 1,
-      "sampled": 26
+      "sampled": 20
     },
     {
       "wallet": "0x027e587a1086809d1a00f22216bef6a808f1c97f",
@@ -67,12 +67,12 @@
     },
     {
       "wallet": "0x82aad706e75a6cd9dac807109649a6ded01d2777",
-      "status": "truncated",
-      "pages": 3,
-      "sampled": 600
+      "status": "ok",
+      "pages": 1,
+      "sampled": 97
     }
   ],
-  "scan_trades": 2110,
+  "scan_trades": 2000,
   "execution_authority": "none",
   "collection_window_seconds": 86400,
   "history_limitations": "Up to 3 keyset pages of 200 activities per wallet per scan; missed observations are possible."
