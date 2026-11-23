@@ -1,0 +1,12 @@
+{
+  "name": "tkempire-site",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Static TK Empire website with staged Imperian wallet preview",
+  "dependencies": {
+    "ethers": "6.15.0"
+  },
+  "scripts": {
+    "test:imperian": "node --test tests/imperian-*.test.js"
+  }
+}
