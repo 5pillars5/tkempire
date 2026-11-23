@@ -42,11 +42,73 @@ test('XMR unlocked invoice requires sufficient unique subaddress payment with co
  const address='8'+'A'.repeat(94);
  const invoice={rail:'XMR',address,expected_atomic:'10000000000'};
  const receipt={complete:true,amount:{expected:10000000000,covered:{total:10000000000,unlocked:10000000000}},
- transactions:[{locked:false,double_spend_seen:false,confirmations:12,tx_hash:'a'.repeat(64)}]};
+ transactions:[{amount:10000000000,locked:false,double_spend_seen:false,confirmations:12,tx_hash:'a'.repeat(64)}]};
  const ok=settlement.verifyMoneroPay({invoice,receipt});
  assert.equal(ok.ok,true);assert.equal(ok.payment_ref,'xmr:'+address);
  assert.equal(settlement.verifyMoneroPay({invoice,receipt:{...receipt,complete:false}}).ok,false);
  assert.equal(settlement.verifyMoneroPay({invoice,receipt:{...receipt,transactions:[{...receipt.transactions[0],locked:true}]}}).ok,false);
+});
+function moneroReceipt(transactions,expected='10000000000'){
+ return {invoice:{rail:'XMR',address:'8'+'A'.repeat(94),expected_atomic:expected},
+  receipt:{complete:true,amount:{expected,covered:{unlocked:expected}},transactions}};
+}
+function moneroTransfer(amount,overrides={}){
+ return {amount,locked:false,double_spend_seen:false,confirmations:10,
+  tx_hash:'a'.repeat(64),...overrides};
+}
+test('XMR mixed confirmations cannot credit an invoice before qualifying funds cover it',()=>{
+ const input=moneroReceipt([
+  moneroTransfer(1,{confirmations:12}),
+  moneroTransfer(9999999999,{confirmations:1,tx_hash:'b'.repeat(64)})
+ ]);
+ assert.equal(settlement.verifyMoneroPay(input).ok,false);
+ input.receipt.transactions[1].confirmations=9;
+ assert.equal(settlement.verifyMoneroPay(input).ok,false);
+ input.receipt.transactions[1].confirmations=10;
+ const result=settlement.verifyMoneroPay(input);
+ assert.equal(result.ok,true);assert.equal(result.confirmations,10);
+});
+test('XMR sums qualifying split payments and ignores immature or locked extra funds',()=>{
+ const input=moneroReceipt([
+  moneroTransfer(4000000000,{confirmations:12}),
+  moneroTransfer('6000000000',{tx_hash:'b'.repeat(64)}),
+  moneroTransfer(100,{confirmations:1,tx_hash:'c'.repeat(64)}),
+  moneroTransfer(100,{locked:true,tx_hash:'d'.repeat(64)})
+ ]);
+ const result=settlement.verifyMoneroPay(input);
+ assert.equal(result.ok,true);assert.equal(result.confirmations,10);
+ input.receipt.transactions[1].locked=true;
+ assert.equal(settlement.verifyMoneroPay(input).ok,false);
+});
+test('XMR rejects observed double spends even alongside enough otherwise valid funds',()=>{
+ for(const confirmations of [1,10,12]){
+  const input=moneroReceipt([
+   moneroTransfer(10000000000),
+   moneroTransfer(1,{double_spend_seen:true,confirmations,tx_hash:'b'.repeat(64)})
+  ]);
+  assert.equal(settlement.verifyMoneroPay(input).ok,false);
+  input.receipt.transactions.shift();
+  assert.equal(settlement.verifyMoneroPay(input).ok,false);
+ }
+});
+test('XMR cannot count duplicate transaction hashes twice',()=>{
+ const transfer=moneroTransfer(5000000000);
+ const input=moneroReceipt([transfer,{...transfer,tx_hash:transfer.tx_hash.toUpperCase()}]);
+ assert.equal(settlement.verifyMoneroPay(input).ok,false);
+});
+test('XMR rejects missing, malformed, zero and unsafe transfer amounts',()=>{
+ for(const amount of [undefined,null,0,-1,1.5,Number.MAX_SAFE_INTEGER+1,
+  '', '0', '-1', '1.5', '1e10', true]){
+  assert.equal(settlement.verifyMoneroPay(moneroReceipt([moneroTransfer(amount)])).ok,false,
+   'invalid amount: '+String(amount));
+ }
+});
+test('XMR string atomic amounts retain precision above the safe integer limit',()=>{
+ const expected='9007199254740993';
+ const input=moneroReceipt([moneroTransfer('9007199254740992')],expected);
+ assert.equal(settlement.verifyMoneroPay(input).ok,false);
+ input.receipt.transactions.push(moneroTransfer('1',{tx_hash:'b'.repeat(64)}));
+ assert.equal(settlement.verifyMoneroPay(input).ok,true);
 });
 test('XMR fixed point quote requires fresh price and valid rate',()=>{
  assert.equal(settlement.quoteXmrAtomic(30,150000000,100000,180000),'200000000000');

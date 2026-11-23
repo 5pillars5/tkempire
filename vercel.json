@@ -1,7 +1,8 @@
 {
   "git": {
     "deploymentEnabled": {
-      "feature/imperian-price-protection-20261113": false
+      "feature/imperian-price-protection-20261113": false,
+      "feature/imperian-crypto-portal-20261113": false
     }
   },
   "rewrites": [],
