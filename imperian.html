@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="robots" content="noindex,nofollow"/>
+<meta name="theme-color" content="#06060f"/>
+<title>Imperian Membership — Crypto Portal Preview | TK Empire</title>
+<meta name="description" content="Imperian crypto-only wallet membership design preview. Payments are not enabled."/>
+<link rel="stylesheet" href="/empire.css"/>
+<link rel="stylesheet" href="/assets/css/empire-unified.css?v=1"/>
+<style>
+:root{--purple:#a78bfa;--gold:#eac76d;--green:#53dbb0;--line:#252743;--muted:#a8acc5;--panel:#12152a;--bg:#070a17}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(ellipse at 82% 0%,#292047 0%,transparent 30%),var(--bg);color:#f0f2ff;font-family:Inter,system-ui,sans-serif}
+a{color:inherit}
+.nav{border-bottom:1px solid var(--line);background:#080a17e8;position:sticky;top:0;z-index:20;backdrop-filter:blur(15px)}
+.shell{width:min(1120px,calc(100% - 36px));margin:auto}
+.nav .shell{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.wordmark{font-weight:900;letter-spacing:.11em;text-decoration:none;font-size:15px}
+.navlinks{display:flex;flex-wrap:wrap;gap:18px;font-size:12px;color:#b9bdda}
+.navlinks a{text-decoration:none}
+main{padding:65px 0 90px}
+.kicker{color:var(--gold);font-size:11px;font-weight:800;letter-spacing:.21em;text-transform:uppercase}
+h1{font-size:clamp(34px,5.8vw,65px);line-height:1.07;letter-spacing:-.045em;max-width:820px;margin:15px 0}
+h1 em{font-style:normal;color:var(--gold)}
+.sub{font-size:16px;color:#b7bed5;line-height:1.75;max-width:780px}
+.notice{background:#201a12;border:1px solid #88622b;color:#ffe5a5;padding:17px 20px;border-radius:13px;margin:26px 0 33px;font-size:14px;line-height:1.65}
+.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:20px}
+.panel{border:1px solid var(--line);background:linear-gradient(130deg,#14192e,#0f1122);border-radius:19px;padding:28px}
+.panel h2{font-size:22px;margin:0 0 7px;letter-spacing:-.025em}
+.small{font-size:13px;color:#b5b9d2;line-height:1.7}
+.pill{font-size:10px;letter-spacing:.07em;border:1px solid #4a4566;border-radius:50px;padding:6px 11px;color:#dbd1ff;display:inline-block}
+.btn{appearance:none;border:1px solid #57527c;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;padding:13px 19px;font-weight:800;font-size:14px;min-height:48px;background:#262340;color:#fff}
+.btn.primary{background:linear-gradient(120deg,#7253d6,#5437a8);border-color:#7a61d7}
+.btn:focus-visible,.method:focus-visible{outline:3px solid #f8dc81;outline-offset:2px}
+.btn:disabled{opacity:.52;cursor:not-allowed}
+.buttons{display:flex;flex-wrap:wrap;gap:10px;margin-top:19px}
+.address{font-family:ui-monospace,monospace;font-size:13px;word-break:break-all;color:#d8dfff}
+.divider{height:1px;background:var(--line);margin:22px 0}
+.price{font-size:35px;color:var(--gold);font-weight:900}
+.price span{font-size:14px;color:#acb2ce;font-weight:500}
+.methods{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.method{background:#101627;color:#f3f0ff;min-height:152px;text-align:left;cursor:pointer;border:1px solid #333854;border-radius:13px;padding:16px}
+.method.selected{border-color:#af90ff;box-shadow:inset 0 0 0 1px #af90ff;background:#1e1a37}
+.method strong{display:block;font-size:15px;margin:8px 0 5px}
+.method span{display:block;font-size:12px;color:#aab3d0;line-height:1.5}
+.method .monogram{font-size:24px}
+.fact{display:grid;grid-template-columns:1fr auto;gap:12px;border-bottom:1px solid var(--line);padding:12px 0;font-size:13px}
+.fact:last-child{border-bottom:0}
+.fact .key{color:#aeb5cc}
+.fact .value{text-align:right;font-weight:750}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-top:21px}
+.step{border:1px solid var(--line);padding:17px;border-radius:13px;background:#121527}
+.step .number{font-size:11px;color:var(--gold);font-weight:800}
+.step strong{display:block;margin:7px 0;font-size:13px}
+.step p{font-size:12px;line-height:1.55;color:#a9b0ce;margin:0}
+.section{margin-top:45px}
+.section h2{font-size:26px;margin-bottom:8px}
+footer{border-top:1px solid var(--line);padding:25px 0;font-size:12px;color:#9c9fbb}
+#status{min-height:26px}
+.privacy{background:#0f2330;border:1px solid #296078;border-radius:12px;padding:14px 17px;margin-top:14px;font-size:13px;color:#d4eaf1;line-height:1.65}
+@media(max-width:810px){main{padding-top:42px}.grid{grid-template-columns:1fr}.steps{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.navlinks a:nth-child(2){display:none}.panel{padding:21px}.methods,.steps{grid-template-columns:1fr}.shell{width:min(100% - 26px,1120px)}}
+</style>
+<link rel="stylesheet" href="/assets/css/site-tabs.css?v=4"/>
+</head>
+<body>
+<header class="nav"><div class="shell">
+  <a class="wordmark" href="/">TK EMPIRE <span style="color:#eac76d">/ IMPERIAN</span></a>
+  <nav class="navlinks" aria-label="Main navigation">
+    <a href="/">Home</a><a href="/genesis-signals.html">Genesis Signals</a><a href="/join.html">Private Beta</a>
+  </nav>
+</div></header>
+<main class="shell">
+  <div class="kicker">Imperian Access / Wallet-Bound Membership</div>
+  <h1>Your wallet. Your membership. <em>Your protected price.</em></h1>
+  <p class="sub">Imperian is designed for crypto-only membership. Connect a wallet to establish your account identity, then choose a transparent stablecoin payment or a privacy-oriented cryptocurrency invoice when the verified billing service opens.</p>
+  <div class="notice" role="status"><strong>Design preview — no payment required or accepted.</strong> Genesis is still in validation. Do not send USDC, XMR, or any cryptocurrency to TK Empire to purchase access. No active checkout, payment addresses, or paid entitlements are available here.</div>
+  <div class="grid">
+    <section class="panel" aria-labelledby="wallet-title">
+      <div class="pill">STEP 01 / WALLET IDENTITY</div>
+      <h2 id="wallet-title" style="margin-top:15px">Your Imperian wallet</h2>
+      <p class="small">This is your member identity and your original lifetime maximum price will be attached to it after a verified first payment. Signing a login message does not move funds or authorize a payment.</p>
+      <div class="buttons">
+        <button class="btn primary" id="connect" type="button">Connect &amp; sign wallet</button>
+        <button class="btn" id="disconnect" type="button" disabled>Sign out</button>
+      </div>
+      <p class="small" id="status" role="status" aria-live="polite">Wallet login is optional during the preview.</p>
+      <div class="divider"></div>
+      <div class="fact"><span class="key">Registered account</span><span class="value" id="account">Not connected</span></div>
+      <div class="fact"><span class="key">Access status</span><span class="value" id="access">Not enabled</span></div>
+      <div class="fact"><span class="key">Original maximum</span><span class="value">Not established</span></div>
+      <div class="fact"><span class="key">Next renewal</span><span class="value">Not scheduled</span></div>
+      <div class="fact"><span class="key">Charges authorized</span><span class="value" style="color:#65deb4">None</span></div>
+    </section>
+    <section class="panel" aria-labelledby="pricing-title">
+      <div class="pill">THE IMPERIAN GUARANTEE</div>
+      <h2 id="pricing-title" style="margin-top:15px">Your maximum never rises</h2>
+      <p class="small">Every member receives the same core features. Your rate is determined when your first payment is independently verified, not when you merely connect.</p>
+      <div class="price">$30 <span>USDC / month · opening rate</span></div>
+      <p class="small">Opening price is illustrative until membership launch approval. New-join rates later increase only with sustained, verified Genesis results.</p>
+      <div class="divider"></div>
+      <div class="fact"><span class="key">Below 55% win rate</span><span class="value">30 USDC</span></div>
+      <div class="fact"><span class="key">55% to below 60%</span><span class="value">49 USDC</span></div>
+      <div class="fact"><span class="key">60% to below 65%</span><span class="value">99 USDC</span></div>
+      <div class="fact"><span class="key">65% to below 70%</span><span class="value">199 USDC</span></div>
+      <div class="fact"><span class="key">70% and higher</span><span class="value">300 USDC</span></div>
+      <p class="small"><strong>Renewal charge = lower of your locked original price or the current verified public price.</strong> Payment and automatic adjustment are disabled until production verification.</p>
+    </section>
+  </div>
+  <section class="section" aria-labelledby="method-title">
+    <div class="kicker">STEP 02 / SETTLEMENT OPTIONS</div>
+    <h2 id="method-title">Choose how you prefer to pay</h2>
+    <p class="small">These options are informational in preview mode; selecting either does not create a payable invoice.</p>
+    <div class="methods">
+      <button type="button" class="method selected" id="usdc" aria-pressed="true">
+        <span class="monogram" aria-hidden="true">◉</span><strong>USDC on Polygon</strong>
+        <span>Stable subscription value. Visible public blockchain transaction history. Uses the member's verified wallet address for payment matching.</span>
+      </button>
+      <button type="button" class="method" id="xmr" aria-pressed="false">
+        <span class="monogram" aria-hidden="true">◈</span><strong>Monero · XMR</strong>
+        <span>Privacy-oriented onchain settlement through a unique invoice subaddress. Exchange-rate quote and unlock confirmations required.</span>
+      </button>
+    </div>
+    <div class="privacy" id="privacy-details" role="status">USDC is traceable on Polygon. For better separation, consider using a dedicated membership wallet instead of your main trading wallet.</div>
+    <div class="buttons"><button class="btn primary" type="button" disabled aria-disabled="true">Checkout opens after verification</button></div>
+  </section>
+  <section class="section" aria-labelledby="flow-title">
+    <div class="kicker">HOW MEMBERSHIP WILL WORK</div><h2 id="flow-title">Built for long-term members</h2>
+    <div class="steps">
+      <div class="step"><div class="number">01</div><strong>Verify wallet</strong><p>Sign a domain-bound message to prove account control.</p></div>
+      <div class="step"><div class="number">02</div><strong>Choose payment</strong><p>Use USDC or an XMR invoice when checkout becomes available.</p></div>
+      <div class="step"><div class="number">03</div><strong>Set member rate</strong><p>Verified first payment establishes your original price ceiling.</p></div>
+      <div class="step"><div class="number">04</div><strong>Adjust fairly</strong><p>Performance-based prices change at renewal, never above your locked cap.</p></div>
+    </div>
+    <p class="small" style="margin-top:16px">Privacy note: XMR shields ordinary payment data on its blockchain, but signing into this site still reveals your account wallet to TK Empire. Browser metadata, IP addresses and any records you voluntarily supply may also be identifying. XMR does not guarantee complete anonymity.</p>
+  </section>
+</main>
+<footer><div class="shell">© 2026 TK Empire · <a href="/join.html">Genesis private validation</a> · No automated trading authority is granted by this page.</div></footer>
+<script src="/assets/js/imperian-portal.js?v=1" defer></script>
+<script src="/assets/js/site-tabs.js?v=4" defer></script>
+<script src="/assets/js/empire-unified.js?v=1" defer></script>
+</body></html>
