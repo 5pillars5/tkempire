@@ -73,7 +73,7 @@ test('positive PnL alone cannot immediately raise prices',()=>{
 test('two distinct verified weekly reports can propose an increase',()=>{
  const olderEnd=new Date(END.getTime()-7*DAY);
  const old=sample({end:olderEnd,wins:70,losses:30,hash:h('a')});
- const first=policy.assessPricing(old,state(99),NOW);
+ const first=policy.assessPricing(old,state(99),new Date(olderEnd.getTime()+3600000).toISOString());
  assert.equal(first.reason,'AWAITING_SECOND_VERIFIED_REVIEW');
  const second=policy.assessPricing(sample({wins:72,losses:28,hash:h('b')}),first.next_state,NOW);
  assert.equal(second.status,'RAISE_PROPOSED');assert.equal(second.current_public_rate_usdc,300);
