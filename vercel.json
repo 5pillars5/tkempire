@@ -1,4 +1,9 @@
 {
+  "git": {
+    "deploymentEnabled": {
+      "feature/imperian-price-protection-20261113": false
+    }
+  },
   "rewrites": [],
   "headers": [
     {
