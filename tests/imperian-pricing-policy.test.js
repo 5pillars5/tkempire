@@ -61,8 +61,8 @@ test('unverified feed, stale evidence, insufficient samples, invalid units hold 
 });
 test('identical or backwards evidence never applies twice',()=>{
  const s=sample(),first=policy.assessPricing(s,state(99),NOW);
- assert.equal(first.status,'HOLD');
- assert.equal(first.reason,'AWAITING_SECOND_VERIFIED_REVIEW');
+ assert.equal(first.status,'UNCHANGED');
+ assert.equal(first.reason,'SAME_PRICE_BAND');
  const replay=policy.assessPricing(s,first.next_state,NOW);
  assert.equal(replay.reason,'REPLAY_OR_NONADVANCING_EVIDENCE');
 });
