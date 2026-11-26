@@ -23,9 +23,10 @@
   "archived_snapshots_this_day": 1,
   "archived_signals_this_day": 56,
   "archive_path": "data/smart-money-history-v1/2026-11-26.json.gz",
-  "archive_sha256": "9e0c947992307aa614d7c7d354a3ec8dfcc9df20a414137ac7c5447441616418",
+  "archive_sha256": "0b348acae864a3d4cbb48d85a265ea706c0a6ffab295e059e53470376356c49d",
   "legacy_vps_sqlite_import": "NOT_YET_CONNECTED",
-  "outcome_matching": "NOT_SCORED_WITHOUT_TOKEN_CATALOG",
+  "outcome_matching": "CTF_PAYOUTS_RECONCILED_WHEN_TOKEN_AND_TIME_VERIFIED",
   "trading_authority": "none",
-  "market_probability_calibration": "NOT_VERIFIED"
+  "market_probability_calibration": "NOT_VERIFIED",
+  "outcome_evidence_checked_at": "2026-11-26T08:18:36.787Z"
 }
