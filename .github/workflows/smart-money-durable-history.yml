@@ -34,11 +34,12 @@ jobs:
       - name: Pure archival and outcome invariants
         run: |
           node --check ops/smart-money-history-v1/history-core.js
+          node --check ops/smart-money-history-v1/archive-transaction.js
           node --check ops/smart-money-history-v1/publish-history.js
           node --check ops/smart-money-history-v1/match-outcomes.js
           node --check api/smart-money-history.js
           node --check assets/js/smart-money-flow-map.js
-          node --test tests/smart-money-history-core.test.js tests/smart-money-history-api.test.js
+          node --test tests/smart-money-history-core.test.js tests/smart-money-history-api.test.js tests/smart-money-history-transaction.test.js
           python3 tests/smart-money-history-legacy-import.test.py
   archive:
     needs: test

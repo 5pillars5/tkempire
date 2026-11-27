@@ -4,6 +4,8 @@ on:
     branches: [main]
     paths:
       - 'ops/smart-money-history-v1/match-outcomes.js'
+      - 'ops/smart-money-history-v1/archive-transaction.js'
+      - 'tests/smart-money-history-transaction.test.js'
       - '.github/workflows/smart-money-outcome-matcher.yml'
   schedule:
     - cron: '17 */6 * * *'
@@ -30,7 +32,8 @@ jobs:
       - name: Verify matcher syntax and outcome invariants
         run: |
           node --check ops/smart-money-history-v1/match-outcomes.js
-          node --test tests/smart-money-history-core.test.js
+          node --check ops/smart-money-history-v1/archive-transaction.js
+          node --test tests/smart-money-history-core.test.js tests/smart-money-history-transaction.test.js
       - name: Match exact public token identities to finalized market payouts
         env:
           GITHUB_TOKEN: ${{ github.token }}

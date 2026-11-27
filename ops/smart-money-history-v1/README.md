@@ -98,3 +98,9 @@ manifest and archive are actually available and correlating.
 `SOURCE_SHA256=PASS` does not mean
 `MILESTONE_CHECKPOINT=PASS`. The VPS milestone registry still requires an
 operator-write and independent readback under the Empire Archive Protocol.
+
+## Atomic archive publication and recovery
+
+The historian and outcome matcher retain the shared GitHub Actions concurrency group. Each transaction reads main once, reads the archive and head at that immutable parent commit, merges without deleting observations or replacing terminal outcome checks, and publishes changed blobs together through one Git tree/commit and a non-force fast-forward ref update. A competing ref update causes a bounded fresh merge. Both files are read back at the published commit SHA, with bounded retries for stale or unavailable responses. Later main commits do not invalidate that evidence. A persistent mismatch fails closed; Git history retains the committed bytes for recovery. The head is derived from the actual merged day archive, including outcome-check status and counts; older-day updates cannot move the newest head backward. Previously superseded provisional checks remain accessible in Git history. No trading or VPS authority is introduced.
+
+Before production activation, drain any prior-version historian/matcher runs, verify the current archive/head pair, and confirm the first new-version scheduled runs and VPS health. The PR workflow is read-only and executes mock Git concurrency/readback tests without credentials or live writes.
