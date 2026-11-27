@@ -2,7 +2,7 @@
   "schema_version": 1,
   "source": "PUBLIC_POLYMARKET_WALLET_WATCH",
   "cohort_id": "empire_polymarket_20261120_v1",
-  "at": "2026-11-27T13:12:11.000Z",
+  "at": "2026-11-27T21:57:50.000Z",
   "archive_days": [
     {
       "day": "2026-11-26",
@@ -14,9 +14,9 @@
     {
       "day": "2026-11-27",
       "file": "data/wallet-watch-history-v1/2026-11-27.json.gz",
-      "sha256": "c1865d97fca2037999bd932ac1f7ab8c3d422aebfe9b13defe9156cd9846c37b",
-      "count": 1000,
-      "new_events": 772
+      "sha256": "4627ab4c390cf04deaee14cc39b60b1bd948ca656f47260024ed0ccf77f9aebf",
+      "count": 1841,
+      "new_events": 841
     }
   ],
   "successful_wallets": 8,
@@ -33,19 +33,19 @@
       "wallet": "0x93fb8127a1b21a112b11af936361225df0563e4a",
       "status": "ok",
       "pages": 1,
-      "sampled": 6
+      "sampled": 8
     },
     {
       "wallet": "0xf705fa045201391d9632b7f3cde06a5e24453ca7",
       "status": "ok",
-      "pages": 1,
-      "sampled": 142
+      "pages": 2,
+      "sampled": 273
     },
     {
       "wallet": "0xa19cbababc312f9df185e49d7004c249ed1ade6b",
       "status": "ok",
       "pages": 1,
-      "sampled": 122
+      "sampled": 150
     },
     {
       "wallet": "0x646404ea0d3bd89a4c96af6f155a20b2545186bc",
@@ -57,13 +57,13 @@
       "wallet": "0xb392b0234600393289f7a5a0dc32af604ea0fc73",
       "status": "ok",
       "pages": 1,
-      "sampled": 59
+      "sampled": 61
     },
     {
       "wallet": "0x027e587a1086809d1a00f22216bef6a808f1c97f",
       "status": "ok",
       "pages": 1,
-      "sampled": 7
+      "sampled": 1
     },
     {
       "wallet": "0x82aad706e75a6cd9dac807109649a6ded01d2777",
@@ -72,7 +72,7 @@
       "sampled": 0
     }
   ],
-  "scan_trades": 936,
+  "scan_trades": 1093,
   "execution_authority": "none",
   "collection_window_seconds": 86400,
   "history_limitations": "Up to 3 keyset pages of 200 activities per wallet per scan; missed observations are possible."
